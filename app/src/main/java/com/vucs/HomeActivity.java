@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity
         viewPager = findViewById(R.id.view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.beginFakeDrag();
     }
 
     @Override
