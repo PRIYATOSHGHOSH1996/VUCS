@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/blog"
+            android:checked="true"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Blog" />
+        <item
+            android:id="@+id/image_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Image Gallery" />
+        <item
+            android:id="@+id/job_post"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Job Post" />
+
+        <item
+            android:id="@+id/teachers"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Teachers" />
+    </group>
+
+    <item android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/chat_room"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Chat Room" />
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/ic_menu_share"
+                android:title="About" />
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>
