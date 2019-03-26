@@ -28,6 +28,9 @@ public class BlogModel {
     private String content;
 
     @Ignore
+    private boolean expand;
+
+    @Ignore
     public BlogModel() {
 
     }
@@ -37,6 +40,7 @@ public class BlogModel {
         this.blogBy = blogBy;
         this.date = date;
         this.content = content;
+        this.expand = false;
     }
 
     public int getBlogId() {
@@ -88,5 +92,13 @@ public class BlogModel {
                 ", date=" + date +
                 ", content='" + content + '\'' +
                 '}';
+    }
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
     }
 }

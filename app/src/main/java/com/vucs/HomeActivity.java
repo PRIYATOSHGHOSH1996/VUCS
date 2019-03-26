@@ -27,18 +27,20 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ViewPager viewPager;
+    TextView header_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
+        getSupportActionBar().setTitle("");
+        header_text = findViewById(R.id.header_text);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -92,15 +94,19 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.blog) {
+            header_text.setText("Blog");
             viewPager.setCurrentItem(0,true);
             // Handle the camera action
         } else if (id == R.id.image_gallery) {
+            header_text.setText("Image Gallery");
             viewPager.setCurrentItem(1,true);
 
         } else if (id == R.id.job_post) {
+            header_text.setText("Job Post");
             viewPager.setCurrentItem(2,true);
 
         } else if (id == R.id.teachers) {
+            header_text.setText("Teachers");
             viewPager.setCurrentItem(3,true);
 
         } else if (id == R.id.chat_room) {

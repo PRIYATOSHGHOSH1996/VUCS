@@ -83,11 +83,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            blogDAO.insertBlog(new BlogModel("a", "by me",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
-            blogDAO.insertBlog(new BlogModel("b", "by saikat",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
-            blogDAO.insertBlog(new BlogModel("c", "by preetam",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
-            blogDAO.insertBlog(new BlogModel("d", "by sovon",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
-            blogDAO.insertBlog(new BlogModel("e", "by rohit",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
+            blogDAO.insertBlog(new BlogModel("a", "me",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
+            blogDAO.insertBlog(new BlogModel("b", "Saikat",new Date(),"sfcbjhklllllllllllllllllllll.hgtydrsysdxjyjdtyudysadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
+            blogDAO.insertBlog(new BlogModel("c", "Preetam",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
+            blogDAO.insertBlog(new BlogModel("d", "Sovon",new Date(),"sfcbsadjkfcgeiysfugbweljytdfytsusdtrsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssskfbviusfgiuwegjc"));
+            blogDAO.insertBlog(new BlogModel("e", "Rohit",new Date(),"sfcbsadjkfcgeiysfugbweljkfbviusfgiuwegjc"));
 
             return null;
         }
