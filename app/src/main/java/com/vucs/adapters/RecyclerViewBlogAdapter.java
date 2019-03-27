@@ -55,8 +55,8 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
         holder.blog_big_content.setText(blogModel.getContent());
         boolean expanded = blogModel.isExpand();
         // Set the visibility based on state
-        holder.blog_content.setVisibility(expanded ? View.GONE : View.VISIBLE);
-        holder.blog_big_content.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        holder.blog_content.setSingleLine(expanded);
+       // holder.blog_big_content.setVisibility(expanded ? View.VISIBLE : View.GONE);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

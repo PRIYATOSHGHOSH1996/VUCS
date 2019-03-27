@@ -9,12 +9,12 @@
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_main">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.vucs.viewpager.NonSwipeableViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/view_pager"
         >
 
-    </androidx.viewpager.widget.ViewPager>
+    </com.vucs.viewpager.NonSwipeableViewPager>
 
 </LinearLayout>
