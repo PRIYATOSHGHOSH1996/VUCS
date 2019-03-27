@@ -1,11 +1,20 @@
 package com.vucs.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.vucs.ItemDetailsActivity;
 import com.vucs.R;
 import com.vucs.model.BlogModel;
 
@@ -16,6 +25,8 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder>  {
@@ -40,29 +51,68 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final BlogModel blogModel = blogModelList.get(position);
         holder.blog_title.setText(blogModel.getBlogTitle());
         holder.blog_by.setText("By "+ blogModel.getBlogBy());
+        String date = "";
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd yyyy, hh:mm:ss");
-            holder.blog_date.setText(format.format(blogModel.getDate()));
+            date = format.format(blogModel.getDate());
+            holder.blog_date.setText(date);
+            if (!blogModel.getBlogImageURL().equals("default")){
+
+                Picasso.get()
+                        .load(blogModel.getBlogImageURL())
+                        .networkPolicy(NetworkPolicy.OFFLINE)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .resize(128, 128)
+                        .centerCrop()
+                        .into(holder.blog_image, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.e("adapter","success image");
+
+                            }
+
+                            @Override
+                            public void onError(Exception e) {
+                                e.printStackTrace();
+                                Picasso.get()
+                                        .load(blogModel.getBlogImageURL())
+                                        .placeholder(R.mipmap.ic_launcher)
+                                        .resize(128, 128)
+                                        .centerCrop()
+                                        .into(holder.blog_image);
+                            }
+                        });
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        holder.blog_content.setText(blogModel.getContent());
-        holder.blog_big_content.setText(blogModel.getContent());
-        boolean expanded = blogModel.isExpand();
-        // Set the visibility based on state
-        holder.blog_content.setSingleLine(expanded);
+
        // holder.blog_big_content.setVisibility(expanded ? View.VISIBLE : View.GONE);
+        final String finalDate = date;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                blogModel.setExpand(!blogModel.isExpand());
+                Intent intent = new Intent(weakReference.get(), ItemDetailsActivity.class);
+                intent.putExtra(weakReference.get().getString(R.string.item_title),blogModel.getBlogTitle());
+                intent.putExtra(weakReference.get().getString(R.string.item_by),blogModel.getBlogBy());
+                intent.putExtra(weakReference.get().getString(R.string.item_image_url),blogModel.getBlogImageURL());
+                intent.putExtra(weakReference.get().getString(R.string.item_date), finalDate);
+                intent.putExtra(weakReference.get().getString(R.string.item_content),blogModel.getContent());
+                intent.putExtra(weakReference.get().getString(R.string.head_title),"Blog Details");
 
-                notifyItemChanged(position);
+                Pair<View, String> p1 = Pair.create((View)holder.blog_title, weakReference.get().getString(R.string.item_title));
+                Pair<View, String> p2 = Pair.create((View)holder.blog_by, weakReference.get().getString(R.string.item_by));
+                Pair<View, String> p3 = Pair.create((View)holder.blog_date, weakReference.get().getString(R.string.item_date));
+                Pair<View, String> p4 = Pair.create((View)holder.blog_image, weakReference.get().getString(R.string.item_image_url));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)weakReference.get(), p1, p2, p3,p4);
+
+                weakReference.get().startActivity(intent,options.toBundle());
             }
         });
 
@@ -74,14 +124,14 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView blog_title,blog_by,blog_date,blog_content,blog_big_content;
+        TextView blog_title,blog_by,blog_date;
+        ImageView blog_image;
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             blog_title = itemView.findViewById(R.id.blog_title);
             blog_by = itemView.findViewById(R.id.blog_by);
             blog_date = itemView.findViewById(R.id.blog_date);
-            blog_content = itemView.findViewById(R.id.blog_content);
-            blog_big_content = itemView.findViewById(R.id.blog_big_content);
+            blog_image = itemView.findViewById(R.id.blog_image);
 
         }
     }

@@ -3,24 +3,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="100dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
     >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
 
 
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/image">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/blog_image"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:padding="3dp"
+        android:transitionName="@string/item_image_url"
+        android:layout_marginHorizontal="5dp"/>
+
+</RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_toRightOf="@id/image"
             android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/blog_title"
+                android:text="ascxscda"
+                android:maxLines="2"
+                android:transitionName="@string/item_title"
+                android:layout_alignParentStart="true"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                />
+
             <TextView
                 android:id="@+id/blog_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/blog_title"
                 android:layout_alignParentEnd="true"
                 android:text="djfhegf"
                 android:textStyle="italic"
+                android:transitionName="@string/item_date"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 />
             <TextView
@@ -28,38 +63,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="rfuigrf"
-                android:layout_alignParentStart="true"
+                android:layout_below="@id/blog_title"
+                android:gravity="bottom"
+                android:transitionName="@string/item_by"
+
 
                 android:textStyle="italic"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/blog_title"
-                android:text="ascxscda"
-                android:layout_below="@id/blog_by"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
-              />
 
-            <TextView
-                android:id="@+id/blog_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/blog_title"
-                android:singleLine="true"
-                android:text="fdvurgfiuersgft897reoiyhgfkjreyg8irehgbiluretfoierlkghfoer8gtrieyreiugyvf"
-                style="@style/TextAppearance.MaterialComponents.Body2"/>
-
-            <TextView
-                android:id="@+id/blog_big_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:visibility="gone"
-                android:layout_below="@id/blog_title"
-                android:text="fdvvf"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                />
         </RelativeLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -27,6 +27,9 @@ public class BlogModel {
     @ColumnInfo(name = "content")
     private String content;
 
+    @ColumnInfo(name = "blog_image_url")
+    private String blogImageURL;
+
     @Ignore
     private boolean expand;
 
@@ -35,11 +38,12 @@ public class BlogModel {
 
     }
 
-    public BlogModel(String blogTitle, String blogBy, Date date, String content) {
+    public BlogModel(String blogTitle, String blogBy, Date date, String content, String blogImageURL) {
         this.blogTitle = blogTitle;
         this.blogBy = blogBy;
         this.date = date;
         this.content = content;
+        this.blogImageURL = blogImageURL;
         this.expand = false;
     }
 
@@ -83,6 +87,23 @@ public class BlogModel {
         this.blogTitle = blogTitle;
     }
 
+
+    public boolean isExpand() {
+        return expand;
+    }
+
+    public void setExpand(boolean expand) {
+        this.expand = expand;
+    }
+
+    public String getBlogImageURL() {
+        return blogImageURL;
+    }
+
+    public void setBlogImageURL(String blogImageURL) {
+        this.blogImageURL = blogImageURL;
+    }
+
     @Override
     public String toString() {
         return "BlogModel{" +
@@ -91,14 +112,8 @@ public class BlogModel {
                 ", blogBy='" + blogBy + '\'' +
                 ", date=" + date +
                 ", content='" + content + '\'' +
+                ", blogImageURL='" + blogImageURL + '\'' +
+                ", expand=" + expand +
                 '}';
-    }
-
-    public boolean isExpand() {
-        return expand;
-    }
-
-    public void setExpand(boolean expand) {
-        this.expand = expand;
     }
 }

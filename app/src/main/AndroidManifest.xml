@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vucs">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -12,12 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AboutActivity"
-            >
-
-        </activity>
-        <activity android:name=".ChatRoomActivity"
-           />
+        <activity android:name=".ItemDetailsActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".ChatRoomActivity" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/app_name"
