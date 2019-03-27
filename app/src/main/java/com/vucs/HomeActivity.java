@@ -13,6 +13,7 @@ import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.ImageGalleryFragment;
 import com.vucs.fragment.JobPostFragment;
 import com.vucs.fragment.TeachersFragment;
+import com.vucs.viewpager.NonSwipeableViewPager;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
@@ -31,7 +32,7 @@ import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    ViewPager viewPager;
+    NonSwipeableViewPager viewPager;
     TextView header_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         viewPager = findViewById(R.id.view_pager);
+        viewPager.setPagingEnabled(false);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.beginFakeDrag();
