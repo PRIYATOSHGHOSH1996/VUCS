@@ -9,12 +9,20 @@
     android:orientation="vertical"
     tools:showIn="@layout/app_bar_main">
 
-    <com.vucs.viewpager.NonSwipeableViewPager
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/view_pager"
         >
 
-    </com.vucs.viewpager.NonSwipeableViewPager>
+        <androidx.viewpager.widget.PagerTabStrip
+            android:id="@+id/tab_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/viewpager_title"
+            >
+
+        </androidx.viewpager.widget.PagerTabStrip>
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

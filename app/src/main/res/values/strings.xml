@@ -16,4 +16,15 @@
     <string name="item_date">item_date</string>
     <string name="item_content">item_content</string>
     <string name="head_title">header_text</string>
+    <string name="item">item</string>
+    <string name="blog">Blog</string>
+    <string name="image_gallery">Image Gallery</string>
+    <string name="job_post">Job Post</string>
+    <string name="teachers">Teachers</string>
+    <string name="chat_room">Chat Room</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="others">Others</string>
+    <string name="phire_pawa">Phire Pawa</string>
+    <string name="notice">Notice</string>
 </resources>

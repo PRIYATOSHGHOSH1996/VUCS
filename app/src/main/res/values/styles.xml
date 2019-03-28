@@ -17,5 +17,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="viewpager_title">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
 
 </resources>

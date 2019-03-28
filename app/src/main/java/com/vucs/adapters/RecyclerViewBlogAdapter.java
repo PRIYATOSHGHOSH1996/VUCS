@@ -8,12 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.vucs.ItemDetailsActivity;
 import com.vucs.R;
 import com.vucs.model.BlogModel;
@@ -25,9 +24,11 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
+import pl.droidsonroids.gif.GifImageView;
 
 public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder>  {
 
@@ -58,42 +59,26 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
         String date = "";
 
         try {
-            SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd yyyy, hh:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
             date = format.format(blogModel.getDate());
             holder.blog_date.setText(date);
-            if (!blogModel.getBlogImageURL().equals("default")){
+            if (!blogModel.getBlogImageURL().equals("default") && weakReference.get()!=null){
+                    holder.blog_image.setVisibility(View.VISIBLE);
 
-                Picasso.get()
+                Glide
+                        .with(weakReference.get())
                         .load(blogModel.getBlogImageURL())
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .resize(128, 128)
                         .centerCrop()
-                        .into(holder.blog_image, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.e("adapter","success image");
+                        .placeholder(R.drawable.double_ring)
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .into(holder.blog_image);
 
-                            }
 
-                            @Override
-                            public void onError(Exception e) {
-                                e.printStackTrace();
-                                Picasso.get()
-                                        .load(blogModel.getBlogImageURL())
-                                        .placeholder(R.mipmap.ic_launcher)
-                                        .resize(128, 128)
-                                        .centerCrop()
-                                        .into(holder.blog_image);
-                            }
-                        });
-
+                notifyItemChanged(position);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-       // holder.blog_big_content.setVisibility(expanded ? View.VISIBLE : View.GONE);
         final String finalDate = date;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +110,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
 
     class MyViewHolder extends RecyclerView.ViewHolder{
         TextView blog_title,blog_by,blog_date;
-        ImageView blog_image;
+        GifImageView blog_image;
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             blog_title = itemView.findViewById(R.id.blog_title);

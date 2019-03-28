@@ -3,19 +3,17 @@ package com.vucs;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
-
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.ImageGalleryFragment;
 import com.vucs.fragment.JobPostFragment;
+import com.vucs.fragment.NoticeFragment;
+import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
-import com.vucs.viewpager.NonSwipeableViewPager;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -32,8 +30,9 @@ import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    NonSwipeableViewPager viewPager;
+    ViewPager viewPager;
     TextView header_text;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +41,43 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         header_text = findViewById(R.id.header_text);
+        header_text.setText(getString(R.string.app_name));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         viewPager = findViewById(R.id.view_pager);
-        viewPager.setPagingEnabled(false);
+        viewPager.setOffscreenPageLimit(6);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.beginFakeDrag();
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:navigationView.setCheckedItem(R.id.blog);break;
+                    case 1:navigationView.setCheckedItem(R.id.phire_pawa);break;
+                    case 2:navigationView.setCheckedItem(R.id.notice);break;
+                    case 3:navigationView.setCheckedItem(R.id.job_post);break;
+                    case 4:navigationView.setCheckedItem(R.id.image_gallery);break;
+                    case 5:navigationView.setCheckedItem(R.id.teachers);break;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -96,22 +119,28 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.blog) {
-            header_text.setText("Blog");
             viewPager.setCurrentItem(0,true);
             // Handle the camera action
-        } else if (id == R.id.image_gallery) {
-            header_text.setText("Image Gallery");
+        }  else if (id == R.id.job_post) {
             viewPager.setCurrentItem(1,true);
 
-        } else if (id == R.id.job_post) {
-            header_text.setText("Job Post");
+        }
+        else if (id == R.id.phire_pawa) {
             viewPager.setCurrentItem(2,true);
 
-        } else if (id == R.id.teachers) {
-            header_text.setText("Teachers");
+        }
+        else if (id == R.id.notice) {
             viewPager.setCurrentItem(3,true);
 
-        } else if (id == R.id.chat_room) {
+        }
+        else if (id == R.id.image_gallery) {
+            viewPager.setCurrentItem(4,true);
+
+        }
+        else if (id == R.id.teachers) {
+            viewPager.setCurrentItem(5,true);
+
+        }else if (id == R.id.chat_room) {
             startActivity(new Intent(HomeActivity.this,ChatRoomActivity.class));
 
         } else if (id == R.id.about) {
@@ -137,16 +166,32 @@ public class HomeActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch (position){
                 case 0:return new BlogFragment();
-                case 1:return new ImageGalleryFragment();
-                case 2:return new JobPostFragment();
-                case 3:return new TeachersFragment();
+                case 1:return new PhirePawaFragment();
+                case 2:return new NoticeFragment();
+                case 3:return new JobPostFragment();
+                case 4:return new ImageGalleryFragment();
+                case 5:return new TeachersFragment();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return 6;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position){
+                case 0:return getString(R.string.blog);
+                case 1:return getString(R.string.phire_pawa);
+                case 2:return getString(R.string.notice);
+                case 3:return getString(R.string.job_post);
+                case 4:return getString(R.string.image_gallery);
+                case 5:return getString(R.string.teachers);
+            }
+            return super.getPageTitle(position);
         }
     }
 }

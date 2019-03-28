@@ -2,6 +2,7 @@ package com.vucs;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import pl.droidsonroids.gif.GifImageView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +12,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 public class ItemDetailsActivity extends AppCompatActivity {
 
@@ -23,9 +23,13 @@ public class ItemDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_details);
-        getWindow().setEnterTransition(new Explode());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Explode explode = new Explode();
+        explode.excludeTarget(android.R.id.navigationBarBackground, true);
+        explode.excludeTarget(android.R.id.statusBarBackground, true);
+        explode.excludeTarget(R.id.toolbar, true);
+        getWindow().setEnterTransition(explode);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,35 +52,23 @@ public class ItemDetailsActivity extends AppCompatActivity {
         TextView item_by = findViewById(R.id.item_by);
         TextView item_date = findViewById(R.id.item_date);
         TextView item_content = findViewById(R.id.item_content);
-        final ImageView item_image = findViewById(R.id.item_image);
+        final GifImageView item_image = findViewById(R.id.item_image);
         item_title.setText(itemTitle);
         item_date.setText(itemDate);
         item_content.setText(itemContent);
-        item_by.setText(itemBy);
+
+        item_by.setText("By "+ itemBy);
         try {
-            if (!itemImageURL.equals("default")){
+
+            if (!itemImageURL.equals("default")&&getApplication()!=null){
                 item_image.setVisibility(View.VISIBLE);
-                Picasso.get()
+                Glide
+                        .with(this)
                         .load(itemImageURL)
-                        .networkPolicy(NetworkPolicy.OFFLINE)
-                        .placeholder(R.mipmap.ic_launcher)
-                        .into(item_image, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Log.e("adapter","success image");
-
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                e.printStackTrace();
-                                Picasso.get()
-                                        .load(itemImageURL)
-                                        .placeholder(R.mipmap.ic_launcher)
-                                        .into(item_image);
-                            }
-                        });
-
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .fitCenter()
+                        .placeholder(R.drawable.double_ring)
+                        .into(item_image);
             }
         } catch (Exception e) {
             e.printStackTrace();

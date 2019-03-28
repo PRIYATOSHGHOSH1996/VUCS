@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ItemDetailsActivity">
-    <LinearLayout
+    <include layout="@layout/app_bar_main" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <include layout="@layout/app_bar_main" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:transitionName="@string/item_title"
-        android:id="@+id/item_title"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:transitionName="@string/item_by"
-            android:text="hgc"
-            android:id="@+id/item_by"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="hgchgvyfhjgj"
-            android:transitionName="@string/item_date"
-            android:id="@+id/item_date"/>
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:visibility="gone"
-        android:transitionName="@string/item_image_url"
-        android:id="@+id/item_image"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_title"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/slabo_13px"
+                android:text="This blog is seted by me"
+                android:transitionName="@string/item_title" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="hgc"
+                    android:transitionName="@string/item_by"
+                    android:textStyle="italic"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+                <TextView
+                    android:id="@+id/item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="hgchgvyfhjgj"
+                    android:transitionName="@string/item_date"
+                    android:textStyle="italic"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:transitionName="@string/item_image_url"
+                android:src="@drawable/reloade"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <TextView
+                android:id="@+id/item_content"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/slabo_13px"
+                android:text="weuhsaefaigdfsafgs9fgeuf" />
 
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
-    </LinearLayout>
-</ScrollView>
