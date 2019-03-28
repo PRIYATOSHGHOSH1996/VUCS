@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,10 +17,15 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="viewpager_title">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textColor">#fff</item>
-        <item name="android:backgroundTint">@color/colorPrimary</item>
+
+
+    <style name="viewpager_title" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:background">@color/colorPrimary1</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+
+        <item name="android:titleTextColor" tools:targetApi="m">@color/colorPrimary</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:backgroundTint">@color/colorPrimary1</item>
     </style>
 
 </resources>

@@ -31,7 +31,6 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ViewPager viewPager;
-    TextView header_text;
     NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +39,6 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        header_text = findViewById(R.id.header_text);
-        header_text.setText(getString(R.string.app_name));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -90,27 +87,6 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -121,15 +97,15 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.blog) {
             viewPager.setCurrentItem(0,true);
             // Handle the camera action
-        }  else if (id == R.id.job_post) {
+        }  else if (id == R.id.phire_pawa) {
             viewPager.setCurrentItem(1,true);
 
         }
-        else if (id == R.id.phire_pawa) {
+        else if (id == R.id.notice) {
             viewPager.setCurrentItem(2,true);
 
         }
-        else if (id == R.id.notice) {
+        else if (id == R.id.job_post) {
             viewPager.setCurrentItem(3,true);
 
         }

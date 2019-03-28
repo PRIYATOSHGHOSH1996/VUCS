@@ -22,7 +22,7 @@
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/slabo_13px"
+                android:fontFamily="@font/rokkitt"
                 android:text="This blog is seted by me"
                 android:transitionName="@string/item_title" />
             <View
@@ -74,7 +74,7 @@
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/slabo_13px"
+                android:fontFamily="@font/rokkitt"
                 android:text="weuhsaefaigdfsafgs9fgeuf" />
 
 
