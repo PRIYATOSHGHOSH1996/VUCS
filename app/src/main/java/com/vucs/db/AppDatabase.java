@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 
+import com.vucs.dao.NoticeDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.R;
 import com.vucs.converters.DateTypeConverter;
 import com.vucs.dao.BlogDAO;
+import com.vucs.model.NoticeModel;
 
 import java.util.Date;
 
@@ -20,12 +22,13 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class}, version = 1)
+@Database(entities = {BlogModel.class,NoticeModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
     public abstract BlogDAO blogDAO();
+    public abstract NoticeDAO noticeDAO();
 
 
     public static AppDatabase getDatabase(final Context context) {
@@ -76,13 +79,17 @@ public abstract class AppDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final BlogDAO blogDAO;
+        private final NoticeDAO noticeDAO;
         PopulateDbAsync(AppDatabase db) {
             blogDAO = db.blogDAO();
+            noticeDAO = db.noticeDAO();
 
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
+            noticeDAO.insertNotice(new NoticeModel("This is a Dummy Text To Test The View",new Date(), "Priyatosh Ghosh", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+
             blogDAO.insertBlog(new BlogModel("This is a Dummy Text To Test The View", "Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
            blogDAO.insertBlog(new BlogModel("Electoral bonds hit transparency in political funding, says Election Commission ", "Saikat Ghorai",new Date()," “Even if anything is done, and we are harassed, we will not feel afraid.”\n" +
                     "\n" +

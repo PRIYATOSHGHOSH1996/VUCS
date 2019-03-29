@@ -48,6 +48,7 @@ public class BlogFragment extends Fragment {
         });
 
 
+
     }
 
 

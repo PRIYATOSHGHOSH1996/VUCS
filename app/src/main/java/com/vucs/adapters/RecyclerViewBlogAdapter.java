@@ -3,12 +3,9 @@ package com.vucs.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,16 +18,14 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 import pl.droidsonroids.gif.GifImageView;
 
-public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder>  {
+public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder> {
 
     private List<BlogModel> blogModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
@@ -39,7 +34,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
         weakReference = new WeakReference<>(context);
     }
 
-    public void addBlog(List<BlogModel> blogModels){
+    public void addBlog(List<BlogModel> blogModels) {
         blogModelList = blogModels;
         notifyDataSetChanged();
     }
@@ -47,7 +42,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blog,parent,false);
+        View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blog, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -55,15 +50,15 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final BlogModel blogModel = blogModelList.get(position);
         holder.blog_title.setText(blogModel.getBlogTitle());
-        holder.blog_by.setText("By "+ blogModel.getBlogBy());
+        holder.blog_by.setText("By " + blogModel.getBlogBy()+"  ");
         String date = "";
 
         try {
-            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(blogModel.getDate());
             holder.blog_date.setText(date);
-            if (!blogModel.getBlogImageURL().equals("default") && weakReference.get()!=null){
-                    holder.blog_image.setVisibility(View.VISIBLE);
+            if (!blogModel.getBlogImageURL().equals("default") && weakReference.get() != null) {
+                holder.blog_image.setVisibility(View.VISIBLE);
 
                 Glide
                         .with(weakReference.get())
@@ -72,9 +67,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
                         .placeholder(R.drawable.double_ring)
                         .transition(new DrawableTransitionOptions().crossFade())
                         .into(holder.blog_image);
-
-
-                notifyItemChanged(position);
+               // notifyItemChanged(position);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,20 +77,20 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(weakReference.get(), ItemDetailsActivity.class);
-                intent.putExtra(weakReference.get().getString(R.string.item_title),blogModel.getBlogTitle());
-                intent.putExtra(weakReference.get().getString(R.string.item_by),blogModel.getBlogBy());
-                intent.putExtra(weakReference.get().getString(R.string.item_image_url),blogModel.getBlogImageURL());
+                intent.putExtra(weakReference.get().getString(R.string.item_title), blogModel.getBlogTitle());
+                intent.putExtra(weakReference.get().getString(R.string.item_by), blogModel.getBlogBy()+"  ");
+                intent.putExtra(weakReference.get().getString(R.string.item_image_url), blogModel.getBlogImageURL());
                 intent.putExtra(weakReference.get().getString(R.string.item_date), finalDate);
-                intent.putExtra(weakReference.get().getString(R.string.item_content),blogModel.getContent());
-                intent.putExtra(weakReference.get().getString(R.string.head_title),"Blog Details");
+                intent.putExtra(weakReference.get().getString(R.string.item_content), blogModel.getContent());
+                intent.putExtra(weakReference.get().getString(R.string.head_title), "Blog Details");
 
-                Pair<View, String> p1 = Pair.create((View)holder.blog_title, weakReference.get().getString(R.string.item_title));
-                Pair<View, String> p2 = Pair.create((View)holder.blog_by, weakReference.get().getString(R.string.item_by));
-                Pair<View, String> p3 = Pair.create((View)holder.blog_date, weakReference.get().getString(R.string.item_date));
-                Pair<View, String> p4 = Pair.create((View)holder.blog_image, weakReference.get().getString(R.string.item_image_url));
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)weakReference.get(), p1, p2, p3,p4);
+                Pair<View, String> p1 = Pair.create((View) holder.blog_title, weakReference.get().getString(R.string.item_title));
+                Pair<View, String> p2 = Pair.create((View) holder.blog_by, weakReference.get().getString(R.string.item_by));
+                Pair<View, String> p3 = Pair.create((View) holder.blog_date, weakReference.get().getString(R.string.item_date));
+                Pair<View, String> p4 = Pair.create((View) holder.blog_image, weakReference.get().getString(R.string.item_image_url));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) weakReference.get(), p1, p2, p3, p4);
 
-                weakReference.get().startActivity(intent,options.toBundle());
+                weakReference.get().startActivity(intent, options.toBundle());
             }
         });
 
@@ -108,9 +101,10 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
         return blogModelList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView blog_title,blog_by,blog_date;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView blog_title, blog_by, blog_date;
         GifImageView blog_image;
+
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             blog_title = itemView.findViewById(R.id.blog_title);

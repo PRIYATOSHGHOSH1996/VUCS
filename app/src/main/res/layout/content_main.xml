@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".HomeActivity"
+    android:background="@color/background"
     android:orientation="vertical"
     >
 
@@ -27,23 +28,28 @@
 
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/view_pager"
-        >
-
-        <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/tab_title"
+        <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTintMode="src_in"
-            android:animateLayoutChanges="true"
-            android:splitMotionEvents="true"
-            style="@style/viewpager_title"
+            android:layout_height="match_parent"
+            android:id="@+id/view_pager"
             >
 
-        </androidx.viewpager.widget.PagerTabStrip>
-    </androidx.viewpager.widget.ViewPager>
+            <androidx.viewpager.widget.PagerTabStrip
+                android:id="@+id/tab_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:splitMotionEvents="true"
+                android:textAppearance="@style/PagerTabStripText"
+                android:background="@color/colorPrimary1"
+                >
+
+            </androidx.viewpager.widget.PagerTabStrip>
+        </androidx.viewpager.widget.ViewPager>
+
+
+
+
+
 
 </LinearLayout>

@@ -19,11 +19,10 @@
 
             <TextView
                 android:id="@+id/item_title"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                style="@style/my_text_style_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/rokkitt"
-                android:text="This blog is seted by me"
+                android:text="This blog is setettttttttttttttttttttttttttttttttttttttttttttd by me"
                 android:transitionName="@string/item_title" />
             <View
                 android:layout_width="match_parent"
@@ -41,7 +40,7 @@
                     android:text="hgc"
                     android:transitionName="@string/item_by"
                     android:textStyle="italic"
-                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                    style="@style/my_text_style_caption"/>
 
                 <TextView
                     android:id="@+id/item_date"
@@ -51,7 +50,7 @@
                     android:text="hgchgvyfhjgj"
                     android:transitionName="@string/item_date"
                     android:textStyle="italic"
-                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                    style="@style/my_text_style_caption"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -71,11 +70,12 @@
 
             <TextView
                 android:id="@+id/item_content"
-                style="@style/TextAppearance.MaterialComponents.Body1"
+                style="@style/my_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/rokkitt"
-                android:text="weuhsaefaigdfsafgs9fgeuf" />
+                android:text="weuhsaefaigdfsafgs9fgeuf"
+                android:textColor="#000"
+                android:textSize="18sp" />
 
 
         </LinearLayout>

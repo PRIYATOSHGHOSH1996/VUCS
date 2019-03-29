@@ -7,6 +7,13 @@
 
     <color name="selectedItemBackground">#4A008174</color>
 
+    <color name="black">#000</color>
+
+    <color name="white">#fff</color>
+
+
+    <color name="background">#F1F1F1</color>
+
 
 
 

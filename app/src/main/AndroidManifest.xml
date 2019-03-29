@@ -4,6 +4,8 @@
     package="com.vucs">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -14,8 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ItemDetailsActivity"></activity>
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".ItemDetailsActivity" />
+        <activity android:name=".AboutActivity" />
         <activity android:name=".ChatRoomActivity" />
         <activity
             android:name=".HomeActivity"
@@ -28,9 +30,6 @@
             </intent-filter>
         </activity>
 
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
