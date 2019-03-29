@@ -27,4 +27,6 @@
     <string name="others">Others</string>
     <string name="phire_pawa">Phire Pawa</string>
     <string name="notice">Notice</string>
+    <string name="chat_activity_name">Chat Room</string>
+    <string name="about_activity_name">About</string>
 </resources>

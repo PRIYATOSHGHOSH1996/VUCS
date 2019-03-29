@@ -63,7 +63,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(noticeModel.getDate());
             holder.notice_date.setText(date);
-            holder.notice_by.setText(noticeModel.getNoticeBy()+"  ");
+            holder.notice_by.setText(noticeModel.getNoticeBy()+" | ");
             holder.notice_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

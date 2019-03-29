@@ -5,9 +5,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class AboutActivity extends AppCompatActivity {
 
+    TextView header_text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,9 @@ public class AboutActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        getSupportActionBar().setTitle("About");
+        getSupportActionBar().setTitle("");
+        header_text = findViewById(R.id.header_text);
+        header_text.setText(getString(R.string.about_activity_name));
     }
 
     @Override
