@@ -40,6 +40,10 @@
                 android:icon="@drawable/ic_menu_manage"
                 android:title="@string/chat_room" />
             <item
+                android:id="@+id/events"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/events" />
+            <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/about" />

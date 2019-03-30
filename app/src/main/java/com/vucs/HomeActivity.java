@@ -122,7 +122,11 @@ public class HomeActivity extends AppCompatActivity
         }else if (id == R.id.chat_room) {
             startActivity(new Intent(HomeActivity.this,ChatRoomActivity.class));
 
-        } else if (id == R.id.about) {
+        }
+        else if (id == R.id.events) {
+            startActivity(new Intent(HomeActivity.this,EventsActivity.class));
+
+        }else if (id == R.id.about) {
             startActivity(new Intent(HomeActivity.this,AboutActivity.class));
 
         }

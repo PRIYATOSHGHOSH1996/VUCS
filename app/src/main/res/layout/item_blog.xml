@@ -65,7 +65,6 @@
                     android:maxWidth="200dp"
                     android:singleLine="true"
                     android:text="rfuigrfhgfghhfffffffffffffffffffffffffffffffffffhhhhhhhhhhhhhf"
-                    android:textStyle="italic"
                     android:transitionName="@string/item_by" />
 
                 <TextView
@@ -77,7 +76,6 @@
                     android:gravity="bottom|right"
                     android:text="djfhegf"
                     android:singleLine="true"
-                    android:textStyle="italic"
                     android:transitionName="@string/item_date" />
 
             </LinearLayout>

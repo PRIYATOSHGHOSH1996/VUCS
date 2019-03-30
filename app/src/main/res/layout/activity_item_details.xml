@@ -39,7 +39,7 @@
                     android:layout_alignParentStart="true"
                     android:text="hgc"
                     android:transitionName="@string/item_by"
-                    android:textStyle="italic"
+                    android:gravity="bottom"
                     style="@style/my_text_style_caption"/>
 
                 <TextView
@@ -49,7 +49,7 @@
                     android:layout_alignParentEnd="true"
                     android:text="hgchgvyfhjgj"
                     android:transitionName="@string/item_date"
-                    android:textStyle="italic"
+                    android:gravity="bottom|right"
                     style="@style/my_text_style_caption"/>
             </RelativeLayout>
             <View
