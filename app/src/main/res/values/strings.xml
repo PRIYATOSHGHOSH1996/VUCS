@@ -30,4 +30,5 @@
     <string name="chat_activity_name">Chat Room</string>
     <string name="about_activity_name">About</string>
     <string name="events">Events</string>
+    <string name="folder_name">folder_name</string>
 </resources>
