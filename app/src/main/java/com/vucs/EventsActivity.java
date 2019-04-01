@@ -70,7 +70,6 @@ public class EventsActivity extends AppCompatActivity {
         currentCalender.setTime(new Date());
         currentCalender.set(Calendar.DAY_OF_MONTH, 1);
         setToMidnight(currentCalender);
-        long timeInMillis = currentCalender.getTimeInMillis();
 
 
         EventViewModel eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);

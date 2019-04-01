@@ -1,11 +1,16 @@
 package com.vucs.adapters;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -27,6 +33,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +43,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
     private List<NoticeModel> noticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
+
 
     public RecyclerViewNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
@@ -67,35 +75,49 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
             holder.notice_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!noticeModel.getDownloadURL().equals("default") && weakReference.get()!=null){
-                        holder.notice_image.setVisibility(View.VISIBLE);
-                       DownloadManager downloadManager = (DownloadManager) weakReference.get().getSystemService(Context.DOWNLOAD_SERVICE);
-                        Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if(ActivityCompat.checkSelfPermission(weakReference.get(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                            if (!noticeModel.getDownloadURL().equals("default") && weakReference.get()!=null){
+                                holder.notice_image.setVisibility(View.VISIBLE);
+                                DownloadManager downloadManager = (DownloadManager) weakReference.get().getSystemService(Context.DOWNLOAD_SERVICE);
+                                Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
 
-                        String  s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
-                        String s1[] = s.split("//.");
-                        s = s1[s1.length-1];
-                        Log.e("fie name with ex = ",s);
-                        Log.e("fie name = ",s1.length+"");
-                        DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-                        request.setAllowedOverRoaming(false);
-                        request.setTitle(noticeModel.getNoticeTitle());
-                        request.setVisibleInDownloadsUi(true);
-                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_notice/"  + "/" + noticeModel.getNoticeTitle() + "."+ s);
+                                String  s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
+                                String s1[] = s.split("//.");
+                                s = s1[s1.length-1];
+                                Log.e("fie name with ex = ",s);
+                                Log.e("fie name = ",s1.length+"");
+                                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+                                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                                request.setAllowedOverRoaming(false);
+                                request.setTitle(noticeModel.getNoticeTitle());
+                                request.setVisibleInDownloadsUi(true);
+                                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_notice/"  + "/" + noticeModel.getNoticeTitle() + "."+ s);
 
 
-                        downloadManager.enqueue(request);
-                        notifyItemChanged(position);
+                                downloadManager.enqueue(request);
+                                notifyItemChanged(position);
+                            }
+                        }else{
+                            if(ActivityCompat.shouldShowRequestPermissionRationale((Activity)weakReference.get(), Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                                Toast.makeText(weakReference.get(), "Please give permission for download", Toast.LENGTH_LONG).show();
+                            }
+                            ActivityCompat.requestPermissions((Activity)weakReference.get(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 11);
+                        }
                     }
+
                 }
             });
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
     }
+
+
 
     @Override
     public int getItemCount() {
