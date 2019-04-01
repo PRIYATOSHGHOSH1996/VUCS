@@ -23,7 +23,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/reloade"
+                android:src="@drawable/double_ring"
                 android:transitionName="@string/item_image_url"
                 android:visibility="gone" />
 

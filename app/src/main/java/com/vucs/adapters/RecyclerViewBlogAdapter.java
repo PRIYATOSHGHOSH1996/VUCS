@@ -3,6 +3,7 @@ package com.vucs.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.vucs.ItemDetailsActivity;
 import com.vucs.R;
 import com.vucs.model.BlogModel;
@@ -20,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,10 +67,14 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
                 Glide
                         .with(weakReference.get())
                         .load(blogModel.getBlogImageURL())
-                        .centerCrop()
-                        .placeholder(R.drawable.double_ring)
+                        .fitCenter()
                         .transition(new DrawableTransitionOptions().crossFade())
-                        .into(holder.blog_image);
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                holder.blog_image.setImageDrawable(resource);
+                            }
+                        });
                // notifyItemChanged(position);
             }
         } catch (Exception e) {
