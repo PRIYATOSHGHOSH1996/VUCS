@@ -1,25 +1,41 @@
 package com.vucs;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;
 import com.vucs.fragment.NoticeFragment;
 import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
+import com.vucs.model.NoticeModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -28,10 +44,12 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewNoticeAdapter.CallbackInterface {
     ViewPager viewPager;
     NavigationView navigationView;
     private boolean doubleBackToExitPressedOnce = false;
+    private static final Integer WRITE_STORAGE_PERMISSION = 121;
+    private NoticeModel noticeModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +188,49 @@ public class HomeActivity extends AppCompatActivity
         snackbar.show();
     }
 
+    @Override
+    public void downloadFile(NoticeModel noticeModel) {
+        this.noticeModel = noticeModel;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+               download();
+            }else{
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_PERMISSION);
+            }
+        }else{
+            download();
+        }
+
+    }
+
+    private void download(){
+        if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")){
+            if(isNetworkAvailable()) {
+                DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
+
+                String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
+                String s1[] = s.split("//.");
+                s = s1[s1.length - 1];
+                Log.e("fie name with ex = ", s);
+                Log.e("fie name = ", s1.length + "");
+                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                request.setAllowedOverRoaming(false);
+                request.setTitle(noticeModel.getNoticeTitle());
+                request.setVisibleInDownloadsUi(true);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_notice/" + "/" + noticeModel.getNoticeTitle() + "." + s);
+
+
+                downloadManager.enqueue(request);
+            }
+            else {
+                showSnackBar("Internet connection not available");
+            }
+        }
+
+    }
+
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         public ViewPagerAdapter(@NonNull FragmentManager fm) {
@@ -219,4 +280,29 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_STORAGE_PERMISSION){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                download();
+            }
+            else {
+                showSnackBar("Please give storage permission");
+            }
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }
