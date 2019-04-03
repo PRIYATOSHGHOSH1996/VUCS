@@ -6,6 +6,10 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.CalendarContract;
 import android.view.DragEvent;
@@ -16,40 +20,43 @@ import android.widget.Button;
 import android.widget.CalendarView;
 
 import com.vucs.R;
+import com.vucs.adapters.RecyclerViewBlogAdapter;
+import com.vucs.adapters.RecyclerViewUserAdapter;
+import com.vucs.model.UserModel;
+import com.vucs.viewmodel.UserViewModel;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class PhirePawaFragment extends Fragment {
 
+    private View view;
+    private RecyclerView recyclerView;
+    private RecyclerViewUserAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_phire_pawa, container, false);
+        view =inflater.inflate(R.layout.fragment_phire_pawa, container, false);
 
-        Button button =view.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2012, 0, 19, 7, 30);
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(2012, 0, 19, 8, 30);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE, "Yoga")
-                        .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                        .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
-                startActivity(intent);
-            }
-        });
-        CalendarView calendarView = view.findViewById(R.id.calender);
+       initView();
 
         return view;
+    }
+
+    private void initView() {
+        recyclerView = view.findViewById(R.id.recycler_view);
+        adapter = new RecyclerViewUserAdapter(getContext());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getAllUser().observe(this, new Observer<List<UserModel>>() {
+            @Override
+            public void onChanged(List<UserModel> userModels) {
+                adapter.addUser(userModels);
+            }
+        });
     }
 
 

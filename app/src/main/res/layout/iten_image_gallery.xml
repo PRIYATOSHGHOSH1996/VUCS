@@ -2,7 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="@dimen/column_width"
-    android:layout_height="@dimen/column_hight">
+    android:layout_height="@dimen/column_hight"
+    android:layout_margin="8dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -10,6 +11,7 @@
         <pl.droidsonroids.gif.GifImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:transitionName="@string/item_image_url"
             android:src="@drawable/double_ring"
             android:id="@+id/imageView"/>
