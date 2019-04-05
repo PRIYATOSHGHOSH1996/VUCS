@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -28,6 +27,7 @@ import com.vucs.fragment.JobPostFragment;
 import com.vucs.fragment.NoticeFragment;
 import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
+import com.vucs.helper.Toast;
 import com.vucs.model.NoticeModel;
 
 import androidx.annotation.NonNull;
@@ -206,6 +206,7 @@ public class HomeActivity extends AppCompatActivity
     private void download(){
         if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")){
             if(isNetworkAvailable()) {
+                Toast.makeText(this,"Downloading ...");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                 Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
 

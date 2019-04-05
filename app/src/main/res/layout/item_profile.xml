@@ -3,68 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
-    <ScrollView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:nestedScrollingEnabled="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="o;eafiwpefpowefji"
-                android:textSize="60dp" />
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="o;eafiwpefpowefji"
+        android:background="@color/colorPrimary1"
+        android:textSize="60dp" />
 
 
-    </ScrollView>
+
 
 
 </LinearLayout>

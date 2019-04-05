@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 
 import com.vucs.R;
+import com.vucs.helper.Toast;
 
 import java.util.Calendar;
 
@@ -31,20 +32,7 @@ public class PhirePawaFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar beginTime = Calendar.getInstance();
-                beginTime.set(2012, 0, 19, 7, 30);
-                Calendar endTime = Calendar.getInstance();
-                endTime.set(2012, 0, 19, 8, 30);
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                        .putExtra(CalendarContract.Events.TITLE, "Yoga")
-                        .putExtra(CalendarContract.Events.DESCRIPTION, "Group class")
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "The gym")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
-                        .putExtra(Intent.EXTRA_EMAIL, "rowan@example.com,trevor@example.com");
-                startActivity(intent);
+                Toast.makeText(getContext(),"For Testting");
             }
         });
         CalendarView calendarView = view.findViewById(R.id.calender);
