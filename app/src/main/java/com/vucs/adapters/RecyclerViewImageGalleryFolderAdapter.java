@@ -1,5 +1,6 @@
 package com.vucs.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<RecyclerViewImageGalleryFolderAdapter.MyViewHolder> {
@@ -53,8 +55,8 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
             public void onClick(View v) {
                 Intent intent = new Intent(weakReference.get(), ImageGalleryActivity.class);
                 intent.putExtra(weakReference.get().getString(R.string.folder_name),folderName);
-
-                weakReference.get().startActivity(intent);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) weakReference.get());
+                weakReference.get().startActivity(intent,options.toBundle());
             }
         });
 

@@ -1,7 +1,6 @@
 package com.vucs.fragment;
 
-import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,7 +20,12 @@ public class TeachersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_teachers, container, false);
+        initView();
         return view;
+    }
+
+    private void initView() {
+
     }
 
 

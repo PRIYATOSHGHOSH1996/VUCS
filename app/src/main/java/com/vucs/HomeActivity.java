@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.webkit.URLUtil;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -54,6 +56,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -165,6 +168,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.image_gallery) {
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
             intent.putExtra(getString(R.string.folder_name), "root123");
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
             startActivity(intent);
 
         } else if (id == R.id.about) {
