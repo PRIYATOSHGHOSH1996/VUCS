@@ -1,8 +1,5 @@
 package com.vucs.fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,25 +8,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.provider.CalendarContract;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CalendarView;
 
 import com.vucs.R;
 
-import com.vucs.adapters.RecyclerViewBlogAdapter;
 import com.vucs.adapters.RecyclerViewUserAdapter;
-import com.vucs.model.UserModel;
-import com.vucs.viewmodel.UserViewModel;
-
-import com.vucs.helper.Toast;
+import com.vucs.model.PhirePawaProfileModel;
+import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
 
-import java.util.Calendar;
 import java.util.List;
 
 public class PhirePawaFragment extends Fragment {
@@ -54,11 +43,11 @@ public class PhirePawaFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        UserViewModel userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
-        userViewModel.getAllUser().observe(this, new Observer<List<UserModel>>() {
+        PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
+        phirePawaProfileViewModel.getAllUser().observe(this, new Observer<List<PhirePawaProfileModel>>() {
             @Override
-            public void onChanged(List<UserModel> userModels) {
-                adapter.addUser(userModels);
+            public void onChanged(List<PhirePawaProfileModel> phirePawaProfileModels) {
+                adapter.addUser(phirePawaProfileModels);
             }
         });
     }

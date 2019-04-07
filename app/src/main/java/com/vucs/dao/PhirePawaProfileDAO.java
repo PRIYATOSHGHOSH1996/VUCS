@@ -1,7 +1,6 @@
 package com.vucs.dao;
 
-import com.vucs.model.BlogModel;
-import com.vucs.model.UserModel;
+import com.vucs.model.PhirePawaProfileModel;
 
 import java.util.List;
 
@@ -12,12 +11,12 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 @Dao
-public interface UserDAO {
+public interface PhirePawaProfileDAO {
 
 
-    @Query("SELECT * FROM dt_user")
-    public LiveData<List<UserModel>> getAllUser();
+    @Query("SELECT * FROM dt_phire_pawa")
+    public LiveData<List<PhirePawaProfileModel>> getAllUser();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertUser(UserModel userModel);
+    public void insertUser(PhirePawaProfileModel phirePawaProfileModel);
 }

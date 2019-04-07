@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import com.vucs.dao.EventDAO;
 import com.vucs.dao.ImageGalleryDAO;
 import com.vucs.dao.NoticeDAO;
-import com.vucs.dao.UserDAO;
+import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.R;
 import com.vucs.converters.DateTypeConverter;
@@ -15,7 +15,7 @@ import com.vucs.dao.BlogDAO;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.NoticeModel;
-import com.vucs.model.UserModel;
+import com.vucs.model.PhirePawaProfileModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +30,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class,NoticeModel.class, EventModel.class,ImageGalleryModel.class, UserModel.class}, version = 1)
+@Database(entities = {BlogModel.class,NoticeModel.class, EventModel.class,ImageGalleryModel.class, PhirePawaProfileModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -39,7 +39,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract NoticeDAO noticeDAO();
     public abstract EventDAO eventDAO();
     public abstract ImageGalleryDAO imageGalleryDAO();
-    public abstract UserDAO userDAO();
+    public abstract PhirePawaProfileDAO phirePawaProfileDAO();
 
 
     public static AppDatabase getDatabase(final Context context) {
@@ -93,13 +93,13 @@ public abstract class AppDatabase extends RoomDatabase {
         private final NoticeDAO noticeDAO;
         private final EventDAO eventDAO;
         private final ImageGalleryDAO imageGalleryDAO;
-        private final UserDAO userDAO;
+        private final PhirePawaProfileDAO phirePawaProfileDAO;
         PopulateDbAsync(AppDatabase db) {
             blogDAO = db.blogDAO();
             noticeDAO = db.noticeDAO();
             eventDAO = db.eventDAO();
             imageGalleryDAO = db.imageGalleryDAO();
-            userDAO = db.userDAO();
+            phirePawaProfileDAO = db.phirePawaProfileDAO();
 
         }
 
@@ -107,11 +107,11 @@ public abstract class AppDatabase extends RoomDatabase {
         protected Void doInBackground(final Void... params) {
 
 
-            userDAO.insertUser(new UserModel("Priyatosh Ghosh",2019,"Frametrics Consulting Pvt.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-            userDAO.insertUser(new UserModel("Saikat Ghorai",2019,"Frametrics Consulting Pvt.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
-            userDAO.insertUser(new UserModel("Preetam Sarkar",2019,"Avalgate.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-            userDAO.insertUser(new UserModel("Rohit Sing",2019,"The AdView.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
-            userDAO.insertUser(new UserModel("Sovon Jana",2019,"The AdView.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh",2019,"Frametrics Consulting Pvt.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai",2019,"Frametrics Consulting Pvt.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar",2019,"Avalgate.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing",2019,"The AdView.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana",2019,"The AdView.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
 
 
             Calendar calendar =Calendar.getInstance(Locale.getDefault());

@@ -7,4 +7,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="column_width">100dp</dimen>
     <dimen name="column_hight">100dp</dimen>
+    <dimen name="shrine_toolbar_offset_start">8dp</dimen>
+    <dimen name="shrine_toolbar_offset_top">8dp</dimen>
+    <dimen name="shrine_toolbar_image_offset_top">8dp</dimen>
 </resources>

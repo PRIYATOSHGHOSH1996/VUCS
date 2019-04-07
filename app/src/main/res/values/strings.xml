@@ -31,4 +31,5 @@
     <string name="about_activity_name">About</string>
     <string name="events">Events</string>
     <string name="folder_name">folder_name</string>
+    <string name="object">object</string>
 </resources>

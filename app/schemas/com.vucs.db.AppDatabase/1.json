@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8dcfd211e7757d60aea4bc95a7f3f90a",
+    "identityHash": "e167ed54aa815dfc37ff36358c401939",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -169,7 +169,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "dt_user",
+        "tableName": "dt_phire_pawa",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT, `user_batch` INTEGER, `user_company` TEXT, `user_image_url` TEXT)",
         "fields": [
           {
@@ -215,7 +215,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8dcfd211e7757d60aea4bc95a7f3f90a\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e167ed54aa815dfc37ff36358c401939\")"
     ]
   }
 }

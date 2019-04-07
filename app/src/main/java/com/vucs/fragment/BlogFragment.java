@@ -40,12 +40,7 @@ public class BlogFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         BlogViewModel blogViewModel = ViewModelProviders.of(this).get(BlogViewModel.class);
-        blogViewModel.getAllBlog().observe(this, new Observer<List<BlogModel>>() {
-            @Override
-            public void onChanged(List<BlogModel> blogModels) {
-                adapter.addBlog(blogModels);
-            }
-        });
+        blogViewModel.getAllBlog().observe(this, blogModels -> adapter.addBlog(blogModels));
 
 
 
