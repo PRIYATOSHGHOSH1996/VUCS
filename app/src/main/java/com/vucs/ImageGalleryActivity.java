@@ -32,7 +32,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
 
         setContentView(R.layout.activity_image_gallery);
