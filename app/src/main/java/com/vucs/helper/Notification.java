@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,18 +31,25 @@ public class Notification {
         String s[]=file_path.split("\\.");
         Log.e("ss=",s[s.length-1]);
         Intent notificationIntent = new Intent();
+        Uri uri = Uri.parse(file_path);
+        if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
+            // FileUri - Convert it to contentUri.
+
+            File file = new File(uri.getPath());
+            uri = Utils.fileToUri(context,new File(uri.getPath()));
+        }
+        notificationIntent.setAction(Intent.ACTION_VIEW);
+        notificationIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (s[s.length-1].equals("jpg")||s[s.length-1].equals("png")) {
-            notificationIntent.setAction(Intent.ACTION_SEND);
-            notificationIntent.putExtra(Intent.EXTRA_ORIGINATING_URI, file_path);
-            notificationIntent.setType("image/*");
+            notificationIntent.setDataAndType(uri, "image/*");
+
         }
         else if (s[s.length-1].equals("pdf")){
-            notificationIntent.setAction(Intent.ACTION_SEND);
-            notificationIntent.putExtra(Intent.EXTRA_TEXT, file_path);
-            notificationIntent.setType("application/pdf");
+            notificationIntent.setDataAndType(uri, "application/pdf");
+
         }
         else {
-            notificationIntent.setClass(context,HomeActivity.class);
+            notificationIntent.setDataAndType(uri, "*/*");
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)id,
@@ -49,9 +57,10 @@ public class Notification {
 
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         String notification_Channel = "Channel_id";
-        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(context,notification_Channel)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
+                .setColor(context.getResources().getColor(R.color.colorPrimary1))
                 .setContentText(desc).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
@@ -59,11 +68,10 @@ public class Notification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(notification_Channel, "My notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setLightColor(Color.MAGENTA);
             notificationChannel.enableVibration(true);
             notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
             assert notificationManager != null;
-            mNotifyBuilder.setChannelId(notification_Channel);
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
