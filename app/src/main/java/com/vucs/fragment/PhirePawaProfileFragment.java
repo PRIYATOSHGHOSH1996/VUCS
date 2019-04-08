@@ -25,7 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
     private PhirePawaProfileModel phirePawaProfileModel;
-    View view;
+    private View view;
 
 
     @Nullable
@@ -40,6 +40,8 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     private void iniView() {
         Log.e("phire pawa profile","initView");
         Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(v->getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit());
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collaps_tollbar);
         ImageView imageView = view.findViewById(R.id.profile_image);
         try {

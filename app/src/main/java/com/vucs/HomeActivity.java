@@ -169,7 +169,7 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
             intent.putExtra(getString(R.string.folder_name), "root123");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-            startActivity(intent);
+            startActivity(intent,options.toBundle());
 
         } else if (id == R.id.about) {
             startActivity(new Intent(HomeActivity.this, AboutActivity.class));

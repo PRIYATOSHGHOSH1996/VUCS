@@ -33,7 +33,6 @@
                 android:src="@drawable/header_logo" />
         </androidx.appcompat.widget.Toolbar>
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -49,7 +48,7 @@
             android:animateLayoutChanges="true"
             android:background="@color/colorPrimary1"
             android:splitMotionEvents="true"
-            android:textAppearance="@style/PagerTabStripText">
+            android:textAppearance="@style/PagerTab">
 
         </androidx.viewpager.widget.PagerTabStrip>
     </androidx.viewpager.widget.ViewPager>

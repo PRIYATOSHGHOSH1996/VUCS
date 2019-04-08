@@ -40,7 +40,13 @@ public class Utils extends AppCompatActivity {
     private static final int CHOOSE_FILE_REQUEST_CODE = 2376;
     private static WeakReference<Activity> activityParent;
 
-
+    public static Uri fileToUri(Context context,File file) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(context, context.getPackageName()+".file_library_provider", file);
+        } else {
+            return Uri.fromFile(file);
+        }
+    }
     public static ActivityBuilder with(Fragment fragment) throws ActivityOrFragmentNullException {
 
         if (fragment == null) {
@@ -275,7 +281,7 @@ public class Utils extends AppCompatActivity {
             File image = new File(fileDirectory, fileName + ".jpg");
             cropFilePath = image.getAbsolutePath();
             CropImage.activity(uri)
-                    .setOutputUri(fileToUri(image))
+                    .setOutputUri(fileToUri(activityParent.get(),image))
                     .setRequestCode(CROP_IMAGE_REQUEST)
                     .start(activityParent.get());
         }
@@ -315,7 +321,7 @@ public class Utils extends AppCompatActivity {
             }
 
 
-            fileUri = fileToUri(file);
+            fileUri = fileToUri(activityParent.get(),file);
 
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -326,13 +332,7 @@ public class Utils extends AppCompatActivity {
 
         }
 
-        private static Uri fileToUri(File file) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                return FileProvider.getUriForFile(activityParent.get(), activityParent.get().getPackageName()+".file_library_provider", file);
-            } else {
-                return Uri.fromFile(file);
-            }
-        }
+
 
         private  File createImageFile() throws IOException {
             // Create an image file name
@@ -400,7 +400,7 @@ public class Utils extends AppCompatActivity {
                 message.compress(Bitmap.CompressFormat.JPEG, 80, fileOutputStream);
                 filePath = fileWithinMyDir.getAbsolutePath();
                 if (callback != null)
-                callback.onSuccess(fileToUri(fileWithinMyDir), filePath);
+                callback.onSuccess(fileToUri(activityParent.get(),fileWithinMyDir), filePath);
             } catch (Exception e) {
                 e.printStackTrace();
             }
