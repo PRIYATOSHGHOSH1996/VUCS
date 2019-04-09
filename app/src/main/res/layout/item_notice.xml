@@ -51,16 +51,17 @@
                         android:text="fffffdtttttttttttttgf"
                         android:transitionName="@string/item_date"
                         />
+
                     <TextView
                         android:id="@+id/notice_date"
                         style="@style/my_text_style_caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center|left"
                         android:layout_gravity="center"
-                        android:singleLine="true"
                         android:ellipsize="end"
+                        android:gravity="center|left"
                         android:minWidth="30dp"
+                        android:singleLine="true"
                         android:text="djfhedewfdddddgf"
                         android:transitionName="@string/item_date" />
 
@@ -74,7 +75,7 @@
                     android:transitionName="@string/item_image_url"
                     android:src="@drawable/download_icon"
                     android:tint="@color/white"
-                    android:background="@color/colorPrimary1"
+                    android:background="@drawable/notice_download_background"
                     android:layout_weight="6"
                     android:gravity="bottom"
                     />

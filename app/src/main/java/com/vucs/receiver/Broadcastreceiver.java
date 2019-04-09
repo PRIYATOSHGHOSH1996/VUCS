@@ -2,13 +2,18 @@ package com.vucs.receiver;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.filelibrary.Utils;
 import com.vucs.helper.Notification;
+
+import java.io.File;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -32,14 +37,26 @@ public class Broadcastreceiver extends BroadcastReceiver {
                     int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
                     if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
-                       String filename = filePath.substring( filePath.lastIndexOf('/')+1, filePath.length() );
-                       Log.e(TAG,"path "+filePath);
-
+                        String mimeType = c.getString(c.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
+                        String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
+                         Log.e(TAG,"broadcast download file name=   "+fileName);
+                         Log.e(TAG,"broadcast download file type =   "+mimeType);
+                         Log.e(TAG,"broadcast download file path =   "+filePath);
+                        Intent notificationIntent = new Intent();
+                        Uri uri = Uri.parse(filePath);
+                        if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
+                            uri = Utils.fileToUri(context,new File(uri.getPath()));
+                        }
+                        notificationIntent.setAction(Intent.ACTION_VIEW);
+                        notificationIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        notificationIntent.setDataAndType(uri, mimeType);
+                        Notification.show(context,id,"Download Complete",fileName,notificationIntent);
 
                     }
                 }
 
-                Notification.show(context,id,"Download Complete",c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE)),c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)));
+
+
                 c.close();
             }
         }

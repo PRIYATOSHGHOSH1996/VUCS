@@ -28,6 +28,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Slide;
+import androidx.transition.TransitionManager;
 import pl.droidsonroids.gif.GifImageView;
 
 public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder> {
@@ -48,6 +50,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blog, parent, false);
+
         return new MyViewHolder(view);
     }
 

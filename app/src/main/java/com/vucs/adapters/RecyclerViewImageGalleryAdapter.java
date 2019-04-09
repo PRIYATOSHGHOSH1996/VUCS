@@ -28,6 +28,9 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.transition.TransitionInflater;
+import androidx.transition.TransitionManager;
+
 public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<RecyclerViewImageGalleryAdapter.MyViewHolder> {
 
     private List<ImageGalleryModel> imageGalleryModelList = Collections.emptyList();
@@ -46,6 +49,9 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.iten_image_gallery, parent, false);
+
+        androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
+        TransitionManager.beginDelayedTransition(parent,transition);
         return new MyViewHolder(view);
     }
 
