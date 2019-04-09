@@ -17,9 +17,9 @@ public class Toast {
         WeakReference<Context> weakReference = new WeakReference<>(context);
         AppCompatActivity appCompatActivity =(AppCompatActivity)weakReference.get();
         android.widget.Toast toast = new android.widget.Toast(weakReference.get());
-        View layout = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_toast,(ViewGroup) appCompatActivity.findViewById(R.id.parent));
+        View layout = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_toast,(ViewGroup) appCompatActivity.findViewById(R.id.parenttoast));
 
-        TextView textView =layout.findViewById(R.id.text);
+        TextView textView =layout.findViewById(R.id.textv);
         textView.setText(msg);
         toast.setDuration(android.widget.Toast.LENGTH_LONG);
         toast.setView(layout);

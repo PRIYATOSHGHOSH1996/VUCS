@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/parent">
         <include layout="@layout/content_main" />
     </LinearLayout>
 
@@ -21,7 +22,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/nav_item_drawable"
         app:menu="@menu/activity_main_drawer" />
