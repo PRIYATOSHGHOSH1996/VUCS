@@ -30,6 +30,7 @@ import com.vucs.model.NoticeModel;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -80,7 +81,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
-            date = format.format(noticeModel.getDate());
+            date = format.format(new Date(noticeModel.getDate()));
             holder.notice_date.setText(date);
             holder.notice_by.setText(noticeModel.getNoticeBy()+" | ");
             holder.notice_image.setOnClickListener(new View.OnClickListener() {

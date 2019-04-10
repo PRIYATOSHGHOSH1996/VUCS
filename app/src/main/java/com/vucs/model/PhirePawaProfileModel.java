@@ -2,41 +2,36 @@ package com.vucs.model;
 
 
 import java.io.Serializable;
-import java.util.Date;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "dt_phire_pawa")
+
 public class PhirePawaProfileModel implements Serializable {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
+
     private int id;
 
-    @ColumnInfo(name = "user_name")
+
     private String name;
 
-    @ColumnInfo(name = "user_batch")
+
     private Integer batch;
 
-    @ColumnInfo(name = "user_company")
+
     private String company;
 
 
-    @ColumnInfo(name = "user_image_url")
+
     private String userImageURL;
 
 
 
-    @Ignore
+
     public PhirePawaProfileModel() {
 
     }
 
-    public PhirePawaProfileModel(String name, Integer batch, String company, String userImageURL) {
+    public PhirePawaProfileModel(int id, String name, Integer batch, String company, String userImageURL) {
+        this.id = id;
         this.name = name;
         this.batch = batch;
         this.company = company;

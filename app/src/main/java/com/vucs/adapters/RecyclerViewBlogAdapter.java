@@ -21,6 +21,7 @@ import com.vucs.model.BlogModel;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -63,7 +64,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
-            date = format.format(blogModel.getDate());
+            date = format.format(new Date(blogModel.getDate()));
             holder.blog_date.setText(date);
             if (!blogModel.getBlogImageURL().equals("default") && weakReference.get() != null) {
                 holder.blog_image.setVisibility(View.VISIBLE);

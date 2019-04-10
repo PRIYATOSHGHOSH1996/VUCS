@@ -3,36 +3,32 @@ package com.vucs.model;
 
 import java.util.Date;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "dt_notice")
+
+
 public class NoticeModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "notice_id")
+
     private int noticeId;
 
-    @ColumnInfo(name = "notice_title")
+
     private String noticeTitle;
 
-    @ColumnInfo(name = "date")
-    private Date date;
 
-    @ColumnInfo(name = "notice_by")
+    private Long date;
+
+
     private String noticeBy;
 
-    @ColumnInfo(name = "download_url")
     private String downloadURL;
 
-    @Ignore
+
     public NoticeModel() {
 
     }
 
-    public NoticeModel(String noticeTitle, Date date, String noticeBy, String downloadURL) {
+    public NoticeModel(int noticeId, String noticeTitle, Long date, String noticeBy, String downloadURL) {
+        this.noticeId = noticeId;
         this.noticeTitle = noticeTitle;
         this.date = date;
         this.noticeBy = noticeBy;
@@ -55,11 +51,11 @@ public class NoticeModel {
         this.noticeTitle = noticeTitle;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

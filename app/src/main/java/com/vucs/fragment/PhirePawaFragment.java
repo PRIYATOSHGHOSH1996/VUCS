@@ -3,8 +3,6 @@ package com.vucs.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,23 +13,22 @@ import android.view.ViewGroup;
 import com.vucs.R;
 
 import com.vucs.adapters.RecyclerViewUserAdapter;
-import com.vucs.model.PhirePawaProfileModel;
-import com.vucs.viewmodel.PhirePawaProfileViewModel;
+import com.vucs.dao.PhirePawaDAOImplementation;
+import com.vucs.dao.PhirePawaProfileDAO;
 
-
-import java.util.List;
 
 public class PhirePawaFragment extends Fragment {
 
     private View view;
     private RecyclerView recyclerView;
     private RecyclerViewUserAdapter adapter;
+    private PhirePawaProfileDAO phirePawaProfileDAO;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =inflater.inflate(R.layout.fragment_phire_pawa, container, false);
-
+phirePawaProfileDAO = new PhirePawaDAOImplementation(getContext());
        initView();
 
         return view;
@@ -42,14 +39,9 @@ public class PhirePawaFragment extends Fragment {
         adapter = new RecyclerViewUserAdapter(getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.addUser(phirePawaProfileDAO.getAllUser());
         recyclerView.setAdapter(adapter);
-        PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
-        phirePawaProfileViewModel.getAllUser().observe(this, new Observer<List<PhirePawaProfileModel>>() {
-            @Override
-            public void onChanged(List<PhirePawaProfileModel> phirePawaProfileModels) {
-                adapter.addUser(phirePawaProfileModels);
-            }
-        });
+
     }
 
 

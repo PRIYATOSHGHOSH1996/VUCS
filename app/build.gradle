@@ -9,11 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
-            }
-        }
+
     }
     buildTypes {
         release {
@@ -56,12 +52,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03"
 
-    // Room components
-    implementation "androidx.room:room-runtime:2.1.0-alpha06"
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha06"
 
     implementation project(':CalenderLibrary')
 
