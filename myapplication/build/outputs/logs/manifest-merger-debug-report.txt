@@ -1,0 +1,183 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+MERGED from [com.google.android.material:material:1.1.0-alpha04] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\material-1.1.0-alpha04.aar\5e891442b30ca8173371028f6e0f775e\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-1.1.0-alpha03.aar\ec2da7515d9c30ab7a4a36bf18e14578\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0.aar\0c11ba98f0873df1b4d32c1c9a3506f0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.3.aar\231deb644de930201c9f2761ea92330a\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0.aar\491b9769ebfab10fbd1c2a95d55e6447\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-resources-1.1.0-alpha03.aar\794dcf423afe747d331fb3d7b35d5fff\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0.aar\b245897a44d852e08570153289ce367a\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0.aar\18e16d933afdb4a2844fd70719818144\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.1.0-alpha01.aar\03a28cc3b78c7f9da5289b078d5044ba\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0.aar\0cdc93400b4329b8d910715ba910eae8\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\recyclerview-1.1.0-alpha01.aar\c008eb9c6b99ae43b82a27cb2a9b0704\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\transition-1.0.1.aar\040d5317d09f9ffa22192c0f06b09df6\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.1.0-alpha01.aar\b62d0ae3cb0bb995a49fe4d2a9b61715\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\fragment-1.1.0-alpha05.aar\e7f73dc0b7915d550b0cd1aca91be6f5\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0.aar\eaab41848129176f2726062a479ac47e\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\media-1.0.0.aar\c9f10275011005b4d8afd63354353d67\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0.aar\38815e0359356c77843fe90d42383f4d\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0.aar\6e75c7be3054fa8057eb7f5ad9bdfbe0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\customview-1.0.0.aar\8a83434037a7f0a1371049826d53675d\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0.aar\e27e78982643361b384c7927e90e991a\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0.aar\7e8bd273d7d7096e16f8a68c5f7fcc43\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\loader-1.0.0.aar\5fba0ded3d2cedfaaf0784ac95ea0e14\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\activity-1.0.0-alpha05.aar\1a17088b32390fb325069e1e6861b1ea\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0.aar\1484875f3734879dd534e6b69b1ecdd9\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0.aar\022cb108bdc4ff41c83d517180290934\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0.aar\045dae5462a2fff4599e55002dece638\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0.aar\ae482eb3b0fad043bf2aaad8007685d3\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\print-1.0.0.aar\3fb98dfcdf89130b928bd5936043d51f\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\versionedparcelable-1.1.0-alpha02.aar\70f6d2865f6e4ff51cb9bafe46ee09fa\AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-2.0.0.aar\8b050af3a0b38027b8b2fd74663221a6\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.1.0-alpha03.aar\b081770b39424746576827f5715a2306\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.0.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\savedstate-1.0.0-alpha02.aar\fc43aaf8307595f514d859862e0716db\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0.aar\3722d1d0f2d384662972df6dd84a0e1f\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0.aar\63558924198f335275ff5c7219c5d917\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.1.0-alpha03.aar\d9b1e98b974a1452e0719eb33590dca8\AndroidManifest.xml:17:1-22:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+	package
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:3:5-34
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:1-21:12
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:5:5-19:19
+MERGED from [com.google.android.material:material:1.1.0-alpha04] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\material-1.1.0-alpha04.aar\5e891442b30ca8173371028f6e0f775e\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.1.0-alpha04] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\material-1.1.0-alpha04.aar\5e891442b30ca8173371028f6e0f775e\AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.3.aar\231deb644de930201c9f2761ea92330a\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.3.aar\231deb644de930201c9f2761ea92330a\AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\versionedparcelable-1.1.0-alpha02.aar\70f6d2865f6e4ff51cb9bafe46ee09fa\AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\versionedparcelable-1.1.0-alpha02.aar\70f6d2865f6e4ff51cb9bafe46ee09fa\AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:8:9-41
+	android:roundIcon
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:9:9-54
+	android:icon
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:7:9-43
+	android:allowBackup
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:6:9-35
+	android:theme
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:11:9-40
+activity#com.e.myapplication.MainActivity
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:12:9-18:20
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:12:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:13:13-17:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:14:17-69
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:14:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:16:17-77
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml:16:27-74
+uses-sdk
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+MERGED from [com.google.android.material:material:1.1.0-alpha04] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\material-1.1.0-alpha04.aar\5e891442b30ca8173371028f6e0f775e\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0-alpha04] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\material-1.1.0-alpha04.aar\5e891442b30ca8173371028f6e0f775e\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-1.1.0-alpha03.aar\ec2da7515d9c30ab7a4a36bf18e14578\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-1.1.0-alpha03.aar\ec2da7515d9c30ab7a4a36bf18e14578\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0.aar\0c11ba98f0873df1b4d32c1c9a3506f0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-v4-1.0.0.aar\0c11ba98f0873df1b4d32c1c9a3506f0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.3.aar\231deb644de930201c9f2761ea92330a\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\constraintlayout-1.1.3.aar\231deb644de930201c9f2761ea92330a\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0.aar\491b9769ebfab10fbd1c2a95d55e6447\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cardview-1.0.0.aar\491b9769ebfab10fbd1c2a95d55e6447\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-resources-1.1.0-alpha03.aar\794dcf423afe747d331fb3d7b35d5fff\AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\appcompat-resources-1.1.0-alpha03.aar\794dcf423afe747d331fb3d7b35d5fff\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0.aar\b245897a44d852e08570153289ce367a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-animated-1.0.0.aar\b245897a44d852e08570153289ce367a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0.aar\18e16d933afdb4a2844fd70719818144\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-ui-1.0.0.aar\18e16d933afdb4a2844fd70719818144\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.1.0-alpha01.aar\03a28cc3b78c7f9da5289b078d5044ba\AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\coordinatorlayout-1.1.0-alpha01.aar\03a28cc3b78c7f9da5289b078d5044ba\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0.aar\0cdc93400b4329b8d910715ba910eae8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\legacy-support-core-utils-1.0.0.aar\0cdc93400b4329b8d910715ba910eae8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\recyclerview-1.1.0-alpha01.aar\c008eb9c6b99ae43b82a27cb2a9b0704\AndroidManifest.xml:20:5-44
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\recyclerview-1.1.0-alpha01.aar\c008eb9c6b99ae43b82a27cb2a9b0704\AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\transition-1.0.1.aar\040d5317d09f9ffa22192c0f06b09df6\AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.1] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\transition-1.0.1.aar\040d5317d09f9ffa22192c0f06b09df6\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.1.0-alpha01.aar\b62d0ae3cb0bb995a49fe4d2a9b61715\AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0-alpha01] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\vectordrawable-1.1.0-alpha01.aar\b62d0ae3cb0bb995a49fe4d2a9b61715\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\fragment-1.1.0-alpha05.aar\e7f73dc0b7915d550b0cd1aca91be6f5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\fragment-1.1.0-alpha05.aar\e7f73dc0b7915d550b0cd1aca91be6f5\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0.aar\eaab41848129176f2726062a479ac47e\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\drawerlayout-1.0.0.aar\eaab41848129176f2726062a479ac47e\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\media-1.0.0.aar\c9f10275011005b4d8afd63354353d67\AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\media-1.0.0.aar\c9f10275011005b4d8afd63354353d67\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0.aar\38815e0359356c77843fe90d42383f4d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\viewpager-1.0.0.aar\38815e0359356c77843fe90d42383f4d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0.aar\6e75c7be3054fa8057eb7f5ad9bdfbe0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\slidingpanelayout-1.0.0.aar\6e75c7be3054fa8057eb7f5ad9bdfbe0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\customview-1.0.0.aar\8a83434037a7f0a1371049826d53675d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\customview-1.0.0.aar\8a83434037a7f0a1371049826d53675d\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0.aar\e27e78982643361b384c7927e90e991a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\swiperefreshlayout-1.0.0.aar\e27e78982643361b384c7927e90e991a\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0.aar\7e8bd273d7d7096e16f8a68c5f7fcc43\AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\asynclayoutinflater-1.0.0.aar\7e8bd273d7d7096e16f8a68c5f7fcc43\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\loader-1.0.0.aar\5fba0ded3d2cedfaaf0784ac95ea0e14\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\loader-1.0.0.aar\5fba0ded3d2cedfaaf0784ac95ea0e14\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\activity-1.0.0-alpha05.aar\1a17088b32390fb325069e1e6861b1ea\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\activity-1.0.0-alpha05.aar\1a17088b32390fb325069e1e6861b1ea\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.1.0-alpha05] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-1.1.0-alpha05.aar\4bcef031f23265fdfbcd545ccc316fe9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0.aar\1484875f3734879dd534e6b69b1ecdd9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\cursoradapter-1.0.0.aar\1484875f3734879dd534e6b69b1ecdd9\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0.aar\022cb108bdc4ff41c83d517180290934\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\interpolator-1.0.0.aar\022cb108bdc4ff41c83d517180290934\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0.aar\045dae5462a2fff4599e55002dece638\AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\documentfile-1.0.0.aar\045dae5462a2fff4599e55002dece638\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0.aar\ae482eb3b0fad043bf2aaad8007685d3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\localbroadcastmanager-1.0.0.aar\ae482eb3b0fad043bf2aaad8007685d3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\print-1.0.0.aar\3fb98dfcdf89130b928bd5936043d51f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\print-1.0.0.aar\3fb98dfcdf89130b928bd5936043d51f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\versionedparcelable-1.1.0-alpha02.aar\70f6d2865f6e4ff51cb9bafe46ee09fa\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\versionedparcelable-1.1.0-alpha02.aar\70f6d2865f6e4ff51cb9bafe46ee09fa\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-2.0.0.aar\8b050af3a0b38027b8b2fd74663221a6\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-2.0.0.aar\8b050af3a0b38027b8b2fd74663221a6\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.1.0-alpha03.aar\b081770b39424746576827f5715a2306\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-runtime-2.1.0-alpha03.aar\b081770b39424746576827f5715a2306\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\savedstate-1.0.0-alpha02.aar\fc43aaf8307595f514d859862e0716db\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0-alpha02] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\savedstate-1.0.0-alpha02.aar\fc43aaf8307595f514d859862e0716db\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0.aar\3722d1d0f2d384662972df6dd84a0e1f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-livedata-core-2.0.0.aar\3722d1d0f2d384662972df6dd84a0e1f\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0.aar\63558924198f335275ff5c7219c5d917\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\core-runtime-2.0.0.aar\63558924198f335275ff5c7219c5d917\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.1.0-alpha03.aar\d9b1e98b974a1452e0719eb33590dca8\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0-alpha03] C:\Users\PRIYO\.gradle\caches\transforms-1\files-1.1\lifecycle-viewmodel-2.1.0-alpha03.aar\d9b1e98b974a1452e0719eb33590dca8\AndroidManifest.xml:20:5-44
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\myapplication\src\main\AndroidManifest.xml

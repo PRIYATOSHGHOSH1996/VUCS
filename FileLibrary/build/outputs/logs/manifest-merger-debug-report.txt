@@ -1,0 +1,83 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+	package
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:3:5-30
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+	xmlns:tools
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:2:5-51
+	android:versionCode
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:1-24:12
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:1:11-69
+uses-permission#android.permission.CAMERA
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:4:5-64
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:4:22-62
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:5:5-81
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:5:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:6:5-80
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:6:22-77
+application
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:7:5-23:15
+	android:supportsRtl
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:9:9-41
+	tools:ignore
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:11:9-48
+	android:allowBackup
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:8:9-35
+activity#cropper.CropImageActivity
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:12:5-13:54
+	android:theme
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:13:9-52
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:12:15-55
+provider#androidx.core.content.FileProvider
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:14:9-22:20
+	android:grantUriPermissions
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:17:13-47
+	android:authorities
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:16:13-73
+	android:exported
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:18:13-37
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:15:13-62
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:19:13-21:54
+	android:resource
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:21:17-51
+	android:name
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml:20:17-67
+uses-sdk
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		ADDED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\PRIYO\project\VUCS\FileLibrary\src\main\AndroidManifest.xml

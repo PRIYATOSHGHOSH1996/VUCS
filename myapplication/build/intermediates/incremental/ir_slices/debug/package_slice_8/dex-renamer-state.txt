@@ -1,0 +1,4 @@
+#Sat Apr 06 16:30:43 IST 2019
+base.0=C\:\\Users\\PRIYO\\project\\VUCS\\myapplication\\build\\intermediates\\transforms\\dexMerger\\debug\\8
+path.0=classes.dex
+renamed.0=classes.dex

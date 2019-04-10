@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\src\main\res"/><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\build\generated\res\rs\debug"/><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\src\main\res"><file path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\src\main\res\values\attrs.xml" qualifiers=""><attr format="enum" name="compactCalendarEventIndicatorStyle">
+        <enum name="fill_large_indicator" value="1"/>
+        <enum name="no_fill_large_indicator" value="2"/>
+        <enum name="small_indicator" value="3"/>
+    </attr><attr format="enum" name="compactCalendarCurrentDayIndicatorStyle">
+        <enum name="fill_large_indicator" value="1"/>
+        <enum name="no_fill_large_indicator" value="2"/>
+    </attr><attr format="enum" name="compactCalendarCurrentSelectedDayIndicatorStyle">
+        <enum name="fill_large_indicator" value="1"/>
+        <enum name="no_fill_large_indicator" value="2"/>
+    </attr><declare-styleable name="CompactCalendarView">
+        <attr format="dimension" name="compactCalendarTextSize"/>
+        <attr format="color" name="compactCalendarBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentDayBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentDayTextColor"/>
+        <attr format="color" name="compactCalendarCurrentSelectedDayBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentSelectedDayTextColor"/>
+        <attr format="color" name="compactCalendarTextColor"/>
+        <attr format="color" name="compactCalendarMultiEventIndicatorColor"/>
+        <attr format="dimension" name="compactCalendarTargetHeight"/>
+        <attr name="compactCalendarEventIndicatorStyle"/>
+        <attr name="compactCalendarCurrentDayIndicatorStyle"/>
+        <attr name="compactCalendarCurrentSelectedDayIndicatorStyle"/>
+        <attr format="boolean" name="compactCalendarDisplayOtherMonthDays"/>
+        <attr format="boolean" name="compactCalendarShouldSelectFirstDayOfMonthOnScroll"/>
+        <attr format="color" name="compactCalendarOtherMonthDaysTextColor"/>
+    </declare-styleable></file></source><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\build\generated\res\rs\debug"/><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\build\generated\res\resValues\debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\src\debug\res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="C:\Users\PRIYO\project\VUCS\CalenderLibrary\src\debug\res"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="CompactCalendarView">
+        <attr format="dimension" name="compactCalendarTextSize"/>
+        <attr format="color" name="compactCalendarBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentDayBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentDayTextColor"/>
+        <attr format="color" name="compactCalendarCurrentSelectedDayBackgroundColor"/>
+        <attr format="color" name="compactCalendarCurrentSelectedDayTextColor"/>
+        <attr format="color" name="compactCalendarTextColor"/>
+        <attr format="color" name="compactCalendarMultiEventIndicatorColor"/>
+        <attr format="dimension" name="compactCalendarTargetHeight"/>
+        <attr name="compactCalendarEventIndicatorStyle"/>
+        <attr name="compactCalendarCurrentDayIndicatorStyle"/>
+        <attr name="compactCalendarCurrentSelectedDayIndicatorStyle"/>
+        <attr format="boolean" name="compactCalendarDisplayOtherMonthDays"/>
+        <attr format="boolean" name="compactCalendarShouldSelectFirstDayOfMonthOnScroll"/>
+        <attr format="color" name="compactCalendarOtherMonthDaysTextColor"/>
+    </declare-styleable></configuration></mergedItems></merger>
