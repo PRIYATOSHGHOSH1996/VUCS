@@ -11,7 +11,6 @@ import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.R;
 import com.vucs.converters.DateTypeConverter;
-import com.vucs.dao.BlogDAO;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.NoticeModel;

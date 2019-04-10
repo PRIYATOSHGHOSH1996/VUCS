@@ -15,9 +15,9 @@ import androidx.room.Query;
 public interface EventDAO {
 
 
-    @Query("SELECT * FROM dt_event")
-    public LiveData<List<EventModel>> getAllEvent();
+    public void addEvent(EventModel eventModel);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertEvent(EventModel eventModel);
+    public void addEvents(List<EventModel> eventModels);
+
+    public List<EventModel> getAllEvent();
 }

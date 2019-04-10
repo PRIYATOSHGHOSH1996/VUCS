@@ -1,30 +1,22 @@
 package com.vucs.model;
 
 
-import java.util.Date;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "dt_event")
 public class EventModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "event_id")
+
     private int eventId;
 
-    @ColumnInfo(name = "event_title")
+
     private String eventTitle;
 
-    @ColumnInfo(name = "event_desc")
+
     private String eventDescription;
 
-    @ColumnInfo(name = "date")
-    private Date date;
 
-    @Ignore
+    private Long date;
+
+
     public EventModel() {
 
     }
@@ -53,15 +45,16 @@ public class EventModel {
         this.eventDescription = eventDescription;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public EventModel(String eventTitle, String eventDescription, Date date) {
+    public EventModel(int eventId, String eventTitle, String eventDescription, Long date) {
+        this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.eventDescription = eventDescription;
         this.date = date;

@@ -1,50 +1,39 @@
 package com.vucs.model;
 
 
-import java.util.Date;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "dt_blog")
 public class BlogModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "blog_id")
+
     private int blogId;
 
-    @ColumnInfo(name = "blog_title")
+
     private String blogTitle;
 
-    @ColumnInfo(name = "blog_by")
+
     private String blogBy;
 
-    @ColumnInfo(name = "date")
-    private Date date;
 
-    @ColumnInfo(name = "content")
+    private Long date;
+
     private String content;
 
-    @ColumnInfo(name = "blog_image_url")
+
     private String blogImageURL;
 
-    @Ignore
-    private boolean expand;
 
-    @Ignore
     public BlogModel() {
 
     }
 
-    public BlogModel(String blogTitle, String blogBy, Date date, String content, String blogImageURL) {
+    public BlogModel(Integer id,String blogTitle, String blogBy, Long date, String content, String blogImageURL) {
         this.blogTitle = blogTitle;
         this.blogBy = blogBy;
         this.date = date;
         this.content = content;
         this.blogImageURL = blogImageURL;
-        this.expand = false;
+        this.blogId =id;
+
     }
 
     public int getBlogId() {
@@ -55,6 +44,14 @@ public class BlogModel {
         this.blogId = blogId;
     }
 
+    public String getBlogTitle() {
+        return blogTitle;
+    }
+
+    public void setBlogTitle(String blogTitle) {
+        this.blogTitle = blogTitle;
+    }
+
     public String getBlogBy() {
         return blogBy;
     }
@@ -63,11 +60,11 @@ public class BlogModel {
         this.blogBy = blogBy;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -77,23 +74,6 @@ public class BlogModel {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getBlogTitle() {
-        return blogTitle;
-    }
-
-    public void setBlogTitle(String blogTitle) {
-        this.blogTitle = blogTitle;
-    }
-
-
-    public boolean isExpand() {
-        return expand;
-    }
-
-    public void setExpand(boolean expand) {
-        this.expand = expand;
     }
 
     public String getBlogImageURL() {
@@ -113,7 +93,6 @@ public class BlogModel {
                 ", date=" + date +
                 ", content='" + content + '\'' +
                 ", blogImageURL='" + blogImageURL + '\'' +
-                ", expand=" + expand +
                 '}';
     }
 }

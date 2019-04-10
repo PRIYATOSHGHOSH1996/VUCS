@@ -1,32 +1,25 @@
 package com.vucs.model;
 
 
-import java.util.Date;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
 
-@Entity(tableName = "dt_image_gallery")
+
 public class ImageGalleryModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "image_id")
     private int imageId;
 
-    @ColumnInfo(name = "folder_name")
     private String folderName;
 
-    @ColumnInfo(name = "image_url")
+
     private String imageURL;
 
-    @Ignore
+
     public ImageGalleryModel() {
 
     }
 
-    public ImageGalleryModel(String folderName, String imageURL) {
+    public ImageGalleryModel(int imageId, String folderName, String imageURL) {
+        this.imageId = imageId;
         this.folderName = folderName;
         this.imageURL = imageURL;
     }
