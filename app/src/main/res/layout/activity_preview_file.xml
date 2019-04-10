@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:id="@+id/parent"
+    android:orientation="vertical"
+    tools:context=".PreviewFile">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:id="@+id/show_image"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:transitionName="@string/item_image_url"
+        />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:id="@+id/download_frame"
+        android:animateLayoutChanges="true"
+        android:background="@color/black_transparent">
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/download_icon"
+            android:tint="@color/white"
+            android:id="@+id/download_button"
+
+            android:backgroundTint="@android:color/transparent"/>
+    </FrameLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

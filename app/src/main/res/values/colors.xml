@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimary1">#01203D</color>
+    <color name="colorPrimaryDark">#011C36</color>
+    <color name="colorAccent">#37D3CF</color>
+
+    <color name="colorPrimaryFade">#A301203D</color>
+    <color name="selectedItemBackground">#4A008174</color>
+
+    <color name="colorBlack">#000</color>
+
+    <color name="white">#fff</color>
+
+
+    <color name="background">#F1F1F1</color>
+    <color name="snackbar_background">#031433</color>
+    <color name="black_transparent">#2F000000</color>
+    <color name="text_color">#C3000000</color>
+
+
+
+
+
 </resources>

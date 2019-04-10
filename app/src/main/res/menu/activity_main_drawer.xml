@@ -8,36 +8,49 @@
             android:id="@+id/blog"
             android:checked="true"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Blog" />
+            android:title="@string/blog" />
+
         <item
-            android:id="@+id/image_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Image Gallery" />
+            android:id="@+id/phire_pawa"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/phire_pawa" />
+        <item
+            android:id="@+id/notice"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/notice" />
         <item
             android:id="@+id/job_post"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Job Post" />
+            android:title="@string/job_post" />
 
         <item
             android:id="@+id/teachers"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Teachers" />
+            android:title="@string/teachers" />
     </group>
 
-    <item android:title="Others">
+    <item android:title="@string/others">
         <menu>
             <item
                 android:id="@+id/chat_room"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Chat Room" />
+                android:title="@string/chat_room" />
+            <item
+                android:id="@+id/events"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/events" />
+            <item
+                android:id="@+id/image_gallery"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="@string/image_gallery" />
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"
-                android:title="About" />
+                android:title="@string/about" />
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Logout" />
+                android:title="@string/logout" />
         </menu>
     </item>
 

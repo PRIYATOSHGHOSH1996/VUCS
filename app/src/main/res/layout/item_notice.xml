@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:elevation="0dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="10dp"
+    >
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/text"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/notice_title"
+                style="@style/my_text_style_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="this blog is seted by me for tgfhfghfgnfgnfgnfgngfngngnghnghnghnnhgngesting"
+                android:transitionName="@string/item_title" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
+                    <TextView
+                        android:id="@+id/notice_by"
+                        style="@style/my_text_style_caption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:layout_gravity="center"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:text="fffffdtttttttttttttgf"
+                        android:transitionName="@string/item_date"
+                        />
+
+                    <TextView
+                        android:id="@+id/notice_date"
+                        style="@style/my_text_style_caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:ellipsize="end"
+                        android:gravity="center|left"
+                        android:minWidth="30dp"
+                        android:singleLine="true"
+                        android:text="djfhedewfdddddgf"
+                        android:transitionName="@string/item_date" />
+
+                </LinearLayout>
+
+
+                <ImageButton
+                    android:id="@+id/notice_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:transitionName="@string/item_image_url"
+                    android:src="@drawable/download_icon"
+                    android:tint="@color/white"
+                    android:background="@drawable/notice_download_background"
+                    android:layout_weight="6"
+                    android:gravity="bottom"
+                    />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

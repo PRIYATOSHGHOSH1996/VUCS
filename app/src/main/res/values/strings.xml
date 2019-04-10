@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">VUCS</string>
+
+
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -9,4 +13,27 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="database_name">VUCS_DB.db</string>
+    <string name="item_title">item_title</string>
+    <string name="item_by">item_by</string>
+    <string name="item_image_url">item_image_url</string>
+    <string name="item_date">item_date</string>
+    <string name="item_content">item_content</string>
+    <string name="head_title">header_text</string>
+    <string name="item">item</string>
+    <string name="blog">Blog</string>
+    <string name="image_gallery">Image Gallery</string>
+    <string name="job_post">Job Post</string>
+    <string name="teachers">Teachers</string>
+    <string name="chat_room">Chat Room</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="others">Others</string>
+    <string name="phire_pawa">Phire Pawa</string>
+    <string name="notice">Notice</string>
+    <string name="chat_activity_name">Chat Room</string>
+    <string name="about_activity_name">About</string>
+    <string name="events">Events</string>
+    <string name="folder_name">folder_name</string>
+    <string name="object">object</string>
 </resources>

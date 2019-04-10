@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,4 +17,46 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="PagerTab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
+        <item name="android:backgroundTint">@color/colorPrimary1</item>
+    </style>
+
+    <style name="viewpager_title">
+        <item name="android:background">@color/colorPrimary1</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:backgroundTint">@color/colorPrimary1</item>
+    </style>
+
+    <style name="my_text_style_heading" >
+        <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text_color</item>
+
+    </style>
+
+
+    <style name="my_text_style" >
+        <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+    <style name="my_text_style_caption" >
+        <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="mySnackbarStyle" parent="@style/TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+    <style name="BottomSheetDialogTheme" />
 </resources>

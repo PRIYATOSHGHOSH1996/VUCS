@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ItemDetailsActivity">
+    <include layout="@layout/app_bar_main" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_title"
+                style="@style/my_text_style_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="This blog is setettttttttttttttttttttttttttttttttttttttttttttd by me"
+                android:transitionName="@string/item_title" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="hgc"
+                    android:transitionName="@string/item_by"
+                    android:gravity="bottom"
+                    style="@style/my_text_style_caption"/>
+
+                <TextView
+                    android:id="@+id/item_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="hgchgvyfhjgj"
+                    android:transitionName="@string/item_date"
+                    android:gravity="bottom|right"
+                    style="@style/my_text_style_caption"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:transitionName="@string/item_image_url"
+                android:src="@drawable/double_ring"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <TextView
+                android:id="@+id/item_content"
+                style="@style/my_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="weuhsaefaigdfsafgs9fgeuf"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
