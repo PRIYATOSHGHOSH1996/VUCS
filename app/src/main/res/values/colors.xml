@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#011C36</color>
     <color name="colorAccent">#37D3CF</color>
 
+    <color name="colorPrimaryFade">#A301203D</color>
     <color name="selectedItemBackground">#4A008174</color>
 
     <color name="colorBlack">#000</color>

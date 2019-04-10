@@ -34,13 +34,14 @@ public class ImageGalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
 
-        setContentView(R.layout.activity_image_gallery);
+        setContentView(R.layout.activity_image_gallery); transition.excludeTarget(findViewById(R.id.toolbar),true);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        transition.excludeTarget(toolbar,true);
+
         getWindow().setEnterTransition(transition);
 
         header_text = findViewById(R.id.header_text);

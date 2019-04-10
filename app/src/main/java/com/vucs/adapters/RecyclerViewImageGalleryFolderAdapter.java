@@ -23,6 +23,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Explode;
+import androidx.transition.TransitionInflater;
+import androidx.transition.TransitionManager;
 
 public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<RecyclerViewImageGalleryFolderAdapter.MyViewHolder> {
 
@@ -42,6 +45,9 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.iten_image_gallery_folder, parent, false);
+        androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
+        TransitionManager.beginDelayedTransition(parent,transition);
+
         return new MyViewHolder(view);
     }
 

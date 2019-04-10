@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.webkit.URLUtil;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -52,6 +53,7 @@ public class HomeActivity extends AppCompatActivity
     private boolean doubleBackToExitPressedOnce = false;
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
     private NoticeModel noticeModel;
+    LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        //NestedScrollView nestedScrollView = findViewById(R.id.nested_scrollView);
+       linearLayout =findViewById(R.id.parent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,12 +71,44 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(1);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                page.setCameraDistance(20000);
+
+                if (position < -1){
+                    page.setAlpha(0);
+                }
+                else if (position <= 0){
+                    page.setAlpha(1);
+                    page.setPivotX(page.getWidth());
+                    page.setRotationY(90*Math.abs(position));
+                }
+                else if (position <= 1){
+                    page.setAlpha(1);
+                    page.setPivotX(0);
+                    page.setRotationY(-90*Math.abs(position));
+                }
+                else{
+                    page.setAlpha(0);
+                }
+
+                if (Math.abs(position) <= 0.5){
+                    page.setScaleY(Math.max(.4f,1-Math.abs(position)));
+                }
+                else if (Math.abs(position) <= 1){
+                    page.setScaleY(Math.max(.4f,1-Math.abs(position)));
+
+                }
+            }
+        });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -108,6 +142,29 @@ public class HomeActivity extends AppCompatActivity
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                drawerView.setScaleY(slideOffset);
+                linearLayout.setTranslationX(slideOffset*linearLayout.getWidth()/4);
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
 
             }
         });
