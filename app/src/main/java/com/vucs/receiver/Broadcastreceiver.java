@@ -19,18 +19,19 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class Broadcastreceiver extends BroadcastReceiver {
     private static final String TAG = "Broadcast Receive";
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e(TAG,"receive");
-        if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)){
-            Log.e(TAG,"receive from download");
+        Log.e(TAG, "receive");
+        if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+            Log.e(TAG, "receive from download");
 
-            long id=intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-            if(id != -1){
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (id != -1) {
                 Bundle extras = intent.getExtras();
                 DownloadManager.Query q = new DownloadManager.Query();
                 q.setFilterById(extras.getLong(DownloadManager.EXTRA_DOWNLOAD_ID));
-              DownloadManager  mDManager = (DownloadManager)context.getSystemService(DOWNLOAD_SERVICE);
+                DownloadManager mDManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
                 Cursor c = mDManager.query(q);
 
                 if (c.moveToFirst()) {
@@ -39,22 +40,21 @@ public class Broadcastreceiver extends BroadcastReceiver {
                         String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                         String mimeType = c.getString(c.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
                         String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-                         Log.e(TAG,"broadcast download file name=   "+fileName);
-                         Log.e(TAG,"broadcast download file type =   "+mimeType);
-                         Log.e(TAG,"broadcast download file path =   "+filePath);
+                        Log.e(TAG, "broadcast download file name=   " + fileName);
+                        Log.e(TAG, "broadcast download file type =   " + mimeType);
+                        Log.e(TAG, "broadcast download file path =   " + filePath);
                         Intent notificationIntent = new Intent();
                         Uri uri = Uri.parse(filePath);
                         if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {
-                            uri = Utils.fileToUri(context,new File(uri.getPath()));
+                            uri = Utils.fileToUri(context, new File(uri.getPath()));
                         }
                         notificationIntent.setAction(Intent.ACTION_VIEW);
                         notificationIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         notificationIntent.setDataAndType(uri, mimeType);
-                        Notification.show(context,id,"Download Complete",fileName,notificationIntent);
+                        Notification.show(context, id, "Download Complete", fileName, notificationIntent);
 
                     }
                 }
-
 
 
                 c.close();

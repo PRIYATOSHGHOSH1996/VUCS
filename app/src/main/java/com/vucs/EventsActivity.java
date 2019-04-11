@@ -1,10 +1,9 @@
 package com.vucs;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,21 +19,26 @@ import com.vucs.viewmodel.EventViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
 public class EventsActivity extends AppCompatActivity {
 
+    TextView header_text, month_name;
+    EventViewModel eventViewModel;
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private CompactCalendarView compactCalendarView;
     private SimpleDateFormat dateFormatForDisplaying = new SimpleDateFormat("dd-M-yyyy hh:mm:ss a", Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMMM  yyyy", Locale.getDefault());
     private String TAG = "Event activity";
-    TextView header_text,month_name;
-    List<Event> events;
+    private BroadcastReceiver broadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +76,8 @@ public class EventsActivity extends AppCompatActivity {
         setToMidnight(currentCalender);
 
 
-        EventViewModel eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
-        List<Event> events1 = new ArrayList<>();
-        for (EventModel eventModel:eventViewModel.getAllEvent()){
-            events1.add(new Event(Color.argb(255, 169, 68, 65), eventModel.getDate().getTime(),eventModel));
-        }
-        compactCalendarView.addEvents(events1);
-        compactCalendarView.invalidate();
+        eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
+        updateAdapter();
 
 
         //compactCalendarView.setIsRtl(true);
@@ -92,9 +91,9 @@ public class EventsActivity extends AppCompatActivity {
                     Log.d(TAG, bookingsFromMap.toString());
                     mutableBookings.clear();
                     for (Event booking : bookingsFromMap) {
-                        EventModel eventModel =(EventModel)booking.getData();
+                        EventModel eventModel = (EventModel) booking.getData();
                         assert eventModel != null;
-                        mutableBookings.add(eventModel.getEventTitle()+"///"+eventModel.getEventDescription());
+                        mutableBookings.add(eventModel.getEventTitle() + "///" + eventModel.getEventDescription());
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -106,22 +105,15 @@ public class EventsActivity extends AppCompatActivity {
                 month_name.setText(dateFormatForMonth.format(firstDayOfNewMonth));
             }
         });
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateAdapter();
+            }
+        };
     }
 
-    private List<Event> getEvents(long timeInMillis, int day) {
-        if (day < 2) {
-            return Arrays.asList(new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis)));
-        } else if ( day > 2 && day <= 4) {
-            return Arrays.asList(
-                    new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis)),
-                    new Event(Color.argb(255, 100, 68, 65), timeInMillis, "Event 2 at " + new Date(timeInMillis)));
-        } else {
-            return Arrays.asList(
-                    new Event(Color.argb(255, 169, 68, 65), timeInMillis, "Event at " + new Date(timeInMillis) ),
-                    new Event(Color.argb(255, 100, 68, 65), timeInMillis, "Event 2 at " + new Date(timeInMillis)),
-                    new Event(Color.argb(255, 70, 68, 65), timeInMillis, "Event 3 at " + new Date(timeInMillis)));
-        }
-    }
+
     private void setToMidnight(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
@@ -135,5 +127,38 @@ public class EventsActivity extends AppCompatActivity {
 
     public void forwardMonthClick(View view) {
         compactCalendarView.scrollRight();
+    }
+
+    private void updateAdapter() {
+        List<Event> events1 = new ArrayList<>();
+        for (EventModel eventModel : eventViewModel.getAllEvent()) {
+            events1.add(new Event(Color.argb(255, 169, 68, 65), eventModel.getDate().getTime(), eventModel));
+        }
+        compactCalendarView.addEvents(events1);
+        compactCalendarView.invalidate();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onresume");
+        try {
+            updateAdapter();
+            registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.event_broadcast_receiver)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onpause");
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

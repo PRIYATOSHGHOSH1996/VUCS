@@ -18,8 +18,8 @@ public class DataServiceGenerator {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                        .baseUrl("http://192.168.29.97/trackpay/api/");
-                        //.baseUrl("http://www.frametrics.com/trackpay/api/");
+                .baseUrl("http://192.168.29.97/trackpay/api/");
+        //.baseUrl("http://www.frametrics.com/trackpay/api/");
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 .readTimeout(90, TimeUnit.SECONDS)

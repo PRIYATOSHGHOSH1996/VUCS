@@ -72,7 +72,6 @@ public class NoticeModel {
     }
 
 
-
     public String getNoticeBy() {
         return noticeBy;
     }

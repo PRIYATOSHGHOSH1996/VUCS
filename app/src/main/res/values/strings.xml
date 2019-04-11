@@ -32,4 +32,11 @@
     <string name="events">Events</string>
     <string name="folder_name">folder_name</string>
     <string name="object">object</string>
+    <string name="blog_broadcast_receiver">blog broadcast receiver</string>
+    <string name="job_post_broadcast_receiver">job post broadcast receiver</string>
+    <string name="notice_broadcast_receiver">notice broadcast receiver</string>
+    <string name="phire_pawa_broadcast_receiver">phire_pawa_broadcast_receiver</string>
+    <string name="teacher_broadcast_receiver">teacher_broadcast_receiver</string>
+    <string name="event_broadcast_receiver">event_broadcast_receiver</string>
+    <string name="image_gallery_broadcast_receiver">image_gallery_broadcast_receiver</string>
 </resources>

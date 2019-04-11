@@ -1,20 +1,16 @@
 package com.vucs;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Explode;
-import androidx.transition.Fade;
 import androidx.transition.Scene;
 import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
 import androidx.transition.TransitionManager;
-
-import android.content.Intent;
-import android.os.Bundle;
-
-import android.os.Handler;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,12 +18,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ViewGroup viewGroup =(ViewGroup)findViewById(R.id.parent);
-        ImageView imageView =new ImageView(this);
+        ViewGroup viewGroup = (ViewGroup) findViewById(R.id.parent);
+        ImageView imageView = new ImageView(this);
         imageView.setImageDrawable(getDrawable(R.mipmap.ic_launcher_foreground));
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.logo_transition);
         Scene aScene = Scene.getSceneForLayout(viewGroup, R.layout.activity_login, this);
-        TransitionManager.go(aScene,transition);
+        TransitionManager.go(aScene, transition);
         //viewGroup.addView(imageView);
 
         new Handler().postDelayed(new Runnable() {

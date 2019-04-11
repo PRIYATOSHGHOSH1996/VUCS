@@ -29,6 +29,12 @@ public class EventModel {
 
     }
 
+    public EventModel(String eventTitle, String eventDescription, Date date) {
+        this.eventTitle = eventTitle;
+        this.eventDescription = eventDescription;
+        this.date = date;
+    }
+
     public int getEventId() {
         return eventId;
     }
@@ -58,12 +64,6 @@ public class EventModel {
     }
 
     public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public EventModel(String eventTitle, String eventDescription, Date date) {
-        this.eventTitle = eventTitle;
-        this.eventDescription = eventDescription;
         this.date = date;
     }
 

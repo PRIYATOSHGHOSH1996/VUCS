@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginLeft="10dp"
-    android:elevation="0dp"
     android:layout_marginTop="5dp"
-    android:layout_marginRight="10dp">
+    android:layout_marginRight="10dp"
+    android:elevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -75,8 +75,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:gravity="bottom|right"
-                    android:text="djfhegf"
                     android:singleLine="true"
+                    android:text="djfhegf"
                     android:transitionName="@string/item_date" />
 
             </LinearLayout>

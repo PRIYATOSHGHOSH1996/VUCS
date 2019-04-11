@@ -2,7 +2,7 @@ package com.vucs.api;
 
 public class ApiResponseModel {
     private Integer code;
-    private String  message;
+    private String message;
 
     public ApiResponseModel(Integer code, String message) {
         this.code = code;

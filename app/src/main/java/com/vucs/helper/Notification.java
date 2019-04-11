@@ -29,7 +29,7 @@ public class Notification {
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(context, notification_Channel)
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setContentTitle(title)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),R.mipmap.ic_launcher_foreground))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground))
                 .setColor(context.getResources().getColor(R.color.colorPrimary1))
                 .setContentText(desc).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
