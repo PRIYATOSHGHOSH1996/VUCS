@@ -16,7 +16,7 @@ public interface EventDAO {
 
 
     @Query("SELECT * FROM dt_event")
-    public LiveData<List<EventModel>> getAllEvent();
+    public List<EventModel> getAllEvent();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertEvent(EventModel eventModel);

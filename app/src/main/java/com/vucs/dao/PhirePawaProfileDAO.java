@@ -15,7 +15,7 @@ public interface PhirePawaProfileDAO {
 
 
     @Query("SELECT * FROM dt_phire_pawa")
-    public LiveData<List<PhirePawaProfileModel>> getAllUser();
+    public List<PhirePawaProfileModel> getAllUser();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertUser(PhirePawaProfileModel phirePawaProfileModel);

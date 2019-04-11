@@ -24,17 +24,17 @@ public class ImageGalleryViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<ImageGalleryModel>> getAllImages(){
+    public List<ImageGalleryModel> getAllImages(){
         return imageGalleryDAO.getAllImages();
     };
 
 
-    public LiveData<List<ImageGalleryModel>> getAllImagesByFolder(String folderName){
+    public List<ImageGalleryModel> getAllImagesByFolder(String folderName){
         return imageGalleryDAO.getAllImagesByFolder(folderName);
     }
 
 
-    public LiveData<List<String>> getAllFolders(){
+    public List<String> getAllFolders(){
         return imageGalleryDAO.getAllFolders();
     }
 

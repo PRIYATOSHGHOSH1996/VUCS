@@ -23,7 +23,7 @@ public class NoticeViewModel extends AndroidViewModel {
         noticeDAO = db.noticeDAO();
     }
 
-    public LiveData<List<NoticeModel>> getAllNotice(){
+    public List<NoticeModel> getAllNotice(){
         return noticeDAO.getAllNotice();
     }
 }

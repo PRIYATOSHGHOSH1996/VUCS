@@ -67,14 +67,9 @@ public class ImageGalleryActivity extends AppCompatActivity {
     private void showImages(String folderName) {
         Log.e(TAG,"image");
         final RecyclerViewImageGalleryAdapter recyclerViewImageGalleryAdapter = new RecyclerViewImageGalleryAdapter(this);
+        recyclerViewImageGalleryAdapter.addImage(imageGalleryViewModel.getAllImagesByFolder(folderName));
         recyclerView.setAdapter(recyclerViewImageGalleryAdapter);
 
-        imageGalleryViewModel.getAllImagesByFolder(folderName).observe(this, new Observer<List<ImageGalleryModel>>() {
-            @Override
-            public void onChanged(List<ImageGalleryModel> imageGalleryModels) {
-                recyclerViewImageGalleryAdapter.addImage(imageGalleryModels);
-            }
-        });
 
     }
 
@@ -82,13 +77,8 @@ public class ImageGalleryActivity extends AppCompatActivity {
         Log.e(TAG,"folder");
         final RecyclerViewImageGalleryFolderAdapter recyclerViewImageGalleryFolderAdapter = new RecyclerViewImageGalleryFolderAdapter(this);
         recyclerView.setAdapter(recyclerViewImageGalleryFolderAdapter);
-        imageGalleryViewModel.getAllFolders().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                Log.e(TAG,"folder count = "+strings.size());
-                recyclerViewImageGalleryFolderAdapter.addFolder(strings);
-            }
-        });
+        recyclerViewImageGalleryFolderAdapter.addFolder(imageGalleryViewModel.getAllFolders());
+
 
     }
     @Override

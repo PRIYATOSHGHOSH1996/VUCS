@@ -1,6 +1,7 @@
 package com.vucs.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +38,13 @@ public class BlogFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new RecyclerViewBlogAdapter(getContext());
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
         BlogViewModel blogViewModel = ViewModelProviders.of(this).get(BlogViewModel.class);
-        blogViewModel.getAllBlog().observe(this, blogModels -> adapter.addBlog(blogModels));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.addBlog(blogViewModel.getAllBlog());
+        recyclerView.setAdapter(adapter);
+
+
 
 
 

@@ -44,13 +44,10 @@ public class NoticeFragment extends Fragment {
         adapter = new RecyclerViewNoticeAdapter(getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+
         NoticeViewModel noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);
-        noticeViewModel.getAllNotice().observe(this, new Observer<List<NoticeModel>>() {
-            @Override
-            public void onChanged(List<NoticeModel> noticeModels) {
-                adapter.addNotice(noticeModels);
-            }
-        });
+        adapter.addNotice(noticeViewModel.getAllNotice());
+        recyclerView.setAdapter(adapter);
+
     }
 }

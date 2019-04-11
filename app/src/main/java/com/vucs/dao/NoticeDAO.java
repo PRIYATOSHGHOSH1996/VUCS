@@ -16,7 +16,7 @@ public interface NoticeDAO {
 
 
     @Query("SELECT * FROM dt_notice")
-    public LiveData<List<NoticeModel>> getAllNotice();
+    public List<NoticeModel> getAllNotice();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNotice(NoticeModel noticeModel);

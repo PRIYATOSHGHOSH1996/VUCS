@@ -21,7 +21,7 @@ public class BlogViewModel extends AndroidViewModel {
         blogDAO = db.blogDAO();
     }
 
-    public LiveData<List<BlogModel>> getAllBlog(){
+    public List<BlogModel> getAllBlog(){
         return blogDAO.getAllBlog();
     }
 }

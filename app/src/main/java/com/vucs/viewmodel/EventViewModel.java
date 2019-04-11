@@ -23,7 +23,7 @@ public class EventViewModel extends AndroidViewModel {
         eventDAO = db.eventDAO();
     }
 
-    public LiveData<List<EventModel>> getAllEvent(){
+    public List<EventModel> getAllEvent(){
         return eventDAO.getAllEvent();
     }
 }

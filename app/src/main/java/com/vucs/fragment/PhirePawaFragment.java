@@ -42,14 +42,10 @@ public class PhirePawaFragment extends Fragment {
         adapter = new RecyclerViewUserAdapter(getContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+
         PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
-        phirePawaProfileViewModel.getAllUser().observe(this, new Observer<List<PhirePawaProfileModel>>() {
-            @Override
-            public void onChanged(List<PhirePawaProfileModel> phirePawaProfileModels) {
-                adapter.addUser(phirePawaProfileModels);
-            }
-        });
+        adapter.addUser(phirePawaProfileViewModel.getAllUser());
+        recyclerView.setAdapter(adapter);
     }
 
 

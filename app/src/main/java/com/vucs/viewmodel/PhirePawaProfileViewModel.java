@@ -21,7 +21,7 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         phirePawaProfileDAO = db.phirePawaProfileDAO();
     }
 
-    public LiveData<List<PhirePawaProfileModel>> getAllUser(){
+    public List<PhirePawaProfileModel> getAllUser(){
         return phirePawaProfileDAO.getAllUser();
     }
 }

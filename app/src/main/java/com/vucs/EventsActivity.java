@@ -73,17 +73,12 @@ public class EventsActivity extends AppCompatActivity {
 
 
         EventViewModel eventViewModel = ViewModelProviders.of(this).get(EventViewModel.class);
-        eventViewModel.getAllEvent().observe(this, new Observer<List<EventModel>>() {
-            @Override
-            public void onChanged(List<EventModel> eventModels) {
-                List<Event> events = new ArrayList<>();
-                for (EventModel eventModel:eventModels){
-                    events.add(new Event(Color.argb(255, 169, 68, 65), eventModel.getDate().getTime(),eventModel));
-                }
-                compactCalendarView.addEvents(events);
-                compactCalendarView.invalidate();
-            }
-        });
+        List<Event> events1 = new ArrayList<>();
+        for (EventModel eventModel:eventViewModel.getAllEvent()){
+            events1.add(new Event(Color.argb(255, 169, 68, 65), eventModel.getDate().getTime(),eventModel));
+        }
+        compactCalendarView.addEvents(events1);
+        compactCalendarView.invalidate();
 
 
         //compactCalendarView.setIsRtl(true);

@@ -16,13 +16,13 @@ public interface ImageGalleryDAO {
 
 
     @Query("SELECT * FROM dt_image_gallery")
-    public LiveData<List<ImageGalleryModel>> getAllImages();
+    public List<ImageGalleryModel> getAllImages();
 
     @Query("SELECT * FROM dt_image_gallery WHERE folder_name = :folderName")
-    public LiveData<List<ImageGalleryModel>> getAllImagesByFolder(String folderName);
+    public List<ImageGalleryModel> getAllImagesByFolder(String folderName);
 
     @Query("SELECT folder_name FROM dt_image_gallery GROUP BY folder_name")
-    public LiveData<List<String>> getAllFolders();
+    public List<String> getAllFolders();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertImage(ImageGalleryModel imageGalleryModel);
