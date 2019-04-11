@@ -20,10 +20,9 @@ public class BlogDAOImplementation extends DatabaseHandler implements BlogDAO {
     }
 
     @Override
-    public void addBlog(BlogModel blogModel) {
+    public void insertBlog(BlogModel blogModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, blogModel.getBlogId());
         values.put(KEY_TITLE, blogModel.getBlogTitle());
         values.put(KEY_BY, blogModel.getBlogBy());
         values.put(KEY_DATE, blogModel.getDate());
@@ -32,7 +31,7 @@ public class BlogDAOImplementation extends DatabaseHandler implements BlogDAO {
 
         // Inserting Row
         if (db.insert(DT_BLOG, null, values) == -1) {
-            Log.e("addBlog", "Replacing Blog module");
+            Log.e("insertBlog", "Replacing Blog module");
             db.updateWithOnConflict(DT_BLOG,values,null,null,SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close(); // Closing database connection

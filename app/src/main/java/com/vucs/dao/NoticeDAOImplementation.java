@@ -64,7 +64,6 @@ public class NoticeDAOImplementation extends DatabaseHandler implements NoticeDA
     public void insertNotice(NoticeModel noticeModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, noticeModel.getNoticeId());
         values.put(KEY_TITLE, noticeModel.getNoticeTitle());
         values.put(KEY_BY, noticeModel.getNoticeBy());
         values.put(KEY_DATE, noticeModel.getDate());

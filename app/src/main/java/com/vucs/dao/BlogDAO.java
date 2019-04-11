@@ -7,7 +7,7 @@ import com.vucs.model.BlogModel;
 import java.util.List;
 
 public interface BlogDAO {
-    public void addBlog(BlogModel blogModel);
+    public void insertBlog(BlogModel blogModel);
 
     public void addBlogs(List<BlogModel> blogModels);
 

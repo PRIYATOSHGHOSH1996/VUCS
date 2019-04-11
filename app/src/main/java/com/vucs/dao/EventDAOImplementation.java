@@ -20,10 +20,9 @@ public class EventDAOImplementation extends DatabaseHandler implements EventDAO 
     }
 
     @Override
-    public void addEvent(EventModel eventModel) {
+    public void insertEvent(EventModel eventModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, eventModel.getEventId());
         values.put(KEY_TITLE, eventModel.getEventTitle());
         values.put(KEY_DESCRIPTION, eventModel.getEventDescription());
         values.put(KEY_DATE, eventModel.getDate());
@@ -31,7 +30,7 @@ public class EventDAOImplementation extends DatabaseHandler implements EventDAO 
 
         // Inserting Row
         if (db.insert(DT_EVENT, null, values) == -1) {
-            Log.e("addBlog", "Replacing Event module");
+            Log.e("insertBlog", "Replacing Event module");
             db.updateWithOnConflict(DT_EVENT,values,null,null,SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close(); // Closing database connection

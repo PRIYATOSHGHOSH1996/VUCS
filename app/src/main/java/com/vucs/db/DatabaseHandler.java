@@ -71,7 +71,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private void createBlogTable(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE " + DT_BLOG + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_BY + " TEXT,"
                 + KEY_DATE + " LONG,"
@@ -84,7 +84,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private void createEventTable(SQLiteDatabase db){
         String CREATE_TABLE = "CREATE TABLE " + DT_EVENT + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_DESCRIPTION + " TEXT ,"
                 + KEY_DATE + " LONG "
@@ -96,7 +96,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private void createImageGalleryTable(SQLiteDatabase db){
 
         String  CREATE_TABLE = "CREATE TABLE " + DT_IMAGE_GALLERY + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_FOLDER_NAME + " TEXT,"
                 + KEY_URL + " TEXT"
                 + ")";
@@ -106,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private void createNoticeTable(SQLiteDatabase db){
 
         String CREATE_TABLE = "CREATE TABLE " + DT_NOTICE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_TITLE + " TEXT,"
                 + KEY_DATE + " LONG,"
                 + KEY_BY + " TEXT,"
@@ -120,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private void createPhirePawaProfileTable(SQLiteDatabase db){
 
         String CREATE_TABLE = "CREATE TABLE " + DT_PHIRE_PAWA + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_NAME + " TEXT,"
                 + KEY_BATCH + " INTEGER,"
                 + KEY_COMPANY + " TEXT,"

@@ -1,8 +1,6 @@
 package com.vucs;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.transition.Explode;
-import androidx.transition.Fade;
 import androidx.transition.Scene;
 import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
@@ -12,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.os.Handler;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -88,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        eventDAO.addEvent(new EventModel(1,"phire pawa","fghujkl;",calendar.getTimeInMillis()));
+        eventDAO.insertEvent(new EventModel(1,"phire pawa","fghujkl;",calendar.getTimeInMillis()));
 
 
         imageGalleryDAO.insertImage(new ImageGalleryModel(1,"folder1","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
@@ -118,8 +115,8 @@ public class LoginActivity extends AppCompatActivity {
         noticeDAO.insertNotice(new NoticeModel(1,"This is a Dummy Text To Test The View",System.currentTimeMillis(), "Priyatosh Ghosh", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
         noticeDAO.insertNotice(new NoticeModel(2,"Test 2 ",System.currentTimeMillis(), "Priyatosh Ghosh", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
 
-        blogDAO.addBlog(new BlogModel(1,"This is a Dummy Text To Test The View", "Priyatosh Ghosh",System.currentTimeMillis(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-        blogDAO.addBlog(new BlogModel(2,"Electoral bonds hit transparency in political funding, says Election Commission ", "Saikat Ghorai",System.currentTimeMillis()," “Even if anything is done, and we are harassed, we will not feel afraid.”\n" +
+        blogDAO.insertBlog(new BlogModel(1,"This is a Dummy Text To Test The View", "Priyatosh Ghosh",System.currentTimeMillis(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+        blogDAO.insertBlog(new BlogModel(2,"Electoral bonds hit transparency in political funding, says Election Commission ", "Saikat Ghorai",System.currentTimeMillis()," “Even if anything is done, and we are harassed, we will not feel afraid.”\n" +
                 "\n" +
                 "The 2019 Lok Sabha election, especially the contest in Varanasi is “a fight for a new independence,” Congress general secretary Priyanka Gandhi Vadra said on Wednesday, addressing party workers in the constituency held by Prime Minister Narendra Modi.\n" +
                 "\n" +
@@ -146,8 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                 "The meeting was, however, marred by clashes between workers of the party and BJP supporters, which prompted Ms. Vadra to advise the Congress workers to respect dissent. “Our politics is not of assaulting anyone,” she emphasised.\n" +
                 "\n" +
                 "Ms. Vadra also visited the families of CRPF jawans Avadesh Yadav, Vishal Pandey and Ramesh Yadav who were killed in the Pulwama suicide bomb attack.\n", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-        blogDAO.addBlog(new BlogModel(3,"Foreign corporate powers can interfere, the poll panel tells Supreme Court.", "Preetam Sarkar",System.currentTimeMillis(),"The affidavit extensively quotes from the May 26, 2017 letter the ECI wrote to the Ministry of Law. The letter, annexed with the affidavit, mentions how the amendment in the Companies Act “opens up the possibility of shell companies being set up for the sole purpose of making donations to political parties.”", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post2.jpg?alt=media&token=56e159e5-20be-46ea-9b30-136b81a1917b"));
-        blogDAO.addBlog(new BlogModel(4,"EC takes note of NITI Aayog Vice-Chairman's comments on Congress' poll promise ", "Sovon Jana",System.currentTimeMillis(),"\n" +
+        blogDAO.insertBlog(new BlogModel(3,"Foreign corporate powers can interfere, the poll panel tells Supreme Court.", "Preetam Sarkar",System.currentTimeMillis(),"The affidavit extensively quotes from the May 26, 2017 letter the ECI wrote to the Ministry of Law. The letter, annexed with the affidavit, mentions how the amendment in the Companies Act “opens up the possibility of shell companies being set up for the sole purpose of making donations to political parties.”", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post2.jpg?alt=media&token=56e159e5-20be-46ea-9b30-136b81a1917b"));
+        blogDAO.insertBlog(new BlogModel(4,"EC takes note of NITI Aayog Vice-Chairman's comments on Congress' poll promise ", "Sovon Jana",System.currentTimeMillis(),"\n" +
                 "\n" +
                 "The Election Commission has taken cognisance of a statement made by NITI Aayog Vice-Chairman Rajiv Kumar against the Congress’ poll promise of a minimum basic income guarantee of ₹72,000 per year to the poorest families.\n" +
                 "\n" +
@@ -156,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Mr. Kumar also said that in 2008, Union Minister P. Chidambaram increased the fiscal deficit from 2.5% to 6%. “It’s the next step in that pattern. Rahul Gandhi today made the announcement without thinking about its impact on the economy…I think the fiscal deficit may increase from 3.5% to 6%. All the credit rating agencies may bring down our ratings. We may not get loans from outside and eventually, our investments might be blocked,” he said.\n" +
                 "\n" +
                 "Taking note of the matter, the Commission may also seek an explanation from Mr. Kumar.\n", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
-        blogDAO.addBlog(new BlogModel(5,"Politics of publicity is easy: Priyanka Gandhi Vadra tells BJP", "Rohit Singh",System.currentTimeMillis()," “Even if anything is done, and we are harassed, we will not feel afraid.”\n" +
+        blogDAO.insertBlog(new BlogModel(5,"Politics of publicity is easy: Priyanka Gandhi Vadra tells BJP", "Rohit Singh",System.currentTimeMillis()," “Even if anything is done, and we are harassed, we will not feel afraid.”\n" +
                 "\n" +
                 "The 2019 Lok Sabha election, especially the contest in Varanasi is “a fight for a new independence,” Congress general secretary Priyanka Gandhi Vadra said on Wednesday, addressing party workers in the constituency held by Prime Minister Narendra Modi.\n" +
                 "\n" +
@@ -183,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
                 "The meeting was, however, marred by clashes between workers of the party and BJP supporters, which prompted Ms. Vadra to advise the Congress workers to respect dissent. “Our politics is not of assaulting anyone,” she emphasised.\n" +
                 "\n" +
                 "Ms. Vadra also visited the families of CRPF jawans Avadesh Yadav, Vishal Pandey and Ramesh Yadav who were killed in the Pulwama suicide bomb attack.\n", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/m1.jpg?alt=media&token=cde601d2-5b03-4f5d-8555-31b53a5bd9c8"));
-        blogDAO.addBlog(new BlogModel(6,"U.K. parliament to debate Brexit on March 29 as E.U. wants a ‘yes’","Priyatosh ghosh",System.currentTimeMillis(),"The E.U. has agreed to delay Brexit until May 22 if the deal is approved this week.\n" +
+        blogDAO.insertBlog(new BlogModel(6,"U.K. parliament to debate Brexit on March 29 as E.U. wants a ‘yes’","Priyatosh ghosh",System.currentTimeMillis(),"The E.U. has agreed to delay Brexit until May 22 if the deal is approved this week.\n" +
                 "The European Union’s executive said on March 28 that if Britain fails to ratify its divorce agreement this week, Brexit will only postponed until April 12 by which time London must inform the bloc of its plans.\n" +
                 "\n" +
                 "European Commission spokesman Margaritis Schinas was commenting on indicative votes in the U.K. parliament that produced no clear majority for any Brexit option: “If the Withdrawal Agreement is not ratified by the end of this week, Article 50 will be extended to April 12 and it is now for the U.K. government to inform about how it sees the next steps,” Mr. Schinas said. “We counted eight ‘noes’ last night, now we need a ‘yes’ on the way forward.”\n" +
@@ -203,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Boris: May’s deal is dead, the newspaper said on its front page.\n" +
                 "\n" +
                 "The newspaper said Mr. Johnson, who fell in behind the deal after Ms. May promised to quit if it was passed, had told friends: “It’s dead anyway.”","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/e2.jpg?alt=media&token=3aa34ca7-bdab-4ed1-bfae-eee339eab06a"));
-        blogDAO.addBlog(new BlogModel(7,"IPL 12: Every game is crucial, says Tom Moody","Saikat Ghosh",System.currentTimeMillis(),"Sunrisers Hyderabad head coach Tom Moody said that were hopeful of captain Kane Williamson being available (who missed the first game due to injury) for selection against Rajasthan Royals.\n" +
+        blogDAO.insertBlog(new BlogModel(7,"IPL 12: Every game is crucial, says Tom Moody","Saikat Ghosh",System.currentTimeMillis(),"Sunrisers Hyderabad head coach Tom Moody said that were hopeful of captain Kane Williamson being available (who missed the first game due to injury) for selection against Rajasthan Royals.\n" +
                 "\n" +
                 "“It is always a joy to play in front of home crowds with the Orange Army supporting us in a big way. There has been dramatic increase in the fan base and this lifts the energy levels of the players,” Moody said. \n" +
                 "\n" +
@@ -225,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
                 "On the possibility of Rahul Tripathi batting up the order, Unadkat said it depended on what the coach or the captain prefer. “I think they see Rahul as a batter who can play in any position and not necessarily at the top,” he said.\n" +
                 "\n" +
                 "Unadkat said that they have left behind the R. Ashwin episode (running out Jos Buttler) and just wanted to move on. “It didn’t have any impact on the team. It is important to focus on the games ahead,” he said.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/e3.jpg?alt=media&token=02527ca2-8aea-448a-aeb7-057aa07d3040"));
-        blogDAO.addBlog(new BlogModel(8,"Sunrisers Hyderabad head coach Tom Moody said that were hopeful of captain Kane Williamson being available (who missed the first game due to injury) for selection against Rajasthan Royals.\n" +
+        blogDAO.insertBlog(new BlogModel(8,"Sunrisers Hyderabad head coach Tom Moody said that were hopeful of captain Kane Williamson being available (who missed the first game due to injury) for selection against Rajasthan Royals.\n" +
                 "\n" +
                 "“It is always a joy to play in front of home crowds with the Orange Army supporting us in a big way. There has been dramatic increase in the fan base and this lifts the energy levels of the players,” Moody said. \n" +
                 "\n" +
@@ -255,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Royal Challengers Bangalore:  Virat Kohli (capt), Parthjv Patel (wk), Moeen Ali, AB de Villiers, Shimron Hetmyer, Shivam Dube, Colin de Grandhomme, Navdeep Saini, Yuzvendra Chahal, Umesh Yadav, Mohammed Siraj\n" +
                 "\n" +
                 "Mumbai Indians: Rohit Sharma (c), Quinton de Kock (wk), Suryakumar Yadav, Yuvraj Singh, Kieron Pollard, Hardik Pandya, Krunal Pandya, Mayank Markande, Mitchell McClenaghan, Lasith Malinga, Jasprit Bumrah","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
-        blogDAO.addBlog(new BlogModel(7,"Royal Challengers Bangalore opted to field after winning the toss against Mumbai Indians in the second IPL encounter between the two teams.\n" +
+        blogDAO.insertBlog(new BlogModel(7,"Royal Challengers Bangalore opted to field after winning the toss against Mumbai Indians in the second IPL encounter between the two teams.\n" +
                 "\n" +
                 "Jasprit Bumrah, who has been declared fit after sustaining an injury on his left shoulder features in the playing XI with Lasith Malinga straightaway in it.\n" +
                 "\n" +
@@ -290,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Talk about the net session, the best part is getting inputs from someone of VVS Laxman’s calibre.\n" +
                 "\n" +
                 "“Sometimes it’s good to have a fresh pair of eyes looking at your game and see what they pick up. VVS Laxman is an amazing person. It is always good to have players like that around you from whom you can learn a lot. It is quite an exciting prospect to learn from him.”","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g2.jpg?alt=media&token=16322fdd-ab83-48bd-a6f9-2a59f9b6da6e"));
-        blogDAO.addBlog(new BlogModel(8,"Indian Premier League: Want to hold on to my form, says Nitish Rana","Rohit Sing",System.currentTimeMillis(),"Consecutive fifties in different batting positions ought to be a confidence-builder but Kolkata Knight Riders batsman Nitish Rana says he is occupied by the concern of maintaining his form that usually “fizzles” out early in the IPL.\n" +
+        blogDAO.insertBlog(new BlogModel(8,"Indian Premier League: Want to hold on to my form, says Nitish Rana","Rohit Sing",System.currentTimeMillis(),"Consecutive fifties in different batting positions ought to be a confidence-builder but Kolkata Knight Riders batsman Nitish Rana says he is occupied by the concern of maintaining his form that usually “fizzles” out early in the IPL.\n" +
                 "\n" +
                 "As a makeshift opener in the absence of Sunil Narine, Rana struck a fine 68 in KKR’s first match against Sunrisers Hyderabad on Sunday.\n" +
                 "\n" +
@@ -319,7 +316,7 @@ public class LoginActivity extends AppCompatActivity {
                 "“Having 218/4 definitely worked in our favour, how Russell got a lifeline and that probably gave us those 20-25 runs extra.\n" +
                 "\n" +
                 "“But even if we had 180 or 200, we would have fought this hard. It wasn’t very easy (to chase) because the ball started seaming in the second innings.”","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
-        blogDAO.addBlog(new BlogModel(9,"IPL 2019 | RCB vs MI: Royal Challengers Bangalore’s batting will look to reinvent itself","Sovon Jana",System.currentTimeMillis(),"Bumrah, who hurt his left shoulder in the first match, bowls in the nets\n" +
+        blogDAO.insertBlog(new BlogModel(9,"IPL 2019 | RCB vs MI: Royal Challengers Bangalore’s batting will look to reinvent itself","Sovon Jana",System.currentTimeMillis(),"Bumrah, who hurt his left shoulder in the first match, bowls in the nets\n" +
                 "It was better, Virat Kohli said after Royal Challengers Bangalore’s embarrassing seven-wicket defeat in Chennai, to have got a game like that “out of the way early on”.\n" +
                 "\n" +
                 "It was not possible, Kohli seemed to be suggesting, for all of his batsmen to fail at the same time again. Some may consider such optimism excessive but in its second game at least, against Mumbai Indians here on Thursday, RCB has reason to be confident of a better batting performance.\n" +
@@ -344,7 +341,7 @@ public class LoginActivity extends AppCompatActivity {
                 "Lasith Malinga, who has been cleared to take part in the IPL by Sri Lanka Cricket, was expected to land late in the evening.\n" +
                 "\n" +
                 "If the pitch behaves like it is expected to, the crowds will be greatly entertained. As they await a first home game of the season, the RCB faithful will hope — like every year — that this time the trophy is theirs.","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l1.jpg?alt=media&token=ef5113c7-92f2-489b-827c-c06f087bde9b"));
-        blogDAO.addBlog(new BlogModel(10,"Knight Riders’ three musketeers set up a crushing win","Rohit Sing",System.currentTimeMillis(),"Rana, Uthappa and Russell take the game away from Kings XI Punjab with a mix of audacious and cautious batting\n" +
+        blogDAO.insertBlog(new BlogModel(10,"Knight Riders’ three musketeers set up a crushing win","Rohit Sing",System.currentTimeMillis(),"Rana, Uthappa and Russell take the game away from Kings XI Punjab with a mix of audacious and cautious batting\n" +
                 "Ruthless bludgeoning of the cricket ball by its three reliable musketeers — Nitish Rana, Robin Uthappa and Andre Russell — powered Kolkata Knight Riders to a crushing 28-run win over Kings XI Punjab in the Indian Premier League at the Eden Gardens here on Wednesday.\n" +
                 "\n" +
                 "The trio’s fireworks spurred KKR to 218 for four, the highest total at the venue, and provided thorough entertainment to its 51,000 passionate supporters. In reply, KXIP managed 190 for four as KKR scored its second consecutive win at home before setting off on the road for its next encounter.\n" +

@@ -63,7 +63,7 @@ public class ImageGalleryDAOImplementation extends DatabaseHandler implements Im
         try {
             Cursor cursor = db.query(DT_IMAGE_GALLERY,
                     new String[] {KEY_ID,KEY_FOLDER_NAME,KEY_URL},
-                    KEY_FOLDER_NAME,
+                    KEY_FOLDER_NAME + "=?",
                     new String[]{String.valueOf(folderName)},
                     null, null, null, null);
             if (cursor != null && cursor.getCount()>0) {
@@ -132,7 +132,6 @@ public class ImageGalleryDAOImplementation extends DatabaseHandler implements Im
     public void insertImage(ImageGalleryModel imageGalleryModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, imageGalleryModel.getImageId());
         values.put(KEY_FOLDER_NAME, imageGalleryModel.getFolderName());
         values.put(KEY_URL, imageGalleryModel.getImageURL());
 

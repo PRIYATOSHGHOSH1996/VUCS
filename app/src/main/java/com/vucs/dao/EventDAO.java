@@ -8,7 +8,7 @@ import java.util.List;
 public interface EventDAO {
 
 
-    public void addEvent(EventModel eventModel);
+    public void insertEvent(EventModel eventModel);
 
     public void addEvents(List<EventModel> eventModels);
 

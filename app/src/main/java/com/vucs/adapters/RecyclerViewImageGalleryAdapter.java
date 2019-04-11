@@ -50,8 +50,8 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.iten_image_gallery, parent, false);
 
-        androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
-        TransitionManager.beginDelayedTransition(parent,transition);
+        /*androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
+        TransitionManager.beginDelayedTransition(parent,transition);*/
         return new MyViewHolder(view);
     }
 

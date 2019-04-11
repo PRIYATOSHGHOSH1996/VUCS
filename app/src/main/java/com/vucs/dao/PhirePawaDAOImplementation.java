@@ -62,7 +62,6 @@ public class PhirePawaDAOImplementation extends DatabaseHandler implements Phire
     public void insertUser(PhirePawaProfileModel phirePawaProfileModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, phirePawaProfileModel.getId());
         values.put(KEY_NAME, phirePawaProfileModel.getName());
         values.put(KEY_BATCH, phirePawaProfileModel.getBatch());
         values.put(KEY_COMPANY, phirePawaProfileModel.getCompany());
