@@ -49,7 +49,9 @@ public class BlogFragment extends Fragment {
         adapter = new RecyclerViewBlogAdapter(getContext());
         recyclerView.setHasFixedSize(true);
         blogViewModel = ViewModelProviders.of(this).get(BlogViewModel.class);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
         updateAdapter();
         recyclerView.setAdapter(adapter);
 
