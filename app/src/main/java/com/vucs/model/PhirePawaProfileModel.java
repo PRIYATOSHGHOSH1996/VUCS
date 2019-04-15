@@ -2,7 +2,6 @@ package com.vucs.model;
 
 
 import java.io.Serializable;
-import java.util.Date;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -28,7 +27,6 @@ public class PhirePawaProfileModel implements Serializable {
 
     @ColumnInfo(name = "user_image_url")
     private String userImageURL;
-
 
 
     @Ignore

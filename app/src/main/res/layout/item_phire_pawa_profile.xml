@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
 
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    app:layout_behavior="@string/bottom_sheet_behavior"
-    android:layout_height="match_parent">
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -18,10 +18,10 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collaps_tollbar"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
             android:layout_height="wrap_content"
-            app:layout_behavior="@string/bottom_sheet_behavior"
+            android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary1"
+            app:layout_behavior="@string/bottom_sheet_behavior"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed|snapMargins"
             app:title="@string/app_name">
 
@@ -89,11 +89,6 @@
                 android:layout_height="wrap_content"
                 android:text="rfkerjfjrfjerhifuhweriufhriuefhiuegr"
                 android:textSize="30dp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="rfkerjfjrfjerhifuhweriufhriuefhiuegr"
-                android:textSize="30dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -106,6 +101,13 @@
                 android:layout_height="wrap_content"
                 android:text="rfkerjfjrfjerhifuhweriufhriuefhiuegr"
                 android:textSize="30dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="rfkerjfjrfjerhifuhweriufhriuefhiuegr"
+                android:textSize="30dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

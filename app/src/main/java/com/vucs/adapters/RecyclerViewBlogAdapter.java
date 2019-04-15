@@ -28,8 +28,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.Slide;
-import androidx.transition.TransitionManager;
 import pl.droidsonroids.gif.GifImageView;
 
 public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder> {
@@ -58,7 +56,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         final BlogModel blogModel = blogModelList.get(position);
         holder.blog_title.setText(blogModel.getBlogTitle());
-        holder.blog_by.setText("By " + blogModel.getBlogBy()+"  ");
+        holder.blog_by.setText("By " + blogModel.getBlogBy() + "  ");
         String date = "";
 
         try {
@@ -79,7 +77,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
                                 holder.blog_image.setImageDrawable(resource);
                             }
                         });
-               // notifyItemChanged(position);
+                // notifyItemChanged(position);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +88,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
             public void onClick(View v) {
                 Intent intent = new Intent(weakReference.get(), ItemDetailsActivity.class);
                 intent.putExtra(weakReference.get().getString(R.string.item_title), blogModel.getBlogTitle());
-                intent.putExtra(weakReference.get().getString(R.string.item_by), blogModel.getBlogBy()+"  ");
+                intent.putExtra(weakReference.get().getString(R.string.item_by), blogModel.getBlogBy() + "  ");
                 intent.putExtra(weakReference.get().getString(R.string.item_image_url), blogModel.getBlogImageURL());
                 intent.putExtra(weakReference.get().getString(R.string.item_date), finalDate);
                 intent.putExtra(weakReference.get().getString(R.string.item_content), blogModel.getContent());
@@ -103,7 +101,7 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) weakReference.get(), p1, p2, p3, p4);
 
                 weakReference.get().startActivity(intent, options.toBundle());
-                            }
+            }
         });
 
     }

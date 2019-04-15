@@ -4,7 +4,6 @@ import com.vucs.model.BlogModel;
 
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -15,7 +14,7 @@ public interface BlogDAO {
 
 
     @Query("SELECT * FROM dt_blog")
-    public LiveData<List<BlogModel>> getAllBlog();
+    public List<BlogModel> getAllBlog();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertBlog(BlogModel blogModel);

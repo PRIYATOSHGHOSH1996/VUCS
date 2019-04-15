@@ -1,40 +1,40 @@
 package com.vucs;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vucs.adapters.RecyclerViewImageGalleryAdapter;
 import com.vucs.adapters.RecyclerViewImageGalleryFolderAdapter;
-import com.vucs.model.ImageGalleryModel;
 import com.vucs.recycler_view.MyRecyclerView;
 import com.vucs.viewmodel.ImageGalleryViewModel;
 
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 public class ImageGalleryActivity extends AppCompatActivity {
     MyRecyclerView recyclerView;
     TextView header_text;
-    private String TAG ="Image Gallery Activity";
     ImageGalleryViewModel imageGalleryViewModel;
+    private String TAG = "Image Gallery Activity";
+    private BroadcastReceiver broadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.explode);
 
-        setContentView(R.layout.activity_image_gallery); transition.excludeTarget(findViewById(R.id.toolbar),true);
+        setContentView(R.layout.activity_image_gallery);
+        transition.excludeTarget(findViewById(R.id.toolbar), true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,52 +47,77 @@ public class ImageGalleryActivity extends AppCompatActivity {
         header_text = findViewById(R.id.header_text);
         recyclerView = findViewById(R.id.recycler_view);
         imageGalleryViewModel = ViewModelProviders.of(this).get(ImageGalleryViewModel.class);
-        Intent intent = getIntent();
-        if (intent!=null){
-            if (intent.getStringExtra(getString(R.string.folder_name)).equals("root123")){
-                header_text.setText(getString(R.string.image_gallery));
-                showFolders();
-            }
-            else {
-                header_text.setText(intent.getStringExtra(getString(R.string.folder_name)));
-               showImages(intent.getStringExtra(getString(R.string.folder_name)));
 
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateAdapter();
             }
-        }else {
-            Toast.makeText(this,"Something Wrong",Toast.LENGTH_LONG);
-        }
+        };
 
     }
 
     private void showImages(String folderName) {
-        Log.e(TAG,"image");
+        Log.e(TAG, "image");
         final RecyclerViewImageGalleryAdapter recyclerViewImageGalleryAdapter = new RecyclerViewImageGalleryAdapter(this);
+        recyclerViewImageGalleryAdapter.addImage(imageGalleryViewModel.getAllImagesByFolder(folderName));
         recyclerView.setAdapter(recyclerViewImageGalleryAdapter);
 
-        imageGalleryViewModel.getAllImagesByFolder(folderName).observe(this, new Observer<List<ImageGalleryModel>>() {
-            @Override
-            public void onChanged(List<ImageGalleryModel> imageGalleryModels) {
-                recyclerViewImageGalleryAdapter.addImage(imageGalleryModels);
-            }
-        });
 
     }
 
     private void showFolders() {
-        Log.e(TAG,"folder");
+        Log.e(TAG, "folder");
         final RecyclerViewImageGalleryFolderAdapter recyclerViewImageGalleryFolderAdapter = new RecyclerViewImageGalleryFolderAdapter(this);
         recyclerView.setAdapter(recyclerViewImageGalleryFolderAdapter);
-        imageGalleryViewModel.getAllFolders().observe(this, new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                Log.e(TAG,"folder count = "+strings.size());
-                recyclerViewImageGalleryFolderAdapter.addFolder(strings);
-            }
-        });
+        recyclerViewImageGalleryFolderAdapter.addFolder(imageGalleryViewModel.getAllFolders());
+
 
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    private void updateAdapter() {
+        Intent intent = getIntent();
+        if (intent != null) {
+            if (intent.getStringExtra(getString(R.string.folder_name)).equals("root123")) {
+                header_text.setText(getString(R.string.image_gallery));
+                showFolders();
+            } else {
+                header_text.setText(intent.getStringExtra(getString(R.string.folder_name)));
+                showImages(intent.getStringExtra(getString(R.string.folder_name)));
+
+            }
+        } else {
+            Toast.makeText(this, "Something Wrong", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onresume");
+        try {
+            updateAdapter();
+            registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.image_gallery_broadcast_receiver)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onpause");
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

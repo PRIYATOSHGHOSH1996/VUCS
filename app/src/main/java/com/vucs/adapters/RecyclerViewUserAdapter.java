@@ -55,7 +55,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
         holder.company.setText(phirePawaProfileModel.getCompany());
 
         try {
-            holder.batch.setText(phirePawaProfileModel.getBatch()+"");
+            holder.batch.setText(phirePawaProfileModel.getBatch() + "");
             if (!phirePawaProfileModel.getUserImageURL().equals("default") && weakReference.get() != null) {
 
                 Glide
@@ -69,7 +69,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                                 holder.image.setImageDrawable(resource);
                             }
                         });
-               // notifyItemChanged(position);
+                // notifyItemChanged(position);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,14 +77,14 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
+                BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
 
-                Bundle bundle =new Bundle();
-                bundle.putSerializable(weakReference.get().getString(R.string.object),phirePawaProfileModel);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(weakReference.get().getString(R.string.object), phirePawaProfileModel);
                 bottomSheetDialogFragment.setArguments(bundle);
                 AppCompatActivity activity = (AppCompatActivity) weakReference.get();
 
-                bottomSheetDialogFragment.show(activity.getSupportFragmentManager(),bottomSheetDialogFragment.getTag());
+                bottomSheetDialogFragment.show(activity.getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
 
 
             }

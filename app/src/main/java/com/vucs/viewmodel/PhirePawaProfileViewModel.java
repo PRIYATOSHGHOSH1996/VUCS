@@ -10,18 +10,18 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 public class PhirePawaProfileViewModel extends AndroidViewModel {
 
     private PhirePawaProfileDAO phirePawaProfileDAO;
+
     public PhirePawaProfileViewModel(@NonNull Application application) {
         super(application);
         AppDatabase db = AppDatabase.getDatabase(application);
         phirePawaProfileDAO = db.phirePawaProfileDAO();
     }
 
-    public LiveData<List<PhirePawaProfileModel>> getAllUser(){
+    public List<PhirePawaProfileModel> getAllUser() {
         return phirePawaProfileDAO.getAllUser();
     }
 }

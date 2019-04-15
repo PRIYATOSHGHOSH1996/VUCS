@@ -15,20 +15,20 @@ public class App extends Application {
     private static WeakReference<Context> context;
     private static WeakReference<Resources> resources;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        context=new WeakReference<Context>(this);
-        resources = new WeakReference<Resources>(getResources());
-        createNotificationChannel();
-    }
-
-    public static Context getContext(){
+    public static Context getContext() {
         return context.get();
     }
 
-    public static Resources getResource(){
+    public static Resources getResource() {
         return resources.get();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        context = new WeakReference<Context>(this);
+        resources = new WeakReference<Resources>(getResources());
+        createNotificationChannel();
     }
 
     private void createNotificationChannel() {

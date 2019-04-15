@@ -1,18 +1,10 @@
 package com.vucs;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import pl.droidsonroids.gif.GifImageView;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Explode;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,10 +12,17 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import pl.droidsonroids.gif.GifImageView;
+
 public class ItemDetailsActivity extends AppCompatActivity {
 
     TextView header_text;
-    String itemTitle = "",itemBy = "",itemDate = "",itemImageURL = "",itemContent = "";
+    String itemTitle = "", itemBy = "", itemDate = "", itemImageURL = "", itemContent = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +44,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         header_text = findViewById(R.id.header_text);
         Intent intent = getIntent();
-        if (intent!=null) {
+        if (intent != null) {
             itemTitle = intent.getStringExtra(getString(R.string.item_title));
             itemBy = intent.getStringExtra(getString(R.string.item_by));
             itemDate = intent.getStringExtra(getString(R.string.item_date));
@@ -62,10 +61,10 @@ public class ItemDetailsActivity extends AppCompatActivity {
         item_date.setText(itemDate);
         item_content.setText(itemContent);
 
-        item_by.setText("By "+ itemBy);
+        item_by.setText("By " + itemBy);
         try {
 
-            if (!itemImageURL.equals("default")&&getApplication()!=null){
+            if (!itemImageURL.equals("default") && getApplication() != null) {
                 item_image.setVisibility(View.VISIBLE);
                 Glide
                         .with(this)
@@ -83,6 +82,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

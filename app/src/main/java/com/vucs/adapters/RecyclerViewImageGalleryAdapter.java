@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.vucs.ItemDetailsActivity;
 import com.vucs.PreviewFile;
 import com.vucs.R;
 import com.vucs.model.ImageGalleryModel;
@@ -27,9 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
-
-import androidx.transition.TransitionInflater;
-import androidx.transition.TransitionManager;
 
 public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<RecyclerViewImageGalleryAdapter.MyViewHolder> {
 
@@ -50,8 +46,8 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.iten_image_gallery, parent, false);
 
-        androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
-        TransitionManager.beginDelayedTransition(parent,transition);
+        /*androidx.transition.Transition transition = TransitionInflater.from(weakReference.get()).inflateTransition(R.transition.explode);
+        TransitionManager.beginDelayedTransition(parent,transition);*/
         return new MyViewHolder(view);
     }
 

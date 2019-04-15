@@ -1,7 +1,6 @@
 package com.vucs;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -48,12 +47,12 @@ import androidx.viewpager.widget.ViewPager;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewNoticeAdapter.CallbackInterface {
+    private static final Integer WRITE_STORAGE_PERMISSION = 121;
     ViewPager viewPager;
     NavigationView navigationView;
-    private boolean doubleBackToExitPressedOnce = false;
-    private static final Integer WRITE_STORAGE_PERMISSION = 121;
-    private NoticeModel noticeModel;
     LinearLayout linearLayout;
+    private boolean doubleBackToExitPressedOnce = false;
+    private NoticeModel noticeModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-       linearLayout =findViewById(R.id.parent);
+        linearLayout = findViewById(R.id.parent);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,7 +74,7 @@ public class HomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         viewPager = findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(5);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
@@ -83,28 +82,24 @@ public class HomeActivity extends AppCompatActivity
             public void transformPage(@NonNull View page, float position) {
                 page.setCameraDistance(20000);
 
-                if (position < -1){
+                if (position < -1) {
                     page.setAlpha(0);
-                }
-                else if (position <= 0){
+                } else if (position <= 0) {
                     page.setAlpha(1);
                     page.setPivotX(page.getWidth());
-                    page.setRotationY(90*Math.abs(position));
-                }
-                else if (position <= 1){
+                    page.setRotationY(90 * Math.abs(position));
+                } else if (position <= 1) {
                     page.setAlpha(1);
                     page.setPivotX(0);
-                    page.setRotationY(-90*Math.abs(position));
-                }
-                else{
+                    page.setRotationY(-90 * Math.abs(position));
+                } else {
                     page.setAlpha(0);
                 }
 
-                if (Math.abs(position) <= 0.5){
-                    page.setScaleY(Math.max(.4f,1-Math.abs(position)));
-                }
-                else if (Math.abs(position) <= 1){
-                    page.setScaleY(Math.max(.4f,1-Math.abs(position)));
+                if (Math.abs(position) <= 0.5) {
+                    page.setScaleY(Math.max(.4f, 1 - Math.abs(position)));
+                } else if (Math.abs(position) <= 1) {
+                    page.setScaleY(Math.max(.4f, 1 - Math.abs(position)));
 
                 }
             }
@@ -149,7 +144,7 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                 drawerView.setScaleY(slideOffset);
-                linearLayout.setTranslationX(slideOffset*linearLayout.getWidth()/4);
+                linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
 
             }
 
@@ -226,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
             intent.putExtra(getString(R.string.folder_name), "root123");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-            startActivity(intent,options.toBundle());
+            startActivity(intent, options.toBundle());
 
         } else if (id == R.id.about) {
             startActivity(new Intent(HomeActivity.this, AboutActivity.class));
@@ -253,21 +248,21 @@ public class HomeActivity extends AppCompatActivity
     public void downloadFile(NoticeModel noticeModel) {
         this.noticeModel = noticeModel;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-               download();
-            }else{
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                download();
+            } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_PERMISSION);
             }
-        }else{
+        } else {
             download();
         }
 
     }
 
-    private void download(){
-        if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")){
-            if(isNetworkAvailable()) {
-                Toast.makeText(this,"Downloading ...");
+    private void download() {
+        if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")) {
+            if (isNetworkAvailable()) {
+                Toast.makeText(this, "Downloading ...");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                 Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
 
@@ -285,11 +280,42 @@ public class HomeActivity extends AppCompatActivity
 
 
                 downloadManager.enqueue(request);
-            }
-            else {
+            } else {
                 showSnackBar("Internet connection not available");
             }
         }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_STORAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                download();
+            } else {
+                showSnackBar("Please give storage permission");
+            }
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        viewPager.setOffscreenPageLimit(5);
 
     }
 
@@ -339,39 +365,6 @@ public class HomeActivity extends AppCompatActivity
             }
             return super.getPageTitle(position);
         }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_STORAGE_PERMISSION){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                download();
-            }
-            else {
-                showSnackBar("Please give storage permission");
-            }
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        viewPager.setOffscreenPageLimit(5);
 
     }
 }

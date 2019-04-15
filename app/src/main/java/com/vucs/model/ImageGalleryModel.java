@@ -1,8 +1,6 @@
 package com.vucs.model;
 
 
-import java.util.Date;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;

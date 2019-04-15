@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
 
         <item name="android:windowTranslucentStatus">true</item>
@@ -35,7 +36,7 @@
         <item name="android:backgroundTint">@color/colorPrimary1</item>
     </style>
 
-    <style name="my_text_style_heading" >
+    <style name="my_text_style_heading">
         <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
@@ -44,12 +45,13 @@
     </style>
 
 
-    <style name="my_text_style" >
+    <style name="my_text_style">
         <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/colorBlack</item>
     </style>
-    <style name="my_text_style_caption" >
+
+    <style name="my_text_style_caption">
         <item name="android:fontFamily">@font/nanum_myeongjo_regular</item>
         <item name="android:textSize">12sp</item>
     </style>
@@ -58,5 +60,6 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">italic</item>
     </style>
+
     <style name="BottomSheetDialogTheme" />
 </resources>
