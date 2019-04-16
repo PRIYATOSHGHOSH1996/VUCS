@@ -5,6 +5,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.webkit.URLUtil;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -50,9 +52,10 @@ public class HomeActivity extends AppCompatActivity
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
     ViewPager viewPager;
     NavigationView navigationView;
-    LinearLayout linearLayout;
+    FrameLayout linearLayout;
     private boolean doubleBackToExitPressedOnce = false;
     private NoticeModel noticeModel;
+    View content_background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +66,13 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         linearLayout = findViewById(R.id.parent);
+        content_background = findViewById(R.id.default_background);
+        content_background.setAlpha(0);
 
+        FrameLayout navBack=findViewById(R.id.nav_back);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setScrimColor(Color.TRANSPARENT);
+        drawer.setBackgroundColor(Color.TRANSPARENT);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -143,8 +151,20 @@ public class HomeActivity extends AppCompatActivity
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                drawerView.setScaleY(slideOffset);
-                linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
+                //drawerView.setBackgroundColor(getResources().getColor(R.color.white));
+                drawerView.setBackground(getDrawable(R.drawable.nav_item_background));
+                drawerView.setElevation(0);
+               // drawerView.setScaleY(slideOffset);
+               // linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
+                //drawerView.setTranslationZ(-100);
+                navigationView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
+                drawerView.setTranslationX((1-slideOffset)*drawerView.getWidth());
+                drawerView.setRotationY((float)(90*(1-slideOffset))+5);
+                drawerView.setPivotX(0.2f);
+                navBack.setAlpha(1-slideOffset);
+                content_background.setAlpha(slideOffset);
+
+              //  drawerView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
 
             }
 

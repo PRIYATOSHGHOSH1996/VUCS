@@ -12,6 +12,8 @@
 
     <color name="white">#fff</color>
 
+    <color name="colorPrimarytt1">#1F8AF3</color>
+
 
     <color name="background">#F1F1F1</color>
     <color name="snackbar_background">#031433</color>

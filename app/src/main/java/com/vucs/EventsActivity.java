@@ -7,8 +7,12 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,9 +21,11 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.vucs.model.EventModel;
 import com.vucs.viewmodel.EventViewModel;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -59,9 +65,9 @@ public class EventsActivity extends AppCompatActivity {
         });
         compactCalendarView = findViewById(R.id.compactcalendar_view);
         month_name.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
-        final List<String> mutableBookings = new ArrayList<>();
+        final List<EventModel> mutableBookings = new ArrayList<>();
         final ListView bookingsListView = findViewById(R.id.bookings_listview);
-        final ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mutableBookings);
+        final ListAdapter adapter = new ListAdapter(this) ;
         bookingsListView.setAdapter(adapter);
         // below allows you to configure color for the current day in the month
         // compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.black));
@@ -93,9 +99,9 @@ public class EventsActivity extends AppCompatActivity {
                     for (Event booking : bookingsFromMap) {
                         EventModel eventModel = (EventModel) booking.getData();
                         assert eventModel != null;
-                        mutableBookings.add(eventModel.getEventTitle() + "///" + eventModel.getEventDescription());
+                        mutableBookings.add(eventModel);
                     }
-                    adapter.notifyDataSetChanged();
+                    adapter.addEvent(mutableBookings);
                 }
 
             }
@@ -133,7 +139,9 @@ public class EventsActivity extends AppCompatActivity {
         List<Event> events1 = new ArrayList<>();
         for (EventModel eventModel : eventViewModel.getAllEvent()) {
             events1.add(new Event(Color.argb(255, 169, 68, 65), eventModel.getDate().getTime(), eventModel));
+
         }
+        compactCalendarView.removeAllEvents();
         compactCalendarView.addEvents(events1);
         compactCalendarView.invalidate();
     }
@@ -159,6 +167,46 @@ public class EventsActivity extends AppCompatActivity {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    class ListAdapter extends BaseAdapter {
+        WeakReference<Context> weakReference;
+        List<EventModel> eventModels = Collections.emptyList();
+
+        void addEvent(List<EventModel> eventModels){
+            this.eventModels=eventModels;
+            notifyDataSetChanged();
+        }
+
+        public ListAdapter(Context context ) {
+            this.weakReference = new WeakReference<>(context);
+        }
+
+        @Override
+        public int getCount() {
+            return eventModels.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_event,parent,false);
+            TextView title = view.findViewById(R.id.event_title);
+            TextView des = view.findViewById(R.id.event_Description);
+            EventModel eventModel= eventModels.get(position);
+            title.setText(eventModel.getEventTitle());
+            des.setText(eventModel.getEventDescription());
+            return view;
         }
     }
 }
