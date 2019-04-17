@@ -56,7 +56,7 @@ public class BlogFragment extends Fragment {
         updateAdapter();
         recyclerView.setAdapter(adapter);
 
-        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
 
     }

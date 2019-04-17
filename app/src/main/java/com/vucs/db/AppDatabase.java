@@ -110,11 +110,11 @@ public abstract class AppDatabase extends RoomDatabase {
         protected Void doInBackground(final Void... params) {
 
 
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", 2019, "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", 2019, "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar", 2019, "Avalgate.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing", 2019, "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana", 2019, "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar", "2019", "Avalgate.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
 
 
             Calendar calendar = Calendar.getInstance(Locale.getDefault());

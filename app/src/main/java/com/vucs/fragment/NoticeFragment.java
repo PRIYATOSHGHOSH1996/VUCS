@@ -51,7 +51,7 @@ public class NoticeFragment extends Fragment {
         noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);
         updateAdapter();
         recyclerView.setAdapter(adapter);
-        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
     }
 

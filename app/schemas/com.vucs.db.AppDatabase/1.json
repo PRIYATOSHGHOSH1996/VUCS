@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e167ed54aa815dfc37ff36358c401939",
+    "identityHash": "38d09225f29fc5a154baae26e5774015",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -170,7 +170,7 @@
       },
       {
         "tableName": "dt_phire_pawa",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT, `user_batch` INTEGER, `user_company` TEXT, `user_image_url` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT, `user_batch` TEXT, `user_company` TEXT, `user_image_url` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -187,7 +187,7 @@
           {
             "fieldPath": "batch",
             "columnName": "user_batch",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
@@ -213,9 +213,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e167ed54aa815dfc37ff36358c401939\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"38d09225f29fc5a154baae26e5774015\")"
     ]
   }
 }
