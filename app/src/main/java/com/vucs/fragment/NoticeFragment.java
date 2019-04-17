@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class NoticeFragment extends Fragment {
 
@@ -50,6 +51,7 @@ public class NoticeFragment extends Fragment {
         noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);
         updateAdapter();
         recyclerView.setAdapter(adapter);
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
     }
 

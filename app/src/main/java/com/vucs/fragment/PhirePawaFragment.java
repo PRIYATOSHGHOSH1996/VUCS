@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import in.myinnos.alphabetsindexfastscrollrecycler.IndexFastScrollRecyclerView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class PhirePawaFragment extends Fragment {
 
@@ -46,65 +46,14 @@ public class PhirePawaFragment extends Fragment {
     }
 
     private void initView() {
-        IndexFastScrollRecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new RecyclerViewUserAdapter(getContext());
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
         updateAdapter();
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setIndexTextSize(12);
-
-
-
-        mRecyclerView.setIndexBarTextColor("#FFFFFF");
-
-        mRecyclerView.setIndexBarTextColor(R.color.white);
-
-
-        mRecyclerView.setIndexBarColor("#33334c");
-
-        mRecyclerView.setIndexBarColor(R.color.colorPrimary1);
-
-
-        mRecyclerView.setIndexBarCornerRadius(3);
-
-
-
-        mRecyclerView.setIndexBarTransparentValue((float) 0.4);
-
-
-
-        mRecyclerView.setIndexbarMargin(4);
-
-
-
-        mRecyclerView.setIndexbarWidth(40);
-
-
-
-        mRecyclerView.setPreviewPadding(2);
-
-
-
-        mRecyclerView.setPreviewVisibility(false);
-
-
-
-
-
-
-
-        mRecyclerView.setIndexBarVisibility(true);
-
-
-        mRecyclerView.setIndexbarHighLateTextColor("#33334c");
-
-        mRecyclerView.setIndexbarHighLateTextColor(R.color.colorAccent);
-
-
-        mRecyclerView.setIndexBarHighLateTextVisibility(true);
-
+        recyclerView.setAdapter(adapter);
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
     }
 
     private void updateAdapter() {
