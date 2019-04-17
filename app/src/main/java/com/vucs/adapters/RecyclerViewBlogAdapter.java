@@ -8,12 +8,14 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.futuremind.recyclerviewfastscroll.SectionTitleProvider;
 import com.vucs.ItemDetailsActivity;
 import com.vucs.R;
 import com.vucs.model.BlogModel;
@@ -30,7 +32,7 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 import pl.droidsonroids.gif.GifImageView;
 
-public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder> {
+public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBlogAdapter.MyViewHolder> implements SectionTitleProvider {
 
     private List<BlogModel> blogModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
@@ -109,6 +111,11 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     @Override
     public int getItemCount() {
         return blogModelList.size();
+    }
+
+    @Override
+    public String getSectionTitle(int position) {
+        return blogModelList.get(position).getBlogTitle().substring(0,1);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

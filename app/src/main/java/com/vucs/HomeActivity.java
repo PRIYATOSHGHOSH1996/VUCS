@@ -19,19 +19,23 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;
 import com.vucs.fragment.NoticeFragment;
 import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
+import com.vucs.helper.AppPreference;
 import com.vucs.helper.Toast;
 import com.vucs.model.NoticeModel;
+import com.vucs.service.FirebaseMessaging;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,15 +51,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RecyclerViewNoticeAdapter.CallbackInterface {
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
     ViewPager viewPager;
     NavigationView navigationView;
     FrameLayout linearLayout;
+    View content_background;
     private boolean doubleBackToExitPressedOnce = false;
     private NoticeModel noticeModel;
-    View content_background;
+    AppPreference appPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +74,9 @@ public class HomeActivity extends AppCompatActivity
         linearLayout = findViewById(R.id.parent);
         content_background = findViewById(R.id.default_background);
         content_background.setAlpha(0);
+        appPreference = new AppPreference(this);
 
-        FrameLayout navBack=findViewById(R.id.nav_back);
+        FrameLayout navBack = findViewById(R.id.nav_back);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.setScrimColor(Color.TRANSPARENT);
         drawer.setBackgroundColor(Color.TRANSPARENT);
@@ -154,17 +161,17 @@ public class HomeActivity extends AppCompatActivity
                 //drawerView.setBackgroundColor(getResources().getColor(R.color.white));
                 drawerView.setBackground(getDrawable(R.drawable.nav_item_background));
                 drawerView.setElevation(0);
-               // drawerView.setScaleY(slideOffset);
-               // linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
+                // drawerView.setScaleY(slideOffset);
+                // linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
                 //drawerView.setTranslationZ(-100);
-                navigationView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
-                drawerView.setTranslationX((1-slideOffset)*drawerView.getWidth());
-                drawerView.setRotationY((float)(90*(1-slideOffset))+5);
+               // navigationView.setPadding((int) (1 - slideOffset) * drawerView.getWidth(), 0, 0, 0);
+                drawerView.setTranslationX((1 - slideOffset) * drawerView.getWidth());
+                drawerView.setRotationY((float) (90 * (1 - slideOffset)));
                 drawerView.setPivotX(0.2f);
-                navBack.setAlpha(1-slideOffset);
+                navBack.setAlpha(1 - slideOffset);
                 content_background.setAlpha(slideOffset);
 
-              //  drawerView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
+                //  drawerView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
 
             }
 
@@ -183,6 +190,18 @@ public class HomeActivity extends AppCompatActivity
 
             }
         });
+
+        if(!appPreference.isTokenGenerated()){
+            FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
+                @Override
+                public void onSuccess(InstanceIdResult instanceIdResult) {
+                    Log.e("token==",instanceIdResult.getToken());
+                    FirebaseMessaging.upLoadToken(instanceIdResult.getToken());
+                }
+            });
+        }
+
+
     }
 
     @Override

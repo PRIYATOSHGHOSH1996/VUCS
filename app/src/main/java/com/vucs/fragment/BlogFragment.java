@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.futuremind.recyclerviewfastscroll.FastScroller;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewBlogAdapter;
 import com.vucs.viewmodel.BlogViewModel;
@@ -18,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+
 
 
 public class BlogFragment extends Fragment {
@@ -46,6 +49,7 @@ public class BlogFragment extends Fragment {
 
     private void initView() {
         recyclerView = view.findViewById(R.id.recycler_view);
+       FastScroller fastScroller = (FastScroller) view.findViewById(R.id.fastscroll);
         adapter = new RecyclerViewBlogAdapter(getContext());
         recyclerView.setHasFixedSize(true);
         blogViewModel = ViewModelProviders.of(this).get(BlogViewModel.class);
@@ -54,6 +58,9 @@ public class BlogFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         updateAdapter();
         recyclerView.setAdapter(adapter);
+        fastScroller.setRecyclerView(recyclerView);
+
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
 
     }
