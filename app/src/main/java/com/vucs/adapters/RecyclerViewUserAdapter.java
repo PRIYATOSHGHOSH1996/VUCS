@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,6 +19,7 @@ import com.vucs.fragment.PhirePawaProfileFragment;
 import com.vucs.model.PhirePawaProfileModel;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,10 +29,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUserAdapter.MyViewHolder> {
+public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUserAdapter.MyViewHolder> implements SectionIndexer {
 
     private List<PhirePawaProfileModel> phirePawaProfileModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
+    private ArrayList<Integer> mSectionPositions;
 
     public RecyclerViewUserAdapter(Context context) {
         weakReference = new WeakReference<>(context);
@@ -95,6 +98,30 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
     @Override
     public int getItemCount() {
         return phirePawaProfileModelList.size();
+    }
+
+    @Override
+    public Object[] getSections() {
+        List<String> sections = new ArrayList<>(26);
+        mSectionPositions = new ArrayList<>(26);
+        for (int i = 0, size = phirePawaProfileModelList.size(); i < size; i++) {
+            String section = String.valueOf(phirePawaProfileModelList.get(i).getName().charAt(0)).toUpperCase();
+            if (!sections.contains(section)) {
+                sections.add(section);
+                mSectionPositions.add(i);
+            }
+        }
+        return sections.toArray(new String[0]);
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mSectionPositions.get(sectionIndex);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

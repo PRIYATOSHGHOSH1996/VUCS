@@ -82,5 +82,5 @@ dependencies {
     implementation 'me.everything:overscroll-decor-android:1.0.4'
 
     //recycle scroll
-    implementation 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
+    implementation 'com.github.myinnos:AlphabetIndex-Fast-Scroll-RecyclerView:1.0.92'
 }
