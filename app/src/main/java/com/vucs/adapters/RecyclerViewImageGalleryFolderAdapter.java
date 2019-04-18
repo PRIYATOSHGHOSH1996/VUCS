@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.vucs.ImageGalleryActivity;
+import com.vucs.activity.ImageGalleryActivity;
 import com.vucs.R;
 
 import java.lang.ref.WeakReference;

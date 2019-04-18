@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.vucs.PreviewFile;
+import com.vucs.activity.PreviewFile;
 import com.vucs.R;
 import com.vucs.model.ImageGalleryModel;
 

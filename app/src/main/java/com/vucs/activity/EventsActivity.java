@@ -1,4 +1,4 @@
-package com.vucs;
+package com.vucs.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.vucs.R;
 import com.vucs.model.EventModel;
 import com.vucs.viewmodel.EventViewModel;
 

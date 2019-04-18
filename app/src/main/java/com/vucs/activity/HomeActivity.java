@@ -1,4 +1,4 @@
-package com.vucs;
+package com.vucs.activity;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.vucs.R;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;

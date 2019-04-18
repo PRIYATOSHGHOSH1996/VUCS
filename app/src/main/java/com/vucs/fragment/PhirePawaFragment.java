@@ -63,11 +63,8 @@ public class PhirePawaFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         Spinner spinner = view.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                App.getContext(),
-                R.array.sort_types_phire_pawa,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(App.getContext(),R.layout.item_spinner,R.id.textView,getResources().getStringArray(R.array.sort_types_phire_pawa));
+
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

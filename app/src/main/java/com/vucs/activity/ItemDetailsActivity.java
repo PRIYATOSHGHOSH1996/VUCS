@@ -1,4 +1,4 @@
-package com.vucs;
+package com.vucs.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.vucs.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -42,6 +42,7 @@ public class AppPreference {
     }
 
 
+
     public void clear(){
         prefs.edit().clear().apply();
     }
