@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -14,6 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.vucs.helper.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         TransitionManager.go(aScene, transition);
         linearLayout = findViewById(R.id.login_layout);
         imageView = findViewById(R.id.logo);
-
+            @SuppressLint("WrongThread") String s = FirebaseInstanceId.getInstance().getId();
+        Log.e("is=",s);
 
         circularProgressButton = (CircularProgressButton) findViewById(R.id.login_button);
 

@@ -3,8 +3,10 @@ package com.vucs;
 import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -26,9 +29,12 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.snackbar.Snackbar;
+import com.vucs.helper.AppPreference;
+import com.vucs.helper.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -47,6 +53,7 @@ public class PreviewFile extends AppCompatActivity {
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.add_claim_explode);
         getWindow().setEnterTransition(transition);
         setContentView(R.layout.activity_preview_file);
+
 
 
         final PhotoView photoView = findViewById(R.id.show_image);
@@ -99,6 +106,7 @@ public class PreviewFile extends AppCompatActivity {
     private void download() {
         if (!itemImageURL.equals("") && !itemImageURL.equals("default")) {
             if (isNetworkAvailable()) {
+                Toast.makeText(this, "Downloading ...");
                 DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                 Uri Download_Uri = Uri.parse(itemImageURL);
 
@@ -114,7 +122,7 @@ public class PreviewFile extends AppCompatActivity {
 
                 downloadManager.enqueue(request);
             } else {
-                showSnackBar("Internet connection not available");
+                showSnackBarWithNetworkAction("Internet connection not available");
             }
         }
 
@@ -126,8 +134,11 @@ public class PreviewFile extends AppCompatActivity {
         if (requestCode == WRITE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download();
-            } else {
-                showSnackBar("Please give storage permission");
+            }
+            else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+                    showSnackBarWithRetryStoragePermission("Please give storage permission.");
+            }else {
+                showSnackBar("Please give storage permission.");
             }
         }
 
@@ -139,6 +150,50 @@ public class PreviewFile extends AppCompatActivity {
         view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
         TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
+        snackbar.show();
+    }
+    private void showSnackBarWithNetworkAction(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG)
+                .setAction("Open Setting", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent();
+                        i.setAction(Settings.ACTION_WIRELESS_SETTINGS);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    }
+                });
+        View view = snackbar.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
+        textView.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
+        snackbar.show();
+    }
+    private void showSnackBarWithRetryStoragePermission(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG)
+                .setAction("Open Setting", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(PreviewFile.this, "Please allow storage permission");
+                        Intent i = new Intent();
+                        i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        i.addCategory(Intent.CATEGORY_DEFAULT);
+                        i.setData(Uri.parse("package:" + getPackageName()));
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        // User selected the Never Ask Again Option
+                        startActivity(i);
+                    }
+                });
+        View view = snackbar.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
+        textView.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
     }
 

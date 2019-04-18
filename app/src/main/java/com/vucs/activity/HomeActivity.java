@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -282,7 +283,50 @@ public class HomeActivity extends AppCompatActivity
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
         snackbar.show();
     }
-
+    private void showSnackBarWithNetworkAction(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
+                .setAction("Open Setting", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent();
+                        i.setAction(Settings.ACTION_WIRELESS_SETTINGS);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    }
+                });
+        View view = snackbar.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
+        textView.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
+        snackbar.show();
+    }
+    private void showSnackBarWithRetryStoragePermission(String message) {
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
+                .setAction("Open Setting", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(HomeActivity.this, "Please allow storage permission");
+                        Intent i = new Intent();
+                        i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        i.addCategory(Intent.CATEGORY_DEFAULT);
+                        i.setData(Uri.parse("package:" + getPackageName()));
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        // User selected the Never Ask Again Option
+                        startActivity(i);
+                    }
+                });
+        View view = snackbar.getView();
+        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
+        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
+        textView.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
+        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
+        snackbar.show();
+    }
     @Override
     public void downloadFile(NoticeModel noticeModel) {
         this.noticeModel = noticeModel;
@@ -320,7 +364,7 @@ public class HomeActivity extends AppCompatActivity
 
                 downloadManager.enqueue(request);
             } else {
-                showSnackBar("Internet connection not available");
+                showSnackBarWithNetworkAction("Internet connection not available");
             }
         }
 
@@ -332,6 +376,10 @@ public class HomeActivity extends AppCompatActivity
         if (requestCode == WRITE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download();
+            }if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+                showSnackBarWithRetryStoragePermission("Please give storage permission.");
+
+
             } else {
                 showSnackBar("Please give storage permission");
             }
