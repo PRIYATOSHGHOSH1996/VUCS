@@ -63,7 +63,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         header_text = findViewById(R.id.header_text);
         Intent intent = getIntent();
         itemTitle = intent.getStringExtra(getString(R.string.item_title));
-        itemId = intent.getIntExtra(getString(R.string.item_title),-1);
+        itemId = intent.getIntExtra(getString(R.string.item_id),-1);
         itemBy = intent.getStringExtra(getString(R.string.item_by));
         itemDate = intent.getStringExtra(getString(R.string.item_date));
         itemContent = intent.getStringExtra(getString(R.string.item_content));
