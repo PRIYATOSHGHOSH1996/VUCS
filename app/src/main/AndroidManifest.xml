@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".activity.ImageGalleryActivity" />
         <activity android:name=".activity.EventsActivity" />
-        <activity android:name=".activity.ItemDetailsActivity" />
+        <activity android:name=".activity.BlogDetailsActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.ChatRoomActivity" />
         <activity android:name=".activity.PreviewFile" />
@@ -36,6 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <activity android:name=".activity.JobDetailsActivity" />
 
         <receiver
             android:name=".receiver.Broadcastreceiver"

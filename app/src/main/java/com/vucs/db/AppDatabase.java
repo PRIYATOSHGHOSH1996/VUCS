@@ -8,11 +8,14 @@ import com.vucs.converters.DateTypeConverter;
 import com.vucs.dao.BlogDAO;
 import com.vucs.dao.EventDAO;
 import com.vucs.dao.ImageGalleryDAO;
+import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
+import com.vucs.model.JobFileModel;
+import com.vucs.model.JobModel;
 import com.vucs.model.NoticeModel;
 import com.vucs.model.PhirePawaProfileModel;
 
@@ -29,7 +32,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class, JobFileModel.class, JobModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -85,6 +88,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PhirePawaProfileDAO phirePawaProfileDAO();
 
+    public abstract JobDAO jobDAO();
+
     /**
      * Populate the database in the background.
      * If you want to start with more words, just add them.
@@ -96,6 +101,7 @@ public abstract class AppDatabase extends RoomDatabase {
         private final EventDAO eventDAO;
         private final ImageGalleryDAO imageGalleryDAO;
         private final PhirePawaProfileDAO phirePawaProfileDAO;
+        private final JobDAO jobDAO;
 
         PopulateDbAsync(AppDatabase db) {
             blogDAO = db.blogDAO();
@@ -103,12 +109,17 @@ public abstract class AppDatabase extends RoomDatabase {
             eventDAO = db.eventDAO();
             imageGalleryDAO = db.imageGalleryDAO();
             phirePawaProfileDAO = db.phirePawaProfileDAO();
+            jobDAO = db.jobDAO();
 
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
 
+            jobDAO.insertJob(new JobModel(1,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJob(new JobModel(2,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
 
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));

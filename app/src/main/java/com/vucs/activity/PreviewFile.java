@@ -29,39 +29,42 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.snackbar.Snackbar;
 import com.vucs.R;
 import com.vucs.helper.Toast;
+import com.vucs.helper.Utils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.util.Date;
+
 
 public class PreviewFile extends AppCompatActivity {
 
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
     String itemImageURL = "";
+    private String TAG="previewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.add_claim_explode);
-        getWindow().setEnterTransition(transition);
-        setContentView(R.layout.activity_preview_file);
-
-
-
-        final PhotoView photoView = findViewById(R.id.show_image);
-        Intent intent = getIntent();
-        if (intent != null) {
-
-            itemImageURL = intent.getStringExtra(getString(R.string.item_image_url));
-
-        }
-
         try {
+            super.onCreate(savedInstanceState);
+
+
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.add_claim_explode);
+            getWindow().setEnterTransition(transition);
+            setContentView(R.layout.activity_preview_file);
+
+
+            final PhotoView photoView = findViewById(R.id.show_image);
+            Intent intent = getIntent();
+            if (intent != null) {
+
+                itemImageURL = intent.getStringExtra(getString(R.string.item_image_url));
+
+            }
+
 
             if (!itemImageURL.equals("default") && getApplication() != null) {
 
@@ -77,50 +80,57 @@ public class PreviewFile extends AppCompatActivity {
                             }
                         });
             }
+
+
+            FrameLayout frameLayout = findViewById(R.id.download_frame);
+            ImageButton imageButton = findViewById(R.id.download_button);
+            frameLayout.setAlpha(0.0f);
+            frameLayout.animate().alpha(1.0f).setDuration(2000);
+            imageButton.setOnClickListener(v -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(PreviewFile.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        download();
+                    } else {
+                        ActivityCompat.requestPermissions(PreviewFile.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_PERMISSION);
+                    }
+                } else {
+                    download();
+                }
+            });
         } catch (Exception e) {
+            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
             e.printStackTrace();
         }
-
-        FrameLayout frameLayout = findViewById(R.id.download_frame);
-        ImageButton imageButton = findViewById(R.id.download_button);
-        frameLayout.setAlpha(0.0f);
-        frameLayout.animate().alpha(1.0f).setDuration(2000);
-        imageButton.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ActivityCompat.checkSelfPermission(PreviewFile.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    download();
-                } else {
-                    ActivityCompat.requestPermissions(PreviewFile.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_STORAGE_PERMISSION);
-                }
-            } else {
-                download();
-            }
-        });
 
 
     }
 
     private void download() {
-        if (!itemImageURL.equals("") && !itemImageURL.equals("default")) {
-            if (isNetworkAvailable()) {
-                Toast.makeText(this, "Downloading ...");
-                DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                Uri Download_Uri = Uri.parse(itemImageURL);
+        try {
+            if (!itemImageURL.equals("") && !itemImageURL.equals("default")) {
+                if (isNetworkAvailable()) {
+                    Toast.makeText(this, "Downloading ...");
+                    DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                    Uri Download_Uri = Uri.parse(itemImageURL);
 
-                String s = URLUtil.guessFileName(itemImageURL, null, null);
+                    String s = URLUtil.guessFileName(itemImageURL, null, null);
 
-                DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
-                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-                request.setAllowedOverRoaming(false);
-                request.setTitle(s);
-                request.setVisibleInDownloadsUi(true);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_images/" + "/" + s);
+                    DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+                    request.setAllowedOverRoaming(false);
+                    request.setTitle(s);
+                    request.setVisibleInDownloadsUi(true);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_images/" + "/" + s);
 
 
-                downloadManager.enqueue(request);
-            } else {
-                showSnackBarWithNetworkAction("Internet connection not available");
+                    downloadManager.enqueue(request);
+                } else {
+                    showSnackBarWithNetworkAction("Internet connection not available");
+                }
             }
+        } catch (Exception e) {
+            Utils.appendLog(TAG+":ondownload: "+e.getMessage()+"Date :"+new Date());
+            e.printStackTrace();
         }
 
     }

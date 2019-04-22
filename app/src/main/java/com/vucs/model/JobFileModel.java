@@ -8,40 +8,37 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "dt_job")
-public class JobModel {
+@Entity(tableName = "dt_job_file")
+public class JobFileModel {
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int Id;
 
     @ColumnInfo(name = "job_id")
     private int jobId;
 
-    @ColumnInfo(name = "job_title")
-    private String jobTitle;
 
-    @ColumnInfo(name = "job_by")
-    private String jobBy;
-
-    @ColumnInfo(name = "date")
-    private Date date;
-
-    @ColumnInfo(name = "content")
-    private String content;
-
-    @ColumnInfo(name = "job_file_url_ids")
-    private String jobFileURLIds;
+    @ColumnInfo(name = "job_file_url")
+    private String jobFileURL;
 
 
     @Ignore
-    public JobModel() {
+    public JobFileModel() {
 
     }
 
-    public JobModel(int jobId, String jobTitle, String jobBy, Date date, String content, String jobFileURLIds) {
+    public JobFileModel(int jobId, String jobFileURL) {
         this.jobId = jobId;
-        this.jobTitle = jobTitle;
-        this.jobBy = jobBy;
-        this.date = date;
-        this.content = content;
-        this.jobFileURLIds = jobFileURLIds;
+        this.jobFileURL = jobFileURL;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public int getJobId() {
@@ -52,55 +49,20 @@ public class JobModel {
         this.jobId = jobId;
     }
 
-    public String getJobTitle() {
-        return jobTitle;
+    public String getJobFileURL() {
+        return jobFileURL;
     }
 
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public String getJobBy() {
-        return jobBy;
-    }
-
-    public void setJobBy(String jobBy) {
-        this.jobBy = jobBy;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getJobFileURLIds() {
-        return jobFileURLIds;
-    }
-
-    public void setJobFileURLIds(String jobFileURLIds) {
-        this.jobFileURLIds = jobFileURLIds;
+    public void setJobFileURL(String jobFileURL) {
+        this.jobFileURL = jobFileURL;
     }
 
     @Override
     public String toString() {
-        return "JobModel{" +
-                "jobId=" + jobId +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", jobBy='" + jobBy + '\'' +
-                ", date=" + date +
-                ", content='" + content + '\'' +
-                ", jobFileURLIds='" + jobFileURLIds + '\'' +
+        return "JobFileModel{" +
+                "Id=" + Id +
+                ", jobId=" + jobId +
+                ", jobFileURL='" + jobFileURL + '\'' +
                 '}';
     }
 }

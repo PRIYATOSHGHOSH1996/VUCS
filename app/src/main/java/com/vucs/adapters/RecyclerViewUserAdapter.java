@@ -15,10 +15,12 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
 import com.vucs.fragment.PhirePawaProfileFragment;
+import com.vucs.helper.Utils;
 import com.vucs.model.PhirePawaProfileModel;
 
 import java.lang.ref.WeakReference;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
 
     private List<PhirePawaProfileModel> phirePawaProfileModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
+    private String TAG="userAdapter";
 
     public RecyclerViewUserAdapter(Context context) {
         weakReference = new WeakReference<>(context);
@@ -50,11 +53,12 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        final PhirePawaProfileModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
-        holder.user_name.setText(phirePawaProfileModel.getName());
-        holder.company.setText(phirePawaProfileModel.getCompany());
-
         try {
+            final PhirePawaProfileModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
+            holder.user_name.setText(phirePawaProfileModel.getName());
+            holder.company.setText(phirePawaProfileModel.getCompany());
+
+
             holder.batch.setText(phirePawaProfileModel.getBatch() + "");
             if (!phirePawaProfileModel.getUserImageURL().equals("default") && weakReference.get() != null) {
 
@@ -71,24 +75,26 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                         });
                 // notifyItemChanged(position);
             }
-        } catch (Exception e) {
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(weakReference.get().getString(R.string.object), phirePawaProfileModel);
+                    bottomSheetDialogFragment.setArguments(bundle);
+                    AppCompatActivity activity = (AppCompatActivity) weakReference.get();
+
+                    bottomSheetDialogFragment.show(activity.getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+
+
+                }
+            });
+        }catch (Exception e){
+            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
             e.printStackTrace();
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(weakReference.get().getString(R.string.object), phirePawaProfileModel);
-                bottomSheetDialogFragment.setArguments(bundle);
-                AppCompatActivity activity = (AppCompatActivity) weakReference.get();
-
-                bottomSheetDialogFragment.show(activity.getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
-
-
-            }
-        });
 
     }
 

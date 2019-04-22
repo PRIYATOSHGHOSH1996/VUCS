@@ -2,27 +2,31 @@ package com.vucs.viewmodel;
 
 import android.app.Application;
 
-import com.vucs.dao.BlogDAO;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import com.vucs.dao.JobDAO;
 import com.vucs.db.AppDatabase;
-import com.vucs.model.BlogModel;
+import com.vucs.model.JobFileModel;
+import com.vucs.model.JobModel;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
+public class JobViewModel extends AndroidViewModel {
 
-public class BlogViewModel extends AndroidViewModel {
+    private JobDAO jobDAO;
 
-    private BlogDAO blogDAO;
-
-    public BlogViewModel(@NonNull Application application) {
+    public JobViewModel(@NonNull Application application) {
         super(application);
         AppDatabase db = AppDatabase.getDatabase(application);
-        blogDAO = db.blogDAO();
+        jobDAO = db.jobDAO();
     }
 
-    public List<BlogModel> getAllBlog() {
-        return blogDAO.getAllBlog();
+    public List<JobModel>getAllJob() {
+        return jobDAO.getAllJob();
+    }
+
+    public List<JobFileModel>getAllJobFileById(Integer jobId) {
+        return jobDAO.getAllJobFileById(jobId);
     }
 }
 

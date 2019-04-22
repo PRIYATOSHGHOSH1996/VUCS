@@ -9,11 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vucs.R;
+import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
     private List<NoticeModel> noticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private CallbackInterface mCallback;
+    private String TAG="noticeAdapter";
     public RecyclerViewNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
         try {
@@ -48,11 +51,11 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        try{
         final NoticeModel noticeModel = noticeModelList.get(position);
         holder.notice_title.setText(noticeModel.getNoticeTitle());
         String date = "";
 
-        try {
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(noticeModel.getDate());
             holder.notice_date.setText(date);
@@ -67,6 +70,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
 
         } catch (Exception e) {
+            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
             e.printStackTrace();
         }
 
