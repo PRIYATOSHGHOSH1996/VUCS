@@ -3,12 +3,14 @@ package com.vucs.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
@@ -69,7 +71,9 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
                     intent.putExtra(weakReference.get().getString(R.string.item_date), finalDate);
                     intent.putExtra(weakReference.get().getString(R.string.item_content), jobModel.getContent());
 
-                    weakReference.get().startActivity(intent);
+                    Bundle options = ActivityOptionsCompat.makeScaleUpAnimation(
+                            holder.itemView, 0, 0, v.getWidth(), v.getHeight()).toBundle();
+                    weakReference.get().startActivity(intent,options);
                 }
             });
         }catch (Exception e){

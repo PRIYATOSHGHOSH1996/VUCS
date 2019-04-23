@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -52,6 +53,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.Date;
@@ -68,6 +71,7 @@ public class HomeActivity extends AppCompatActivity
     private NoticeModel noticeModel;
     AppPreference appPreference;
     private String TAG="HomeActivity";
+    PagerTabStrip pagerTabStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,9 @@ public class HomeActivity extends AppCompatActivity
             viewPager = findViewById(R.id.view_pager);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
             viewPager.setAdapter(viewPagerAdapter);
+            pagerTabStrip = findViewById(R.id.tab_title);
+
+            pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorPrimary1));
           /*  viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
                 @Override
                 public void transformPage(@NonNull View page, float position) {
@@ -238,6 +245,19 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.class_notice : startActivity(new Intent(this,ClassNoticeActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:padding="5dp"
+    android:animateLayoutChanges="true"
     android:orientation="vertical" android:layout_width="wrap_content"
 
     android:layout_height="200dp">
@@ -13,17 +14,27 @@
         android:scaleType="centerCrop"
 
          />
-   <ImageButton
-       android:id="@+id/download"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:src="@drawable/download_icon"
-       android:tint="@color/white"
-       android:padding="25dp"
-       android:paddingEnd="20dp"
-       android:paddingBottom="5dp"
-       android:background="@drawable/onside_curve"
-       android:layout_gravity="bottom|right"
-       android:contentDescription="TODO" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:paddingStart="8dp"
+        android:animateLayoutChanges="true"
+        android:id="@+id/download_button_layout"
+        android:background="@drawable/onside_curve">
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/download_icon"
+            android:tint="@color/white"
+            android:layout_margin="20dp"
+
+
+            android:background="@android:color/transparent"
+            android:animateLayoutChanges="true"
+            android:contentDescription="TODO" />
+    </FrameLayout>
+
 
 </FrameLayout>

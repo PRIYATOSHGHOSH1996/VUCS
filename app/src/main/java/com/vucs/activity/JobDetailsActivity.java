@@ -26,8 +26,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
 import com.vucs.R;
@@ -86,14 +91,28 @@ public class JobDetailsActivity extends AppCompatActivity {
             for (JobFileModel jobFileModel:jobFileModelList){
                 if (!jobFileModel.getJobFileURL().equals("default") && getApplication() != null) {
                     View view = getLayoutInflater().inflate(R.layout.item_file_layout,null);
+
                     final GifImageView item_image = view.findViewById(R.id.item_image);
                     ImageButton download = view.findViewById(R.id.download);
+
                     itemFileURL = jobFileModel.getJobFileURL();
                     Glide
                             .with(this)
                             .load(jobFileModel.getJobFileURL())
                             .fitCenter()
                             .transition(new DrawableTransitionOptions().crossFade())
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    item_image.setImageResource(R.drawable.pdf_icon);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            })
                             .into(new SimpleTarget<Drawable>() {
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {

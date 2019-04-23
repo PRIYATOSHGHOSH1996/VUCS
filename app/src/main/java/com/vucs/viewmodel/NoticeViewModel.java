@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
+import com.vucs.model.ClassNoticeModel;
 import com.vucs.model.NoticeModel;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class NoticeViewModel extends AndroidViewModel {
 
     public List<NoticeModel> getAllNotice() {
         return noticeDAO.getAllNotice();
+    }
+
+    public List<ClassNoticeModel> getAllClassNotice() {
+        return noticeDAO.getAllClassNotice();
     }
 }

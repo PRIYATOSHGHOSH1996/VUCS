@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="5dp"
@@ -9,62 +9,53 @@
     tools:background="@color/white"
     >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:attr/selectableItemBackground"
+            android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp">
 
             <TextView
-                android:id="@+id/job_title"
+                android:id="@+id/notice_title"
                 style="@style/my_text_style_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:ellipsize="end"
-                android:maxLines="2"
                 android:text="this blog is seted by me for testing"
                 android:transitionName="@string/item_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/notice_title"
+                android:orientation="horizontal"
+                android:id="@+id/bottom_layout">
 
                 <TextView
-                    android:id="@+id/job_by"
+                    android:id="@+id/notice_by"
                     style="@style/my_text_style_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:gravity="bottom"
-                    android:maxWidth="200dp"
                     android:singleLine="true"
-                    android:text="rfuigrfhgfghhfffffffffffffffffffffffffffffffffffhhhhhhhhhhhhhf"
-                    android:transitionName="@string/item_by" />
+                    android:text="rfuigrdddddddddddddddy" />
 
                 <TextView
-                    android:id="@+id/job_date"
+                    android:id="@+id/notice_date"
                     style="@style/my_text_style_caption"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="bottom|right"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
                     android:singleLine="true"
-                    android:text="djfhegf"
+                    android:text="April 23, 2019"
                     android:transitionName="@string/item_date" />
 
             </LinearLayout>
 
 
         </RelativeLayout>
-    </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

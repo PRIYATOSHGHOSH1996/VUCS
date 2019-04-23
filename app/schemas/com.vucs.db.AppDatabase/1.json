@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0c101fdeadb4a3595c6ae06f995d4e0c",
+    "identityHash": "75f7c91717b110621e268ca9a9f34198",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -293,12 +293,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "dt_class_notice",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "noticeId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noticeTitle",
+            "columnName": "notice_title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "noticeBy",
+            "columnName": "notice_by",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0c101fdeadb4a3595c6ae06f995d4e0c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"75f7c91717b110621e268ca9a9f34198\")"
     ]
   }
 }

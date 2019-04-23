@@ -12,6 +12,7 @@ import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.model.BlogModel;
+import com.vucs.model.ClassNoticeModel;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
@@ -32,7 +33,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class, JobFileModel.class, JobModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -115,6 +116,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
+
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View",new Date(),"priyatosh ghosh"));
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View",new Date(),"priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));
 
             jobDAO.insertJob(new JobModel(1,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
             jobDAO.insertJob(new JobModel(2,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));

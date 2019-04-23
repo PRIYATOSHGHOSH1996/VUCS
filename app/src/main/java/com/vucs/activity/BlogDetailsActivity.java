@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.transition.Explode;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
 
                 if (!itemImageURL.equals("default") && getApplication() != null) {
                     ImageButton download = view.findViewById(R.id.download);
+                    FrameLayout frameLayout = view.findViewById(R.id.download_button_layout);
 
 
 
@@ -120,6 +122,9 @@ public class BlogDetailsActivity extends AppCompatActivity {
                         }
                     });
                     linearLayout.addView(view);
+                    frameLayout.setAlpha(0.0f);
+                    frameLayout.animate().alpha(1.0f).setDuration(2000);
+
                 }
 
         } catch (Exception e) {

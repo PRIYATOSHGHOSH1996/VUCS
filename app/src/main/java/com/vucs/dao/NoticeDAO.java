@@ -1,5 +1,6 @@
 package com.vucs.dao;
 
+import com.vucs.model.ClassNoticeModel;
 import com.vucs.model.NoticeModel;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface NoticeDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNotice(NoticeModel noticeModel);
+
+    @Query("SELECT * FROM dt_class_notice")
+    public List<ClassNoticeModel> getAllClassNotice();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertClassNotice(ClassNoticeModel classNoticeModel);
 }
