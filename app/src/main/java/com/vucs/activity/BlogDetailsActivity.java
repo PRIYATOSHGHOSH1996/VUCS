@@ -91,6 +91,12 @@ public class BlogDetailsActivity extends AppCompatActivity {
 
                 if (!itemImageURL.equals("default") && getApplication() != null) {
                     ImageButton download = view.findViewById(R.id.download);
+
+
+
+                    item_image.getLayoutParams().width = LinearLayout.LayoutParams.MATCH_PARENT;
+
+
                     Glide
                             .with(this)
                             .load(itemImageURL)

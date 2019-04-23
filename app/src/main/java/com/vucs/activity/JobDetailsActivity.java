@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
 import android.webkit.URLUtil;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -72,7 +73,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         TextView item_by = findViewById(R.id.item_by);
         TextView item_date = findViewById(R.id.item_date);
         TextView item_content = findViewById(R.id.item_content);
-        LinearLayout linearLayout = findViewById(R.id.linear_layout);
+        LinearLayout file_layout = findViewById(R.id.file_layout);
 
         item_title.setText(itemTitle);
         item_date.setText(itemDate);
@@ -99,6 +100,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                                     item_image.setImageDrawable(resource);
                                 }
                             });
+
                     download.setOnClickListener(v->{
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (ActivityCompat.checkSelfPermission(JobDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -110,7 +112,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                             download();
                         }
                     });
-                    linearLayout.addView(view);
+                    file_layout.addView(view);
                 }
             }
 

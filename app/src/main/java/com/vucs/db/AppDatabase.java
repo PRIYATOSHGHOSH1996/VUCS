@@ -120,6 +120,7 @@ public abstract class AppDatabase extends RoomDatabase {
             jobDAO.insertJob(new JobModel(2,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
             jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
             jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
+            jobDAO.insertJobFile(new JobFileModel(2,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
 
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
