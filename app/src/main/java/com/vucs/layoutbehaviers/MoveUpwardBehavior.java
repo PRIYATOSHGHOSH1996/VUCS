@@ -1,13 +1,11 @@
 package com.vucs.layoutbehaviers;
 
 import android.content.Context;
-
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.Keep;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 

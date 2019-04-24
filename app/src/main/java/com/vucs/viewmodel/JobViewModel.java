@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+
 import com.vucs.dao.JobDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.model.JobFileModel;
@@ -21,11 +22,11 @@ public class JobViewModel extends AndroidViewModel {
         jobDAO = db.jobDAO();
     }
 
-    public List<JobModel>getAllJob() {
+    public List<JobModel> getAllJob() {
         return jobDAO.getAllJob();
     }
 
-    public List<JobFileModel>getAllJobFileById(Integer jobId) {
+    public List<JobFileModel> getAllJobFileById(Integer jobId) {
         return jobDAO.getAllJobFileById(jobId);
     }
 }

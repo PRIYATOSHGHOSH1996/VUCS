@@ -1,26 +1,18 @@
 package com.vucs.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
 import com.vucs.helper.Utils;
 import com.vucs.model.ClassNoticeModel;
-import com.vucs.model.NoticeModel;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -33,7 +25,8 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     private List<ClassNoticeModel> classNoticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
 
-    private String TAG="classnoticeAdapter";
+    private String TAG = "classnoticeAdapter";
+
     public RecyclerViewClassNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
     }
@@ -52,24 +45,20 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        try{
-        final ClassNoticeModel classNoticeModel = classNoticeModelList.get(position);
-        holder.notice_title.setText("By " + classNoticeModel.getNoticeTitle());
+        try {
+            final ClassNoticeModel classNoticeModel = classNoticeModelList.get(position);
+            holder.notice_title.setText("By " + classNoticeModel.getNoticeTitle());
 
-        String date = "";
+            String date = "";
 
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(classNoticeModel.getDate());
-            holder.notice_date.setText(" | " + date);
+            holder.notice_date.setText(date);
             holder.notice_by.setText(classNoticeModel.getNoticeBy());
-            AppCompatActivity appCompatActivity = (AppCompatActivity)weakReference.get();
-            Display display = appCompatActivity.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            holder.notice_by.setMaxWidth(size.x - 200);
+
 
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

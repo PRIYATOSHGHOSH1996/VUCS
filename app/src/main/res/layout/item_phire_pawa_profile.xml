@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -19,8 +20,7 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary1"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed|snapMargins"
-            app:title="@string/app_name"
-            >
+            app:title="@string/app_name">
 
             <ImageView
                 android:id="@+id/profile_image"
@@ -30,6 +30,7 @@
                 android:src="@drawable/ic_person_black_24dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.5" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="90dp"

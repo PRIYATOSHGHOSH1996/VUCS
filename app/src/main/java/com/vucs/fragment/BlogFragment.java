@@ -23,7 +23,6 @@ import com.vucs.viewmodel.BlogViewModel;
 import java.util.Date;
 
 
-
 public class BlogFragment extends Fragment {
     private String TAG = "BlogFragment";
     private View view = null;
@@ -46,7 +45,7 @@ public class BlogFragment extends Fragment {
                 }
             };
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onCreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onCreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -65,8 +64,8 @@ public class BlogFragment extends Fragment {
             recyclerView.setLayoutManager(linearLayoutManager);
             updateAdapter();
             recyclerView.setAdapter(adapter);
-        }catch (Exception e){
-            Utils.appendLog(TAG+":iniView: "+e.getMessage()+"Date :"+new Date());
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
 
         }
@@ -81,7 +80,7 @@ public class BlogFragment extends Fragment {
         try {
             adapter.addBlog(blogViewModel.getAllBlog());
         } catch (Exception e) {
-            Utils.appendLog(TAG+":update adapter: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
 
         }
@@ -97,7 +96,7 @@ public class BlogFragment extends Fragment {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.blog_broadcast_receiver)));
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onresume: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -110,7 +109,7 @@ public class BlogFragment extends Fragment {
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onpause: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }

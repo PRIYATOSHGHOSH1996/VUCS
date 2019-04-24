@@ -14,12 +14,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FirebaseMessaging extends FirebaseMessagingService {
-    private static final  String TAG= FirebaseMessaging.class.getSimpleName();
+    private static final String TAG = FirebaseMessaging.class.getSimpleName();
+
+    public static void upLoadToken(String token) {
+        Log.e(TAG, "upload token...");
+        AppPreference appPreference = new AppPreference(App.getContext());
+        appPreference.setTokenGenerated(true);
+
+
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.e(TAG,"  message received");
-        if (remoteMessage!=null){
+        Log.e(TAG, "  message received");
+        if (remoteMessage != null) {
             if (remoteMessage.getData().size() > 0) {
                 Log.e(TAG, "Message data payload: " + remoteMessage.getData());
                 try {
@@ -32,12 +41,11 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 }
 
 
-
             }
             // Check if message contains a notification payload.
             else if (remoteMessage.getNotification() != null) {
                 Intent intent = new Intent(this, LoginActivity.class);
-                Notification.show(this,3241, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(),intent);
+                Notification.show(this, 3241, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), intent);
                 Log.e(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
 
             }
@@ -48,13 +56,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     public void onNewToken(String s) {
         super.onNewToken(s);
         upLoadToken(s);
-
-
-    }
-    public static void upLoadToken(String token){
-        Log.e(TAG,"upload token...");
-        AppPreference appPreference = new AppPreference(App.getContext());
-        appPreference.setTokenGenerated(true);
 
 
     }

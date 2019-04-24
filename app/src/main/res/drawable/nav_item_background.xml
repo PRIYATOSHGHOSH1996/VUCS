@@ -3,11 +3,10 @@
     android:useLevel="true">
     <gradient
         android:angle="180"
-        android:endColor="#FEFAFAFA"
         android:centerColor="@android:color/white"
+        android:endColor="#FEFAFAFA"
         android:startColor="@color/white"
         android:type="linear" />
-
 
 
 </shape>

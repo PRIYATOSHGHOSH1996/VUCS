@@ -10,26 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.vucs.R;
-import com.vucs.adapters.RecyclerViewBlogAdapter;
-import com.vucs.adapters.RecyclerViewJobAdapter;
-import com.vucs.helper.Utils;
-import com.vucs.viewmodel.BlogViewModel;
-import com.vucs.viewmodel.JobViewModel;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vucs.R;
+import com.vucs.adapters.RecyclerViewJobAdapter;
+import com.vucs.helper.Utils;
+import com.vucs.viewmodel.JobViewModel;
+
 import java.util.Date;
 
 
 public class JobPostFragment extends Fragment {
+    String TAG = "JobpostFragment";
     private RecyclerView recyclerView;
     private RecyclerViewJobAdapter adapter;
     private JobViewModel jobViewModel;
-    String TAG = "JobpostFragment";
     private View view;
     private BroadcastReceiver broadcastReceiver;
 
@@ -60,8 +58,8 @@ public class JobPostFragment extends Fragment {
             recyclerView.setLayoutManager(linearLayoutManager);
             updateAdapter();
             recyclerView.setAdapter(adapter);
-        }catch (Exception e){
-            Utils.appendLog(TAG+":iniView: "+e.getMessage()+"Date :"+new Date());
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
 
         }
@@ -71,7 +69,7 @@ public class JobPostFragment extends Fragment {
         try {
             adapter.addJob(jobViewModel.getAllJob());
         } catch (Exception e) {
-            Utils.appendLog(TAG+":update adapter: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
 
         }
@@ -85,7 +83,7 @@ public class JobPostFragment extends Fragment {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.job_post_broadcast_receiver)));
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onresume: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -98,7 +96,7 @@ public class JobPostFragment extends Fragment {
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onpause: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }

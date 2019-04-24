@@ -3,6 +3,13 @@ package com.vucs.db;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import com.vucs.R;
 import com.vucs.converters.DateTypeConverter;
 import com.vucs.dao.BlogDAO;
@@ -23,13 +30,6 @@ import com.vucs.model.PhirePawaProfileModel;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.annotation.NonNull;
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import static com.vucs.App.getContext;
 
@@ -117,14 +117,14 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
 
-            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View",new Date(),"priyatosh ghosh"));
-            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View",new Date(),"priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));
 
-            jobDAO.insertJob(new JobModel(1,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
-            jobDAO.insertJob(new JobModel(2,"This is a Dummy Text To Test The View","Priyatosh Ghosh",new Date(),"The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
-            jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-            jobDAO.insertJobFile(new JobFileModel(1,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
-            jobDAO.insertJobFile(new JobFileModel(2,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
+            jobDAO.insertJob(new JobModel(1, "This is a Dummy Text To Test The View", "Priyatosh Ghosh", new Date(), "The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJob(new JobModel(2, "This is a Dummy Text To Test The View", "Priyatosh Ghosh", new Date(), "The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJobFile(new JobFileModel(1, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            jobDAO.insertJobFile(new JobFileModel(1, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
+            jobDAO.insertJobFile(new JobFileModel(2, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
 
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
             phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));

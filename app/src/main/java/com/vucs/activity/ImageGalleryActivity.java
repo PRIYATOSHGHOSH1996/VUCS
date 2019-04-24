@@ -12,15 +12,15 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewImageGalleryAdapter;
 import com.vucs.adapters.RecyclerViewImageGalleryFolderAdapter;
 import com.vucs.recycler_view.MyRecyclerView;
 import com.vucs.viewmodel.ImageGalleryViewModel;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
 
 public class ImageGalleryActivity extends AppCompatActivity {
     MyRecyclerView recyclerView;

@@ -14,15 +14,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.vucs.R;
-import com.vucs.helper.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.transition.Scene;
 import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
 import androidx.transition.TransitionManager;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.vucs.R;
+import com.vucs.helper.Toast;
+
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 
@@ -43,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         TransitionManager.go(aScene, transition);
         linearLayout = findViewById(R.id.login_layout);
         imageView = findViewById(R.id.logo);
-            @SuppressLint("WrongThread") String s = FirebaseInstanceId.getInstance().getId();
-        Log.e("is=",s);
+        @SuppressLint("WrongThread") String s = FirebaseInstanceId.getInstance().getId();
+        Log.e("is=", s);
 
         circularProgressButton = (CircularProgressButton) findViewById(R.id.login_button);
 
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         circularProgressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTask<String,String,String> check = new AsyncTask<String, String, String>() {
+                @SuppressLint("StaticFieldLeak") AsyncTask<String, String, String> check = new AsyncTask<String, String, String>() {
                     @SuppressLint("WrongThread")
                     @Override
                     protected String doInBackground(String... strings) {
@@ -67,22 +68,20 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(String s) {
                         super.onPostExecute(s);
-                        if(s.equals("success")){
-                            circularProgressButton.doneLoadingAnimation(R.color.colorPrimary1, BitmapFactory.decodeResource(getResources(),R.drawable.ic_done_white_48dp));
-                           new Handler().postDelayed(new Runnable() {
-                               @Override
-                               public void run() {
-                                   startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                                   finish();
-                               }
-                           },200);
+                        if (s.equals("success")) {
+                            circularProgressButton.doneLoadingAnimation(R.color.colorPrimary1, BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                    finish();
+                                }
+                            }, 200);
 
 
-
-                        }
-                        else {
+                        } else {
                             circularProgressButton.revertAnimation();
-                            Toast.makeText(LoginActivity.this,"Invalid User Name and Password");
+                            Toast.makeText(LoginActivity.this, "Invalid User Name and Password");
                         }
                     }
                 };

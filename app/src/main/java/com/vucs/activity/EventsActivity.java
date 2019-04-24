@@ -10,11 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -30,10 +32,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
 
 public class EventsActivity extends AppCompatActivity {
 
@@ -68,7 +66,7 @@ public class EventsActivity extends AppCompatActivity {
         month_name.setText(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
         final List<EventModel> mutableBookings = new ArrayList<>();
         final ListView bookingsListView = findViewById(R.id.bookings_listview);
-        final ListAdapter adapter = new ListAdapter(this) ;
+        final ListAdapter adapter = new ListAdapter(this);
         bookingsListView.setAdapter(adapter);
         // below allows you to configure color for the current day in the month
         // compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.black));
@@ -175,13 +173,13 @@ public class EventsActivity extends AppCompatActivity {
         WeakReference<Context> weakReference;
         List<EventModel> eventModels = Collections.emptyList();
 
-        void addEvent(List<EventModel> eventModels){
-            this.eventModels=eventModels;
-            notifyDataSetChanged();
+        public ListAdapter(Context context) {
+            this.weakReference = new WeakReference<>(context);
         }
 
-        public ListAdapter(Context context ) {
-            this.weakReference = new WeakReference<>(context);
+        void addEvent(List<EventModel> eventModels) {
+            this.eventModels = eventModels;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -201,10 +199,10 @@ public class EventsActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_event,parent,false);
+            View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_event, parent, false);
             TextView title = view.findViewById(R.id.event_title);
             TextView des = view.findViewById(R.id.event_Description);
-            EventModel eventModel= eventModels.get(position);
+            EventModel eventModel = eventModels.get(position);
             title.setText(eventModel.getEventTitle());
             des.setText(eventModel.getEventDescription());
             return view;

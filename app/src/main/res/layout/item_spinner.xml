@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
+    android:orientation="vertical"
     android:paddingStart="8dp"
+    android:paddingTop="4dp"
     android:paddingEnd="8dp"
-    android:layout_height="wrap_content">
+    android:paddingBottom="4dp">
+
     <TextView
+        android:id="@+id/textView"
+        style="@style/my_text_style_caption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        style="@style/my_text_style_caption"
-        android:id="@+id/textView"/>
+        android:gravity="center" />
 
 </LinearLayout>

@@ -15,11 +15,12 @@
         android:orientation="vertical">
 
         <include layout="@layout/content_main" />
+
         <View
             android:id="@+id/default_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#E0000000"/>
+            android:background="#E0000000" />
     </FrameLayout>
 
 
@@ -28,11 +29,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left"
+        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/nav_item_drawable"
-        android:background="@android:color/transparent"
-        app:menu="@menu/activity_main_drawer" >
+        app:menu="@menu/activity_main_drawer">
+
         <FrameLayout
             android:id="@+id/nav_back"
             android:layout_width="match_parent"
@@ -41,7 +43,6 @@
 
         </FrameLayout>
     </com.google.android.material.navigation.NavigationView>
-
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

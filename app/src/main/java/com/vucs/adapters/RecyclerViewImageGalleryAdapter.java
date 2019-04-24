@@ -9,12 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.vucs.activity.PreviewFile;
 import com.vucs.R;
+import com.vucs.activity.PreviewFile;
 import com.vucs.helper.Utils;
 import com.vucs.model.ImageGalleryModel;
 
@@ -23,17 +29,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<RecyclerViewImageGalleryAdapter.MyViewHolder> {
 
     private List<ImageGalleryModel> imageGalleryModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
-    private String TAG="ImageGalleryAdapter";
+    private String TAG = "ImageGalleryAdapter";
 
     public RecyclerViewImageGalleryAdapter(Context context) {
         weakReference = new WeakReference<>(context);
@@ -87,8 +87,8 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
                     weakReference.get().startActivity(intent, options.toBundle());
                 }
             });
-        }catch (Exception e){
-            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

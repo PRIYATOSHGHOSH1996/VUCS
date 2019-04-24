@@ -14,7 +14,6 @@ import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
-import com.vucs.activity.HomeActivity;
 import com.vucs.activity.JobDetailsActivity;
 import com.vucs.helper.Utils;
 import com.vucs.model.JobModel;
@@ -25,7 +24,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJobAdapter.MyViewHolder>  {
+public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJobAdapter.MyViewHolder> {
     private String TAG = "JobAdapter";
 
     private List<JobModel> jobModelList = Collections.emptyList();
@@ -73,11 +72,11 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
 
                     Bundle options = ActivityOptionsCompat.makeScaleUpAnimation(
                             holder.itemView, 0, 0, v.getWidth(), v.getHeight()).toBundle();
-                    weakReference.get().startActivity(intent,options);
+                    weakReference.get().startActivity(intent, options);
                 }
             });
-        }catch (Exception e){
-            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

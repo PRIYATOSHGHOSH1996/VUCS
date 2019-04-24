@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.vucs.R;
 import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
@@ -18,15 +21,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerViewNoticeAdapter.MyViewHolder> {
 
     private List<NoticeModel> noticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private CallbackInterface mCallback;
-    private String TAG="noticeAdapter";
+    private String TAG = "noticeAdapter";
+
     public RecyclerViewNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
         try {
@@ -51,10 +52,10 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        try{
-        final NoticeModel noticeModel = noticeModelList.get(position);
-        holder.notice_title.setText(noticeModel.getNoticeTitle());
-        String date = "";
+        try {
+            final NoticeModel noticeModel = noticeModelList.get(position);
+            holder.notice_title.setText(noticeModel.getNoticeTitle());
+            String date = "";
 
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(noticeModel.getDate());
@@ -70,7 +71,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
 
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onBind: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

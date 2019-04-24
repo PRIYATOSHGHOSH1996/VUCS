@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +20,21 @@ import android.view.Window;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerTabStrip;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -41,22 +54,6 @@ import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
 import com.vucs.service.FirebaseMessaging;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.PagerTabStrip;
-import androidx.viewpager.widget.ViewPager;
-
 import java.util.Date;
 
 
@@ -67,11 +64,11 @@ public class HomeActivity extends AppCompatActivity
     NavigationView navigationView;
     FrameLayout linearLayout;
     View content_background;
+    AppPreference appPreference;
+    PagerTabStrip pagerTabStrip;
     private boolean doubleBackToExitPressedOnce = false;
     private NoticeModel noticeModel;
-    AppPreference appPreference;
-    private String TAG="HomeActivity";
-    PagerTabStrip pagerTabStrip;
+    private String TAG = "HomeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,7 +174,7 @@ public class HomeActivity extends AppCompatActivity
                     // drawerView.setScaleY(slideOffset);
                     // linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
                     //drawerView.setTranslationZ(-100);
-                   // navigationView.setPadding((int) (1 - slideOffset) * drawerView.getWidth(), 0, 0, 0);
+                    // navigationView.setPadding((int) (1 - slideOffset) * drawerView.getWidth(), 0, 0, 0);
                     drawerView.setTranslationX((1 - slideOffset) * drawerView.getWidth());
                     drawerView.setRotationY((float) (90 * (1 - slideOffset)));
                     drawerView.setPivotX(0.2f);
@@ -204,17 +201,17 @@ public class HomeActivity extends AppCompatActivity
                 }
             });
 
-            if(!appPreference.isTokenGenerated()){
+            if (!appPreference.isTokenGenerated()) {
                 FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
                     @Override
                     public void onSuccess(InstanceIdResult instanceIdResult) {
-                        Log.e("token==",instanceIdResult.getToken());
+                        Log.e("token==", instanceIdResult.getToken());
                         FirebaseMessaging.upLoadToken(instanceIdResult.getToken());
                     }
                 });
             }
         } catch (Exception e) {
-            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -248,14 +245,18 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-       // menu.findItem(R.id.class_notice).setVisible(false);
+        // menu.findItem(R.id.class_notice).setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.class_notice : startActivity(new Intent(this,ClassNoticeActivity.class));
+        switch (item.getItemId()) {
+            case R.id.class_notice:
+                ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                Intent intent = new Intent(this, ClassNoticeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent,activityOptionsCompat.toBundle());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -313,6 +314,7 @@ public class HomeActivity extends AppCompatActivity
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
         snackbar.show();
     }
+
     private void showSnackBarWithNetworkAction(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {
@@ -333,6 +335,7 @@ public class HomeActivity extends AppCompatActivity
         textView1.setTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
     }
+
     private void showSnackBarWithRetryStoragePermission(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {
@@ -357,6 +360,7 @@ public class HomeActivity extends AppCompatActivity
         textView1.setTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
     }
+
     @Override
     public void downloadFile(NoticeModel noticeModel) {
         this.noticeModel = noticeModel;
@@ -375,13 +379,13 @@ public class HomeActivity extends AppCompatActivity
     private void download() {
         try {
             if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")) {
-                if (isNetworkAvailable()) {
+                if (Utils.isNetworkAvailable()) {
                     Toast.makeText(this, "Downloading ...");
                     DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                     Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
 
                     String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
-                    String s1[] = s.split("//.");
+                    String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
                     Log.e("fie name with ex = ", s);
                     Log.e("fie name = ", s1.length + "");
@@ -390,7 +394,7 @@ public class HomeActivity extends AppCompatActivity
                     request.setAllowedOverRoaming(false);
                     request.setTitle(noticeModel.getNoticeTitle());
                     request.setVisibleInDownloadsUi(true);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_notice/" + "/" + noticeModel.getNoticeTitle() + "." + s);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Notice/" + "/" + noticeModel.getNoticeTitle() + "." + s);
 
 
                     downloadManager.enqueue(request);
@@ -398,8 +402,8 @@ public class HomeActivity extends AppCompatActivity
                     showSnackBarWithNetworkAction("Internet connection not available");
                 }
             }
-        } catch (Exception e){
-            Utils.appendLog(TAG+":download: "+e.getMessage()+"Date :"+new Date());
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":download: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
 
         }
@@ -412,7 +416,8 @@ public class HomeActivity extends AppCompatActivity
         if (requestCode == WRITE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download();
-            }if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+            }
+            if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
                 showSnackBarWithRetryStoragePermission("Please give storage permission.");
 
 
@@ -426,13 +431,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
@@ -466,7 +464,7 @@ public class HomeActivity extends AppCompatActivity
                 }
                 return null;
             } catch (Exception e) {
-                Utils.appendLog(TAG+":viewpageradapter: "+e.getMessage()+"Date :"+new Date());
+                Utils.appendLog(TAG + ":viewpageradapter: " + e.getMessage() + "Date :" + new Date());
                 e.printStackTrace();
                 return null;
             }

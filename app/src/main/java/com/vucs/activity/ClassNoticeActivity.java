@@ -1,23 +1,25 @@
 package com.vucs.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewClassNoticeAdapter;
-import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.helper.Utils;
 import com.vucs.viewmodel.NoticeViewModel;
 
@@ -28,10 +30,18 @@ public class ClassNoticeActivity extends AppCompatActivity {
     private RecyclerViewClassNoticeAdapter adapter;
     private BroadcastReceiver broadcastReceiver;
     private NoticeViewModel noticeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_class_notice);
+        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.activity_transation);
+        getWindow().setEnterTransition(transition);
+
+        ;
+
+
         try {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
@@ -53,10 +63,11 @@ public class ClassNoticeActivity extends AppCompatActivity {
                 }
             };
         } catch (Exception e) {
-            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }
+
     private void initView() {
         try {
             RecyclerView recyclerView = findViewById(R.id.recycler_view);
@@ -67,7 +78,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
             updateAdapter();
             recyclerView.setAdapter(adapter);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":iniView: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
         //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
@@ -78,7 +89,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
         try {
             adapter.addNotice(noticeViewModel.getAllClassNotice());
         } catch (Exception e) {
-            Utils.appendLog(TAG+":update adapater: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":update adapater: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }
@@ -91,7 +102,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
             updateAdapter();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.class_notice_broadcast_receiver)));
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onresume: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -104,8 +115,13 @@ public class ClassNoticeActivity extends AppCompatActivity {
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onpause: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

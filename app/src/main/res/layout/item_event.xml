@@ -29,19 +29,18 @@
             android:transitionName="@string/item_title" />
 
 
-                <TextView
-                    android:paddingTop="5dp"
-                    android:id="@+id/event_Description"
-                    style="@style/my_text_style_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/event_title"
-                    android:layout_gravity="center"
-                    android:ellipsize="end"
-                    android:gravity="center|start"
-                    android:text="fffffdtttttttttttttgf"
-                    android:transitionName="@string/item_date" />
-
+        <TextView
+            android:id="@+id/event_Description"
+            style="@style/my_text_style_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_title"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:paddingTop="5dp"
+            android:text="fffffdtttttttttttttgf"
+            android:transitionName="@string/item_date" />
 
 
     </RelativeLayout>

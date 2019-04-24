@@ -10,19 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.vucs.R;
-import com.vucs.adapters.RecyclerViewNoticeAdapter;
-import com.vucs.helper.Utils;
-import com.vucs.viewmodel.NoticeViewModel;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Date;
+import com.vucs.R;
+import com.vucs.adapters.RecyclerViewNoticeAdapter;
+import com.vucs.helper.Utils;
+import com.vucs.viewmodel.NoticeViewModel;
 
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+import java.util.Date;
 
 public class NoticeFragment extends Fragment {
 
@@ -46,7 +44,7 @@ public class NoticeFragment extends Fragment {
                 }
             };
         } catch (Exception e) {
-            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
         return view;
@@ -62,7 +60,7 @@ public class NoticeFragment extends Fragment {
             updateAdapter();
             recyclerView.setAdapter(adapter);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":iniView: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
         //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
@@ -73,7 +71,7 @@ public class NoticeFragment extends Fragment {
         try {
             adapter.addNotice(noticeViewModel.getAllNotice());
         } catch (Exception e) {
-            Utils.appendLog(TAG+":update adapater: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":update adapater: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }
@@ -86,7 +84,7 @@ public class NoticeFragment extends Fragment {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.notice_broadcast_receiver)));
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onresume: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -99,7 +97,7 @@ public class NoticeFragment extends Fragment {
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onpause: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }

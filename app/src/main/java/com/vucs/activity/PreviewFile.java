@@ -22,6 +22,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -31,11 +36,6 @@ import com.vucs.R;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import java.util.Date;
 
 
@@ -43,7 +43,7 @@ public class PreviewFile extends AppCompatActivity {
 
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
     String itemImageURL = "";
-    private String TAG="previewActivity";
+    private String TAG = "previewActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class PreviewFile extends AppCompatActivity {
                 }
             });
         } catch (Exception e) {
-            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -120,7 +120,7 @@ public class PreviewFile extends AppCompatActivity {
                     request.setAllowedOverRoaming(false);
                     request.setTitle(s);
                     request.setVisibleInDownloadsUi(true);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/vucs_images/" + "/" + s);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Images/" + s);
 
 
                     downloadManager.enqueue(request);
@@ -129,7 +129,7 @@ public class PreviewFile extends AppCompatActivity {
                 }
             }
         } catch (Exception e) {
-            Utils.appendLog(TAG+":ondownload: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":ondownload: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -141,10 +141,9 @@ public class PreviewFile extends AppCompatActivity {
         if (requestCode == WRITE_STORAGE_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download();
-            }
-            else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
-                    showSnackBarWithRetryStoragePermission("Please give storage permission.");
-            }else {
+            } else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+                showSnackBarWithRetryStoragePermission("Please give storage permission.");
+            } else {
                 showSnackBar("Please give storage permission.");
             }
         }
@@ -159,6 +158,7 @@ public class PreviewFile extends AppCompatActivity {
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
         snackbar.show();
     }
+
     private void showSnackBarWithNetworkAction(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {
@@ -179,6 +179,7 @@ public class PreviewFile extends AppCompatActivity {
         textView1.setTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
     }
+
     private void showSnackBarWithRetryStoragePermission(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {

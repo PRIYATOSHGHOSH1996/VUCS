@@ -4,10 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 /**
  * Created by Aditya on 12-Jan-2018.
  */
@@ -20,30 +16,31 @@ public class AppPreference {
         prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
 
+    public String getUserId() {
+        return prefs.getString("uid", "");
+    }
+
     public void setUserId(String uid) {
         prefs.edit().putString("uid", uid).apply();
     }
-    public String getUserId() {
-        return prefs.getString("uid", "");
+
+    public String getUserName() {
+        return prefs.getString("uname", "");
     }
 
     public void setUserName(String uname) {
         prefs.edit().putString("uname", uname).apply();
     }
-    public String getUserName() {
-        return prefs.getString("uname", "");
+
+    public boolean isTokenGenerated() {
+        return prefs.getBoolean("utoken", false);
     }
 
     public void setTokenGenerated(boolean tokenGenerated) {
         prefs.edit().putBoolean("utoken", tokenGenerated).apply();
     }
-    public boolean isTokenGenerated() {
-        return prefs.getBoolean("utoken", false);
-    }
 
-
-
-    public void clear(){
+    public void clear() {
         prefs.edit().clear().apply();
     }
 

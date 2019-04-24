@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import android.widget.Spinner;
-
-import com.vucs.App;
-import com.vucs.R;
-import com.vucs.adapters.RecyclerViewUserAdapter;
-import com.vucs.helper.Utils;
-import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -27,9 +19,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Date;
+import com.vucs.App;
+import com.vucs.R;
+import com.vucs.adapters.RecyclerViewUserAdapter;
+import com.vucs.helper.Utils;
+import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+import java.util.Date;
 
 public class PhirePawaFragment extends Fragment {
 
@@ -56,7 +52,7 @@ public class PhirePawaFragment extends Fragment {
                 }
             };
         } catch (Exception e) {
-            Utils.appendLog(TAG+":oncreate: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -74,7 +70,7 @@ public class PhirePawaFragment extends Fragment {
             recyclerView.setAdapter(adapter);
             //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
             Spinner spinner = view.findViewById(R.id.spinner);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(App.getContext(),R.layout.item_spinner,R.id.textView,getResources().getStringArray(R.array.sort_types_phire_pawa));
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(App.getContext(), R.layout.item_spinner, R.id.textView, getResources().getStringArray(R.array.sort_types_phire_pawa));
 
             spinner.setAdapter(adapter);
 
@@ -108,7 +104,7 @@ public class PhirePawaFragment extends Fragment {
                 }
             });
         } catch (Exception e) {
-            Utils.appendLog(TAG+":iniView: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }
@@ -116,32 +112,34 @@ public class PhirePawaFragment extends Fragment {
     private void updateAdapter() {
         try {
             switch (sortCategory) {
-                case 0:if (searchText.equals("")||searchText.equals("%")) {
+                case 0:
+                    if (searchText.equals("") || searchText.equals("%")) {
                         adapter.addUser(phirePawaProfileViewModel.getAllUserByName());
-                        }
-                        else {
-                    adapter.addUser(phirePawaProfileViewModel.getAllUserByName(searchText));
+                    } else {
+                        adapter.addUser(phirePawaProfileViewModel.getAllUserByName(searchText));
 
-                }break;
-                case 1:
-                    if (searchText.equals("")||searchText.equals("%")) {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByBatch());
                     }
-                    else {
+                    break;
+                case 1:
+                    if (searchText.equals("") || searchText.equals("%")) {
+                        adapter.addUser(phirePawaProfileViewModel.getAllUserByBatch());
+                    } else {
                         adapter.addUser(phirePawaProfileViewModel.getAllUserByBatch(searchText));
 
-                    }break;
-                case 2:if (searchText.equals("")||searchText.equals("%")) {
-                    adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany());
-                }
-                else {
-                    adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany(searchText));
+                    }
+                    break;
+                case 2:
+                    if (searchText.equals("") || searchText.equals("%")) {
+                        adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany());
+                    } else {
+                        adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany(searchText));
 
-                }break;
+                    }
+                    break;
             }
-            Log.e("search text",searchText);
+            Log.e("search text", searchText);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":update adapter: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }
@@ -154,7 +152,7 @@ public class PhirePawaFragment extends Fragment {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.phire_pawa_broadcast_receiver)));
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onresume: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -167,7 +165,7 @@ public class PhirePawaFragment extends Fragment {
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
-            Utils.appendLog(TAG+":onpause: "+e.getMessage()+"Date :"+new Date());
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
     }

@@ -20,8 +20,8 @@ public interface JobDAO {
     public void insertJobFile(JobFileModel jobFileModel);
 
     @Query("SELECT * FROM dt_job")
-    public List<JobModel>getAllJob();
+    public List<JobModel> getAllJob();
 
     @Query("SELECT * FROM dt_job_file WHERE job_id = :jobId")
-    public List<JobFileModel>getAllJobFileById(Integer jobId);
+    public List<JobFileModel> getAllJobFileById(Integer jobId);
 }
