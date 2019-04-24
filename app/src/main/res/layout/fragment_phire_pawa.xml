@@ -41,19 +41,22 @@
         </LinearLayout>
 
 
-        <androidx.appcompat.widget.SearchView
+        <EditText
             android:id="@+id/search"
-            style="@style/my_text_style"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="5"
             android:background="@drawable/rounded_white_background"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:cursorVisible="false"
+            android:drawableRight="@drawable/ic_search_grey_24dp"
+            style="@style/my_text_style_caption"
+            android:hint="Search by name.">
 
-            app:queryHint="Search by name.">
-
-        </androidx.appcompat.widget.SearchView>
+        </EditText>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
