@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -16,15 +20,15 @@ import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
+import com.vucs.helper.Utils;
 import com.vucs.model.PhirePawaProfileModel;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
+import java.util.Date;
 
 public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
     private PhirePawaProfileModel phirePawaProfileModel;
+    private String TAG = "phirepawaProfileFragment";
     private View view;
 
 
@@ -38,13 +42,13 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     }
 
     private void iniView() {
-        Log.e("phire pawa profile", "initView");
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-        toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit());
-        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collaps_tollbar);
-        ImageView imageView = view.findViewById(R.id.profile_image);
         try {
+            Log.e("phire pawa profile", "initView");
+            Toolbar toolbar = view.findViewById(R.id.toolbar);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit());
+            CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collaps_tollbar);
+            ImageView imageView = view.findViewById(R.id.profile_image);
 
             Log.e("phire pawa profile", "start");
             phirePawaProfileModel = (PhirePawaProfileModel) getArguments().getSerializable(getContext().getString(R.string.object));
@@ -69,6 +73,7 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                 Log.e("phire pawa profile", "object null");
             }
         } catch (Exception e) {
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

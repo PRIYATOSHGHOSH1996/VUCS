@@ -1,8 +1,8 @@
 package com.vucs.converters;
 
-import java.util.Date;
-
 import androidx.room.TypeConverter;
+
+import java.util.Date;
 
 public class DateTypeConverter {
     @TypeConverter

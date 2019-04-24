@@ -12,11 +12,15 @@
 
     <color name="white">#fff</color>
 
+    <color name="colorPrimarytt1">#1F8AF3</color>
+
 
     <color name="background">#F1F1F1</color>
     <color name="snackbar_background">#031433</color>
     <color name="black_transparent">#2F000000</color>
     <color name="text_color">#C3000000</color>
+    <color name="white_blue">#E4F0F7</color>
+    <color name="black_fade">#80000000</color>
 
 
 </resources>

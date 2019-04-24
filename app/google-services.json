@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "226769795690",
+    "firebase_url": "https://vucs-fe3ef.firebaseio.com",
+    "project_id": "vucs-fe3ef",
+    "storage_bucket": "vucs-fe3ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226769795690:android:eed3c25627500a6f",
+        "android_client_info": {
+          "package_name": "com.vucs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226769795690-ktn61cb21a86vafermm64nqjk6teg6l7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vucs",
+            "certificate_hash": "e037b2c8ae263da8f72b17755968edd6bf254961"
+          }
+        },
+        {
+          "client_id": "226769795690-7l9l7t3cgl2u4u4nq2ffu0a8921uaffa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnW5h5ZoxhZ0OTFTf3HKpNJUdcQF2NHxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226769795690-7l9l7t3cgl2u4u4nq2ffu0a8921uaffa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

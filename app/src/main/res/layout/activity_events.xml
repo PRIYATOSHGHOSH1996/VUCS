@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".EventsActivity">
+    tools:context=".activity.EventsActivity">
 
     <include layout="@layout/app_bar_main" />
 
@@ -33,7 +33,6 @@
             android:background="@color/white"
             android:gravity="center"
             android:text="month"
-            android:textAllCaps="true"
             android:textColor="@color/colorBlack" />
 
         <Button

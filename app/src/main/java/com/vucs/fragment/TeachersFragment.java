@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.vucs.R;
-
 import androidx.fragment.app.Fragment;
+
+import com.vucs.R;
 
 
 public class TeachersFragment extends Fragment {

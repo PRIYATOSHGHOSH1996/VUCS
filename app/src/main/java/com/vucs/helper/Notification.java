@@ -11,9 +11,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 
-import com.vucs.R;
-
 import androidx.core.app.NotificationCompat;
+
+import com.vucs.R;
 
 public class Notification {
     public static void show(Context context, long id, String title, String desc, Intent intent) {
@@ -36,7 +36,7 @@ public class Notification {
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(notification_Channel, "My notification", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel(notification_Channel, "VUCS Notification", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.MAGENTA);
             notificationChannel.enableVibration(true);

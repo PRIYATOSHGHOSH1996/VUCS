@@ -9,78 +9,80 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp">
-
-        <RelativeLayout
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_image"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/logo"
-                android:transitionName="@string/item_image_url" />
-
-        </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/image"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
+            android:padding="8dp">
 
-            <TextView
-                android:id="@+id/user_name"
-                style="@style/my_text_style_heading"
+            <RelativeLayout
+                android:id="@+id/image"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="this blog is seted by me for testing"
-                android:transitionName="@string/item_title" />
+                android:layout_height="fill_parent">
 
-            <LinearLayout
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_image"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person_black_24dp"
+                    android:transitionName="@string/item_image_url" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/image"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:id="@+id/user_name"
+                    style="@style/my_text_style_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="this blog is seted by me for testing"
+                    android:transitionName="@string/item_title" />
+
+                <TextView
+                    android:id="@+id/batch"
+                    style="@style/my_text_style_caption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/user_name"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/white_with_black_border"
+                    android:padding="2dp"
+                    android:singleLine="true"
+                    android:text="djfhegf"
+                    android:transitionName="@string/item_date" />
 
                 <TextView
                     android:id="@+id/company"
                     style="@style/my_text_style_caption"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/batch"
+                    android:layout_margin="5dp"
                     android:ellipsize="end"
-                    android:gravity="bottom"
-                    android:maxWidth="200dp"
                     android:singleLine="true"
                     android:text="rfuigrfhgfghhfffffffffffffffffffffffffffffffffffhhhhhhhhhhhhhf"
                     android:transitionName="@string/item_by" />
 
-                <TextView
-                    android:id="@+id/batch"
-                    style="@style/my_text_style_caption"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="bottom|right"
-                    android:singleLine="true"
-                    android:text="djfhegf"
-                    android:transitionName="@string/item_date" />
 
-            </LinearLayout>
-
-
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
+
 </androidx.cardview.widget.CardView>

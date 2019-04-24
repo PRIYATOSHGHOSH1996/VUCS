@@ -1,12 +1,12 @@
 package com.vucs.model;
 
 
-import java.io.Serializable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
 
 @Entity(tableName = "dt_phire_pawa")
 public class PhirePawaProfileModel implements Serializable {
@@ -19,7 +19,7 @@ public class PhirePawaProfileModel implements Serializable {
     private String name;
 
     @ColumnInfo(name = "user_batch")
-    private Integer batch;
+    private String batch;
 
     @ColumnInfo(name = "user_company")
     private String company;
@@ -34,7 +34,7 @@ public class PhirePawaProfileModel implements Serializable {
 
     }
 
-    public PhirePawaProfileModel(String name, Integer batch, String company, String userImageURL) {
+    public PhirePawaProfileModel(String name, String batch, String company, String userImageURL) {
         this.name = name;
         this.batch = batch;
         this.company = company;
@@ -57,11 +57,11 @@ public class PhirePawaProfileModel implements Serializable {
         this.name = name;
     }
 
-    public Integer getBatch() {
+    public String getBatch() {
         return batch;
     }
 
-    public void setBatch(Integer batch) {
+    public void setBatch(String batch) {
         this.batch = batch;
     }
 

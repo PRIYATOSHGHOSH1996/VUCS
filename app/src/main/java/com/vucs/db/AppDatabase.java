@@ -3,23 +3,6 @@ package com.vucs.db;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.vucs.R;
-import com.vucs.converters.DateTypeConverter;
-import com.vucs.dao.BlogDAO;
-import com.vucs.dao.EventDAO;
-import com.vucs.dao.ImageGalleryDAO;
-import com.vucs.dao.NoticeDAO;
-import com.vucs.dao.PhirePawaProfileDAO;
-import com.vucs.model.BlogModel;
-import com.vucs.model.EventModel;
-import com.vucs.model.ImageGalleryModel;
-import com.vucs.model.NoticeModel;
-import com.vucs.model.PhirePawaProfileModel;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
@@ -27,9 +10,30 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.vucs.R;
+import com.vucs.converters.DateTypeConverter;
+import com.vucs.dao.BlogDAO;
+import com.vucs.dao.EventDAO;
+import com.vucs.dao.ImageGalleryDAO;
+import com.vucs.dao.JobDAO;
+import com.vucs.dao.NoticeDAO;
+import com.vucs.dao.PhirePawaProfileDAO;
+import com.vucs.model.BlogModel;
+import com.vucs.model.ClassNoticeModel;
+import com.vucs.model.EventModel;
+import com.vucs.model.ImageGalleryModel;
+import com.vucs.model.JobFileModel;
+import com.vucs.model.JobModel;
+import com.vucs.model.NoticeModel;
+import com.vucs.model.PhirePawaProfileModel;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -85,6 +89,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PhirePawaProfileDAO phirePawaProfileDAO();
 
+    public abstract JobDAO jobDAO();
+
     /**
      * Populate the database in the background.
      * If you want to start with more words, just add them.
@@ -96,6 +102,7 @@ public abstract class AppDatabase extends RoomDatabase {
         private final EventDAO eventDAO;
         private final ImageGalleryDAO imageGalleryDAO;
         private final PhirePawaProfileDAO phirePawaProfileDAO;
+        private final JobDAO jobDAO;
 
         PopulateDbAsync(AppDatabase db) {
             blogDAO = db.blogDAO();
@@ -103,18 +110,27 @@ public abstract class AppDatabase extends RoomDatabase {
             eventDAO = db.eventDAO();
             imageGalleryDAO = db.imageGalleryDAO();
             phirePawaProfileDAO = db.phirePawaProfileDAO();
+            jobDAO = db.jobDAO();
 
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
 
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
+            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));
 
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", 2019, "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", 2019, "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar", 2019, "Avalgate.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing", 2019, "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana", 2019, "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
+            jobDAO.insertJob(new JobModel(1, "This is a Dummy Text To Test The View", "Priyatosh Ghosh", new Date(), "The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJob(new JobModel(2, "This is a Dummy Text To Test The View", "Priyatosh Ghosh", new Date(), "The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding."));
+            jobDAO.insertJobFile(new JobFileModel(1, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            jobDAO.insertJobFile(new JobFileModel(1, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
+            jobDAO.insertJobFile(new JobFileModel(2, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
+
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar", "2019", "Avalgate.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
+            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
 
 
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
@@ -282,7 +298,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "The meeting was, however, marred by clashes between workers of the party and BJP supporters, which prompted Ms. Vadra to advise the Congress workers to respect dissent. “Our politics is not of assaulting anyone,” she emphasised.\n" +
                     "\n" +
                     "Ms. Vadra also visited the families of CRPF jawans Avadesh Yadav, Vishal Pandey and Ramesh Yadav who were killed in the Pulwama suicide bomb attack.\n", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-            blogDAO.insertBlog(new BlogModel("Foreign corporate powers can interfere, the poll panel tells Supreme Court.", "Preetam Sarkar", new Date(), "The affidavit extensively quotes from the May 26, 2017 letter the ECI wrote to the Ministry of Law. The letter, annexed with the affidavit, mentions how the amendment in the Companies Act “opens up the possibility of shell companies being set up for the sole purpose of making donations to political parties.”", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post2.jpg?alt=media&token=56e159e5-20be-46ea-9b30-136b81a1917b"));
+            blogDAO.insertBlog(new BlogModel("Foreign corporate powers can interfere, the poll panel tells Supreme Court.", "Preetam Sarkar", new Date(), "The affidavit extensively quotes from the May 26, 2017 letter the ECI wrote to the Ministry of Law. The letter, annexed with the affidavit, mentions how the amendment in the Companies Act “opens up the possibility of shell companies being set up for the sole purpose of making donations to political parties.”", "ertfghjb"));
             blogDAO.insertBlog(new BlogModel("EC takes note of NITI Aayog Vice-Chairman's comments on Congress' poll promise ", "Sovon Jana", new Date(), "\n" +
                     "\n" +
                     "The Election Commission has taken cognisance of a statement made by NITI Aayog Vice-Chairman Rajiv Kumar against the Congress’ poll promise of a minimum basic income guarantee of ₹72,000 per year to the poorest families.\n" +

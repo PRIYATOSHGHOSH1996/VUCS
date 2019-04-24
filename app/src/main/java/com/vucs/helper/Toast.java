@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vucs.R;
 
 import java.lang.ref.WeakReference;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class Toast {
     public static void makeText(Context context, String msg) {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+
+    android:padding="5dp">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/item_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/double_ring"
+        android:transitionName="@string/item_image_url"
+
+        />
+
+    <FrameLayout
+        android:id="@+id/download_button_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/onside_curve">
+
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="TODO"
+            android:paddingStart="28dp"
+            android:paddingTop="28dp"
+            android:paddingEnd="18dp"
+
+
+            android:paddingBottom="20dp"
+            android:src="@drawable/download_icon"
+            android:tint="@color/white" />
+    </FrameLayout>
+
+
+</FrameLayout>

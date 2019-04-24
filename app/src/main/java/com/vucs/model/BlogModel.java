@@ -1,12 +1,12 @@
 package com.vucs.model;
 
 
-import java.util.Date;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.util.Date;
 
 @Entity(tableName = "dt_blog")
 public class BlogModel {

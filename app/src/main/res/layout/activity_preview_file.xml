@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".PreviewFile">
+    tools:context=".activity.PreviewFile">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/show_image"
@@ -24,7 +25,8 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:animateLayoutChanges="true"
-        android:background="@color/black_transparent">
+        android:background="@color/black_transparent"
+        app:layout_behavior="com.vucs.layoutbehaviers.MoveUpwardBehavior">
 
         <ImageButton
             android:id="@+id/download_button"

@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+
+    >
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/blog"
             android:checked="true"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/blog_icon"
             android:title="@string/blog" />
 
         <item
             android:id="@+id/phire_pawa"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/phire_pawa_icon"
             android:title="@string/phire_pawa" />
         <item
             android:id="@+id/notice"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_notifications_black_24dp"
             android:title="@string/notice" />
         <item
             android:id="@+id/job_post"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_transfer_within_a_station_24px"
             android:title="@string/job_post" />
 
         <item
             android:id="@+id/teachers"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_baseline_wc_24px"
             android:title="@string/teachers" />
     </group>
 
@@ -33,15 +35,15 @@
         <menu>
             <item
                 android:id="@+id/chat_room"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/chatting_icon"
                 android:title="@string/chat_room" />
             <item
                 android:id="@+id/events"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/event_icon"
                 android:title="@string/events" />
             <item
                 android:id="@+id/image_gallery"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/photo_library"
                 android:title="@string/image_gallery" />
             <item
                 android:id="@+id/about"
