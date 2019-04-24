@@ -32,7 +32,6 @@
         app:headerLayout="@layout/nav_header_main"
         app:itemBackground="@drawable/nav_item_drawable"
         android:background="@android:color/transparent"
-
         app:menu="@menu/activity_main_drawer" >
         <FrameLayout
             android:id="@+id/nav_back"
