@@ -1,5 +1,6 @@
 package com.vucs.activity;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,10 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.transition.Scene;
 import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
@@ -22,16 +28,17 @@ import androidx.transition.TransitionManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.vucs.R;
-import com.vucs.helper.Toast;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 
 public class LoginActivity extends AppCompatActivity {
+    private final int DURATION = 300;
     LinearLayout linearLayout;
     ViewGroup viewGroup;
-    CircularProgressButton circularProgressButton;
     ImageView imageView;
+    Button login;
+    ProgressBar progressBar;
+    private int progressBarWidth, buttonWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,51 +51,29 @@ public class LoginActivity extends AppCompatActivity {
         TransitionManager.go(aScene, transition);
         linearLayout = findViewById(R.id.login_layout);
         imageView = findViewById(R.id.logo);
+        login = findViewById(R.id.login_button1);
+        progressBar = findViewById(R.id.progress_bar);
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonToProgressBar();
+
+                openHomeActivity(v);
+
+
+
+            }
+        });
+
         @SuppressLint("WrongThread") String s = FirebaseInstanceId.getInstance().getId();
         Log.e("is=", s);
 
-        circularProgressButton = (CircularProgressButton) findViewById(R.id.login_button);
 
 
-        circularProgressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                @SuppressLint("StaticFieldLeak") AsyncTask<String, String, String> check = new AsyncTask<String, String, String>() {
-                    @SuppressLint("WrongThread")
-                    @Override
-                    protected String doInBackground(String... strings) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return "success";
-                    }
-
-                    @Override
-                    protected void onPostExecute(String s) {
-                        super.onPostExecute(s);
-                        if (s.equals("success")) {
-                            circularProgressButton.doneLoadingAnimation(R.color.colorPrimary1, BitmapFactory.decodeResource(getResources(), R.drawable.ic_done_white_48dp));
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
-                                }
-                            }, 200);
 
 
-                        } else {
-                            circularProgressButton.revertAnimation();
-                            Toast.makeText(LoginActivity.this, "Invalid User Name and Password");
-                        }
-                    }
-                };
-                circularProgressButton.startAnimation();
-                check.execute();
-            }
-        });
 
 
         new Handler().postDelayed(new Runnable() {
@@ -102,8 +87,31 @@ public class LoginActivity extends AppCompatActivity {
         }, 4500);
     }
 
+    private void openHomeActivity(View v) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, progressBar, "transition");
+        int revealX = (int) (progressBar.getRootView().getX() + progressBar.getWidth() / 2);
+        int revealY = (int) (progressBar.getRootView().getY() + progressBar.getHeight() / 2);
+
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
+        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+        ActivityCompat.startActivity(this, intent, options.toBundle());
+
+    }
+
     private void initLoginview() {
         linearLayout.setVisibility(View.VISIBLE);
+        findViewById(R.id.transitions_container).post(new Runnable() {
+            @Override
+            public void run() {
+                progressBarWidth = progressBar.getWidth();
+                // `mItemInputEditText` should be left visible from XML in order to get measured
+                // setting to GONE after we have got actual width
+                progressBar.setVisibility(View.GONE);
+                buttonWidth = login.getWidth();
+            }
+        });
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.login);
 
         linearLayout.setAnimation(animation);
@@ -114,10 +122,63 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-
-        circularProgressButton.dispose();
         super.onDestroy();
 
 
     }
+
+
+
+    private void buttonToProgressBar() {
+        final int from = login.getWidth();
+        final LinearInterpolator interpolator = new LinearInterpolator();
+
+        login.setAlpha(1.0f);
+        login.setVisibility(View.GONE);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        ValueAnimator secondAnimator = ValueAnimator.ofInt(from, progressBarWidth);
+        secondAnimator.setTarget(progressBar);
+        secondAnimator.setInterpolator(interpolator);
+        secondAnimator.setDuration(DURATION);
+
+        final ViewGroup.LayoutParams params = progressBar.getLayoutParams();
+        secondAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                params.width = (Integer) animation.getAnimatedValue();
+                progressBar.requestLayout();
+            }
+        });
+
+        secondAnimator.start();
+    }
+
+    private void progressBarToButton() {
+        final int from = progressBar.getWidth();
+        final LinearInterpolator interpolator = new LinearInterpolator();
+
+        progressBar.setAlpha(1.0f);
+        progressBar.setVisibility(View.GONE);
+
+        login.setVisibility(View.VISIBLE);
+
+        ValueAnimator secondAnimator = ValueAnimator.ofInt(from, buttonWidth);
+        secondAnimator.setTarget(login);
+        secondAnimator.setInterpolator(interpolator);
+        secondAnimator.setDuration(DURATION);
+
+        final ViewGroup.LayoutParams params = login.getLayoutParams();
+        secondAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                params.width = (Integer) animation.getAnimatedValue();
+                login.requestLayout();
+            }
+        });
+
+        secondAnimator.start();
+    }
 }
+
