@@ -5,15 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +39,7 @@ public class PhirePawaFragment extends Fragment {
     private PhirePawaProfileViewModel phirePawaProfileViewModel;
     private int sortCategory = 0;
     private String searchText = "";
+    private EditText searchEditText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,6 +84,18 @@ public class PhirePawaFragment extends Fragment {
                     // 0 is name
                     // 1 is price
                     sortCategory = position;
+                    switch (position){
+                        case 0:searchEditText.setHint("Search by name");
+                        searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
+
+                        break;
+                        case 1:searchEditText.setHint("Search by batch");
+                            searchEditText.setInputType(InputType.TYPE_CLASS_NUMBER );
+                        break;
+                        case 2:searchEditText.setHint("Search by company");
+                            searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
+                        break;
+                    }
                     updateAdapter();
                 }
 
@@ -88,21 +104,25 @@ public class PhirePawaFragment extends Fragment {
 
                 }
             });
-            SearchView searchView = view.findViewById(R.id.search);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
+             searchEditText = view.findViewById(R.id.search);
+             searchEditText.addTextChangedListener(new TextWatcher() {
+                 @Override
+                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    searchText = newText + "%";
+                 }
 
-                    updateAdapter();
-                    return false;
-                }
-            });
+                 @Override
+                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                     searchText = s + "%";
+                     updateAdapter();
+                 }
+
+                 @Override
+                 public void afterTextChanged(Editable s) {
+
+                 }
+             });
+
         } catch (Exception e) {
             Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

@@ -4,7 +4,6 @@
     android:layout_height="200dp"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-
     android:padding="5dp">
 
     <pl.droidsonroids.gif.GifImageView
@@ -23,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:animateLayoutChanges="true"
+
         android:background="@drawable/onside_curve">
 
         <ImageButton
