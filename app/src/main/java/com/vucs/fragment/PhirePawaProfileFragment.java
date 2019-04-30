@@ -1,6 +1,8 @@
 package com.vucs.fragment;
 
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -65,7 +68,13 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                             .into(new SimpleTarget<Drawable>() {
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+
                                     imageView.setImageDrawable(resource);
+                                    BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
+                                    Palette p = Palette.from(bitmapDrawable.getBitmap()).generate();
+                                    int color = p.getDarkVibrantColor(getContext().getResources().getColor(R.color.colorPrimary1));
+                                    collapsingToolbarLayout.setContentScrimColor(color);
+
                                 }
                             });
                 }

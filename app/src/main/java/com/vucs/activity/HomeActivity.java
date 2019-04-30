@@ -1,6 +1,9 @@
 package com.vucs.activity;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.app.ActivityManager;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +19,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -70,6 +76,14 @@ public class HomeActivity extends AppCompatActivity
     private NoticeModel noticeModel;
     private String TAG = "HomeActivity";
 
+    public static final String EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
+    public static final String EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+
+
+    private int revealX;
+    private int revealY;
+    DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -85,7 +99,7 @@ public class HomeActivity extends AppCompatActivity
             appPreference = new AppPreference(this);
 
             FrameLayout navBack = findViewById(R.id.nav_back);
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.setScrimColor(Color.TRANSPARENT);
             drawer.setBackgroundColor(Color.TRANSPARENT);
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,7 +107,33 @@ public class HomeActivity extends AppCompatActivity
             drawer.addDrawerListener(toggle);
             toggle.syncState();
 
+            if (savedInstanceState == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                    getIntent().hasExtra(EXTRA_CIRCULAR_REVEAL_X) &&
+                    getIntent().hasExtra(EXTRA_CIRCULAR_REVEAL_Y)) {
+                Log.e(TAG,"animation start");
+                linearLayout.setVisibility(View.INVISIBLE);
 
+                revealX = getIntent().getIntExtra(EXTRA_CIRCULAR_REVEAL_X, 0);
+                revealY = getIntent().getIntExtra(EXTRA_CIRCULAR_REVEAL_Y, 0);
+                Log.e(TAG,"x="+revealX);
+                Log.e(TAG,"y-"+revealY);
+
+
+
+                ViewTreeObserver viewTreeObserver = linearLayout.getViewTreeObserver();
+                if (viewTreeObserver.isAlive()) {
+                    Log.e(TAG,"layout check");
+                    viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            revealActivity(revealX, revealY);
+                            linearLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+                    });
+                }
+            } else {
+                linearLayout.setVisibility(View.VISIBLE);
+            }
             navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
@@ -298,6 +338,9 @@ public class HomeActivity extends AppCompatActivity
             startActivity(new Intent(HomeActivity.this, AboutActivity.class));
 
         } else if (id == R.id.logout) {
+            startActivity(new Intent(this,LoginActivity.class));
+
+            finish();
 
         }
 
@@ -407,6 +450,42 @@ public class HomeActivity extends AppCompatActivity
             e.printStackTrace();
 
         }
+
+    }
+    protected void revealActivity(int x, int y) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            float finalRadius = (float) (Math.max(linearLayout.getWidth(), linearLayout.getHeight()) * 1.1);
+
+            // create the animator for this view (the start radius is zero)
+            Animator circularReveal = ViewAnimationUtils.createCircularReveal(linearLayout, x, y, 0, finalRadius);
+            circularReveal.setDuration(1200);
+            circularReveal.setInterpolator(new AccelerateInterpolator());
+
+            // make the view visible and start the animation
+            linearLayout.setVisibility(View.VISIBLE);
+            circularReveal.start();
+        } else {
+            finish();
+        }
+    }
+    protected void unRevealActivity() {
+
+
+            float finalRadius = (float) (Math.max(linearLayout.getWidth(), linearLayout.getHeight()) * 1.1);
+            Animator circularReveal = ViewAnimationUtils.createCircularReveal(
+                    linearLayout, revealX, revealY, finalRadius, 0);
+
+            circularReveal.setDuration(400);
+            circularReveal.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    linearLayout.setVisibility(View.INVISIBLE);
+                    finish();
+                }
+            });
+
+
+            circularReveal.start();
 
     }
 

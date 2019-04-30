@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,13 +47,24 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_notice, parent, false);
+        View view;
+        if (viewType==1) {
+            view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_notice, parent, false);
+        }else {
+            view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blank, parent, false);
+        }
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+
         try {
+            if (position == 0) {
+                holder.parentLayout.setBackground(weakReference.get().getDrawable(R.drawable.cut_corner_primary_shape));
+            } else {
+                holder.parentLayout.setBackground(weakReference.get().getDrawable(R.drawable.cut_corner_white_shape));
+            }
             final NoticeModel noticeModel = noticeModelList.get(position);
             holder.notice_title.setText(noticeModel.getNoticeTitle());
             String date = "";
@@ -77,10 +89,17 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
 
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        if (position<getItemCount()-1){
+            return 1;
+        }
+        else
+            return 2;
+    }
     @Override
     public int getItemCount() {
-        return noticeModelList.size();
+        return noticeModelList.size()+1;
     }
 
 
@@ -92,6 +111,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView notice_title, notice_date, notice_by;
         ImageView notice_image;
+        RelativeLayout parentLayout ,view;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +119,8 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
             notice_date = itemView.findViewById(R.id.notice_date);
             notice_image = itemView.findViewById(R.id.notice_image);
             notice_by = itemView.findViewById(R.id.notice_by);
+            parentLayout = itemView.findViewById(R.id.parent);
+            view = itemView.findViewById(R.id.view);
 
         }
     }

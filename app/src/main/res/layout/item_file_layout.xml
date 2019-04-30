@@ -23,20 +23,18 @@
         android:layout_gravity="bottom|right"
         android:animateLayoutChanges="true"
 
-        android:background="@drawable/onside_curve">
+        >
 
         <ImageButton
             android:id="@+id/download"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
-            android:background="@android:color/transparent"
+            android:background="@drawable/onside_curve"
             android:contentDescription="TODO"
             android:paddingStart="28dp"
             android:paddingTop="28dp"
             android:paddingEnd="18dp"
-
-
             android:paddingBottom="20dp"
             android:src="@drawable/download_icon"
             android:tint="@color/white" />

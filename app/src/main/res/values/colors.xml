@@ -21,6 +21,7 @@
     <color name="text_color">#C3000000</color>
     <color name="white_blue">#E4F0F7</color>
     <color name="black_fade">#80000000</color>
+    <color name="red_400">#FF0000</color>
 
 
 </resources>

@@ -9,13 +9,17 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -81,8 +85,6 @@ public class PhirePawaFragment extends Fragment {
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                    // 0 is name
-                    // 1 is price
                     sortCategory = position;
                     switch (position){
                         case 0:searchEditText.setHint("Search by name");
@@ -122,6 +124,19 @@ public class PhirePawaFragment extends Fragment {
 
                  }
              });
+            searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        searchEditText.clearFocus();
+                        InputMethodManager in = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
 
         } catch (Exception e) {
             Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
