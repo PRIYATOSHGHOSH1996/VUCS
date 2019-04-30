@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/ripple_material_dark">
+    <item>
+<selector >
     <item android:state_pressed="false">
         <layer-list>
             <!-- SHADOW -->
             <item>
                 <shape>
-                    <solid android:color="@color/colorAccent"/>
+                    <solid android:color="#102746"/>
                     <!-- alttan gölge -->
                     <corners android:radius="19dp"/>
                 </shape>
@@ -38,7 +41,7 @@
             <!-- SHADOW -->
             <item>
                 <shape>
-                    <solid android:color="#102746"/>
+                    <solid android:color="@color/colorAccent"/>
                     <corners android:radius="19dp"/>
 
                 </shape>
@@ -63,3 +66,5 @@
         </layer-list>
     </item>
 </selector>
+    </item>
+    </ripple>

@@ -6,11 +6,13 @@
     android:layout_marginLeft="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginRight="10dp"
+
     tools:background="@color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/cut_corner_white_shape">
 
         <RelativeLayout
             android:layout_width="match_parent"
