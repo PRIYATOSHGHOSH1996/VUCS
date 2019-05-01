@@ -80,6 +80,8 @@ public class PhirePawaFragment extends Fragment {
             Spinner spinner = view.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(App.getContext(), R.layout.item_spinner, R.id.textView, getResources().getStringArray(R.array.sort_types_phire_pawa));
 
+
+            adapter.setDropDownViewResource(R.layout.item_spinner_full);
             spinner.setAdapter(adapter);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

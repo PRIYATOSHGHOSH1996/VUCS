@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.HomeActivity">
 
@@ -38,6 +38,8 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.viewpager.widget.PagerTabStrip
@@ -51,5 +53,11 @@
 
         </androidx.viewpager.widget.PagerTabStrip>
     </androidx.viewpager.widget.ViewPager>
+    <FrameLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:background="@drawable/cut_corner_bottom_shape"/>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,7 +12,7 @@ android:background="@drawable/cut_corner_white_shape">
     android:layout_height="match_parent"
     android:padding="8dp"
     android:paddingStart="32dp"
-    android:paddingEnd="18dp">
+    android:paddingEnd="8dp">
 
     <TextView
         android:id="@+id/notice_title"
@@ -22,7 +22,8 @@ android:background="@drawable/cut_corner_white_shape">
         android:layout_alignParentStart="true"
         android:ellipsize="end"
         android:maxLines="2"
-        android:text="this blog is seted by me for tgfhfghfgnfgnfgnfgngfngngnghnghnghnnhgngesting"
+        android:paddingEnd="18dp"
+        android:text="this blog is seted by me for tgfhfffyfheting"
         android:transitionName="@string/item_title" />
 
     <LinearLayout

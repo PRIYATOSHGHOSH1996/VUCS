@@ -23,5 +23,7 @@
     <color name="black_fade">#80000000</color>
     <color name="red_400">#FF0000</color>
 
+    <color name="colorPrimary1fade">#8801203D</color>
+
 
 </resources>

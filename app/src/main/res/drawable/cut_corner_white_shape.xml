@@ -2,80 +2,75 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
+    <item android:gravity="top">
+        <layer-list>
 
-    <item>
-        <ripple android:color="#8AA4E9">
+
+
+
+            <item android:gravity="top">
+                <shape>
+                    <size android:height="10dp" />
+                    <gradient
+                        android:angle="270"
+                        android:endColor="#00FFFFFF"
+                        android:startColor="#336D6D6D"
+                        android:type="linear" />
+                </shape>
+            </item>
+            <item >
+                <rotate
+                    android:fromDegrees="45"
+                    android:pivotX="100%"
+                    android:pivotY="90%">
+
+                    <layer-list>
+                        <item android:bottom="10dp">
+                            <shape android:shape="rectangle">
+                                <size android:height="40dp" />
+                                <solid android:color="@color/white" />
+                            </shape>
+                        </item>
+                        <item android:gravity="bottom">
+                            <shape>
+                                <size android:height="10dp" />
+                                <gradient
+                                    android:angle="270"
+                                    android:endColor="#00FFFFFF"
+                                    android:startColor="#336D6D6D"
+                                    android:type="linear" />
+                            </shape>
+                        </item>
+                    </layer-list>
+
+                </rotate>
+            </item>
             <item>
 
-
-            <shape android:shape="rectangle">
-                <solid android:color="@color/white" />
-            </shape>
+                <rotate
+                    android:fromDegrees="-45"
+                    android:pivotX="0%"
+                    android:pivotY="90%">
+                    <layer-list>
+                        <item android:bottom="10dp">
+                            <shape android:shape="rectangle">
+                                <size android:height="40dp" />
+                                <solid android:color="@color/white" />
+                            </shape>
+                        </item>
+                        <item android:gravity="bottom">
+                            <shape>
+                                <size android:height="10dp" />
+                                <gradient
+                                    android:angle="270"
+                                    android:endColor="#00FFFFFF"
+                                    android:startColor="#336D6D6D"
+                                    android:type="linear" />
+                            </shape>
+                        </item>
+                    </layer-list>
+                </rotate>
             </item>
-        </ripple>
-
-    </item>
-    <item android:gravity="top">
-        <shape>
-            <size android:height="10dp" />
-            <gradient
-                android:angle="270"
-                android:endColor="#00FFFFFF"
-                android:startColor="#336D6D6D"
-                android:type="linear" />
-        </shape>
-    </item>
-    <item>
-        <rotate
-            android:fromDegrees="45"
-            android:pivotX="115%"
-            android:pivotY="90%">
-
-            <layer-list>
-                <item android:bottom="10dp">
-                    <shape android:shape="rectangle">
-
-                        <solid android:color="@color/white" />
-                    </shape>
-                </item>
-                <item android:gravity="bottom">
-                    <shape>
-                        <size android:height="10dp" />
-                        <gradient
-                            android:angle="270"
-                            android:endColor="#00FFFFFF"
-                            android:startColor="#336D6D6D"
-                            android:type="linear" />
-                    </shape>
-                </item>
-            </layer-list>
-
-        </rotate>
-    </item>
-    <item>
-
-        <rotate
-            android:fromDegrees="-45"
-            android:pivotX="-15%"
-            android:pivotY="90%">
-            <layer-list>
-                <item android:bottom="10dp">
-                    <shape android:shape="rectangle">
-
-                        <solid android:color="@color/white" />
-                    </shape>
-                </item>
-                <item android:gravity="bottom">
-                    <shape>
-                        <size android:height="10dp" />
-                        <gradient
-                            android:angle="270"
-                            android:endColor="#00FFFFFF"
-                            android:startColor="#336D6D6D"
-                            android:type="linear" />
-                    </shape>
-                </item>
-            </layer-list>
-        </rotate>
+        </layer-list>
     </item>
 </layer-list>

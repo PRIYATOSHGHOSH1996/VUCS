@@ -62,13 +62,6 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
-
-
-                if (position == 0) {
-                    holder.parentLayout.setBackground(weakReference.get().getDrawable(R.drawable.cut_corner_primary_shape));
-                } else {
-                    holder.parentLayout.setBackground(weakReference.get().getDrawable(R.drawable.cut_corner_white_shape));
-                }
                 final PhirePawaProfileModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
                 holder.user_name.setText(phirePawaProfileModel.getName());
                 holder.company.setText(phirePawaProfileModel.getCompany());

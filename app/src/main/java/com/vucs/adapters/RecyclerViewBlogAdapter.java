@@ -51,8 +51,12 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blog, parent, false);
-
+        View view;
+        if (viewType==1) {
+            view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blog, parent, false);
+        }else {
+            view = LayoutInflater.from(weakReference.get()).inflate(R.layout.item_blank, parent, false);
+        }
         return new MyViewHolder(view);
     }
 
@@ -111,10 +115,17 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
         }
 
     }
-
+    @Override
+    public int getItemViewType(int position) {
+        if (position<getItemCount()-1){
+            return 1;
+        }
+        else
+            return 2;
+    }
     @Override
     public int getItemCount() {
-        return blogModelList.size();
+        return blogModelList.size()+1;
     }
 
 
