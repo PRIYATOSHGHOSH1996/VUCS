@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "88b7c39bc501e9ba1563bab5514a4a76",
+    "identityHash": "5d29106caa66ebb1faedb8b136fea4ec",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -162,50 +162,6 @@
         "primaryKey": {
           "columnNames": [
             "image_id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "dt_phire_pawa",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT, `user_batch` TEXT, `user_company` TEXT, `user_image_url` TEXT)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "user_name",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "batch",
-            "columnName": "user_batch",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "company",
-            "columnName": "user_company",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "userImageURL",
-            "columnName": "user_image_url",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
           ],
           "autoGenerate": true
         },
@@ -472,7 +428,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"88b7c39bc501e9ba1563bab5514a4a76\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5d29106caa66ebb1faedb8b136fea4ec\")"
     ]
   }
 }

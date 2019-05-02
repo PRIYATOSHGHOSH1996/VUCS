@@ -8,7 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.model.PhirePawaModel;
-import com.vucs.model.PhirePawaProfileModel;
+
 
 import java.util.Calendar;
 import java.util.List;
@@ -23,34 +23,6 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         phirePawaProfileDAO = db.phirePawaProfileDAO();
     }
 
-    public List<PhirePawaProfileModel> getAllUser() {
-        return phirePawaProfileDAO.getAllUser();
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByName() {
-        return phirePawaProfileDAO.getAllUserByName();
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByName(String searchText) {
-        return phirePawaProfileDAO.getAllUserByName(searchText);
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByBatch() {
-        return phirePawaProfileDAO.getAllUserByBatch();
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByBatch(String searchText) {
-        return phirePawaProfileDAO.getAllUserByBatch(searchText);
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByCompany() {
-        return phirePawaProfileDAO.getAllUserByCompany();
-    }
-
-    public List<PhirePawaProfileModel> getAllUserByCompany(String searchText) {
-        return phirePawaProfileDAO.getAllUserByCompany(searchText);
-    }
-
     public List<PhirePawaModel> getUsersByName(){
         return phirePawaProfileDAO.getUsersByName();
     }
@@ -60,16 +32,37 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
     }
 
     public List<PhirePawaModel> getUsersByBatch(String s){
-        int size= s.length();
-        for (int i = size;i<+4;i++){
-            s=s+"0";
+        try {
+            int size= s.length();
+            int date=Integer.parseInt(s);
 
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(date* (int)Math.pow(10,4-size),0,1,0,0,0);
+            Calendar calendar1 = Calendar.getInstance();
+            calendar1.set((date+1)* (int)Math.pow(10,4-size),0,1,0,0,0);
+            return phirePawaProfileDAO.getUsersByBatch(calendar.getTimeInMillis(),calendar1.getTimeInMillis());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return phirePawaProfileDAO.getUsersByBatch();
         }
-        int date=Integer.parseInt(s);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(date,0,1,0,0,0);
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(date+1,0,1,0,0,0);
-        return phirePawaProfileDAO.getUsersByBatch(calendar.getTimeInMillis(),calendar1.getTimeInMillis());
+    }
+
+    public List<PhirePawaModel> getUsersByName(String s){
+        s=s+"%";
+
+            return phirePawaProfileDAO.getUsersByName(s);
+
+    }
+
+    public List<PhirePawaModel> getUsersByCompany(String s){
+        s=s+"%";
+
+        return phirePawaProfileDAO.getUsersByCompany(s);
+
+    }
+
+    public List<PhirePawaModel> getUsersByCompany(){
+        return phirePawaProfileDAO.getUsersByCompany();
+
     }
 }

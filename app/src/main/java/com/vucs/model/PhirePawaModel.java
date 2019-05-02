@@ -22,6 +22,7 @@ public class PhirePawaModel implements Serializable {
     private String userImageURL;
 
 
+    @Ignore
     public PhirePawaModel() {
 
     }
