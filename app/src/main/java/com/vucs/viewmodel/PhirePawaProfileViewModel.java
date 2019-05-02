@@ -7,8 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
+import com.vucs.model.PhirePawaModel;
 import com.vucs.model.PhirePawaProfileModel;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class PhirePawaProfileViewModel extends AndroidViewModel {
@@ -47,5 +49,21 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
 
     public List<PhirePawaProfileModel> getAllUserByCompany(String searchText) {
         return phirePawaProfileDAO.getAllUserByCompany(searchText);
+    }
+
+    public List<PhirePawaModel> getUsersByName(){
+        return phirePawaProfileDAO.getUsersByName();
+    }
+
+    public List<PhirePawaModel> getUsersByBatch(){
+        return phirePawaProfileDAO.getUsersByBatch();
+    }
+
+    public List<PhirePawaModel> getUsersByBatch(int date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(date,0,1,0,0,0);
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(date+1,0,1,0,0,0);
+        return phirePawaProfileDAO.getUsersByBatch(calendar.getTimeInMillis(),calendar1.getTimeInMillis());
     }
 }

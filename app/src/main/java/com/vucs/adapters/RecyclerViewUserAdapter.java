@@ -23,9 +23,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
 import com.vucs.fragment.PhirePawaProfileFragment;
 import com.vucs.helper.Utils;
+import com.vucs.model.PhirePawaModel;
 import com.vucs.model.PhirePawaProfileModel;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUserAdapter.MyViewHolder> {
 
-    private List<PhirePawaProfileModel> phirePawaProfileModelList = Collections.emptyList();
+    private List<PhirePawaModel> phirePawaProfileModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private String TAG = "userAdapter";
 
@@ -42,7 +45,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
         weakReference = new WeakReference<>(context);
     }
 
-    public void addUser(List<PhirePawaProfileModel> phirePawaProfileModels) {
+    public void addUser(List<PhirePawaModel> phirePawaProfileModels) {
         phirePawaProfileModelList = phirePawaProfileModels;
         notifyDataSetChanged();
     }
@@ -62,12 +65,14 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
-                final PhirePawaProfileModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
-                holder.user_name.setText(phirePawaProfileModel.getName());
+            if (position==getItemCount() -1){
+                return;
+            }
+                    final PhirePawaModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
+                holder.user_name.setText(phirePawaProfileModel.getFirstName() + "  " + phirePawaProfileModel.getLastName());
                 holder.company.setText(phirePawaProfileModel.getCompany());
 
-
-                holder.batch.setText(phirePawaProfileModel.getBatch() + "");
+                holder.batch.setText(new SimpleDateFormat("yyyy").format(phirePawaProfileModel.getBatch()));
                 if (!phirePawaProfileModel.getUserImageURL().equals("default") && weakReference.get() != null) {
 
                     Glide
@@ -84,7 +89,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                     // notifyItemChanged(position);
                 }
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+               /* holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
@@ -98,7 +103,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
 
 
                     }
-                });
+                });*/
 
         } catch (Exception e) {
             Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());

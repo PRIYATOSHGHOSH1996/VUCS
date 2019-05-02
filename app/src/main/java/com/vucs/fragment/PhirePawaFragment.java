@@ -151,25 +151,25 @@ public class PhirePawaFragment extends Fragment {
             switch (sortCategory) {
                 case 0:
                     if (searchText.equals("") || searchText.equals("%")) {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByName());
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByName());
                     } else {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByName(searchText));
+                        //adapter.addUser(phirePawaProfileViewModel.getAllUserByName(searchText));
 
                     }
                     break;
                 case 1:
                     if (searchText.equals("") || searchText.equals("%")) {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByBatch());
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch());
                     } else {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByBatch(searchText));
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch(Integer.parseInt(searchText)));
 
                     }
                     break;
                 case 2:
                     if (searchText.equals("") || searchText.equals("%")) {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany());
+                       // adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany());
                     } else {
-                        adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany(searchText));
+                        //adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany(searchText));
 
                     }
                     break;

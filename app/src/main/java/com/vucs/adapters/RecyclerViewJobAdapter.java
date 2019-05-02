@@ -1,16 +1,20 @@
 package com.vucs.adapters;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
@@ -54,6 +58,9 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
+            if (position==getItemCount() -1){
+                return;
+            }
             final JobModel jobModel = jobModelList.get(position);
             holder.job__title.setText(jobModel.getJobTitle());
             holder.job_by.setText("By " + jobModel.getJobBy() + "  ");
@@ -74,8 +81,12 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
                     intent.putExtra(weakReference.get().getString(R.string.item_date), finalDate);
                     intent.putExtra(weakReference.get().getString(R.string.item_content), jobModel.getContent());
 
-                    Bundle options = ActivityOptionsCompat.makeScaleUpAnimation(
-                            holder.itemView, 0, 0, v.getWidth(), v.getHeight()).toBundle();
+                    Bundle options = ActivityOptionsCompat.makeClipRevealAnimation(
+                            holder.linearLayout, 0, 0, holder.linearLayout.getWidth(), holder.linearLayout.getHeight()).toBundle();
+                    Pair<View, String> p = Pair.create((View) holder.linearLayout, "parent");
+
+                    Bundle options1 = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)weakReference.get()).toBundle();
+
                     weakReference.get().startActivity(intent, options);
                 }
             });
@@ -101,12 +112,14 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView job__title, job_by, job_date;
+        RelativeLayout linearLayout;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             job__title = itemView.findViewById(R.id.job_title);
             job_by = itemView.findViewById(R.id.job_by);
             job_date = itemView.findViewById(R.id.job_date);
+            linearLayout = itemView.findViewById(R.id.parent);
 
         }
     }

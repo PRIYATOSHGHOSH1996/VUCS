@@ -63,6 +63,9 @@ public class RecyclerViewBlogAdapter extends RecyclerView.Adapter<RecyclerViewBl
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
+            if (position==getItemCount() -1){
+                return;
+            }
             final BlogModel blogModel = blogModelList.get(position);
             holder.blog_title.setText(blogModel.getBlogTitle());
             holder.blog_by.setText("By " + blogModel.getBlogBy() + "  ");

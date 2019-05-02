@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -38,13 +39,14 @@ public class LoginActivity extends AppCompatActivity {
     ImageView imageView;
     Button login;
     ProgressBar progressBar;
+    FrameLayout frameLayout;
     private int progressBarWidth, buttonWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+frameLayout=findViewById(R.id.transitions_container);
         viewGroup = (ViewGroup) findViewById(R.id.parent);
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.logo_transition);
         Scene aScene = Scene.getSceneForLayout(viewGroup, R.layout.activity_login, this);
@@ -90,8 +92,8 @@ public class LoginActivity extends AppCompatActivity {
     private void openHomeActivity(View v) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, progressBar, "transition");
-        int revealX = (int) (progressBar.getRootView().getX() + progressBar.getWidth() / 2);
-        int revealY = (int) (progressBar.getRootView().getY() + progressBar.getHeight() / 2);
+        int revealX = (int) (frameLayout.getX() + frameLayout.getWidth() / 2);
+        int revealY = (int) (frameLayout.getY() + frameLayout.getHeight() / 2);
 
         Intent intent = new Intent(this, HomeActivity.class);
         intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
@@ -102,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initLoginview() {
         linearLayout.setVisibility(View.VISIBLE);
-        findViewById(R.id.transitions_container).post(new Runnable() {
+        frameLayout.post(new Runnable() {
             @Override
             public void run() {
                 progressBarWidth = progressBar.getWidth();
@@ -116,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
         linearLayout.setAnimation(animation);
         animation.start();
+
 
 
     }
@@ -136,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
         login.setAlpha(1.0f);
         login.setVisibility(View.GONE);
 
-        progressBar.setVisibility(View.VISIBLE);
 
         ValueAnimator secondAnimator = ValueAnimator.ofInt(from, progressBarWidth);
         secondAnimator.setTarget(progressBar);
@@ -160,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
         final LinearInterpolator interpolator = new LinearInterpolator();
 
         progressBar.setAlpha(1.0f);
-        progressBar.setVisibility(View.GONE);
+
 
         login.setVisibility(View.VISIBLE);
 
@@ -179,6 +181,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         secondAnimator.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("x=",findViewById(R.id.transitions_container).getX()+"");
+        Log.e("y=",findViewById(R.id.transitions_container).getY()+"");
     }
 }
 

@@ -18,24 +18,24 @@
                         android:type="linear" />
                 </shape>
             </item>
-            <item >
+            <item  android:right="@dimen/bottom_shape_hight">
                 <rotate
-                    android:fromDegrees="45"
+                    android:fromDegrees="-135"
                     android:pivotX="100%"
-                    android:pivotY="90%">
+                    android:pivotY="0%">
 
                     <layer-list>
-                        <item android:bottom="10dp">
+                        <item>
                             <shape android:shape="rectangle">
-                                <size android:height="40dp" />
+                                <size android:height="@dimen/bottom_shape_hight"/>
                                 <solid android:color="@color/white" />
                             </shape>
                         </item>
-                        <item android:gravity="bottom">
+                        <item android:gravity="top" android:top="-10dp" android:right="-10dp">
                             <shape>
                                 <size android:height="10dp" />
                                 <gradient
-                                    android:angle="270"
+                                    android:angle="90"
                                     android:endColor="#00FFFFFF"
                                     android:startColor="#336D6D6D"
                                     android:type="linear" />
@@ -45,24 +45,24 @@
 
                 </rotate>
             </item>
-            <item>
+            <item android:left="@dimen/bottom_shape_hight">
 
                 <rotate
-                    android:fromDegrees="-45"
+                    android:fromDegrees="135"
                     android:pivotX="0%"
-                    android:pivotY="90%">
+                    android:pivotY="0%">
                     <layer-list>
-                        <item android:bottom="10dp">
+                        <item>
                             <shape android:shape="rectangle">
-                                <size android:height="40dp" />
+                                <size android:height="@dimen/bottom_shape_hight"/>
                                 <solid android:color="@color/white" />
                             </shape>
                         </item>
-                        <item android:gravity="bottom">
+                        <item android:gravity="top" android:top="-10dp" android:left="-10dp">
                             <shape>
                                 <size android:height="10dp" />
                                 <gradient
-                                    android:angle="270"
+                                    android:angle="90"
                                     android:endColor="#00FFFFFF"
                                     android:startColor="#336D6D6D"
                                     android:type="linear" />

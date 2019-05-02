@@ -60,6 +60,9 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         try {
+            if (position==getItemCount() -1){
+                return;
+            }
 
             final NoticeModel noticeModel = noticeModelList.get(position);
             holder.notice_title.setText(noticeModel.getNoticeTitle());
