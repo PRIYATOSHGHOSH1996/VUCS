@@ -117,7 +117,7 @@ public class PhirePawaFragment extends Fragment {
 
                  @Override
                  public void onTextChanged(CharSequence s, int start, int before, int count) {
-                     searchText = s + "%";
+                     searchText = s + "";
                      updateAdapter();
                  }
 
@@ -161,7 +161,7 @@ public class PhirePawaFragment extends Fragment {
                     if (searchText.equals("") || searchText.equals("%")) {
                         adapter.addUser(phirePawaProfileViewModel.getUsersByBatch());
                     } else {
-                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch(Integer.parseInt(searchText)));
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch(searchText));
 
                     }
                     break;

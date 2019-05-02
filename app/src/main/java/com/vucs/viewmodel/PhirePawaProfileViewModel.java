@@ -59,7 +59,13 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         return phirePawaProfileDAO.getUsersByBatch();
     }
 
-    public List<PhirePawaModel> getUsersByBatch(int date){
+    public List<PhirePawaModel> getUsersByBatch(String s){
+        int size= s.length();
+        for (int i = size;i<+4;i++){
+            s=s+"0";
+
+        }
+        int date=Integer.parseInt(s);
         Calendar calendar = Calendar.getInstance();
         calendar.set(date,0,1,0,0,0);
         Calendar calendar1 = Calendar.getInstance();
