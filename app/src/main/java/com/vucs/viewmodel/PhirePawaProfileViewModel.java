@@ -8,9 +8,10 @@ import androidx.lifecycle.AndroidViewModel;
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.model.PhirePawaModel;
+import com.vucs.model.UserModel;
 
 
-import java.util.Calendar;
+
 import java.util.List;
 
 public class PhirePawaProfileViewModel extends AndroidViewModel {
@@ -36,12 +37,8 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
             int size= s.length();
             int date=Integer.parseInt(s);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(date* (int)Math.pow(10,4-size),0,1,0,0,0);
-            Calendar calendar1 = Calendar.getInstance();
-            calendar1.set((date+1)* (int)Math.pow(10,4-size),0,1,0,0,0);
-            return phirePawaProfileDAO.getUsersByBatch(calendar.getTimeInMillis(),calendar1.getTimeInMillis());
-        } catch (NumberFormatException e) {
+            return phirePawaProfileDAO.getUsersByBatch(date* (int)Math.pow(10,4-size),(date+1)* (int)Math.pow(10,4-size));
+        } catch (Exception e) {
             e.printStackTrace();
             return phirePawaProfileDAO.getUsersByBatch();
         }
@@ -65,4 +62,8 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         return phirePawaProfileDAO.getUsersByCompany();
 
     }
+
+   public UserModel getUserDetailsById(int id){
+        return phirePawaProfileDAO.getUserDetailsById(id);
+   }
 }

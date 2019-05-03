@@ -22,10 +22,10 @@ public class CareerModel {
     private String position;
 
     @ColumnInfo(name = "start_date")
-    private Date startDate;
+    private int startDate;
 
     @ColumnInfo(name = "end_date")
-    private Date endDate;
+    private int endDate;
 
 
     @ColumnInfo(name = "company")
@@ -33,7 +33,7 @@ public class CareerModel {
 
 
 
-    public CareerModel(int id, int userId, String position, Date startDate, Date endDate, String company) {
+    public CareerModel(int id, int userId, String position, int startDate, int endDate, String company) {
         this.id = id;
         this.userId = userId;
         this.position = position;
@@ -66,19 +66,19 @@ public class CareerModel {
         this.position = position;
     }
 
-    public Date getStartDate() {
+    public int getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(int startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public int getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(int endDate) {
         this.endDate = endDate;
     }
 

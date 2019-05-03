@@ -2,6 +2,7 @@ package com.vucs.adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
+import com.vucs.fragment.PhirePawaProfileFragment;
 import com.vucs.helper.Utils;
 import com.vucs.model.PhirePawaModel;
 
@@ -65,7 +69,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
             holder.user_name.setText(phirePawaProfileModel.getFirstName() + "  " + phirePawaProfileModel.getLastName());
             holder.company.setText(phirePawaProfileModel.getCompany());
 
-            holder.batch.setText(new SimpleDateFormat("yyyy").format(phirePawaProfileModel.getBatch()));
+            holder.batch.setText(phirePawaProfileModel.getBatch()+"");
             if (!phirePawaProfileModel.getUserImageURL().equals("default") && weakReference.get() != null) {
 
                 Glide
@@ -82,13 +86,14 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                 // notifyItemChanged(position);
             }
 
-               /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
 
+
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(weakReference.get().getString(R.string.object), phirePawaProfileModel);
+                        bundle.putInt(weakReference.get().getString(R.string.user_id), phirePawaProfileModel.getUserId());
                         bottomSheetDialogFragment.setArguments(bundle);
                         AppCompatActivity activity = (AppCompatActivity) weakReference.get();
 
@@ -96,11 +101,12 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
 
 
                     }
-                });*/
+                });
 
         } catch (Exception e) {
-            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
+            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
+
         }
 
     }
