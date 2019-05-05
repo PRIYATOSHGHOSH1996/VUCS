@@ -11,7 +11,6 @@ import com.vucs.model.PhirePawaModel;
 import com.vucs.model.UserModel;
 
 
-
 import java.util.List;
 
 public class PhirePawaProfileViewModel extends AndroidViewModel {
@@ -24,15 +23,15 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         phirePawaProfileDAO = db.phirePawaProfileDAO();
     }
 
-    public List<PhirePawaModel> getUsersByName(){
+    public List<UserModel> getUsersByName(){
         return phirePawaProfileDAO.getUsersByName();
     }
 
-    public List<PhirePawaModel> getUsersByBatch(){
+    public List<UserModel> getUsersByBatch(){
         return phirePawaProfileDAO.getUsersByBatch();
     }
 
-    public List<PhirePawaModel> getUsersByBatch(String s){
+    public List<UserModel> getUsersByBatch(String s){
         try {
             int size= s.length();
             int date=Integer.parseInt(s);
@@ -44,22 +43,22 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
         }
     }
 
-    public List<PhirePawaModel> getUsersByName(String s){
+    public List<UserModel> getUsersByName(String s){
         s=s+"%";
 
             return phirePawaProfileDAO.getUsersByName(s);
 
     }
 
-    public List<PhirePawaModel> getUsersByCompany(String s){
+    public List<UserModel> getUsersByCourse(String s){
         s=s+"%";
 
-        return phirePawaProfileDAO.getUsersByCompany(s);
+        return phirePawaProfileDAO.getUsersByCourse(s);
 
     }
 
-    public List<PhirePawaModel> getUsersByCompany(){
-        return phirePawaProfileDAO.getUsersByCompany();
+    public List<UserModel> getUsersByCourse(){
+        return phirePawaProfileDAO.getUsersByCourse();
 
     }
 

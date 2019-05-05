@@ -23,6 +23,7 @@ import com.vucs.R;
 import com.vucs.fragment.PhirePawaProfileFragment;
 import com.vucs.helper.Utils;
 import com.vucs.model.PhirePawaModel;
+import com.vucs.model.UserModel;
 
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUserAdapter.MyViewHolder> {
 
-    private List<PhirePawaModel> phirePawaProfileModelList = Collections.emptyList();
+    private List<UserModel> phirePawaProfileModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private String TAG = "userAdapter";
 
@@ -42,7 +43,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
         weakReference = new WeakReference<>(context);
     }
 
-    public void addUser(List<PhirePawaModel> phirePawaProfileModels) {
+    public void addUser(List<UserModel> phirePawaProfileModels) {
         phirePawaProfileModelList = phirePawaProfileModels;
         notifyDataSetChanged();
     }
@@ -65,16 +66,16 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
             if (position == getItemCount() - 1) {
                 return;
             }
-            final PhirePawaModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
+            final UserModel phirePawaProfileModel = phirePawaProfileModelList.get(position);
             holder.user_name.setText(phirePawaProfileModel.getFirstName() + "  " + phirePawaProfileModel.getLastName());
-            holder.company.setText(phirePawaProfileModel.getCompany());
+            holder.company.setText(phirePawaProfileModel.getCourse());
 
-            holder.batch.setText(phirePawaProfileModel.getBatch()+"");
-            if (!phirePawaProfileModel.getUserImageURL().equals("default") && weakReference.get() != null) {
+            holder.batch.setText(phirePawaProfileModel.getBatchEndDate()+"");
+            if (!phirePawaProfileModel.getImageUrl().equals("default") && weakReference.get() != null) {
 
                 Glide
                         .with(weakReference.get())
-                        .load(phirePawaProfileModel.getUserImageURL())
+                        .load(phirePawaProfileModel.getImageUrl())
                         .fitCenter()
                         .transition(new DrawableTransitionOptions().crossFade())
                         .into(new SimpleTarget<Drawable>() {
@@ -93,7 +94,7 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
 
 
                         Bundle bundle = new Bundle();
-                        bundle.putInt(weakReference.get().getString(R.string.user_id), phirePawaProfileModel.getUserId());
+                        bundle.putInt(weakReference.get().getString(R.string.user_id), phirePawaProfileModel.getId());
                         bottomSheetDialogFragment.setArguments(bundle);
                         AppCompatActivity activity = (AppCompatActivity) weakReference.get();
 

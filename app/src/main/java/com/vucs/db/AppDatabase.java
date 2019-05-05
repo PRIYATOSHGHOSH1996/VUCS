@@ -135,12 +135,12 @@ public abstract class AppDatabase extends RoomDatabase {
             phirePawaProfileDAO.insertCareer(new CareerModel(1,11,"",2019,-1,"Frametrics Consulting Pvt."));
 
 
-            phirePawaProfileDAO.insertUsers(new UserModel(12,"Saikat","Ghorai","","","",2015,2018,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
+            phirePawaProfileDAO.insertUsers(new UserModel(12,"Saikat","Ghorai","","","",2015,2018,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Msc",new Date()));
             phirePawaProfileDAO.insertCareer(new CareerModel(2,12,"",2019,-1,"Frametrics Consulting Pvt."));
 
 
             phirePawaProfileDAO.insertUsers(new UserModel(13,"Rohit","Sing","","","",2014,2017,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(3,13,"",2019,-1,"The AdView."));
+            phirePawaProfileDAO.insertCareer(new CareerModel(3,13,"",2019,2019,"The AdView."));
             phirePawaProfileDAO.insertCareer(new CareerModel(4,13,"",2018,2019,"Avalgate.   "));
 
 
@@ -148,7 +148,7 @@ public abstract class AppDatabase extends RoomDatabase {
             phirePawaProfileDAO.insertCareer(new CareerModel(5,14,"",2015,2016,"Avalgate."));
             phirePawaProfileDAO.insertCareer(new CareerModel(6,14,"",2019,-1,"Avalgate.ffff   "));
 
-            phirePawaProfileDAO.insertUsers(new UserModel(15,"Sovon","Jana","","","",2012,2015,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
+            phirePawaProfileDAO.insertUsers(new UserModel(15,"Sovon","Jana","","","",2012,2015,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Msc",new Date()));
             phirePawaProfileDAO.insertCareer(new CareerModel(7,15,"",2016,2018,"Avalgate."));
             phirePawaProfileDAO.insertCareer(new CareerModel(8,15,"",2019,-1,"The AdView."));
 

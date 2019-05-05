@@ -46,6 +46,6 @@
     <string-array name="sort_types_phire_pawa">
         <item>Name</item>
         <item>Batch</item>
-        <item>Company</item>
+        <item>Course</item>
     </string-array>
 </resources>

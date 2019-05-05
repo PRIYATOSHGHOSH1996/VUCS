@@ -96,7 +96,7 @@ public class PhirePawaFragment extends Fragment {
                         case 1:searchEditText.setHint("Search by batch");
                             searchEditText.setInputType(InputType.TYPE_CLASS_NUMBER );
                         break;
-                        case 2:searchEditText.setHint("Search by company");
+                        case 2:searchEditText.setHint("Search by course");
                             searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
                         break;
                     }
@@ -167,9 +167,9 @@ public class PhirePawaFragment extends Fragment {
                     break;
                 case 2:
                     if (searchText.equals("") || searchText.equals("%")) {
-                        adapter.addUser(phirePawaProfileViewModel.getUsersByCompany());
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse());
                     } else {
-                        adapter.addUser(phirePawaProfileViewModel.getUsersByCompany(searchText));
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse(searchText));
 
                     }
                     break;

@@ -16,35 +16,31 @@ import java.util.List;
 public interface PhirePawaProfileDAO {
 
 
-    @Query("SELECT dt_users.id as userId,first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 ORDER BY first_name")
-    public List<PhirePawaModel> getUsersByName();
+    @Query("SELECT * FROM dt_users" +
+            " ORDER BY first_name")
+    public List<UserModel> getUsersByName();
 
-    @Query("SELECT dt_users.id as userId, first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 ORDER BY batch_end_date DESC")
-    public List<PhirePawaModel> getUsersByBatch();
+    @Query("SELECT * FROM dt_users" +
+            " WHERE dt_users.first_name LIKE :s ORDER BY first_name")
+    public List<UserModel> getUsersByName(String s);
 
-    @Query("SELECT dt_users.id as userId,first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 AND dt_users.batch_end_date >= :start AND dt_users.batch_end_date<:end ORDER BY batch_end_date DESC")
-    public List<PhirePawaModel> getUsersByBatch(long start,long end);
+    @Query("SELECT * FROM dt_users" +
+            " ORDER BY batch_end_date DESC,first_name")
+    public List<UserModel> getUsersByBatch();
 
-    @Query("SELECT dt_users.id as userId,first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 AND dt_users.first_name LIKE :s ORDER BY first_name")
-    public List<PhirePawaModel> getUsersByName(String s);
+    @Query("SELECT * FROM dt_users" +
+            " WHERE dt_users.batch_end_date >= :start AND dt_users.batch_end_date<:end ORDER BY batch_end_date DESC, first_name")
+    public List<UserModel> getUsersByBatch(long start,long end);
 
-    @Query("SELECT dt_users.id as userId,first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 ORDER BY company")
-    public List<PhirePawaModel> getUsersByCompany();
+    @Query("SELECT * FROM dt_users order by course, first_name")
+    public List<UserModel> getUsersByCourse();
 
-    @Query("SELECT dt_users.id as userId,first_name as firstName,last_name as lastName ," +
-            "batch_end_date as batch,company,imageUrl as userImageURL FROM dt_career,dt_users" +
-            " WHERE dt_users.id = dt_career.user_id AND dt_career.end_date = -1 AND dt_career.company LIKE :s ORDER BY company")
-    public List<PhirePawaModel> getUsersByCompany(String s);
+    @Query("SELECT * FROM dt_users" +
+            " WHERE course LIKE :s ORDER BY course,first_name")
+    public List<UserModel> getUsersByCourse(String s);
+
+    @Query("select * from dt_career where user_id = :id order by end_date")
+    public List<CareerModel> getCareerDetailsByUserId(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertCareer(CareerModel careerModel);
