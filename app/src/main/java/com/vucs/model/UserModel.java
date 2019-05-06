@@ -11,10 +11,7 @@ import java.util.Date;
 @Entity(tableName = "dt_users")
 public class UserModel {
 
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "appid")
-    private int appid;
-
+    @PrimaryKey()
     @ColumnInfo(name = "id")
     private int id;
 
@@ -34,10 +31,10 @@ public class UserModel {
     private String address;
 
     @ColumnInfo(name = "batch_start_date")
-    private Date batchStartDate;
+    private int batchStartDate;
 
     @ColumnInfo(name = "batch_end_date")
-    private Date batchEndDate;
+    private int batchEndDate;
 
     @ColumnInfo(name = "imageUrl")
     private String imageUrl;
@@ -50,7 +47,7 @@ public class UserModel {
 
 
 
-    public UserModel(int id, String firstName, String lastName, String mail, String phoneNo, String address, Date batchStartDate, Date batchEndDate, String imageUrl, String course, Date dob) {
+    public UserModel(int id, String firstName, String lastName, String mail, String phoneNo, String address, int batchStartDate, int batchEndDate, String imageUrl, String course, Date dob) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,13 +61,6 @@ public class UserModel {
         this.dob = dob;
     }
 
-    public int getAppid() {
-        return appid;
-    }
-
-    public void setAppid(int appid) {
-        this.appid = appid;
-    }
 
     public int getId() {
         return id;
@@ -120,19 +110,19 @@ public class UserModel {
         this.address = address;
     }
 
-    public Date getBatchStartDate() {
+    public int getBatchStartDate() {
         return batchStartDate;
     }
 
-    public void setBatchStartDate(Date batchStartDate) {
+    public void setBatchStartDate(int batchStartDate) {
         this.batchStartDate = batchStartDate;
     }
 
-    public Date getBatchEndDate() {
+    public int getBatchEndDate() {
         return batchEndDate;
     }
 
-    public void setBatchEndDate(Date batchEndDate) {
+    public void setBatchEndDate(int batchEndDate) {
         this.batchEndDate = batchEndDate;
     }
 

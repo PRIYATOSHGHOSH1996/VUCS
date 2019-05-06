@@ -8,7 +8,7 @@
 
 
 
-            <item android:gravity="top">
+            <item android:gravity="top" android:right="@dimen/bottom_shape_hight" android:left="@dimen/bottom_shape_hight">
                 <shape>
                     <size android:height="10dp" />
                     <gradient

@@ -96,7 +96,7 @@ public class PhirePawaFragment extends Fragment {
                         case 1:searchEditText.setHint("Search by batch");
                             searchEditText.setInputType(InputType.TYPE_CLASS_NUMBER );
                         break;
-                        case 2:searchEditText.setHint("Search by company");
+                        case 2:searchEditText.setHint("Search by course");
                             searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
                         break;
                     }
@@ -153,7 +153,7 @@ public class PhirePawaFragment extends Fragment {
                     if (searchText.equals("") || searchText.equals("%")) {
                         adapter.addUser(phirePawaProfileViewModel.getUsersByName());
                     } else {
-                        //adapter.addUser(phirePawaProfileViewModel.getAllUserByName(searchText));
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByName(searchText));
 
                     }
                     break;
@@ -167,9 +167,9 @@ public class PhirePawaFragment extends Fragment {
                     break;
                 case 2:
                     if (searchText.equals("") || searchText.equals("%")) {
-                       // adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany());
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse());
                     } else {
-                        //adapter.addUser(phirePawaProfileViewModel.getAllUserByCompany(searchText));
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse(searchText));
 
                     }
                     break;

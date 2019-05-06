@@ -27,7 +27,6 @@ import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
 import com.vucs.model.NoticeModel;
-import com.vucs.model.PhirePawaProfileModel;
 import com.vucs.model.UserModel;
 
 import java.util.Calendar;
@@ -36,7 +35,7 @@ import java.util.Locale;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, PhirePawaProfileModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -130,36 +129,28 @@ public abstract class AppDatabase extends RoomDatabase {
             jobDAO.insertJobFile(new JobFileModel(1, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/g3.jpg?alt=media&token=020a0286-e673-44d2-aa6f-19a68994ebb4"));
             jobDAO.insertJobFile(new JobFileModel(2, "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/sample.pdf?alt=media&token=177abdba-7fd3-4fd2-8c3e-e8a7cbe6b719"));
 
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Priyatosh Ghosh", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Saikat Ghorai", "2019", "Frametrics Consulting Pvt.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/video-bg.jpg?alt=media&token=d1f837f2-460f-401f-aa03-cb68f4c3d33d"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Preetam Sarkar", "2019", "Avalgate.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/top-post1.jpg?alt=media&token=d5bba49a-8e03-47db-a72f-ca941db12720"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Rohit Sing", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/f1.jpg?alt=media&token=a859166f-679e-4181-b4cc-f266a4bd4be9"));
-            phirePawaProfileDAO.insertUser(new PhirePawaProfileModel("Sovon Jana", "2019", "The AdView.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd"));
 
-            Calendar calendar1 = Calendar.getInstance(Locale.getDefault());
 
-            calendar1.set(2019, 01, 22);
-            phirePawaProfileDAO.insertUsers(new UserModel(11,"Priyatosh","Ghosh","","","",new Date(),new Date(calendar1.getTimeInMillis()),"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(1,11,"",new Date(),new Date(10),"Frametrics Consulting Pvt."));
+            phirePawaProfileDAO.insertUsers(new UserModel(11,"Priyatosh","Ghosh","","","",2016,2019,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
+            phirePawaProfileDAO.insertCareer(new CareerModel(1,11,"",2019,-1,"Frametrics Consulting Pvt."));
 
-            calendar1.set(2018, 01, 22);
-            phirePawaProfileDAO.insertUsers(new UserModel(12,"Saikat","Ghorai","","","",new Date(),new Date(calendar1.getTimeInMillis()),"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(2,12,"",new Date(),new Date(10),"Frametrics Consulting Pvt."));
 
-            calendar1.set(2017, 01, 22);
-            phirePawaProfileDAO.insertUsers(new UserModel(13,"Rohit","Sing","","","",new Date(),new Date(calendar1.getTimeInMillis()),"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(3,13,"",new Date(),new Date(10),"The AdView."));
-            phirePawaProfileDAO.insertCareer(new CareerModel(4,13,"",new Date(),new Date(),"Avalgate.   "));
+            phirePawaProfileDAO.insertUsers(new UserModel(12,"Saikat","Ghorai","","","",2015,2018,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Msc",new Date()));
+            phirePawaProfileDAO.insertCareer(new CareerModel(2,12,"",2019,-1,"Frametrics Consulting Pvt."));
 
-            calendar1.set(2016, 01, 22);
-            phirePawaProfileDAO.insertUsers(new UserModel(14,"Preetam","Sarkar","","","",new Date(),new Date(calendar1.getTimeInMillis()),"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(5,14,"",new Date(),new Date(),"Avalgate."));
-            phirePawaProfileDAO.insertCareer(new CareerModel(6,14,"",new Date(),new Date(10),"Avalgate.ffff   "));
 
-            calendar1.set(2015, 01, 22);
-            phirePawaProfileDAO.insertUsers(new UserModel(15,"Sovon","Jana","","","",new Date(),new Date(calendar1.getTimeInMillis()),"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
-            phirePawaProfileDAO.insertCareer(new CareerModel(7,15,"",new Date(),new Date(),"Avalgate."));
-            phirePawaProfileDAO.insertCareer(new CareerModel(8,15,"",new Date(),new Date(10),"The AdView."));
+            phirePawaProfileDAO.insertUsers(new UserModel(13,"Rohit","Sing","","","",2014,2017,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
+            phirePawaProfileDAO.insertCareer(new CareerModel(3,13,"",2019,2019,"The AdView."));
+            phirePawaProfileDAO.insertCareer(new CareerModel(4,13,"",2018,2019,"Avalgate.   "));
+
+
+            phirePawaProfileDAO.insertUsers(new UserModel(14,"Preetam","Sarkar","","","",2013,2016,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Mca",new Date()));
+            phirePawaProfileDAO.insertCareer(new CareerModel(5,14,"",2015,2016,"Avalgate."));
+            phirePawaProfileDAO.insertCareer(new CareerModel(6,14,"",2019,-1,"Avalgate.ffff   "));
+
+            phirePawaProfileDAO.insertUsers(new UserModel(15,"Sovon","Jana","","","",2012,2015,"https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd","Msc",new Date()));
+            phirePawaProfileDAO.insertCareer(new CareerModel(7,15,"",2016,2018,"Avalgate."));
+            phirePawaProfileDAO.insertCareer(new CareerModel(8,15,"",2019,-1,"The AdView."));
 
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
 

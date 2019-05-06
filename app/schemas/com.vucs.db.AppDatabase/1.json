@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "88b7c39bc501e9ba1563bab5514a4a76",
+    "identityHash": "a7204a2b417efea3deae1367452356cd",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -169,50 +169,6 @@
         "foreignKeys": []
       },
       {
-        "tableName": "dt_phire_pawa",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `user_name` TEXT, `user_batch` TEXT, `user_company` TEXT, `user_image_url` TEXT)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "user_name",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "batch",
-            "columnName": "user_batch",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "company",
-            "columnName": "user_company",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "userImageURL",
-            "columnName": "user_image_url",
-            "affinity": "TEXT",
-            "notNull": false
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "id"
-          ],
-          "autoGenerate": true
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "dt_job_file",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `job_id` INTEGER NOT NULL, `job_file_url` TEXT)",
         "fields": [
@@ -334,7 +290,7 @@
       },
       {
         "tableName": "dt_career",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `position` TEXT, `start_date` INTEGER, `end_date` INTEGER, `company` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `position` TEXT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `company` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -358,13 +314,13 @@
             "fieldPath": "startDate",
             "columnName": "start_date",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "endDate",
             "columnName": "end_date",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "company",
@@ -384,14 +340,8 @@
       },
       {
         "tableName": "dt_users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `id` INTEGER NOT NULL, `first_name` TEXT, `last_name` TEXT, `mail` TEXT, `phone_no` TEXT, `address` TEXT, `batch_start_date` INTEGER, `batch_end_date` INTEGER, `imageUrl` TEXT, `course` TEXT, `dob` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `first_name` TEXT, `last_name` TEXT, `mail` TEXT, `phone_no` TEXT, `address` TEXT, `batch_start_date` INTEGER NOT NULL, `batch_end_date` INTEGER NOT NULL, `imageUrl` TEXT, `course` TEXT, `dob` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "appid",
-            "columnName": "appid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -432,13 +382,13 @@
             "fieldPath": "batchStartDate",
             "columnName": "batch_start_date",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "batchEndDate",
             "columnName": "batch_end_date",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "imageUrl",
@@ -461,9 +411,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "appid"
+            "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -472,7 +422,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"88b7c39bc501e9ba1563bab5514a4a76\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a7204a2b417efea3deae1367452356cd\")"
     ]
   }
 }

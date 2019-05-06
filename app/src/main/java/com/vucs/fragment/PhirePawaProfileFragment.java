@@ -1,7 +1,6 @@
 package com.vucs.fragment;
 
 
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,6 +13,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.palette.graphics.Palette;
 
 import com.bumptech.glide.Glide;
@@ -24,13 +25,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
 import com.vucs.helper.Utils;
-import com.vucs.model.PhirePawaProfileModel;
+import com.vucs.model.UserModel;
+import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
 import java.util.Date;
 
 public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
-    private PhirePawaProfileModel phirePawaProfileModel;
     private String TAG = "phirepawaProfileFragment";
     private View view;
 
@@ -53,16 +54,20 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
             CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collaps_tollbar);
             ImageView imageView = view.findViewById(R.id.profile_image);
 
-            Log.e("phire pawa profile", "start");
-            phirePawaProfileModel = (PhirePawaProfileModel) getArguments().getSerializable(getContext().getString(R.string.object));
-            if (phirePawaProfileModel != null) {
-                collapsingToolbarLayout.setTitle(phirePawaProfileModel.getName());
-                if (!phirePawaProfileModel.getUserImageURL().equals("default")) {
+
+
+            int id = (int) getArguments().getInt(getContext().getString(R.string.user_id),-1);
+            Log.e("phire pawa profile", "start id = "+id);
+            if (id != -1) {
+                PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
+                UserModel userModel = phirePawaProfileViewModel.getUserDetailsById(id);
+                collapsingToolbarLayout.setTitle(userModel.getFirstName() + "  " + userModel.getLastName());
+                if (!userModel.getImageUrl().equals("default")) {
                     imageView.setVisibility(View.VISIBLE);
 
                     Glide
                             .with(getContext())
-                            .load(phirePawaProfileModel.getUserImageURL())
+                            .load(userModel.getImageUrl())
                             .fitCenter()
                             .transition(new DrawableTransitionOptions().crossFade())
                             .into(new SimpleTarget<Drawable>() {

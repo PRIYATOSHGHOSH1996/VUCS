@@ -41,10 +41,11 @@
     <string name="image_gallery_broadcast_receiver">image_gallery_broadcast_receiver</string>
     <string name="item_id">item_id</string>
     <string name="class_notice_broadcast_receiver">class_notice_broadcast_receiver</string>
+    <string name="user_id">user_id</string>
 
     <string-array name="sort_types_phire_pawa">
         <item>Name</item>
         <item>Batch</item>
-        <item>Company</item>
+        <item>Course</item>
     </string-array>
 </resources>
