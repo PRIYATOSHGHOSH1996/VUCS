@@ -15,19 +15,23 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewImageGalleryAdapter;
 import com.vucs.adapters.RecyclerViewImageGalleryFolderAdapter;
+import com.vucs.helper.Constants;
 import com.vucs.recycler_view.MyRecyclerView;
 import com.vucs.viewmodel.ImageGalleryViewModel;
 
 public class ImageGalleryActivity extends AppCompatActivity {
-    MyRecyclerView recyclerView;
+    RecyclerView recyclerView;
     TextView header_text;
     ImageGalleryViewModel imageGalleryViewModel;
     private String TAG = "Image Gallery Activity";
     private BroadcastReceiver broadcastReceiver;
+    int columnCount= 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,9 @@ public class ImageGalleryActivity extends AppCompatActivity {
 
         header_text = findViewById(R.id.header_text);
         recyclerView = findViewById(R.id.recycler_view);
+
         imageGalleryViewModel = ViewModelProviders.of(this).get(ImageGalleryViewModel.class);
+
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -61,6 +67,16 @@ public class ImageGalleryActivity extends AppCompatActivity {
     private void showImages(String folderName) {
         Log.e(TAG, "image");
         final RecyclerViewImageGalleryAdapter recyclerViewImageGalleryAdapter = new RecyclerViewImageGalleryAdapter(this);
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            //Do some stuff
+            recyclerViewImageGalleryAdapter.setLandscape(true);
+            recyclerView.setLayoutManager(new GridLayoutManager(this,Constants.LANDSCAPE_COLUMN_COUNT));
+        }else {
+            recyclerViewImageGalleryAdapter.setLandscape(false);
+            recyclerView.setLayoutManager(new GridLayoutManager(this,Constants.PORTRAIT_COLUMN_COUNT));
+        }
+
         recyclerViewImageGalleryAdapter.addImage(imageGalleryViewModel.getAllImagesByFolder(folderName));
         recyclerView.setAdapter(recyclerViewImageGalleryAdapter);
 
@@ -71,6 +87,14 @@ public class ImageGalleryActivity extends AppCompatActivity {
         Log.e(TAG, "folder");
         final RecyclerViewImageGalleryFolderAdapter recyclerViewImageGalleryFolderAdapter = new RecyclerViewImageGalleryFolderAdapter(this);
         recyclerView.setAdapter(recyclerViewImageGalleryFolderAdapter);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            //Do some stuff
+            recyclerViewImageGalleryFolderAdapter.setLandscape(true);
+            recyclerView.setLayoutManager(new GridLayoutManager(this, Constants.LANDSCAPE_COLUMN_COUNT));
+        }else {
+            recyclerViewImageGalleryFolderAdapter.setLandscape(false);
+            recyclerView.setLayoutManager(new GridLayoutManager(this,Constants.PORTRAIT_COLUMN_COUNT));
+        }
         recyclerViewImageGalleryFolderAdapter.addFolder(imageGalleryViewModel.getAllFolders());
 
 
@@ -79,6 +103,13 @@ public class ImageGalleryActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            columnCount = 3;
+        }
+        else {
+            Log.e(TAG,"lanscape");
+            columnCount = 5;
+        }
     }
 
     private void updateAdapter() {

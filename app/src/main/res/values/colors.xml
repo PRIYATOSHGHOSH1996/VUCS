@@ -25,5 +25,7 @@
 
     <color name="colorPrimary1fade">#8801203D</color>
 
+    <color name="ripple_color">#A2A4A5</color>
+
 
 </resources>

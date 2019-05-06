@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
+import com.vucs.model.CareerModel;
 import com.vucs.model.PhirePawaModel;
 import com.vucs.model.UserModel;
 
@@ -67,4 +68,8 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
    public UserModel getUserDetailsById(int id){
         return phirePawaProfileDAO.getUserDetailsById(id);
    }
+
+    public List<CareerModel> getCareerDetailsByUserId(int id){
+        return phirePawaProfileDAO.getCareerDetailsByUserId(id);
+    }
 }

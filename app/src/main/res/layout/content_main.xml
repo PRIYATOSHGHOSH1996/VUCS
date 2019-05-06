@@ -37,8 +37,6 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.viewpager.widget.PagerTabStrip
@@ -56,7 +54,10 @@
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_shape_hight"
-        android:background="@drawable/cut_corner_bottom_shape"/>
+        android:animateLayoutChanges="true"
+        app:layout_behavior="com.vucs.layoutbehaviers.MoveUpwardBehavior"
+        android:background="@drawable/cut_corner_bottom_shape">
+    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,9 +3,11 @@ package com.vucs.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
 import com.vucs.activity.ImageGalleryActivity;
+import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
 
 import java.lang.ref.WeakReference;
@@ -26,9 +29,13 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
     private List<String> folderList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private String TAG = "ImageGalleryfolderAdapter";
+    private boolean landscape = false;
 
     public RecyclerViewImageGalleryFolderAdapter(Context context) {
         weakReference = new WeakReference<>(context);
+    }
+    public void setLandscape(boolean count){
+        this.landscape = count;
     }
 
     public void addFolder(List<String> folders) {
@@ -50,7 +57,17 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
             final String folderName = folderList.get(position);
-
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            ((Activity) weakReference.get()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            int devicewidth;
+            if (!landscape) {
+                devicewidth = displaymetrics.widthPixels / Constants.PORTRAIT_COLUMN_COUNT;
+            }
+            else {
+                devicewidth = displaymetrics.widthPixels / Constants.LANDSCAPE_COLUMN_COUNT;
+            }
+            holder.imageView.getLayoutParams().width = devicewidth-18;
+            holder.imageView.getLayoutParams().height = devicewidth-18;
             holder.folderName.setText(folderName);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,10 +92,12 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView folderName;
+        ImageView imageView;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             folderName = itemView.findViewById(R.id.folderName);
+            imageView = itemView.findViewById(R.id.imageView);
 
         }
     }

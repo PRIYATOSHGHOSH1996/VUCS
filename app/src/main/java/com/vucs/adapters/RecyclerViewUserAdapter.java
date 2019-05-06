@@ -97,7 +97,6 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                         bundle.putInt(weakReference.get().getString(R.string.user_id), phirePawaProfileModel.getId());
                         bottomSheetDialogFragment.setArguments(bundle);
                         AppCompatActivity activity = (AppCompatActivity) weakReference.get();
-
                         bottomSheetDialogFragment.show(activity.getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
 
 

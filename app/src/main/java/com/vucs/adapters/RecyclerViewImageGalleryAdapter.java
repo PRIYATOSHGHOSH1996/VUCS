@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.vucs.R;
 import com.vucs.activity.PreviewFile;
+import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
 import com.vucs.model.ImageGalleryModel;
 
@@ -34,6 +36,7 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
     private List<ImageGalleryModel> imageGalleryModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     private String TAG = "ImageGalleryAdapter";
+    private boolean landscape = false;
 
     public RecyclerViewImageGalleryAdapter(Context context) {
         weakReference = new WeakReference<>(context);
@@ -44,6 +47,9 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
         notifyDataSetChanged();
     }
 
+    public void setLandscape(boolean count){
+        this.landscape = count;
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -60,6 +66,17 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
             final ImageGalleryModel imageGalleryModel = imageGalleryModelList.get(position);
 
 
+            DisplayMetrics displaymetrics = new DisplayMetrics();
+            ((Activity) weakReference.get()).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+            int devicewidth;
+          if (!landscape) {
+               devicewidth = displaymetrics.widthPixels / Constants.PORTRAIT_COLUMN_COUNT;
+          }
+          else {
+              devicewidth = displaymetrics.widthPixels / Constants.LANDSCAPE_COLUMN_COUNT;
+          }
+            holder.imageView.getLayoutParams().width = devicewidth-18;
+            holder.imageView.getLayoutParams().height = devicewidth-18;
             if (!imageGalleryModel.getImageURL().equals("default") && weakReference.get() != null) {
 
 

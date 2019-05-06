@@ -1,19 +1,23 @@
 package com.vucs.fragment;
 
 
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.palette.graphics.Palette;
 
@@ -22,29 +26,103 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.vucs.R;
 import com.vucs.helper.Utils;
+import com.vucs.model.CareerModel;
 import com.vucs.model.UserModel;
 import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
+    LinearLayout career_layout;
     private String TAG = "phirepawaProfileFragment";
     private View view;
-
+    private TextView batch, course, phone_no, mail, address;
+    ScrollView scrollView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.item_phire_pawa_profile, container, false);
         Log.e("phire pawa profile", "start");
+
         iniView();
+//        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialog) {
+//
+//                BottomSheetDialog d = (BottomSheetDialog) dialog;
+//
+//                View bottomSheetInternal = d.findViewById( com.google.android.material.R.id.design_bottom_sheet);
+//                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetInternal);
+//               stateChange(bottomSheetBehavior);
+//
+//
+//            }
+//        });
+
         return view;
     }
 
+    private void stateChange(BottomSheetBehavior bottomSheetBehavior){
+              bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+
+                @Override
+
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    Log.e("Phire pawa Profile","expaefwefefnd");
+
+                    switch (newState) {
+
+                        case BottomSheetBehavior.STATE_HIDDEN:
+                            getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit();
+                            break;
+
+                        case BottomSheetBehavior.STATE_EXPANDED:
+                            Log.e("Phire pawa Profile","expand");
+                            break;
+
+                        case BottomSheetBehavior.STATE_COLLAPSED:
+                            Log.e("Phire pawa Profile","collaps");
+
+                            break;
+
+                        case BottomSheetBehavior.STATE_DRAGGING:
+
+                            break;
+
+                        case BottomSheetBehavior.STATE_SETTLING:
+
+                            break;
+
+                    }
+
+                }
+
+
+
+
+                @Override
+
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    if (slideOffset!=1){
+
+                           // scrollView.setNestedScrollingEnabled(false);
+
+                    }
+                    // React to dragging events
+
+                }
+
+            });
+
+    }
     private void iniView() {
         try {
             Log.e("phire pawa profile", "initView");
@@ -53,15 +131,23 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
             toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit());
             CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collaps_tollbar);
             ImageView imageView = view.findViewById(R.id.profile_image);
+            batch = view.findViewById(R.id.batch);
+            course = view.findViewById(R.id.course);
+            phone_no = view.findViewById(R.id.phone_no);
+            mail = view.findViewById(R.id.mail);
+            address = view.findViewById(R.id.address);
+            career_layout = view.findViewById(R.id.career_layout);
+            scrollView = view.findViewById(R.id.scrollView);
 
 
 
-            int id = (int) getArguments().getInt(getContext().getString(R.string.user_id),-1);
-            Log.e("phire pawa profile", "start id = "+id);
+            int id = (int) getArguments().getInt(getContext().getString(R.string.user_id), -1);
+            Log.e("phire pawa profile", "start id = " + id);
             if (id != -1) {
                 PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
                 UserModel userModel = phirePawaProfileViewModel.getUserDetailsById(id);
                 collapsingToolbarLayout.setTitle(userModel.getFirstName() + "  " + userModel.getLastName());
+
                 if (!userModel.getImageUrl().equals("default")) {
                     imageView.setVisibility(View.VISIBLE);
 
@@ -82,6 +168,29 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
                                 }
                             });
+                }
+                batch.setText(userModel.getBatchStartDate() + " - " + userModel.getBatchEndDate());
+                course.setText(userModel.getCourse());
+                phone_no.setText(userModel.getPhoneNo());
+                mail.setText(userModel.getMail());
+                address.setText(userModel.getAddress());
+                List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(id);
+                for (CareerModel careerModel : careerModels){
+                    career_layout.setVisibility(View.VISIBLE);
+                    View view = getLayoutInflater().inflate(R.layout.item_career_layout, null);
+                    TextView company_name = view.findViewById(R.id.company_name);
+                    TextView duration = view.findViewById(R.id.company_duration);
+                    TextView occupation = view.findViewById(R.id.occupation);
+                    company_name.setText(careerModel.getCompany());
+                    occupation.setText(careerModel.getOccupation());
+                    if (careerModel.getEndDate()==-1){
+                        duration.setText(careerModel.getStartDate()+"");
+                    }
+                    else {
+                        duration.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
+                    }
+                    career_layout.addView(view);
+
                 }
             } else {
                 Log.e("phire pawa profile", "object null");

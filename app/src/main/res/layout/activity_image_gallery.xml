@@ -8,15 +8,12 @@
 
     <include layout="@layout/app_bar_main" />
 
-    <com.vucs.recycler_view.MyRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
-        android:columnWidth="@dimen/column_width"
         android:padding="@dimen/activity_horizontal_margin">
 
-    </com.vucs.recycler_view.MyRecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>>
 
 </LinearLayout>

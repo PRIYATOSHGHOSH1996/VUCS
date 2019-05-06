@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a7204a2b417efea3deae1367452356cd",
+    "identityHash": "e8b4e42da5a864f7486f98f6580bc503",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -290,7 +290,7 @@
       },
       {
         "tableName": "dt_career",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `position` TEXT, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `company` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `user_id` INTEGER NOT NULL, `start_date` INTEGER NOT NULL, `end_date` INTEGER NOT NULL, `company` TEXT, `occupation` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -303,12 +303,6 @@
             "columnName": "user_id",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "position",
-            "columnName": "position",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "startDate",
@@ -325,6 +319,12 @@
           {
             "fieldPath": "company",
             "columnName": "company",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "occupation",
+            "columnName": "occupation",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -422,7 +422,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a7204a2b417efea3deae1367452356cd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e8b4e42da5a864f7486f98f6580bc503\")"
     ]
   }
 }

@@ -496,7 +496,7 @@ public class HomeActivity extends AppCompatActivity
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 download();
             }
-            if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+            else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
                 showSnackBarWithRetryStoragePermission("Please give storage permission.");
 
 
