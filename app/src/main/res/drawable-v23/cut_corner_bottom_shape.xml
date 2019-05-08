@@ -17,12 +17,12 @@
 
 
 
-            <item android:right="@dimen/bottom_shape_hight" android:gravity="top" >
+            <item android:right="@dimen/bottom_shape_hight" android:top="-40dp" android:gravity="top" >
 
                 <rotate
                     android:fromDegrees="-135"
-                    android:pivotX="97%"
-                    android:pivotY="47%">
+                    android:pivotX="100%"
+                    android:pivotY="100%">
                     <layer-list>
                         <item>
                             <shape android:shape="rectangle">
@@ -34,12 +34,12 @@
                     </layer-list>
                 </rotate>
             </item>
-            <item android:gravity="top" android:left="@dimen/bottom_shape_hight">
+            <item android:gravity="top" android:top="-40dp" android:left="@dimen/bottom_shape_hight">
 
                 <rotate
                     android:fromDegrees="135"
-                    android:pivotX="3%"
-                    android:pivotY="47%">
+                    android:pivotX="0%"
+                    android:pivotY="100%">
                     <layer-list>
                         <item >
                             <shape android:shape="rectangle">
