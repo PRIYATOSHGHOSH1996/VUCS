@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary1"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed|snapMargins"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             app:title="@string/app_name">
 
             <ImageView
