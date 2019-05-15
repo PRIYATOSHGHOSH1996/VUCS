@@ -28,10 +28,10 @@ public class App extends Application {
         super.onCreate();
         context = new WeakReference<Context>(this);
         resources = new WeakReference<Resources>(getResources());
-        createNotificationChannel();
+        //createNotificationChannel();
     }
 
-    private void createNotificationChannel() {
+   /* private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
@@ -42,5 +42,5 @@ public class App extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
-    }
+    }*/
 }

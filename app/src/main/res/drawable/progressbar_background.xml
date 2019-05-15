@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-   >
-    <corners android:radius="20dp"/>
 
-    <solid
-        android:color="@color/colorPrimary1"/>
 
-    <size
-        android:width="40dp"
-        android:height="40dp"/>
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- SHADOW -->
+    <item>
+        <shape>
+            <solid android:color="#102746"/>
+            <!-- alttan gölge -->
+            <corners android:radius="22dp"/>
+        </shape>
+    </item>
+    <!-- BUTTON alttan gölge
+      android:right="5px" to make it round-->
+    <item
+        android:bottom="5px"
+        >
+        <shape>
+            <padding android:bottom="5dp"/>
+            <gradient
+                android:startColor="#1c4985"
+                android:endColor="#163969"
+                android:angle="270" />
+            <corners android:radius="20dp"/>
+            <size
+                android:width="40dp"
+                android:height="40dp"/>
+        </shape>
+    </item>
+</layer-list>

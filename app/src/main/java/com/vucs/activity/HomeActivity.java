@@ -16,8 +16,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
@@ -25,12 +28,15 @@ import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -282,24 +288,8 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        // menu.findItem(R.id.class_notice).setVisible(false);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.class_notice:
-                ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-                Intent intent = new Intent(this, ClassNoticeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                startActivity(intent,activityOptionsCompat.toBundle());
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -517,6 +507,51 @@ public class HomeActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
         viewPager.setOffscreenPageLimit(5);
 
+    }
+
+    public void onClassNoticeClick(View view) {
+        ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent intent = new Intent(this, ClassNoticeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent,activityOptionsCompat.toBundle());
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.class_notice: ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                Intent intent = new Intent(this, ClassNoticeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent,activityOptionsCompat.toBundle());
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.class_notice);
+        item.setActionView(R.layout.icon_notification);
+        View view = item.getActionView();
+        FrameLayout frameLayout =view.findViewById(R.id.notification);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this);
+                Intent intent = new Intent(HomeActivity.this, ClassNoticeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(intent,activityOptionsCompat.toBundle());
+            }
+        });
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {

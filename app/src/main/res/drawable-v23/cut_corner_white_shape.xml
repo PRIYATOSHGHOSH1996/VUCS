@@ -6,8 +6,9 @@
         <layer-list>
 <item>
     <ripple android:color="@color/ripple_color">
-        <item>
+        <item >
             <shape android:shape="rectangle">
+                <size android:height="120dp"/>
                 <solid android:color="@color/white" />
             </shape>
         </item>

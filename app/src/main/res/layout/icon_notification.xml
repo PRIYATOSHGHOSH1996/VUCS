@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout
+    android:id="@+id/notification"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|start"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/notification"
+        android:contentDescription="TODO" />
+    <FrameLayout
+        android:id="@+id/view_alert_red_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:background="@drawable/box_shadow_circle_red"
+        android:visibility="visible"
+        tools:visibility="visible">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/view_alert_count_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:text="2"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            style="@style/TextAppearance.MaterialComponents.Overline"
+            />
+
+    </FrameLayout>
+</FrameLayout>
