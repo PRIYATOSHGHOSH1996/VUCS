@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -86,8 +85,9 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
                     Pair<View, String> p = Pair.create((View) holder.linearLayout, "parent");
 
                     Bundle options1 = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)weakReference.get()).toBundle();
-
-                    weakReference.get().startActivity(intent, options);
+                    Activity activity=(Activity)weakReference.get();
+                    weakReference.get().startActivity(intent);
+                    activity.overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
                 }
             });
         } catch (Exception e) {

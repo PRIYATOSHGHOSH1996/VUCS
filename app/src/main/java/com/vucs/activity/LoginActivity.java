@@ -48,11 +48,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 frameLayout=findViewById(R.id.transitions_container);
         viewGroup = (ViewGroup) findViewById(R.id.parent);
-        Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.logo_transition);
+     /*   Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.logo_transition);
         Scene aScene = Scene.getSceneForLayout(viewGroup, R.layout.activity_login, this);
-        TransitionManager.go(aScene, transition);
+        TransitionManager.go(aScene, transition);*/
         linearLayout = findViewById(R.id.login_layout);
         imageView = findViewById(R.id.logo);
+        Animation connectingAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_anim);
+        imageView.startAnimation(connectingAnimation);
         login = findViewById(R.id.login_button1);
         progressBar = findViewById(R.id.progress_bar);
 

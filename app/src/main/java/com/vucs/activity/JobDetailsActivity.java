@@ -252,4 +252,11 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
+
+    }
 }

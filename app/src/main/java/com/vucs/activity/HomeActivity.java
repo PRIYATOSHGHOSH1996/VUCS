@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,14 +24,19 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +55,7 @@ import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -89,7 +96,11 @@ public class HomeActivity extends AppCompatActivity
     private int revealX;
     private int revealY;
     DrawerLayout drawer;
-
+    TextSwitcher textSwitcher;
+    boolean textChangeFlag=true;
+    Animation makeInAnimation;
+    FloatingActionButton floatingActionButton;
+    Animation makeOutAnimation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -186,21 +197,33 @@ public class HomeActivity extends AppCompatActivity
                     switch (position) {
                         case 0:
                             navigationView.setCheckedItem(R.id.blog);
+                            if (!floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeInAnimation);
+                            }
                             break;
                         case 1:
                             navigationView.setCheckedItem(R.id.phire_pawa);
+                            if (floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeOutAnimation);
+                            }
                             break;
                         case 2:
                             navigationView.setCheckedItem(R.id.notice);
+                            if (floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeOutAnimation);
+                            }
                             break;
                         case 3:
                             navigationView.setCheckedItem(R.id.job_post);
+                            if (!floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeInAnimation);
+                            }
                             break;
                         case 4:
-                            navigationView.setCheckedItem(R.id.image_gallery);
-                            break;
-                        case 5:
                             navigationView.setCheckedItem(R.id.teachers);
+                            if (floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeOutAnimation);
+                            }
                             break;
                     }
 
@@ -256,6 +279,72 @@ public class HomeActivity extends AppCompatActivity
                     }
                 });
             }
+            textSwitcher=findViewById(R.id.text_switcher);
+            textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+
+                public View makeView() {
+                    TextView t = new TextView(HomeActivity.this);
+                    t.setTextAppearance(HomeActivity.this,R.style.TextAppearance_MaterialComponents_Body1);
+                    t.setGravity(Gravity.CENTER);
+                    t.setSingleLine();
+                    t.setTypeface(null, Typeface.ITALIC);
+                    t.setTextColor(getResources().getColor(R.color.colorAccent));
+                    return t;
+                }
+            });
+
+            // Declare in and out animations and load them using AnimationUtils class
+            Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
+
+            // set the animation type to TextSwitcher
+            textSwitcher.setInAnimation(in);
+            textSwitcher.setOutAnimation(out);
+            final Handler tipsHanlder = new Handler();
+            Runnable tipsRunnable = new Runnable() {
+                @Override
+                public void run()
+                {
+                  if (textChangeFlag){
+                      textSwitcher.setText("Vidyasagar University");
+                      textChangeFlag =false;
+                  }
+                  else {
+                      textSwitcher.setText("Dept. of Computer Science");
+                      textChangeFlag =true;
+                  }
+                    tipsHanlder.postDelayed(this, 5000);
+                }
+            };
+            tipsHanlder.post(tipsRunnable);
+            floatingActionButton = findViewById(R.id.add);
+            makeInAnimation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.scale_up);
+            makeInAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) { }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            });
+
+            makeOutAnimation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.scale_down);
+            makeOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    floatingActionButton.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+
+                @Override
+                public void onAnimationStart(Animation animation) { }
+            });
         } catch (Exception e) {
             Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
@@ -340,7 +429,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG);
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG);
         View view = snackbar.getView();
         view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
         TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
@@ -349,7 +438,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void showSnackBarWithNetworkAction(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -370,7 +459,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void showSnackBarWithRetryStoragePermission(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG)
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG)
                 .setAction("Open Setting", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -552,6 +641,11 @@ public class HomeActivity extends AppCompatActivity
             }
         });
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void onAddClick(View view) {
+        startActivity(new Intent(HomeActivity.this,AddBlogJobActivity.class));
+
     }
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
