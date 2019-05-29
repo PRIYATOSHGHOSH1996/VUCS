@@ -6,8 +6,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "dt_image_gallery")
-public class ImageGalleryModel {
+public class ImageGalleryModel implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "image_id")

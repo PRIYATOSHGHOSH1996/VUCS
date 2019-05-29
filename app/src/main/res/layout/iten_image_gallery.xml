@@ -10,7 +10,7 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:src="@drawable/double_ring"
-                    android:transitionName="@string/item_image_url" />
+                    android:transitionName="transition" />
 
 
 

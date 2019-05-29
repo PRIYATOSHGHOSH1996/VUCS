@@ -1,6 +1,5 @@
 package com.vucs.model;
 
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -18,8 +17,12 @@ public class BlogModel {
     @ColumnInfo(name = "blog_title")
     private String blogTitle;
 
+    @ColumnInfo(name = "blog_by_id")
+    private int blogById;
+
     @ColumnInfo(name = "blog_by")
     private String blogBy;
+
 
     @ColumnInfo(name = "date")
     private Date date;
@@ -30,21 +33,21 @@ public class BlogModel {
     @ColumnInfo(name = "blog_image_url")
     private String blogImageURL;
 
-    @Ignore
-    private boolean expand;
-
+    @ColumnInfo(name = "status")
+    private int status;
     @Ignore
     public BlogModel() {
 
     }
 
-    public BlogModel(String blogTitle, String blogBy, Date date, String content, String blogImageURL) {
+    public BlogModel(String blogTitle, int blogById, String blogBy, Date date, String content, String blogImageURL, int status) {
         this.blogTitle = blogTitle;
+        this.blogById = blogById;
         this.blogBy = blogBy;
         this.date = date;
         this.content = content;
         this.blogImageURL = blogImageURL;
-        this.expand = false;
+        this.status = status;
     }
 
     public int getBlogId() {
@@ -88,13 +91,6 @@ public class BlogModel {
     }
 
 
-    public boolean isExpand() {
-        return expand;
-    }
-
-    public void setExpand(boolean expand) {
-        this.expand = expand;
-    }
 
     public String getBlogImageURL() {
         return blogImageURL;
@@ -104,16 +100,35 @@ public class BlogModel {
         this.blogImageURL = blogImageURL;
     }
 
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+
+    public int getBlogById() {
+        return blogById;
+    }
+
+    public void setBlogById(int blogById) {
+        this.blogById = blogById;
+    }
+
     @Override
     public String toString() {
         return "BlogModel{" +
                 "blogId=" + blogId +
                 ", blogTitle='" + blogTitle + '\'' +
+                ", blogById=" + blogById +
                 ", blogBy='" + blogBy + '\'' +
                 ", date=" + date +
                 ", content='" + content + '\'' +
                 ", blogImageURL='" + blogImageURL + '\'' +
-                ", expand=" + expand +
+                ", status=" + status +
                 '}';
     }
 }

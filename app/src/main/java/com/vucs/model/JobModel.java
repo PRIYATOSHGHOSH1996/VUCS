@@ -21,6 +21,9 @@ public class JobModel {
     @ColumnInfo(name = "job_title")
     private String jobTitle;
 
+    @ColumnInfo(name = "job_by_id")
+    private int jobById;
+
     @ColumnInfo(name = "job_by")
     private String jobBy;
 
@@ -30,19 +33,23 @@ public class JobModel {
     @ColumnInfo(name = "content")
     private String content;
 
+    @ColumnInfo(name = "status")
+    private int status;
 
     @Ignore
     public JobModel() {
 
     }
 
-    public JobModel(int jobId, String jobTitle, String jobBy, Date date, String content) {
+    public JobModel(int jobId, String jobTitle, int jobById, String jobBy, Date date, String content, int status) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
+        this.jobById = jobById;
         this.jobBy = jobBy;
         this.date = date;
         this.content = content;
 
+        this.status = status;
     }
 
     public int getId() {
@@ -93,6 +100,21 @@ public class JobModel {
         this.content = content;
     }
 
+    public int getJobById() {
+        return jobById;
+    }
+
+    public void setJobById(int jobById) {
+        this.jobById = jobById;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -100,9 +122,11 @@ public class JobModel {
                 "Id=" + Id +
                 ", jobId=" + jobId +
                 ", jobTitle='" + jobTitle + '\'' +
+                ", jobById=" + jobById +
                 ", jobBy='" + jobBy + '\'' +
                 ", date=" + date +
                 ", content='" + content + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

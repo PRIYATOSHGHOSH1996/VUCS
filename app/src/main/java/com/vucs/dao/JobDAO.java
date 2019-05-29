@@ -19,7 +19,7 @@ public interface JobDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertJobFile(JobFileModel jobFileModel);
 
-    @Query("SELECT * FROM dt_job")
+    @Query("SELECT * FROM dt_job WHERE status = 1")
     public List<JobModel> getAllJob();
 
     @Query("SELECT * FROM dt_job_file WHERE job_id = :jobId")

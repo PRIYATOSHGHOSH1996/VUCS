@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e8b4e42da5a864f7486f98f6580bc503",
+    "identityHash": "f28020e96be9c8a04c6c8526e68dc4fd",
     "entities": [
       {
         "tableName": "dt_blog",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blog_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `blog_title` TEXT, `blog_by` TEXT, `date` INTEGER, `content` TEXT, `blog_image_url` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blog_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `blog_title` TEXT, `blog_by_id` INTEGER NOT NULL, `blog_by` TEXT, `date` INTEGER, `content` TEXT, `blog_image_url` TEXT, `status` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "blogId",
@@ -19,6 +19,12 @@
             "columnName": "blog_title",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "blogById",
+            "columnName": "blog_by_id",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "blogBy",
@@ -43,6 +49,12 @@
             "columnName": "blog_image_url",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -202,7 +214,7 @@
       },
       {
         "tableName": "dt_job",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `job_id` INTEGER NOT NULL, `job_title` TEXT, `job_by` TEXT, `date` INTEGER, `content` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `job_id` INTEGER NOT NULL, `job_title` TEXT, `job_by_id` INTEGER NOT NULL, `job_by` TEXT, `date` INTEGER, `content` TEXT, `status` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "Id",
@@ -223,6 +235,12 @@
             "notNull": false
           },
           {
+            "fieldPath": "jobById",
+            "columnName": "job_by_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "jobBy",
             "columnName": "job_by",
             "affinity": "TEXT",
@@ -239,6 +257,12 @@
             "columnName": "content",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -422,7 +446,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e8b4e42da5a864f7486f98f6580bc503\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f28020e96be9c8a04c6c8526e68dc4fd\")"
     ]
   }
 }

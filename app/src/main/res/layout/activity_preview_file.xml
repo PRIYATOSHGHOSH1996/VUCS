@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBlack"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".activity.PreviewFile">
 
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/show_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="@color/white"
-        android:scaleType="fitCenter"
-        android:transitionName="@string/item_image_url" />
-
-
     <FrameLayout
+        android:layout_gravity="top"
         android:id="@+id/download_frame"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:animateLayoutChanges="true"
-        android:background="@color/black_transparent"
-        app:layout_behavior="com.vucs.layoutbehaviers.MoveUpwardBehavior">
+        android:layout_height="wrap_content"
+        android:translationZ="1dp"
+        android:animateLayoutChanges="true">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|top"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+            android:tint="@color/white" />
 
         <ImageButton
             android:id="@+id/download_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginEnd="4dp"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/download_icon"
             android:tint="@color/white" />
     </FrameLayout>
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
 
+    </androidx.viewpager.widget.ViewPager>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

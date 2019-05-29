@@ -26,6 +26,7 @@ import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
 import com.vucs.model.ImageGalleryModel;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Date;
@@ -98,9 +99,10 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(weakReference.get(), PreviewFile.class);
-                    intent.putExtra(weakReference.get().getString(R.string.item_image_url), imageGalleryModel.getImageURL());
-                    Pair<View, String> p = Pair.create((View) holder.imageView, weakReference.get().getString(R.string.item_image_url));
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) weakReference.get(), p);
+                    intent. putExtra("list", (Serializable) imageGalleryModelList);
+                    intent. putExtra("position", position);
+                    Pair<View, String> p = Pair.create((View) holder.imageView, "transition");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeScaleUpAnimation(v,(int)v.getX(),(int)v.getY(),v.getWidth(),v.getHeight());
                     weakReference.get().startActivity(intent, options.toBundle());
                 }
             });

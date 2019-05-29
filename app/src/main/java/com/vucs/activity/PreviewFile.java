@@ -15,17 +15,25 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -35,55 +43,52 @@ import com.google.android.material.snackbar.Snackbar;
 import com.vucs.R;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
+import com.vucs.model.ImageGalleryModel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class PreviewFile extends AppCompatActivity {
 
     private static final Integer WRITE_STORAGE_PERMISSION = 121;
-    String itemImageURL = "";
     private String TAG = "previewActivity";
-
+    int position;
+    ViewPager viewPager;
+    List<ImageGalleryModel> imageGalleryModels;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
 
-
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
             Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.add_claim_explode);
             getWindow().setEnterTransition(transition);
             setContentView(R.layout.activity_preview_file);
-
-
-            final PhotoView photoView = findViewById(R.id.show_image);
+            getWindow().setStatusBarColor(this.getResources().getColor(R.color.colorBlack));
+            imageGalleryModels = new ArrayList<>();
+            viewPager =findViewById(R.id.view_pager);
             Intent intent = getIntent();
             if (intent != null) {
 
-                itemImageURL = intent.getStringExtra(getString(R.string.item_image_url));
 
+                imageGalleryModels = (List<ImageGalleryModel>) intent.getSerializableExtra("list");
+                Log.e("preview",imageGalleryModels.toString());
+                position=intent.getIntExtra("position",0);
+
+                CustomPagerAdapter customPagerAdapter =new CustomPagerAdapter(this,imageGalleryModels);
+                viewPager.setAdapter(customPagerAdapter);
+                viewPager.setCurrentItem(position);
             }
 
 
-            if (!itemImageURL.equals("default") && getApplication() != null) {
 
-                Glide
-                        .with(this)
-                        .load(itemImageURL)
-                        .transition(new DrawableTransitionOptions().crossFade())
-                        .fitCenter()
-                        .into(new SimpleTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
-                                photoView.setImageDrawable(resource);
-                            }
-                        });
-            }
 
 
             FrameLayout frameLayout = findViewById(R.id.download_frame);
             ImageButton imageButton = findViewById(R.id.download_button);
+            ImageButton back = findViewById(R.id.back);
             frameLayout.setAlpha(0.0f);
             frameLayout.animate().alpha(1.0f).setDuration(2000);
             imageButton.setOnClickListener(v -> {
@@ -97,6 +102,12 @@ public class PreviewFile extends AppCompatActivity {
                     download();
                 }
             });
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
         } catch (Exception e) {
             Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
@@ -107,13 +118,14 @@ public class PreviewFile extends AppCompatActivity {
 
     private void download() {
         try {
-            if (!itemImageURL.equals("") && !itemImageURL.equals("default")) {
+            String url = imageGalleryModels.get(viewPager.getCurrentItem()).getImageURL();
+            if (! url.equals("") && !url.equals("default")) {
                 if (isNetworkAvailable()) {
                     Toast.makeText(this, "Downloading ...");
                     DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                    Uri Download_Uri = Uri.parse(itemImageURL);
+                    Uri Download_Uri = Uri.parse(url);
 
-                    String s = URLUtil.guessFileName(itemImageURL, null, null);
+                    String s = URLUtil.guessFileName(url, null, null);
 
                     DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
@@ -215,6 +227,69 @@ public class PreviewFile extends AppCompatActivity {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
+
+    }
+
+    class CustomPagerAdapter extends PagerAdapter {
+
+        Context mContext;
+        LayoutInflater mLayoutInflater;
+        List<ImageGalleryModel> imageGalleryModelList;
+
+        public CustomPagerAdapter(Context context,List<ImageGalleryModel> imageGalleryModels) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            imageGalleryModelList=imageGalleryModels;
+
+
+        }
+
+        @Override
+        public int getCount() {
+            return imageGalleryModelList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((LinearLayout) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.image_view, container, false);
+
+            final PhotoView photoView = itemView.findViewById(R.id.show_image);
+            if (!imageGalleryModelList.get(position).getImageURL().equals("default")) {
+
+
+                Glide
+                        .with(mContext)
+                        .load(imageGalleryModelList.get(position).getImageURL())
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .fitCenter()
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                photoView.setImageDrawable(resource);
+                            }
+                        });
+            }
+
+            container.addView(itemView);
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((LinearLayout) object);
+        }
     }
 
 
