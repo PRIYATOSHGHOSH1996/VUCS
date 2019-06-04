@@ -78,12 +78,12 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
           }
             holder.imageView.getLayoutParams().width = devicewidth-18;
             holder.imageView.getLayoutParams().height = devicewidth-18;
-            if (!imageGalleryModel.getImageURL().equals("default") && weakReference.get() != null) {
+            if (!imageGalleryModel.getThumbURL().equals("default") && weakReference.get() != null) {
 
 
                 Glide
                         .with(weakReference.get())
-                        .load(imageGalleryModel.getImageURL())
+                        .load(imageGalleryModel.getThumbURL())
                         .fitCenter()
                         .transition(new DrawableTransitionOptions().crossFade())
                         .into(new SimpleTarget<Drawable>() {

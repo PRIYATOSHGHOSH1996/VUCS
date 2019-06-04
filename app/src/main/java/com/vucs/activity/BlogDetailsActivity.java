@@ -12,7 +12,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.FrameLayout;
@@ -54,7 +57,9 @@ public class BlogDetailsActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             android.transition.Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.activity_transation);
+            transition.excludeTarget( findViewById(R.id.toolbar),true);
             getWindow().setEnterTransition(transition);
+            getWindow().setReturnTransition(new Explode());
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -233,5 +238,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
+
     }
 }

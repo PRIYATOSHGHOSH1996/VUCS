@@ -3,6 +3,7 @@ package com.vucs.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.vucs.R;
 import com.vucs.activity.ImageGalleryActivity;
 import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
+import com.vucs.model.ImageGalleryModel;
+import com.vucs.viewmodel.ImageGalleryViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.Collections;
@@ -30,9 +40,12 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
     private WeakReference<Context> weakReference;
     private String TAG = "ImageGalleryfolderAdapter";
     private boolean landscape = false;
+    ImageGalleryViewModel imageGalleryViewModel;
 
     public RecyclerViewImageGalleryFolderAdapter(Context context) {
         weakReference = new WeakReference<>(context);
+        ImageGalleryActivity activity = (ImageGalleryActivity) context;
+        imageGalleryViewModel= ViewModelProviders.of(activity).get(ImageGalleryViewModel.class);
     }
     public void setLandscape(boolean count){
         this.landscape = count;
@@ -68,6 +81,24 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
             }
             holder.imageView.getLayoutParams().width = devicewidth-18;
             holder.imageView.getLayoutParams().height = devicewidth-18;
+            ImageGalleryModel imageGalleryModel =imageGalleryViewModel.getFirstImagesByFolder(folderName);
+
+            if (!imageGalleryModel.getThumbURL().equals("default") && weakReference.get() != null) {
+
+
+                Glide
+                        .with(weakReference.get())
+                        .load(imageGalleryModel.getThumbURL())
+                        .fitCenter()
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                holder.imageView.setImageDrawable(resource);
+                            }
+                        });
+                // notifyItemChanged(position);
+            }
             holder.folderName.setText(folderName);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

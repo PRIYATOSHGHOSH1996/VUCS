@@ -91,8 +91,6 @@ public class RecyclerViewUserAdapter extends RecyclerView.Adapter<RecyclerViewUs
                     @Override
                     public void onClick(View v) {
                         BottomSheetDialogFragment bottomSheetDialogFragment = new PhirePawaProfileFragment();
-
-
                         Bundle bundle = new Bundle();
                         bundle.putInt(weakReference.get().getString(R.string.user_id), phirePawaProfileModel.getId());
                         bottomSheetDialogFragment.setArguments(bundle);

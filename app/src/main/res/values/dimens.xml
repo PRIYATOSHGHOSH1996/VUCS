@@ -11,6 +11,7 @@
     <dimen name="shrine_toolbar_offset_top">8dp</dimen>
     <dimen name="shrine_toolbar_image_offset_top">8dp</dimen>
     <dimen name="bottom_shape_hight">40dp</dimen>
+    <dimen name="bottom_shape_hight1">-40dp</dimen>
     <dimen name="menu_item_icon_size">24</dimen>
 
 </resources>

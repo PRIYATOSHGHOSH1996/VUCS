@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     ProgressBar progressBar;
     FrameLayout frameLayout;
+
     private int progressBarWidth, buttonWidth;
 
     @Override
@@ -94,18 +98,21 @@ frameLayout=findViewById(R.id.transitions_container);
     private void openHomeActivity(View v) {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation(this, progressBar, "transition");
-        int revealX = (int) (frameLayout.getX() + frameLayout.getWidth() / 2);
-        int revealY = (int) (frameLayout.getY() + frameLayout.getHeight() / 2);
-
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_X, revealX);
-        intent.putExtra(HomeActivity.EXTRA_CIRCULAR_REVEAL_Y, revealY);
-        ActivityCompat.startActivity(this, intent, options.toBundle());
+               Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
+        finish();
 
     }
 
     private void initLoginview() {
         linearLayout.setVisibility(View.VISIBLE);
+       TextView textView= (TextView)findViewById(R.id.register);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml("<u>Register</u>",Html.FROM_HTML_MODE_LEGACY));
+        }else {
+            textView.setText(Html.fromHtml("<u>Register</u>"));
+        }
         frameLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -190,6 +197,11 @@ frameLayout=findViewById(R.id.transitions_container);
         super.onPause();
         Log.e("x=",findViewById(R.id.transitions_container).getX()+"");
         Log.e("y=",findViewById(R.id.transitions_container).getY()+"");
+    }
+
+    public void onRegisterClick(View view) {
+        startActivity(new Intent(this,RegistrationActivity.class));
+        finish();
     }
 }
 

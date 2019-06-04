@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f28020e96be9c8a04c6c8526e68dc4fd",
+    "identityHash": "ae32bcebb376b75f16e0e789c96f62cf",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -150,7 +150,7 @@
       },
       {
         "tableName": "dt_image_gallery",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`image_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folder_name` TEXT, `image_url` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`image_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `folder_name` TEXT, `thumb_url` TEXT, `image_url` TEXT)",
         "fields": [
           {
             "fieldPath": "imageId",
@@ -161,6 +161,12 @@
           {
             "fieldPath": "folderName",
             "columnName": "folder_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "thumbURL",
+            "columnName": "thumb_url",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -446,7 +452,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f28020e96be9c8a04c6c8526e68dc4fd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ae32bcebb376b75f16e0e789c96f62cf\")"
     ]
   }
 }

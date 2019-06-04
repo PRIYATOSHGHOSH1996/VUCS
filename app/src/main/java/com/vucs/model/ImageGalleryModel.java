@@ -18,6 +18,9 @@ public class ImageGalleryModel implements Serializable {
     @ColumnInfo(name = "folder_name")
     private String folderName;
 
+    @ColumnInfo(name = "thumb_url")
+    private String thumbURL;
+
     @ColumnInfo(name = "image_url")
     private String imageURL;
 
@@ -26,8 +29,9 @@ public class ImageGalleryModel implements Serializable {
 
     }
 
-    public ImageGalleryModel(String folderName, String imageURL) {
+    public ImageGalleryModel(String folderName, String thumbURL, String imageURL) {
         this.folderName = folderName;
+        this.thumbURL = thumbURL;
         this.imageURL = imageURL;
     }
 
@@ -55,11 +59,20 @@ public class ImageGalleryModel implements Serializable {
         this.imageURL = imageURL;
     }
 
+    public String getThumbURL() {
+        return thumbURL;
+    }
+
+    public void setThumbURL(String thumbURL) {
+        this.thumbURL = thumbURL;
+    }
+
     @Override
     public String toString() {
         return "ImageGalleryModel{" +
                 "imageId=" + imageId +
                 ", folderName='" + folderName + '\'' +
+                ", thumbURL='" + thumbURL + '\'' +
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }

@@ -1,6 +1,13 @@
 package com.vucs.api;
 
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
+
 public interface Service {
 
 //    @GET("projects.json")
@@ -36,4 +43,22 @@ public interface Service {
 //    /* API for updating firebase token projects */
 //    @POST("update_firebase_token")
 //    Call<ApiResponseModel> updateFirebaseToken(@Body ApiFirebaseModel apiFirebaseModel);
+
+    @Multipart
+    @POST("save_claims")
+    Call<ApiResponseModel> registrationWithProfilePic(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass,
+                                                      @Part("firstName") RequestBody firstName, @Part("lastName") RequestBody lastName,
+                                                      @Part("mail") RequestBody mail, @Part("phoneNo") RequestBody phoneNo,
+                                                      @Part("address") RequestBody address, @Part("dob") RequestBody dob,
+                                                      @Part("course") RequestBody course, @Part("startYear") RequestBody startYear,
+                                                      @Part("endYear") RequestBody endYear, @Part MultipartBody.Part profilePic,
+                                                      @Part MultipartBody.Part supportFile);
+
+    @POST("save_claims")
+    Call<ApiResponseModel> registrationWithoutProfilePic(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass,
+                                                         @Part("firstName") RequestBody firstName, @Part("lastName") RequestBody lastName,
+                                                         @Part("mail") RequestBody mail, @Part("phoneNo") RequestBody phoneNo,
+                                                         @Part("address") RequestBody address, @Part("dob") RequestBody dob,
+                                                         @Part("course") RequestBody course, @Part("startYear") RequestBody startYear,
+                                                         @Part("endYear") RequestBody endYear, @Part MultipartBody.Part supportFile);
 }

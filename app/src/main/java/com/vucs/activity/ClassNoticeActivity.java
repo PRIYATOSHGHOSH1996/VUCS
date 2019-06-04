@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_class_notice);
         Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.activity_transation);
         getWindow().setEnterTransition(transition);
+        getWindow().setReturnTransition(new Explode());
 
         ;
 

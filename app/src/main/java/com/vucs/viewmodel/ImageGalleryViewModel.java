@@ -33,6 +33,9 @@ public class ImageGalleryViewModel extends AndroidViewModel {
         return imageGalleryDAO.getAllImagesByFolder(folderName);
     }
 
+    public ImageGalleryModel getFirstImagesByFolder(String folderName){
+        return imageGalleryDAO.getFirstImagesByFolder(folderName);
+    }
 
     public List<String> getAllFolders() {
         return imageGalleryDAO.getAllFolders();

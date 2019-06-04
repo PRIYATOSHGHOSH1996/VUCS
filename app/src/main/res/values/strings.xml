@@ -42,10 +42,35 @@
     <string name="item_id">item_id</string>
     <string name="class_notice_broadcast_receiver">class_notice_broadcast_receiver</string>
     <string name="user_id">user_id</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="registration">Registration</string>
+    <string name="apiLogin">asfddad</string>
+    <string name="apiPass">rtfje9r</string>
 
     <string-array name="sort_types_phire_pawa">
         <item>Name</item>
         <item>Batch</item>
         <item>Course</item>
+    </string-array>
+
+    <string-array name="category_name">
+        <item>Course</item>
+        <item>MCA</item>
+        <item>M.Sc</item>
+        <item>M.Phil</item>
+    </string-array>
+    <string-array name="student_type">
+        <item>Select Student Type</item>
+        <item>Current Student</item>
+        <item>Ex Student</item>
+    </string-array>
+    <string-array name="semesters">
+        <item>Select Semester</item>
+        <item>1st Semester</item>
+        <item>2nd Semester</item>
+        <item>3rd Semester</item>
+        <item>4th Semester</item>
+        <item>5th Semester</item>
+        <item>6th Semester</item>
     </string-array>
 </resources>

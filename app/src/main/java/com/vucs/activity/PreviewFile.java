@@ -265,18 +265,35 @@ public class PreviewFile extends AppCompatActivity {
             View itemView = mLayoutInflater.inflate(R.layout.image_view, container, false);
 
             final PhotoView photoView = itemView.findViewById(R.id.show_image);
-            if (!imageGalleryModelList.get(position).getImageURL().equals("default")) {
+            if (!imageGalleryModelList.get(position).getThumbURL().equals("default")) {
 
 
                 Glide
                         .with(mContext)
-                        .load(imageGalleryModelList.get(position).getImageURL())
+                        .load(imageGalleryModelList.get(position).getThumbURL())
                         .transition(new DrawableTransitionOptions().crossFade())
                         .fitCenter()
                         .into(new SimpleTarget<Drawable>() {
                             @Override
                             public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
                                 photoView.setImageDrawable(resource);
+                                if (!imageGalleryModelList.get(position).getImageURL().equals("default")) {
+
+
+                                    Glide
+                                            .with(mContext)
+                                            .load(imageGalleryModelList.get(position).getImageURL())
+                                            .transition(new DrawableTransitionOptions().crossFade())
+                                            .fitCenter()
+                                            .into(new SimpleTarget<Drawable>() {
+                                                @Override
+                                                public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                                    photoView.setImageDrawable(resource);
+
+                                                }
+                                            });
+                                }
+
                             }
                         });
             }

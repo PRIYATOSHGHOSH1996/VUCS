@@ -19,6 +19,9 @@ public interface ImageGalleryDAO {
     @Query("SELECT * FROM dt_image_gallery WHERE folder_name = :folderName")
     public List<ImageGalleryModel> getAllImagesByFolder(String folderName);
 
+    @Query("SELECT * FROM dt_image_gallery WHERE folder_name = :folderName LIMIT 1")
+    public ImageGalleryModel getFirstImagesByFolder(String folderName);
+
     @Query("SELECT folder_name FROM dt_image_gallery GROUP BY folder_name")
     public List<String> getAllFolders();
 
