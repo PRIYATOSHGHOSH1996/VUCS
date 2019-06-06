@@ -169,8 +169,8 @@ public class HomeActivity extends AppCompatActivity
                     switch (position) {
                         case 0:
                             navigationView.setCheckedItem(R.id.blog);
-                            if (!floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeInAnimation);
+                            if (floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeOutAnimation);
                             }
                             break;
                         case 1:

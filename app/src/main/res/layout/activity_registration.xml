@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".activity.RegistrationActivity">
 
     <include layout="@layout/app_bar_main" />
@@ -54,6 +56,10 @@
                         android:layout_marginBottom="6dp"
                         app:errorEnabled="true"
 
+
+
+
+
                         >
 
                         <EditText
@@ -67,6 +73,8 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:singleLine="true"
+                            android:nextFocusRight="@id/last_name"
+                            android:nextFocusForward="@id/last_name"
 
                             />
 

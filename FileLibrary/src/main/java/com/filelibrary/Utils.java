@@ -134,6 +134,8 @@ public class Utils extends AppCompatActivity {
         private static Builder builder = null;
         private boolean camera;
         private boolean isDeleteFile;
+        private int x=-1;
+        private int y=-1;
 
         public Builder(boolean camera,boolean isDeleteFile) {
             builder=this;
@@ -179,9 +181,6 @@ public class Utils extends AppCompatActivity {
         }
 
         public static synchronized void notifyActivityChange(int requestCode, int resultCode, @Nullable Intent data) {
-            if (activityParent.get() == null || builder == null) {
-                return;
-            }
             if (requestCode == CAMERA_REQUEST) {
                 try {
                     if (resultCode == Activity.RESULT_OK) {
@@ -280,10 +279,19 @@ public class Utils extends AppCompatActivity {
             }
             File image = new File(fileDirectory, fileName + ".jpg");
             cropFilePath = image.getAbsolutePath();
-            CropImage.activity(uri)
-                    .setOutputUri(fileToUri(activityParent.get(),image))
-                    .setRequestCode(CROP_IMAGE_REQUEST)
-                    .start(activityParent.get());
+            if(x > 0 && y > 0){
+                CropImage.activity(uri)
+                        .setOutputUri(fileToUri(activityParent.get(), image))
+                        .setRequestCode(CROP_IMAGE_REQUEST)
+                        .setAspectRatio(x,y)
+                        .start(activityParent.get());
+            }
+            else {
+                CropImage.activity(uri)
+                        .setOutputUri(fileToUri(activityParent.get(), image))
+                        .setRequestCode(CROP_IMAGE_REQUEST)
+                        .start(activityParent.get());
+            }
         }
 
         private  void compress(Uri uri) {
@@ -363,7 +371,7 @@ public class Utils extends AppCompatActivity {
         private  void saveImageToApp(Bitmap bmp) {
             try {
                 try {
-                    float width = 1024.0f;
+                    float width = 1600.0f;
                     int nh = (int) (bmp.getHeight() * (width / bmp.getWidth()));
                     Bitmap scaled = Bitmap.createScaledBitmap(bmp, (int) width, nh, true);
                     writeFile(fileName, scaled);
@@ -437,6 +445,20 @@ public class Utils extends AppCompatActivity {
 
         public Builder compressEnable(boolean a) {
             compress = a;
+            return this;
+        }
+
+        public Builder setAspectRatio(int x,int y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+        public Builder setSquareAspectRatio(boolean n) {
+            if (n){
+                this.x = 1;
+                this.y = 1;
+            }
+
             return this;
         }
 

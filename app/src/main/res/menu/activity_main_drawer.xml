@@ -36,7 +36,8 @@
             <item
                 android:id="@+id/chat_room"
                 android:icon="@drawable/chatting_icon"
-                android:title="@string/chat_room" />
+                android:title="@string/chat_room"
+                android:visible="false"/>
             <item
                 android:id="@+id/events"
                 android:icon="@drawable/event_icon"

@@ -3,6 +3,7 @@ package com.vucs.activity;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,7 +39,7 @@ import com.vucs.R;
 public class LoginActivity extends AppCompatActivity {
     private final int DURATION = 300;
     LinearLayout linearLayout;
-    ViewGroup viewGroup;
+    LinearLayout parent;
     ImageView imageView;
     Button login;
     ProgressBar progressBar;
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 frameLayout=findViewById(R.id.transitions_container);
-        viewGroup = (ViewGroup) findViewById(R.id.parent);
+        parent =  findViewById(R.id.parent);
      /*   Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.logo_transition);
         Scene aScene = Scene.getSceneForLayout(viewGroup, R.layout.activity_login, this);
         TransitionManager.go(aScene, transition);*/
@@ -61,7 +62,12 @@ frameLayout=findViewById(R.id.transitions_container);
         imageView.startAnimation(connectingAnimation);
         login = findViewById(R.id.login_button1);
         progressBar = findViewById(R.id.progress_bar);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            parent.setOrientation(LinearLayout.HORIZONTAL);
 
+        }else {
+            parent.setOrientation(LinearLayout.VERTICAL);
+        }
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override

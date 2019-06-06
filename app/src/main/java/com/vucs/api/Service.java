@@ -54,11 +54,4 @@ public interface Service {
                                                       @Part("endYear") RequestBody endYear, @Part MultipartBody.Part profilePic,
                                                       @Part MultipartBody.Part supportFile);
 
-    @POST("save_claims")
-    Call<ApiResponseModel> registrationWithoutProfilePic(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass,
-                                                         @Part("firstName") RequestBody firstName, @Part("lastName") RequestBody lastName,
-                                                         @Part("mail") RequestBody mail, @Part("phoneNo") RequestBody phoneNo,
-                                                         @Part("address") RequestBody address, @Part("dob") RequestBody dob,
-                                                         @Part("course") RequestBody course, @Part("startYear") RequestBody startYear,
-                                                         @Part("endYear") RequestBody endYear, @Part MultipartBody.Part supportFile);
 }

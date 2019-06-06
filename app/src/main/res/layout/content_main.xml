@@ -66,7 +66,7 @@
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/notification"
+        android:src="@drawable/add_white_24dp"
         android:tint="@color/white"
         android:layout_gravity="bottom|end"
         android:backgroundTint="@color/colorPrimary1"
@@ -74,6 +74,7 @@
         android:onClick="onAddClick"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:layout_marginBottom="50dp"
+        android:visibility="gone"
         android:layout_marginEnd="10dp"/>
     <FrameLayout
         android:layout_gravity="bottom"

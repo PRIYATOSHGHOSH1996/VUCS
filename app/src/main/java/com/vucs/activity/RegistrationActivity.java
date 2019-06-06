@@ -203,13 +203,13 @@ public class RegistrationActivity extends AppCompatActivity {
         profile_pic_image_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMilletDetailsDialog(1);
+                showMilletDetailsDialog(1,true);
             }
         });
         support_pic_image_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMilletDetailsDialog(2);
+                showMilletDetailsDialog(2,false);
             }
         });
         first_name.getEditText().addTextChangedListener(new TextWatcher() {
@@ -300,7 +300,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public void showMilletDetailsDialog(int option) {
+    private void showMilletDetailsDialog(int option,boolean crop) {
         BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
         //Dialog mBottomSheetDialog = new Dialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.item_get_file_layout, null);
@@ -317,6 +317,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     Utils.with(RegistrationActivity.this)
                             .getImageFromCamera()
+                            .compressEnable(true)
+                            .cropEnable(true)
+                            .setSquareAspectRatio(crop)
                             .getResult(new Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath) {
@@ -347,6 +350,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     Utils.with(RegistrationActivity.this)
                             .getImageFile()
+                            .compressEnable(true)
+                            .cropEnable(true)
+                            .setSquareAspectRatio(crop)
                             .getResult(new Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath) {
