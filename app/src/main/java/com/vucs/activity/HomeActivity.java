@@ -64,6 +64,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
+import com.vucs.db.AppDatabase;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;
 import com.vucs.fragment.NoticeFragment;
@@ -76,6 +77,8 @@ import com.vucs.model.NoticeModel;
 import com.vucs.service.FirebaseMessaging;
 
 import java.util.Date;
+
+import static com.vucs.App.getContext;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -288,6 +291,7 @@ public class HomeActivity extends AppCompatActivity
                     tipsHanlder.postDelayed(this, 5000);
                 }
             };
+
             tipsHanlder.post(tipsRunnable);
             floatingActionButton = findViewById(R.id.add);
             makeInAnimation = AnimationUtils.loadAnimation(HomeActivity.this, R.anim.scale_up);
@@ -351,7 +355,25 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-
+    private void logout() {
+        Log.e(TAG, "logout " + getString(R.string.database_name));
+        appPreference.clear();
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        try {
+           // deleteClaimFile();
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AppDatabase.getDatabase(getContext()).clearAllTables();
+                }
+            });
+            thread.start();
+            thread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finish();
+    }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -385,13 +407,14 @@ public class HomeActivity extends AppCompatActivity
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
             startActivity(intent, options.toBundle());
 
-        } else if (id == R.id.about) {
+        } else if (id == R.id.my_profile) {
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+
+        }else if (id == R.id.about) {
             startActivity(new Intent(HomeActivity.this, AboutActivity.class));
 
         } else if (id == R.id.logout) {
-            startActivity(new Intent(this,LoginActivity.class));
-
-            finish();
+           logout();
 
         }
 
@@ -403,7 +426,7 @@ public class HomeActivity extends AppCompatActivity
     private void showSnackBar(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG);
         View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
         TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
         snackbar.show();
@@ -421,7 +444,7 @@ public class HomeActivity extends AppCompatActivity
                     }
                 });
         View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
         TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
         textView.setTextAppearance(this, R.style.mySnackbarStyle);
@@ -446,7 +469,7 @@ public class HomeActivity extends AppCompatActivity
                     }
                 });
         View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.snackbar_background));
+        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
         TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
         textView.setTextAppearance(this, R.style.mySnackbarStyle);

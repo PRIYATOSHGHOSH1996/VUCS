@@ -16,6 +16,9 @@ public interface ImageGalleryDAO {
     @Query("SELECT * FROM dt_image_gallery")
     public List<ImageGalleryModel> getAllImages();
 
+    @Query("DELETE FROM dt_image_gallery")
+    public void deleteAllImages();
+
     @Query("SELECT * FROM dt_image_gallery WHERE folder_name = :folderName")
     public List<ImageGalleryModel> getAllImagesByFolder(String folderName);
 
@@ -27,4 +30,7 @@ public interface ImageGalleryDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertImage(ImageGalleryModel imageGalleryModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertImage(List<ImageGalleryModel> imageGalleryModel);
 }

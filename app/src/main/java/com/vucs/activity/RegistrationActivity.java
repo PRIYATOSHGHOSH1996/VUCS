@@ -177,6 +177,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     if (position != 0) {
                         course = (String) parent.getSelectedItem();
+                        courseCode=position;
 
 
                     } else {
@@ -511,7 +512,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
             if (com.vucs.helper.Utils.isNetworkAvailable()) {
                 try {
-                    new Submit(this, startingyear, endYear, course, dateString, first_name.getEditText().getText().toString(),
+                    new Submit(this, startingyear, endYear, courseCode, dateString, first_name.getEditText().getText().toString(),
                             last_name.getEditText().getText().toString(), mail.getEditText().getText().toString(), phone_no.getEditText().getText().toString(),
                             address.getEditText().getText().toString(), profileImage, supportFile).execute();
                 } catch (Exception e) {
@@ -528,12 +529,13 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private static class Submit extends AsyncTask<String, String, String> implements ProgressRequestBody.UploadCallbacks {
-        String startYear, endYear, course, dateString, first_name, last_name, mail, phone_no, address;
+        String startYear, endYear, dateString, first_name, last_name, mail, phone_no, address;
         File profileImage, supportImage;
+        int course;
         ProgressDialog progressDialog;
         private WeakReference<RegistrationActivity> weakReference;
 
-        public Submit(RegistrationActivity registrationActivity, String startYear, String endYear, String course, String dateString, String first_name, String last_name, String mail, String phone_no, String address, File profileImage, File supportImage) {
+        public Submit(RegistrationActivity registrationActivity, String startYear, String endYear, int course, String dateString, String first_name, String last_name, String mail, String phone_no, String address, File profileImage, File supportImage) {
             this.weakReference = new WeakReference<>(registrationActivity);
             this.startYear = startYear;
             this.endYear = endYear;
@@ -571,7 +573,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 RequestBody phoneNo = RequestBody.create(MultipartBody.FORM, this.phone_no);
                 RequestBody address = RequestBody.create(MultipartBody.FORM, this.address);
                 RequestBody dob = RequestBody.create(MultipartBody.FORM, this.dateString);
-                RequestBody course = RequestBody.create(MultipartBody.FORM, this.course);
+                RequestBody course = RequestBody.create(MultipartBody.FORM, this.course+"");
                 RequestBody startYear = RequestBody.create(MultipartBody.FORM, this.startYear);
                 RequestBody endYear = RequestBody.create(MultipartBody.FORM, this.endYear);
 
@@ -579,7 +581,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 MultipartBody.Part supportFile =
                         MultipartBody.Part.createFormData("supportImage", supportImage.getName(), fileBody1);
-                ProgressRequestBody fileBody2 = new ProgressRequestBody(supportImage, "*/*", this, "Uploading Profile Picture...");
+                ProgressRequestBody fileBody2 = new ProgressRequestBody(profileImage, "*/*", this, "Uploading Profile Picture...");
 
                 MultipartBody.Part profilePic =
                         MultipartBody.Part.createFormData("profilePicture", profileImage.getName(), fileBody2);
@@ -590,11 +592,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                         if (weakReference != null) {
                             progressDialog.dismiss();
+                            Log.e("registration response ",response.body().toString());
                             if (response.body() != null) {
                                 ApiResponseModel apiResponseModel = response.body();
                                 if (apiResponseModel.getCode() == 1) {
                                     weakReference.get().startActivity(new Intent(weakReference.get(), LoginActivity.class));
                                         weakReference.get().finish();
+                                    Toast.makeText(weakReference.get(), apiResponseModel.getMessage() + "");
 
                                 } else {
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage() + "");

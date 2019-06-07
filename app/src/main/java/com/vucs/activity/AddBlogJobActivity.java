@@ -78,11 +78,14 @@ public class AddBlogJobActivity extends AppCompatActivity {
     private boolean isImageUri(Uri uri){
 
         try {
+            String [] s=uri.toString().split("\\.");
+            if(s[s.length-1].equals("jpg"))
+                return true;
             ContentResolver cR = getContentResolver();
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             String type = mime.getExtensionFromMimeType(cR.getType(uri));
 
-            Log.e(TAG,"type="+type);
+            Log.e(TAG,"uri="+uri);
             Log.e(TAG,"uritype="+cR.getType(uri));
             if (cR.getType(uri).contains("image")){
                 return true;

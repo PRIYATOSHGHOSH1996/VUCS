@@ -46,6 +46,11 @@
                 android:id="@+id/image_gallery"
                 android:icon="@drawable/photo_library"
                 android:title="@string/image_gallery" />
+
+            <item
+                android:id="@+id/my_profile"
+                android:icon="@drawable/photo_library"
+                android:title="@string/my_profile" />
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"

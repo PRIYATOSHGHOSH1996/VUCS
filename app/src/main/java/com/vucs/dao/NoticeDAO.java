@@ -17,12 +17,21 @@ public interface NoticeDAO {
     @Query("SELECT * FROM dt_notice")
     public List<NoticeModel> getAllNotice();
 
+    @Query("DELETE FROM dt_notice")
+    public void deleteAllNotice();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNotice(NoticeModel noticeModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertNotice(List<NoticeModel> noticeModel);
 
     @Query("SELECT * FROM dt_class_notice")
     public List<ClassNoticeModel> getAllClassNotice();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertClassNotice(ClassNoticeModel classNoticeModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertClassNotice(List<ClassNoticeModel> classNoticeModel);
 }

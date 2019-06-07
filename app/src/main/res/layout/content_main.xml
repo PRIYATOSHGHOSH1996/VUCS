@@ -83,6 +83,7 @@
         android:animateLayoutChanges="true"
         app:layout_behavior="com.vucs.layoutbehaviers.MoveUpwardBehavior"
         android:background="@drawable/cut_corner_bottom_shape">
+
         <TextSwitcher
             android:id="@+id/text_switcher"
             android:layout_width="match_parent"
