@@ -44,8 +44,14 @@
     <string name="user_id">user_id</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="registration">Registration</string>
-    <string name="apiLogin">asfddad</string>
-    <string name="apiPass">rtfje9r</string>
+    <string name="apiLogin">VUcsK95</string>
+    <string name="apiPass">VUcsPri96</string>
+    <string name="my_profile">My Profile</string>
+    <string name="server_error">Server Error</string>
+    <string name="dashboard_receiver_action">dashboard_receiver_action</string>
+    <string name="get_data_on_failure_action">get_data_on_failure_action</string>
+    <string name="get_data_action">get_data_action</string>
+    <string name="fetch_all_data_broad_cast">fetch_all_data_broad_cast</string>
 
     <string-array name="sort_types_phire_pawa">
         <item>Name</item>

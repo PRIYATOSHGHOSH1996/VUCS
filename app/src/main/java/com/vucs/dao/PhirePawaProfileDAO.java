@@ -46,10 +46,22 @@ public interface PhirePawaProfileDAO {
     public void insertCareer(CareerModel careerModel);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertUsers(UserModel userModel);
+    public void insertUsers(List<UserModel> userModels);
 
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertCareer(List<CareerModel> careerModels);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertUsers(UserModel userModel);
     @Query("SELECT * FROM dt_users" +
             " WHERE id = :id")
     public UserModel getUserDetailsById(int id);
+
+    @Query("DELETE FROM dt_career")
+    public void deleteAllCareer();
+
+    @Query("DELETE FROM dt_users")
+    public void deleteAllUser();
 
 }

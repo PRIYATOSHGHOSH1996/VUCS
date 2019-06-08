@@ -3,13 +3,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
+
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/ripple_background"
+        android:padding="5dp"
+        android:background="@drawable/side_nav_bar"
         android:transitionGroup="true">
 
         <ImageView
@@ -22,7 +24,10 @@
 
         <TextView
             android:id="@+id/folderName"
-            style="@style/my_text_style_caption"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:text="folder 1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center" />

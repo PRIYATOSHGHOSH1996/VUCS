@@ -36,7 +36,8 @@
             <item
                 android:id="@+id/chat_room"
                 android:icon="@drawable/chatting_icon"
-                android:title="@string/chat_room" />
+                android:title="@string/chat_room"
+                android:visible="false"/>
             <item
                 android:id="@+id/events"
                 android:icon="@drawable/event_icon"
@@ -45,6 +46,11 @@
                 android:id="@+id/image_gallery"
                 android:icon="@drawable/photo_library"
                 android:title="@string/image_gallery" />
+
+            <item
+                android:id="@+id/my_profile"
+                android:icon="@drawable/photo_library"
+                android:title="@string/my_profile" />
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:background="@drawable/side_nav_bar"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher_foreground"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="name"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    style="@style/TextAppearance.MaterialComponents.Body1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="email"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+               
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="course"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DOB"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="batch"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="phone No"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextAppearance.MaterialComponents.Caption"/>
+                
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_width=""
+            android:layout_height="" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -16,6 +16,12 @@ public interface EventDAO {
     @Query("SELECT * FROM dt_event")
     public List<EventModel> getAllEvent();
 
+    @Query("DELETE FROM dt_event")
+    public void deleteAllEvent();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertEvent(EventModel eventModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertEvent(List<EventModel> eventModels);
 }
