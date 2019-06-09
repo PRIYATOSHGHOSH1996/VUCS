@@ -7,14 +7,13 @@
         android:toYScale="1.0"
         android:pivotX="50%p"
         android:pivotY="50%p"
-        android:duration="4000"
+        android:duration="3000"
 
         />
 
     <alpha
         android:fromAlpha="0.0"
         android:toAlpha="1.0"
-        android:duration="2000"
-        android:repeatMode="reverse"
+        android:duration="1500"
         />
 </set>

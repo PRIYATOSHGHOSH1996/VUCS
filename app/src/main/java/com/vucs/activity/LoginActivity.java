@@ -389,7 +389,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiLoginResponseModel> call, @NonNull Throwable t) {
-                        Log.e(TAG, "" + t.getMessage());
+                        Log.e(TAG, "fail " + t.getMessage());
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }
