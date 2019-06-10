@@ -152,6 +152,13 @@ public abstract class AppDatabase extends RoomDatabase {
             phirePawaProfileDAO.insertCareer(new CareerModel(7,15,2016,2018,"Avalgate.", "Web Developer"));
             phirePawaProfileDAO.insertCareer(new CareerModel(8,15,2019,-1,"The AdView.", "Web Developer"));
 
+            phirePawaProfileDAO.insertCareer(new CareerModel(100,1,2016,2019,"Frametrics Consulting Pvt.", "Android Developer"));
+            phirePawaProfileDAO.insertCareer(new CareerModel(101,1,2019,-1,"Frametrics Consulting Pvt.", "Android Developer"));
+            phirePawaProfileDAO.insertCareer(new CareerModel(102,1,2019,-1,"Frametrics Consulting Pvt.", "Android Developer"));
+            phirePawaProfileDAO.insertCareer(new CareerModel(103,1,2019,-1,"Frametrics Consulting Pvt.", "Android Developer"));
+            phirePawaProfileDAO.insertCareer(new CareerModel(104,1,2019,-1,"Frametrics Consulting Pvt.", "Android Developer"));
+            phirePawaProfileDAO.insertCareer(new CareerModel(105,1,2019,-1,"Frametrics Consulting Pvt.", "Android Developer"));
+
             Calendar calendar = Calendar.getInstance(Locale.getDefault());
 
             calendar.set(2019, 01, 22);

@@ -32,6 +32,14 @@ public class AppPreference {
         return prefs.getString("uname", "");
     }
 
+
+    public void setUserPassword(String userName) {
+        prefs.edit().putString("upass", userName).apply();
+    }
+
+    public String getPassword() {
+        return prefs.getString("upass", "");
+    }
     public void setUserEmail(String userName) {
         prefs.edit().putString("umail", userName).apply();
     }

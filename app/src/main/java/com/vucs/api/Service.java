@@ -21,7 +21,7 @@ public interface Service {
 //    Call<List<ProjectUserExpenseModel>> getProjectUserExpenses();
 //
 
-//
+    //
 //    /* API for search claim*/
 //    @POST("search_claim_by_unique_code")
 //    Call<ApiClaimSearchResponceModel> getClaimById(@Body ApiClaimSearchModel apiClaimSearchModel);
@@ -54,6 +54,18 @@ public interface Service {
                                                       @Part MultipartBody.Part supportFile);
 
     //     API for login
-@POST("check_login")
-Call<ApiLoginResponseModel> getUserLogin(@Body ApiLoginModel apiLoginModel);
+    @POST("check_login")
+    Call<ApiLoginResponseModel> getUserLogin(@Body ApiLoginModel apiLoginModel);
+
+    //     API for career delete
+    @POST("check_login")
+    Call<ApiResponseModel> deleteCareer(@Body ApiDeleteCareerModel apiDeleteCareerModel);
+
+    //     API for career add
+    @POST("check_login")
+    Call<ApiAddCareerResponseModel> addCareer(@Body ApiAddCareerModel apiAddCareerModel);
+
+    //     API for change password
+    @POST("change_password")
+    Call<ApiResponseModel> changePassword(@Body ApiChangePasswordModel apiChangePasswordModel);
 }

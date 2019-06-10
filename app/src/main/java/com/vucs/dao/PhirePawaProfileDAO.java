@@ -58,6 +58,9 @@ public interface PhirePawaProfileDAO {
             " WHERE id = :id")
     public UserModel getUserDetailsById(int id);
 
+    @Query("DELETE FROM dt_career WHERE id=:id")
+    public void deleteCareerById(int id);
+
     @Query("DELETE FROM dt_career")
     public void deleteAllCareer();
 

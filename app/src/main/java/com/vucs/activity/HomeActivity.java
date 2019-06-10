@@ -56,6 +56,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -77,6 +78,8 @@ import com.vucs.model.NoticeModel;
 import com.vucs.service.FirebaseMessaging;
 
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.vucs.App.getContext;
 
@@ -127,6 +130,14 @@ public class HomeActivity extends AppCompatActivity
             toggle.syncState();
 
             navigationView = (NavigationView) findViewById(R.id.nav_view);
+            CircleImageView profile_pic=navigationView.getHeaderView(0).findViewById(R.id.imageView);
+            TextView mail=navigationView.getHeaderView(0).findViewById(R.id.email);
+            TextView name=navigationView.getHeaderView(0).findViewById(R.id.name);
+            mail.setText(appPreference.getUserEmail());
+            name.setText(appPreference.getUserName());
+            Glide.with(this)
+                    .load(appPreference.getUserImageUrl())
+                    .into(profile_pic);
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());

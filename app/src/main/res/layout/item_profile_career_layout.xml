@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_domain_black_24dp"
+            android:tint="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/company_name"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            android:hint="company name/Institute name "
+            android:inputType="text"
+            android:paddingStart="18dp"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="14dp" />
+
+        <ImageButton
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="-30dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/delete_white_24dp"
+            android:tint="@color/red_to_green_0" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_access_time_black_24dp"
+            android:tint="@color/colorAccent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="18dp">
+
+            <EditText
+                android:id="@+id/start_year"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:hint="Start year "
+                android:inputType="number"
+                android:maxLength="4"
+                android:singleLine="true"
+
+                android:textColor="@color/colorBlack"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/end_year"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:background="@android:color/transparent"
+                android:enabled="false"
+                android:hint="End year"
+                android:inputType="number"
+                android:singleLine="true"
+                android:maxLength="4"
+                android:textColor="@color/colorBlack"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <ImageButton
+
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/blog_icon"
+            android:tint="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/occupation"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:enabled="false"
+            android:hint="occupation/profession"
+            android:inputType="text"
+            android:paddingStart="18dp"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="14dp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submit"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_background_square"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/black_fade" />
+</LinearLayout>

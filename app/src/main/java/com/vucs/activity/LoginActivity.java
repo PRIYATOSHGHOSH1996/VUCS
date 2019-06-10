@@ -347,6 +347,16 @@ public class LoginActivity extends AppCompatActivity {
                                     try {
                                         Log.e(TAG, "user_id = " + apiLoginResponseModel.getUserId() + "");
                                         appPreference.setUserId(apiLoginResponseModel.getUserId());
+                                        appPreference.setUserPassword(passWord);
+                                        appPreference.setUserName(apiLoginResponseModel.getName());
+                                        appPreference.setUserEmail(apiLoginResponseModel.getMail());
+                                        appPreference.setUserPhoneNo(apiLoginResponseModel.getPhoneNo());
+                                        appPreference.setUserAddress(apiLoginResponseModel.getAddress());
+                                        appPreference.setUserImageUrl(apiLoginResponseModel.getImage());
+                                        appPreference.setUserDob(apiLoginResponseModel.getDob());
+                                        appPreference.setUserCourse(apiLoginResponseModel.getCourse());
+                                        appPreference.setUserBatch(apiLoginResponseModel.getBatch());
+
 
                                         activity.openHomeActivity();
 
