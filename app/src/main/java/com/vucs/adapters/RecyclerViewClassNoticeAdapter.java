@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vucs.R;
+import com.vucs.helper.AppPreference;
 import com.vucs.helper.Utils;
 import com.vucs.model.ClassNoticeModel;
 
@@ -24,11 +25,15 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
 
     private List<ClassNoticeModel> classNoticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
+    AppPreference appPreference;
 
+    String [] sems;
     private String TAG = "classnoticeAdapter";
 
     public RecyclerViewClassNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
+        appPreference=new AppPreference(context);
+        sems=context.getResources().getStringArray(R.array.semesters);
     }
 
     public void addNotice(List<ClassNoticeModel> classNoticeModels) {
@@ -54,7 +59,12 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
             date = format.format(classNoticeModel.getDate());
             holder.notice_date.setText(date);
-            holder.notice_by.setText(classNoticeModel.getNoticeBy());
+            if (appPreference.getUserType()==0){
+                holder.notice_by.setText(sems[classNoticeModel.getSem()]);
+            }
+            else {
+                holder.notice_by.setText(classNoticeModel.getNoticeBy());
+            }
 
 
         } catch (Exception e) {

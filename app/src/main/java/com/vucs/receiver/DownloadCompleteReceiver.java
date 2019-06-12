@@ -17,7 +17,7 @@ import java.io.File;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
-public class Broadcastreceiver extends BroadcastReceiver {
+public class DownloadCompleteReceiver extends BroadcastReceiver {
     private static final String TAG = "Broadcast Receive";
 
     @Override

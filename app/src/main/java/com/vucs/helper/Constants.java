@@ -8,6 +8,7 @@ public class Constants {
 
     public static boolean UPDATING_EVENT=false;
     public static boolean UPDATING_CAREER=false;
+    public static boolean UPDATING_BLOG=false;
     public static boolean UPDATING_IMAGE_GALLERY=false;
     public static boolean UPDATING_JOB=false;
     public static boolean UPDATING_NOTICE=false;

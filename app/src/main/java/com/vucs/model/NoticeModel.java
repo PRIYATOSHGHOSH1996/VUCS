@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @Entity(tableName = "dt_notice")
@@ -15,15 +17,19 @@ public class NoticeModel {
     @ColumnInfo(name = "notice_id")
     private int noticeId;
 
+    @SerializedName("notice_title")
     @ColumnInfo(name = "notice_title")
     private String noticeTitle;
 
+    @SerializedName("date")
     @ColumnInfo(name = "date")
     private Date date;
 
+    @SerializedName("notice_by")
     @ColumnInfo(name = "notice_by")
     private String noticeBy;
 
+    @SerializedName("download_url")
     @ColumnInfo(name = "download_url")
     private String downloadURL;
 

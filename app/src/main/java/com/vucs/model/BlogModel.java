@@ -5,34 +5,44 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @Entity(tableName = "dt_blog")
 public class BlogModel {
 
-    @PrimaryKey(autoGenerate = true)
+
+    @SerializedName("blog_id")
+    @PrimaryKey()
     @ColumnInfo(name = "blog_id")
     private int blogId;
 
+    @SerializedName("blog_title")
     @ColumnInfo(name = "blog_title")
     private String blogTitle;
 
+    @SerializedName("blog_by_id")
     @ColumnInfo(name = "blog_by_id")
     private int blogById;
 
+    @SerializedName("blog_by")
     @ColumnInfo(name = "blog_by")
     private String blogBy;
 
-
+    @SerializedName("date")
     @ColumnInfo(name = "date")
     private Date date;
 
+    @SerializedName("content")
     @ColumnInfo(name = "content")
     private String content;
 
+    @SerializedName("blog_image_url")
     @ColumnInfo(name = "blog_image_url")
     private String blogImageURL;
 
+    @SerializedName("status")
     @ColumnInfo(name = "status")
     private int status;
     @Ignore
@@ -40,8 +50,9 @@ public class BlogModel {
 
     }
 
-    public BlogModel(String blogTitle, int blogById, String blogBy, Date date, String content, String blogImageURL, int status) {
+    public BlogModel(int blogId, String blogTitle, int blogById, String blogBy, Date date, String content, String blogImageURL, int status) {
         this.blogTitle = blogTitle;
+        this.blogId = blogId;
         this.blogById = blogById;
         this.blogBy = blogBy;
         this.date = date;

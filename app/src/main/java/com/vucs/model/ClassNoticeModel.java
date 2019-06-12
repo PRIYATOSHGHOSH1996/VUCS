@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @Entity(tableName = "dt_class_notice")
@@ -15,14 +17,21 @@ public class ClassNoticeModel {
     @ColumnInfo(name = "id")
     private int noticeId;
 
+    @SerializedName("notice_title")
     @ColumnInfo(name = "notice_title")
     private String noticeTitle;
 
+    @SerializedName("date")
     @ColumnInfo(name = "date")
     private Date date;
 
+    @SerializedName("notice_by")
     @ColumnInfo(name = "notice_by")
     private String noticeBy;
+
+    @SerializedName("sem")
+    @ColumnInfo(name = "sem")
+    private int sem;
 
 
     @Ignore
@@ -30,10 +39,11 @@ public class ClassNoticeModel {
 
     }
 
-    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy) {
+    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy, int sem) {
         this.noticeTitle = noticeTitle;
         this.date = date;
         this.noticeBy = noticeBy;
+        this.sem = sem;
     }
 
     public int getNoticeId() {
@@ -68,13 +78,22 @@ public class ClassNoticeModel {
         this.noticeBy = noticeBy;
     }
 
+    public int getSem() {
+        return sem;
+    }
+
+    public void setSem(int sem) {
+        this.sem = sem;
+    }
+
     @Override
     public String toString() {
-        return "NoticeModel{" +
+        return "ClassNoticeModel{" +
                 "noticeId=" + noticeId +
                 ", noticeTitle='" + noticeTitle + '\'' +
                 ", date=" + date +
                 ", noticeBy='" + noticeBy + '\'' +
+                ", sem='" + sem + '\'' +
                 '}';
     }
 }

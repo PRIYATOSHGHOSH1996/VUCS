@@ -1,41 +1,34 @@
 package com.vucs.activity;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.app.ActivityManager;
+import android.app.Dialog;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
-import android.transition.Fade;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.URLUtil;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
@@ -44,7 +37,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -57,14 +49,16 @@ import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
+import com.vucs.api.ApiResponseModel;
+import com.vucs.api.ApiUploadFirebaseTokenModel;
+import com.vucs.api.Service;
 import com.vucs.db.AppDatabase;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;
@@ -75,11 +69,16 @@ import com.vucs.helper.AppPreference;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
-import com.vucs.service.FirebaseMessaging;
+import com.vucs.service.DataServiceGenerator;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.vucs.App.getContext;
 
@@ -94,7 +93,7 @@ public class HomeActivity extends AppCompatActivity
     PagerTabStrip pagerTabStrip;
     private boolean doubleBackToExitPressedOnce = false;
     private NoticeModel noticeModel;
-    private String TAG = "HomeActivity";
+    private static String TAG = "HomeActivity";
 
 
     private int revealX;
@@ -105,6 +104,12 @@ public class HomeActivity extends AppCompatActivity
     Animation makeInAnimation;
     FloatingActionButton floatingActionButton;
     Animation makeOutAnimation;
+    BroadcastReceiver forceLogoutBroadCast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            openForceLogoutAlert();
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -119,7 +124,16 @@ public class HomeActivity extends AppCompatActivity
             content_background = findViewById(R.id.default_background);
             content_background.setAlpha(0);
             appPreference = new AppPreference(this);
-
+            if (!appPreference.getIsFirebaseTokenUpdated()) {
+                com.google.firebase.messaging.FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+                    String newToken = instanceIdResult.getToken();
+                    if (Utils.isNetworkAvailable()) {
+                        new UpdateFireBaseToken(HomeActivity.this, newToken).execute();
+                        Log.e(TAG, "newToken = " + newToken);
+                    }
+                });
+            }
             FrameLayout navBack = findViewById(R.id.nav_back);
             drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.setScrimColor(Color.TRANSPARENT);
@@ -205,12 +219,7 @@ public class HomeActivity extends AppCompatActivity
                                 floatingActionButton.startAnimation(makeInAnimation);
                             }
                             break;
-                        case 4:
-                            navigationView.setCheckedItem(R.id.teachers);
-                            if (floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeOutAnimation);
-                            }
-                            break;
+
                     }
 
                 }
@@ -256,15 +265,6 @@ public class HomeActivity extends AppCompatActivity
                 }
             });
 
-            if (!appPreference.isTokenGenerated()) {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, new OnSuccessListener<InstanceIdResult>() {
-                    @Override
-                    public void onSuccess(InstanceIdResult instanceIdResult) {
-                        Log.e("token==", instanceIdResult.getToken());
-                        FirebaseMessaging.upLoadToken(instanceIdResult.getToken());
-                    }
-                });
-            }
             textSwitcher=findViewById(R.id.text_switcher);
             textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
 
@@ -364,26 +364,81 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private void openForceLogoutAlert() {
+        if (appPreference.isForceLogout()) {
+            Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
+            View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
+            TextView textView=view.findViewById(R.id.text);
+            textView.setText(getString(R.string.force_logout_message));
+            Button ok = view.findViewById(R.id.ok);
+            ok.setText("Logout");
+            ok.setOnClickListener(v -> {
+                dialog.dismiss();
+                logout();
+            });
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view,layoutParams);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+    }
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if (appDir.exists()) {
+            String[] children = appDir.list();
+            for (String s : children) {
+                if (!s.equals("lib")) {
+                    deleteDir(new File(appDir, s));
+                    Log.i("EEEEEERRRRRROOOOOOORRRR", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
+                }
+            }
+        }
+    }
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            int i = 0;
+            while (i < children.length) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+                i++;
+            }
+        }
+
+        assert dir != null;
+        return dir.delete();
+    }
 
 
     private void logout() {
-        Log.e(TAG, "logout " + getString(R.string.database_name));
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+        appPreference.clear();
+        /*Log.e(TAG, "logout " + getString(R.string.database_name));
         appPreference.clear();
         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        try {
-           // deleteClaimFile();
-            Thread thread = new Thread(new Runnable() {
+        try { ;
+            new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    AppDatabase.getDatabase(getContext()).clearAllTables();
+                    try {
+
+                        AppDatabase.getDatabase(getContext()).clearAllTables();
+                        clearApplicationData();
+                        FirebaseMessaging.getInstance().setAutoInitEnabled(false);
+                        FirebaseInstanceId.getInstance().deleteInstanceId();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            });
-            thread.start();
-            thread.join();
+            }).start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        finish();
+        finish();*/
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -402,15 +457,6 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.job_post) {
             viewPager.setCurrentItem(3, true);
-
-        } else if (id == R.id.teachers) {
-            viewPager.setCurrentItem(4, true);
-
-        } else if (id == R.id.chat_room) {
-            startActivity(new Intent(HomeActivity.this, ChatRoomActivity.class));
-
-        } else if (id == R.id.events) {
-            startActivity(new Intent(HomeActivity.this, EventsActivity.class));
 
         } else if (id == R.id.image_gallery) {
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
@@ -605,7 +651,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(HomeActivity.this);
                 Intent intent = new Intent(HomeActivity.this, ClassNoticeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent,activityOptionsCompat.toBundle());
             }
         });
@@ -649,7 +695,7 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 5;
+            return 4;
         }
 
         @Nullable
@@ -670,5 +716,67 @@ public class HomeActivity extends AppCompatActivity
             return super.getPageTitle(position);
         }
 
+    }
+
+    private static class UpdateFireBaseToken extends AsyncTask<Void, Void, String> {
+        private WeakReference<HomeActivity> homeWeakReference;
+        private String firebaseToken;
+
+        UpdateFireBaseToken(HomeActivity home, String firebaseToken) {
+            homeWeakReference = new WeakReference<>(home);
+            this.firebaseToken = firebaseToken;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                AppPreference appPreference=new AppPreference(homeWeakReference.get());
+                final ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel = new ApiUploadFirebaseTokenModel(appPreference.getUserId(), firebaseToken, appPreference.getUserSem(), appPreference.getUserType());
+                Call<ApiResponseModel> call = service.uploadToken(apiUploadFirebaseTokenModel);
+                call.enqueue(new Callback<ApiResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                final ApiResponseModel apiResponseModel = response.body();
+                                Log.e(TAG, "upload token Response:\n" + apiResponseModel.toString());
+
+                                if (apiResponseModel.getCode() == 1) {
+                                    appPreference.setIsFirebaseTokenUpdated(true);
+
+
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+                        t.printStackTrace();
+
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(forceLogoutBroadCast, new IntentFilter(getString(R.string.force_logout_broadcast)));
+        appPreference=new AppPreference(this);
+        openForceLogoutAlert();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(forceLogoutBroadCast);
     }
 }

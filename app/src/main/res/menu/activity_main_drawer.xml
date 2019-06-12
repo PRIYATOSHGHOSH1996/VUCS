@@ -25,23 +25,10 @@
             android:icon="@drawable/ic_baseline_transfer_within_a_station_24px"
             android:title="@string/job_post" />
 
-        <item
-            android:id="@+id/teachers"
-            android:icon="@drawable/ic_baseline_wc_24px"
-            android:title="@string/teachers" />
     </group>
 
     <item android:title="@string/others">
         <menu>
-            <item
-                android:id="@+id/chat_room"
-                android:icon="@drawable/chatting_icon"
-                android:title="@string/chat_room"
-                android:visible="false"/>
-            <item
-                android:id="@+id/events"
-                android:icon="@drawable/event_icon"
-                android:title="@string/events" />
             <item
                 android:id="@+id/image_gallery"
                 android:icon="@drawable/photo_library"
@@ -51,6 +38,10 @@
                 android:id="@+id/my_profile"
                 android:icon="@drawable/photo_library"
                 android:title="@string/my_profile" />
+            <item
+                android:id="@+id/my_job_post"
+                android:icon="@drawable/photo_library"
+                android:title="@string/my_job_post" />
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"

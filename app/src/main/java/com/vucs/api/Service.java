@@ -26,9 +26,7 @@ public interface Service {
 //    @POST("search_claim_by_unique_code")
 //    Call<ApiClaimSearchResponceModel> getClaimById(@Body ApiClaimSearchModel apiClaimSearchModel);
 //
-//    /* API for getting projects, head expenses, users expenses, and claims */
-    @POST("fetch_all_data")
-    Call<ApiUpdateModel> getExpenseTrackerData(@Body ApiCredentialWithUserId credentials);
+//
 //
 //    /* Api for saving claims */
 //    @POST("save_claims")
@@ -58,14 +56,34 @@ public interface Service {
     Call<ApiLoginResponseModel> getUserLogin(@Body ApiLoginModel apiLoginModel);
 
     //     API for career delete
-    @POST("check_login")
+    @POST("delete_career")
     Call<ApiResponseModel> deleteCareer(@Body ApiDeleteCareerModel apiDeleteCareerModel);
 
     //     API for career add
-    @POST("check_login")
+    @POST("add_career")
     Call<ApiAddCareerResponseModel> addCareer(@Body ApiAddCareerModel apiAddCareerModel);
 
     //     API for change password
     @POST("change_password")
     Call<ApiResponseModel> changePassword(@Body ApiChangePasswordModel apiChangePasswordModel);
+
+    //     API for forgot password
+    @POST("check_login")
+    Call<ApiResponseModel> forgotPassword(@Body ApiForgotPasswordModel apiForgotPasswordModel);
+
+    //     API for upload token
+    @POST("firebase_token_update")
+    Call<ApiResponseModel> uploadToken(@Body ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel);
+
+    //     API for send class notice
+    @POST("add_class_notification")
+    Call<ApiResponseModel> sendClassNotice(@Body ApiClassNoticeModel apiClassNoticeModel);
+
+    /* API for fetching all data */
+    @POST("fetch_all_data")
+    Call<ApiUpdateModel> getAllData(@Body ApiCredentialWithUserId credentials);
+
+    /* API for addJob */
+    @POST("fetch_all_data")
+    Call<ApiUpdateModel> getAllklData(@Body ApiCredentialWithUserId credentials);
 }

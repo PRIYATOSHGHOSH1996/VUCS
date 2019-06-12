@@ -52,6 +52,11 @@
     <string name="get_data_on_failure_action">get_data_on_failure_action</string>
     <string name="get_data_action">get_data_action</string>
     <string name="fetch_all_data_broad_cast">fetch_all_data_broad_cast</string>
+    <string name="force_logout_message">Another device has logged in using your credentials. Please logout or contact admin for account related issues.</string>
+    <string name="force_logout_broadcast">force_logout_broadcast</string>
+    <string name="no_internet_connection">Please give internet connection</string>
+    <string name="my_job_post">My Job Post</string>
+
 
     <string-array name="sort_types_phire_pawa">
         <item>Name</item>

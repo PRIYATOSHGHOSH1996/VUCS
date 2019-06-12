@@ -6,12 +6,12 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
 
 import com.vucs.R;
 import com.vucs.activity.LoginActivity;
@@ -45,9 +45,9 @@ import retrofit2.Response;
 import static com.vucs.App.CHANNEL_ID;
 import static com.vucs.App.getContext;
 
-public class GetDataService extends IntentService {
+public class UploadJobFile extends IntentService {
 
-    private static final String TAG = "GetDataService";
+    private static final String TAG = "upload_job_file_ervice";
     private static WeakReference<Context> weakReference;
     public static final int NOTIFICATION_ID = 1;
     private static  BlogDAO blogDAO;
@@ -57,7 +57,7 @@ public class GetDataService extends IntentService {
     private static  NoticeDAO noticeDAO;
     private static  PhirePawaProfileDAO phirePawaProfileDAO;
 
-    public GetDataService() {
+    public UploadJobFile() {
         super("GetData Service");
     }
 
@@ -94,8 +94,6 @@ public class GetDataService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
     }
-
-
     public static void updateData(final Activity activity) {
         try {
             AppDatabase db = AppDatabase.getDatabase(activity);

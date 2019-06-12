@@ -24,6 +24,25 @@ public class AppPreference {
         prefs.edit().putInt("uid", uid).apply();
     }
 
+
+    public void setUserSem(int uid) {
+        prefs.edit().putInt("usemm", uid).apply();
+    }
+
+    public int getUserSem() {
+        return prefs.getInt("usemm", -1);
+    }
+
+
+
+    public int getUserType() {
+        return prefs.getInt("utype", -1);
+    }
+
+    public void setUserType(int uid) {
+        prefs.edit().putInt("utype", uid).apply();
+    }
+
     public void setUserName(String userName) {
         prefs.edit().putString("uname", userName).apply();
     }
@@ -98,12 +117,19 @@ public class AppPreference {
     }
 
 
-    public boolean isTokenGenerated() {
-        return prefs.getBoolean("utoken", false);
+    public void setForceLogout(boolean value){
+        prefs.edit().putBoolean("force_logout", value).apply();
     }
 
-    public void setTokenGenerated(boolean tokenGenerated) {
-        prefs.edit().putBoolean("utoken", tokenGenerated).apply();
+    public boolean isForceLogout(){
+        return prefs.getBoolean("force_logout", false);
+    }
+
+    public void setIsFirebaseTokenUpdated(boolean isSynced) {
+        prefs.edit().putBoolean("is_firebase_token_synced", isSynced).apply();
+    }
+    public boolean getIsFirebaseTokenUpdated() {
+        return prefs.getBoolean("is_firebase_token_synced", false);
     }
 
     public void clear() {

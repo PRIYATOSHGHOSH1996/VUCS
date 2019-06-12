@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 @Entity(tableName = "dt_image_gallery")
@@ -15,12 +17,15 @@ public class ImageGalleryModel implements Serializable {
     @ColumnInfo(name = "image_id")
     private int imageId;
 
+    @SerializedName("folder_name")
     @ColumnInfo(name = "folder_name")
     private String folderName;
 
+    @SerializedName("thumb_url")
     @ColumnInfo(name = "thumb_url")
     private String thumbURL;
 
+    @SerializedName("image_url")
     @ColumnInfo(name = "image_url")
     private String imageURL;
 
@@ -70,7 +75,6 @@ public class ImageGalleryModel implements Serializable {
     @Override
     public String toString() {
         return "ImageGalleryModel{" +
-                "imageId=" + imageId +
                 ", folderName='" + folderName + '\'' +
                 ", thumbURL='" + thumbURL + '\'' +
                 ", imageURL='" + imageURL + '\'' +

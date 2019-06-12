@@ -16,14 +16,6 @@ import org.json.JSONObject;
 public class FirebaseMessaging extends FirebaseMessagingService {
     private static final String TAG = FirebaseMessaging.class.getSimpleName();
 
-    public static void upLoadToken(String token) {
-        Log.e(TAG, "upload token...");
-        AppPreference appPreference = new AppPreference(App.getContext());
-        appPreference.setTokenGenerated(true);
-
-
-    }
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -55,7 +47,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onNewToken(String s) {
         super.onNewToken(s);
-        upLoadToken(s);
 
 
     }

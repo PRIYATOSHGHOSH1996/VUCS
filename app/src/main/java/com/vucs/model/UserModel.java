@@ -6,42 +6,55 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @Entity(tableName = "dt_users")
 public class UserModel {
 
+    @SerializedName("id")
     @PrimaryKey()
     @ColumnInfo(name = "id")
     private int id;
 
+    @SerializedName("first_name")
     @ColumnInfo(name = "first_name")
     private String firstName;
 
+    @SerializedName("last_name")
     @ColumnInfo(name = "last_name")
     private String lastName;
 
+    @SerializedName("mail")
     @ColumnInfo(name = "mail")
     private String mail;
 
+    @SerializedName("phone_no")
     @ColumnInfo(name = "phone_no")
     private String phoneNo;
 
+    @SerializedName("address")
     @ColumnInfo(name = "address")
     private String address;
 
+    @SerializedName("batch_start_date")
     @ColumnInfo(name = "batch_start_date")
     private int batchStartDate;
 
+    @SerializedName("batch_end_date")
     @ColumnInfo(name = "batch_end_date")
     private int batchEndDate;
 
-    @ColumnInfo(name = "imageUrl")
+    @SerializedName("image_url")
+    @ColumnInfo(name = "image_url")
     private String imageUrl;
 
+    @SerializedName("course")
     @ColumnInfo(name = "course")
     private String course;
 
+    @SerializedName("dob")
     @ColumnInfo(name = "dob")
     private Date dob;
 

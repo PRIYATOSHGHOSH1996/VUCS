@@ -25,7 +25,9 @@ import com.filelibrary.Callback;
 import com.filelibrary.Utils;
 import com.filelibrary.exception.ActivityOrFragmentNullException;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputLayout;
 import com.vucs.R;
+import com.vucs.helper.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class AddBlogJobActivity extends AppCompatActivity {
     LinearLayout file_layout;
     private String TAG = "add job activity";
     private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE=125;
+
+    TextInputLayout title,description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,8 @@ public class AddBlogJobActivity extends AppCompatActivity {
     private void initView() {
         file_layout=findViewById(R.id.file_layout);
         Button add_file=findViewById(R.id.add_file);
+        title=findViewById(R.id.title);
+        description=findViewById(R.id.description);
         uriList=new ArrayList<>();
         add_file.setOnClickListener(v ->{
                     Log.e(TAG,"uri list = "+uriList.toString());
@@ -209,4 +215,19 @@ public class AddBlogJobActivity extends AppCompatActivity {
         }
     }
 
+    public void onSubmitClick(View view) {
+
+        if (title.getEditText().getText().toString().isEmpty()){
+            Toast.makeText(this,"Please enter title");
+        }else if (description.getEditText().getText().toString().isEmpty()){
+            Toast.makeText(this,"Please enter description");
+        }
+        else if (!com.vucs.helper.Utils.isNetworkAvailable()){
+            Toast.makeText(this,getString(R.string.no_internet_connection));
+        }
+        else{
+
+        }
+
+    }
 }

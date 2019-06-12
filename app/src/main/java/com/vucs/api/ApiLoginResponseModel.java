@@ -9,12 +9,11 @@ public class ApiLoginResponseModel {
     @SerializedName("user_id")
     private Integer userId;
 
+    @SerializedName("category")
+    private int type;
 
     @SerializedName("name")
     private String name;
-
-    @SerializedName("category")
-    private int userCategory;
 
     @SerializedName("mail")
     private String mail;
@@ -37,13 +36,16 @@ public class ApiLoginResponseModel {
     @SerializedName("batch")
     private String batch;
 
+    @SerializedName("sem")
+    private int sem;
 
-    public ApiLoginResponseModel(Integer code, String message, Integer userId, String name, int userCategory, String mail, String phoneNo, String address, String image, String dob, String course, String batch) {
+
+    public ApiLoginResponseModel(Integer code, String message, Integer userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, String batch, int sem) {
         this.code = code;
         this.message = message;
         this.userId = userId;
+        this.type = type;
         this.name = name;
-        this.userCategory = userCategory;
         this.mail = mail;
         this.phoneNo = phoneNo;
         this.address = address;
@@ -51,6 +53,7 @@ public class ApiLoginResponseModel {
         this.dob = dob;
         this.course = course;
         this.batch = batch;
+        this.sem = sem;
     }
 
     public Integer getCode() {
@@ -83,14 +86,6 @@ public class ApiLoginResponseModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getUserCategory() {
-        return userCategory;
-    }
-
-    public void setUserCategory(int userCategory) {
-        this.userCategory = userCategory;
     }
 
     public String getMail() {
@@ -149,21 +144,39 @@ public class ApiLoginResponseModel {
         this.batch = batch;
     }
 
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getSem() {
+        return sem;
+    }
+
+    public void setSem(int sem) {
+        this.sem = sem;
+    }
+
     @Override
     public String toString() {
         return "ApiLoginResponseModel{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
                 ", userId=" + userId +
+                ", type=" + type +
                 ", name='" + name + '\'' +
-                ", userCategory=" + userCategory +
                 ", mail='" + mail + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
-                ", adddress='" + address + '\'' +
+                ", address='" + address + '\'' +
                 ", image='" + image + '\'' +
                 ", dob='" + dob + '\'' +
                 ", course='" + course + '\'' +
                 ", batch='" + batch + '\'' +
+                ", sem='" + sem + '\'' +
                 '}';
     }
 }

@@ -19,14 +19,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewClassNoticeAdapter;
+import com.vucs.helper.AppPreference;
 import com.vucs.helper.Utils;
 import com.vucs.viewmodel.NoticeViewModel;
 
 import java.util.Date;
 
 public class ClassNoticeActivity extends AppCompatActivity {
+    AppPreference appPreference;
     private String TAG = "classnoticeActivity";
     private RecyclerViewClassNoticeAdapter adapter;
     private BroadcastReceiver broadcastReceiver;
@@ -41,10 +44,9 @@ public class ClassNoticeActivity extends AppCompatActivity {
         getWindow().setEnterTransition(transition);
         getWindow().setReturnTransition(new Explode());
 
-        ;
-
 
         try {
+            appPreference = new AppPreference(this);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,6 +81,17 @@ public class ClassNoticeActivity extends AppCompatActivity {
             noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);
             updateAdapter();
             recyclerView.setAdapter(adapter);
+
+            FloatingActionButton floatingActionButton = findViewById(R.id.add);
+            if (appPreference.getUserType() == 0) {
+                floatingActionButton.setVisibility(View.VISIBLE);
+            } else {
+                floatingActionButton.setVisibility(View.GONE);
+            }
+            floatingActionButton.setOnClickListener(v -> {
+                startActivity(new Intent(this, AddClassNoticeActivity.class));
+                overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
+            });
         } catch (Exception e) {
             Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

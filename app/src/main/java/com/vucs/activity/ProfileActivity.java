@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
@@ -50,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
     LinearLayout career_layout;
     AppPreference appPreference;
     PhirePawaProfileViewModel phirePawaProfileViewModel;
+    TextView header_text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,18 @@ public class ProfileActivity extends AppCompatActivity {
         career_layout = findViewById(R.id.career_layout);
         appPreference = new AppPreference(this);
         phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        getSupportActionBar().setTitle("");
+        header_text = findViewById(R.id.header_text);
+        header_text.setText(getString(R.string.my_profile));
         initView();
     }
 
@@ -94,6 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
                 if (careerModel.getEndDate() == -1) {
                     start_year.setText(careerModel.getStartDate() + "");
                 } else {
+                    start_year.setInputType(InputType.TYPE_CLASS_TEXT);
+                    start_year.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(20) });
                     start_year.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
                 }
                 occupation.setText(careerModel.getOccupation());
@@ -429,6 +447,7 @@ public class ProfileActivity extends AppCompatActivity {
         ProgressDialog progressDialog;
         private String companyName, occupation;
         private int startYear, endYear;
+        AppPreference appPreference;
 
         AddCareer(ProfileActivity context, String companyName, String occupation, int startYear, int endYear) {
             weakReference = new WeakReference<>(context);
@@ -440,6 +459,7 @@ public class ProfileActivity extends AppCompatActivity {
             AppDatabase db = AppDatabase.getDatabase(activity);
             phirePawaProfileDAO = db.phirePawaProfileDAO();
             progressDialog = new ProgressDialog(weakReference.get());
+            appPreference = new AppPreference(weakReference.get());
 
         }
 
@@ -467,13 +487,13 @@ public class ProfileActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
-                final ApiAddCareerModel apiAddCareerModel = new ApiAddCareerModel(companyName, startYear, endYear, occupation);
+                final ApiAddCareerModel apiAddCareerModel = new ApiAddCareerModel(appPreference.getUserId(), companyName, startYear, endYear, occupation);
                 Call<ApiAddCareerResponseModel> call = service.addCareer(apiAddCareerModel);
                 call.enqueue(new Callback<ApiAddCareerResponseModel>() {
                     @Override
                     public void onResponse(Call<ApiAddCareerResponseModel> call, Response<ApiAddCareerResponseModel> response) {
                         try {
-                            AppPreference appPreference = new AppPreference(weakReference.get());
+
                             if (weakReference.get() == null)
                                 return;
 

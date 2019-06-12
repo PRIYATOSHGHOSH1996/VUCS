@@ -60,7 +60,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsync(INSTANCE).execute();
+            //new PopulateDbAsync(INSTANCE).execute();
         }
 
     };
@@ -120,7 +120,7 @@ public abstract class AppDatabase extends RoomDatabase {
         protected Void doInBackground(final Void... params) {
             Log.e("app data","database created");
 
-            noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
+           /* noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
             noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));
 
             jobDAO.insertJob(new JobModel(1, "This is a Dummy Text To Test The View", 1, "Priyatosh Ghosh", new Date(), "The Election Commission of India (ECI) has told the Supreme Court that electoral bonds, contrary to government claims, wreck transparency in political funding.", 1));
@@ -465,7 +465,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     "Rana grabbed 50 through fours and sixes alone. No matter how he held the bat, the Delhi batsman hit all his seven sixes, including four off R. Ashwin, in the ‘V’ and left the KXIP skipper clueless.\n" +
                     "\n" +
                     "Uthappa enjoyed his timing and placement as he cut and flicked to gather most of his runs. He gave perfect company to Rana by producing a fine mix of ones and twos interspersed with fours and sixes.", "https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l2.jpg?alt=media&token=02d5c867-c5cc-4bad-93e8-8b023cc478fd", 1));
-            return null;
+            */return null;
         }
     }
 }

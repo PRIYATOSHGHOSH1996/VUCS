@@ -84,7 +84,6 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
                             holder.linearLayout, 0, 0, holder.linearLayout.getWidth(), holder.linearLayout.getHeight()).toBundle();
                     Pair<View, String> p = Pair.create((View) holder.linearLayout, "parent");
 
-                    Bundle options1 = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)weakReference.get()).toBundle();
                     Activity activity=(Activity)weakReference.get();
                     weakReference.get().startActivity(intent);
                     activity.overridePendingTransition(R.anim.scale_up, R.anim.no_anim);

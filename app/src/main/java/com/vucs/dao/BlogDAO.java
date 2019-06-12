@@ -18,4 +18,10 @@ public interface BlogDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertBlog(BlogModel blogModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertBlog(List<BlogModel> blogModels);
+
+    @Query("DELETE FROM dt_blog")
+    public void deleteAllBlog();
 }

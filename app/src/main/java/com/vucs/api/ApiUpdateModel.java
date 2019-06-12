@@ -3,6 +3,7 @@ package com.vucs.api;
 
 
 
+import com.vucs.model.BlogModel;
 import com.vucs.model.CareerModel;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
@@ -15,23 +16,22 @@ import java.util.List;
 
 public class ApiUpdateModel {
 
+    private List<BlogModel> blogModels;
     private List<CareerModel> careerModels;
-    private List<EventModel> eventModels;
     private List<ImageGalleryModel> imageGalleryModels;
     private List<JobFileModel> jobFileModels;
     private List <JobModel> jobModels;
     private List<NoticeModel> noticeModels;
     private List<UserModel> userModels;
 
-    public ApiUpdateModel( List<CareerModel> careerModels,
-             List<EventModel> eventModels,
-             List<ImageGalleryModel> imageGalleryModels,
-             List<JobFileModel> jobFileModels,
-             List <JobModel> jobModels,
-             List<NoticeModel> noticeModels,
-             List<UserModel> userModels) {
+    public ApiUpdateModel(List<BlogModel> blogModels, List<CareerModel> careerModels,
+                          List<ImageGalleryModel> imageGalleryModels,
+                          List<JobFileModel> jobFileModels,
+                          List<JobModel> jobModels,
+                          List<NoticeModel> noticeModels,
+                          List<UserModel> userModels) {
+        this.blogModels = blogModels;
         this.careerModels = careerModels;
-        this.eventModels = eventModels;
         this.imageGalleryModels = imageGalleryModels;
         this.jobFileModels = jobFileModels;
         this.jobModels = jobModels;
@@ -45,14 +45,6 @@ public class ApiUpdateModel {
 
     public void setCareerModels(List<CareerModel> careerModels) {
         this.careerModels = careerModels;
-    }
-
-    public List<EventModel> getEventModels() {
-        return eventModels;
-    }
-
-    public void setEventModels(List<EventModel> eventModels) {
-        this.eventModels = eventModels;
     }
 
     public List<ImageGalleryModel> getImageGalleryModels() {
@@ -95,11 +87,19 @@ public class ApiUpdateModel {
         this.userModels = userModels;
     }
 
+    public List<BlogModel> getBlogModels() {
+        return blogModels;
+    }
+
+    public void setBlogModels(List<BlogModel> blogModels) {
+        this.blogModels = blogModels;
+    }
+
     @Override
     public String toString() {
         return "ApiUpdateModel{" +
-                "careerModels=" + careerModels +
-                ", eventModels=" + eventModels +
+                "blogModels=" + blogModels +
+                ", careerModels=" + careerModels +
                 ", imageGalleryModels=" + imageGalleryModels +
                 ", jobFileModels=" + jobFileModels +
                 ", jobModels=" + jobModels +

@@ -356,7 +356,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:animateLayoutChanges="true"
-                    android:background="@drawable/login_button_background"
+                    android:background="@drawable/button_background_square"
                     android:minWidth="120dp"
                     android:onClick="onSubmitClick"
                     android:text="Submit"

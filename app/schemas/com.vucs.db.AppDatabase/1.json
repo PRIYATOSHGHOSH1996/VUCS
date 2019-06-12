@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ae32bcebb376b75f16e0e789c96f62cf",
+    "identityHash": "29bb3f33b127612c47d1f3f1b61879a3",
     "entities": [
       {
         "tableName": "dt_blog",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blog_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `blog_title` TEXT, `blog_by_id` INTEGER NOT NULL, `blog_by` TEXT, `date` INTEGER, `content` TEXT, `blog_image_url` TEXT, `status` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blog_id` INTEGER NOT NULL, `blog_title` TEXT, `blog_by_id` INTEGER NOT NULL, `blog_by` TEXT, `date` INTEGER, `content` TEXT, `blog_image_url` TEXT, `status` INTEGER NOT NULL, PRIMARY KEY(`blog_id`))",
         "fields": [
           {
             "fieldPath": "blogId",
@@ -61,7 +61,7 @@
           "columnNames": [
             "blog_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -282,7 +282,7 @@
       },
       {
         "tableName": "dt_class_notice",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `sem` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "noticeId",
@@ -307,6 +307,12 @@
             "columnName": "notice_by",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "sem",
+            "columnName": "sem",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -370,7 +376,7 @@
       },
       {
         "tableName": "dt_users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `first_name` TEXT, `last_name` TEXT, `mail` TEXT, `phone_no` TEXT, `address` TEXT, `batch_start_date` INTEGER NOT NULL, `batch_end_date` INTEGER NOT NULL, `imageUrl` TEXT, `course` TEXT, `dob` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `first_name` TEXT, `last_name` TEXT, `mail` TEXT, `phone_no` TEXT, `address` TEXT, `batch_start_date` INTEGER NOT NULL, `batch_end_date` INTEGER NOT NULL, `image_url` TEXT, `course` TEXT, `dob` INTEGER, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -422,7 +428,7 @@
           },
           {
             "fieldPath": "imageUrl",
-            "columnName": "imageUrl",
+            "columnName": "image_url",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -452,7 +458,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ae32bcebb376b75f16e0e789c96f62cf\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"29bb3f33b127612c47d1f3f1b61879a3\")"
     ]
   }
 }

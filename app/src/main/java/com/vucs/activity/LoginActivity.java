@@ -2,6 +2,7 @@ package com.vucs.activity;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,13 +35,16 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.vucs.R;
+import com.vucs.api.ApiForgotPasswordModel;
 import com.vucs.api.ApiLoginModel;
 import com.vucs.api.ApiLoginResponseModel;
+import com.vucs.api.ApiResponseModel;
 import com.vucs.api.Service;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Utils;
 import com.vucs.service.DataServiceGenerator;
+import com.vucs.service.GetDataService;
 
 import java.lang.ref.WeakReference;
 
@@ -60,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TextInputLayout user_name, password;
     AppPreference appPreference;
+    private boolean forgotPassword=false;
+    TextView forgot_password;
     BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -114,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         user_name = findViewById(R.id.user_name);
         password = findViewById(R.id.password);
+        forgot_password = findViewById(R.id.forgot_password);
         appPreference = new AppPreference(this);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             parent.setOrientation(LinearLayout.HORIZONTAL);
@@ -125,19 +132,49 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (user_name.getEditText().getText().toString().isEmpty()) {
-                    showSnackBar("Please enter user name");
-                } else if (password.getEditText().getText().toString().isEmpty()) {
-                    showSnackBar("Please enter password");
-                } else if (Utils.isNetworkAvailable()) {
-                    buttonToProgressBar();
-                    new CheckingUser(LoginActivity.this, user_name.getEditText().getText().toString(), password.getEditText().getText().toString()).execute();
+                if (!forgotPassword) {
+                    if (user_name.getEditText().getText().toString().isEmpty()) {
+                        showSnackBar("Please enter user name");
+                    } else if (password.getEditText().getText().toString().isEmpty()) {
+                        showSnackBar("Please enter password");
+                    } else if (Utils.isNetworkAvailable()) {
+                        buttonToProgressBar();
+                        new CheckingUser(LoginActivity.this, user_name.getEditText().getText().toString(), password.getEditText().getText().toString()).execute();
+                    }
+                    else {
+                        showSnackBarWithNetworkAction("No internet connection");
+                    }
+                } else {
+                    if (user_name.getEditText().getText().toString().isEmpty()) {
+                        showSnackBar("Please enter user name");
+                    }
+                    else if (Utils.isNetworkAvailable()) {
+                       buttonToProgressBar();
+                        new ForgetPassword(LoginActivity.this, user_name.getEditText().getText().toString()).execute();
+                    }
+                    else {
+                        showSnackBarWithNetworkAction("No internet connection");
+                    }
+                }
+
+
+            }
+        });
+        forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (forgotPassword){
+                    login.setText("Login");
+                    forgot_password.setText("Forgot password");
+                    password.setVisibility(View.VISIBLE);
+                    forgotPassword=false;
                 }
                 else {
-                    showSnackBarWithNetworkAction("No internet connection");
+                    login.setText("Get password");
+                    forgot_password.setText("Login");
+                    password.setVisibility(View.GONE);
+                    forgotPassword=true;
                 }
-
-
             }
         });
 
@@ -145,8 +182,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void openHomeActivity() {
-        ActivityOptionsCompat options = ActivityOptionsCompat.
-                makeSceneTransitionAnimation(this, progressBar, "transition");
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
@@ -158,17 +193,14 @@ public class LoginActivity extends AppCompatActivity {
         linearLayout.setVisibility(View.VISIBLE);
         TextView textView = (TextView) findViewById(R.id.register);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml("<u>Register</u>", Html.FROM_HTML_MODE_LEGACY));
+            textView.setText(Html.fromHtml("<u>Registration</u>", Html.FROM_HTML_MODE_LEGACY));
         } else {
-            textView.setText(Html.fromHtml("<u>Register</u>"));
+            textView.setText(Html.fromHtml("<u>Registration</u>"));
         }
         frameLayout.post(new Runnable() {
             @Override
             public void run() {
                 progressBarWidth = progressBar.getWidth();
-                // `mItemInputEditText` should be left visible from XML in order to get measured
-                // setting to GONE after we have got actual width
-                // progressBar.setVisibility(View.GONE);
                 buttonWidth = login.getWidth();
             }
         });
@@ -286,6 +318,21 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
     }
 
+    private void openDialog( String s){
+        Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
+        View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
+        TextView textView=view.findViewById(R.id.text);
+        textView.setText(s);
+        Button ok = view.findViewById(R.id.ok);
+        ok.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.addContentView(view,layoutParams);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
     private static class CheckingUser extends AsyncTask<Void, Void, Void> {
         private static WeakReference<LoginActivity> weakReference;
         private final String userName;
@@ -347,6 +394,7 @@ public class LoginActivity extends AppCompatActivity {
                                     try {
                                         Log.e(TAG, "user_id = " + apiLoginResponseModel.getUserId() + "");
                                         appPreference.setUserId(apiLoginResponseModel.getUserId());
+                                        appPreference.setUserType(apiLoginResponseModel.getType());
                                         appPreference.setUserPassword(passWord);
                                         appPreference.setUserName(apiLoginResponseModel.getName());
                                         appPreference.setUserEmail(apiLoginResponseModel.getMail());
@@ -356,14 +404,11 @@ public class LoginActivity extends AppCompatActivity {
                                         appPreference.setUserDob(apiLoginResponseModel.getDob());
                                         appPreference.setUserCourse(apiLoginResponseModel.getCourse());
                                         appPreference.setUserBatch(apiLoginResponseModel.getBatch());
-
-
-                                        activity.openHomeActivity();
-
+                                        appPreference.setUserSem(apiLoginResponseModel.getSem());
                                         Thread workThread = new Thread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                //GetDataService.updateData(activity, projectDAO, projectExpenseDAO, claimDAO);
+                                                GetDataService.updateData(activity);
                                             }
 
                                         });
@@ -381,7 +426,7 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
                                     }
 
-                                    activity.showSnackBar(apiLoginResponseModel.getMessage());
+                                    activity.openDialog(apiLoginResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
                                     Log.e(TAG, apiLoginResponseModel.getMessage());
@@ -412,6 +457,121 @@ public class LoginActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    private static class ForgetPassword extends AsyncTask<Void, Void, Void> {
+        private static WeakReference<LoginActivity> weakReference;
+        private String userName;
+
+
+        ForgetPassword(LoginActivity context, String userName) {
+            weakReference = new WeakReference<>(context);
+            this.userName = userName;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            LoginActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }
+            // activity.buttonToProgressBar();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            /*LoginActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }*/
+
+            // progressDialog.dismiss();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            final LoginActivity activity = weakReference.get();
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                final ApiForgotPasswordModel apiForgotPasswordModel = new ApiForgotPasswordModel(userName);
+                Call<ApiResponseModel> call = service.forgotPassword(apiForgotPasswordModel);
+                call.enqueue(new Callback<ApiResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code = " + response.code() + "");
+                            if (response.body() != null) {
+                                final ApiResponseModel apiResponseModel = response.body();
+                                Log.e(TAG, "Response:\n" + apiResponseModel.toString());
+
+                                if (apiResponseModel.getCode() == 1) { ;
+                                    if (activity == null || activity.isFinishing())
+                                        return;
+
+                                    try {
+                                        activity.openDialog(apiResponseModel.getMessage());
+                                        activity.progressBarToButton();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    Log.e(TAG, apiResponseModel.getMessage());
+
+                                } else {
+                                    if (activity == null || activity.isFinishing()) {
+                                        return;
+                                    }
+
+                                    activity.openDialog(apiResponseModel.getMessage());
+                                    activity.progressBarToButton();
+                                    //Failure
+                                    Log.e(TAG, apiResponseModel.getMessage());
+                                }
+                            }
+                        }
+                        else {
+                            Log.e(TAG, "Error Response Code = " + response.code() + "");
+                            if (activity == null || activity.isFinishing()) {
+                                return;
+                            }
+                            activity.showSnackBar(weakReference.get().getString(R.string.server_error));
+                            activity.progressBarToButton();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+                        Log.e(TAG, "fail " + t.getMessage());
+                        if (activity == null || activity.isFinishing()) {
+                            return;
+                        }
+                        activity.showSnackBar(weakReference.get().getString(R.string.server_error));
+                        activity.progressBarToButton();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (forgotPassword){
+            login.setText("Login");
+            forgot_password.setText("Forgot password");
+            password.setVisibility(View.VISIBLE);
+            forgotPassword=false;
+        }
+        else {
+            super.onBackPressed();
+        }
+
     }
 }
 

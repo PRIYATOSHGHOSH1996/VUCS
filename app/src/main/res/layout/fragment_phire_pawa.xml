@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:background="@drawable/rounded_white_background"
+            android:background="@drawable/rounded_white_fade_background"
             android:orientation="horizontal"
             android:paddingStart="8dp"
             android:paddingEnd="8dp">
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:background="@drawable/rounded_white_background"
+            android:background="@drawable/rounded_white_fade_background"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:inputType="text"

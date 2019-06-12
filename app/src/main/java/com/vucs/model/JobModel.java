@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @Entity(tableName = "dt_job")
@@ -15,24 +17,31 @@ public class JobModel {
     @ColumnInfo(name = "id")
     private int Id;
 
+    @SerializedName("job_id")
     @ColumnInfo(name = "job_id")
     private int jobId;
 
+    @SerializedName("job_title")
     @ColumnInfo(name = "job_title")
     private String jobTitle;
 
+    @SerializedName("job_by_id")
     @ColumnInfo(name = "job_by_id")
     private int jobById;
 
+    @SerializedName("job_by")
     @ColumnInfo(name = "job_by")
     private String jobBy;
 
+    @SerializedName("date")
     @ColumnInfo(name = "date")
     private Date date;
 
+    @SerializedName("content")
     @ColumnInfo(name = "content")
     private String content;
 
+    @SerializedName("status")
     @ColumnInfo(name = "status")
     private int status;
 

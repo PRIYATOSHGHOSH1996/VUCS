@@ -80,6 +80,7 @@ public class BlogFragment extends Fragment {
 
         try {
             adapter.addBlog(blogViewModel.getAllBlog());
+            Log.e(TAG,"blogs="+blogViewModel.getAllBlog());
         } catch (Exception e) {
             Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

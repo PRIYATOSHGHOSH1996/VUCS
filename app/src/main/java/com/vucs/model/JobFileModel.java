@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "dt_job_file")
 public class JobFileModel {
 
@@ -13,10 +15,12 @@ public class JobFileModel {
     @ColumnInfo(name = "id")
     private int Id;
 
+    @SerializedName("job_id")
     @ColumnInfo(name = "job_id")
     private int jobId;
 
 
+    @SerializedName("job_file_url")
     @ColumnInfo(name = "job_file_url")
     private String jobFileURL;
 
