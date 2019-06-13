@@ -14,7 +14,7 @@ import java.util.List;
 public interface NoticeDAO {
 
 
-    @Query("SELECT * FROM dt_notice")
+    @Query("SELECT * FROM dt_notice ORDER BY date")
     public List<NoticeModel> getAllNotice();
 
     @Query("DELETE FROM dt_notice")

@@ -25,7 +25,7 @@ public interface JobDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertJobFile(List<JobFileModel> jobFileModel);
 
-    @Query("SELECT * FROM dt_job WHERE status = 1")
+    @Query("SELECT * FROM dt_job WHERE status = 1 ORDER BY date")
     public List<JobModel> getAllJob();
 
     @Query("DELETE FROM dt_job ")

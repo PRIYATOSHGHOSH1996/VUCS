@@ -27,6 +27,7 @@
         android:layout_below="@id/logo"
         android:animateLayoutChanges="true"
         android:gravity="center"
+
         android:layout_gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
@@ -46,7 +47,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="bottom"
                 android:background="@drawable/box_grey"
-                android:hint="User Name"
+                android:hint="Email"
                 android:inputType="text"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
@@ -81,9 +82,11 @@
             android:text="Forgot password"
             android:textColor="@color/colorAccent"
             android:textStyle="italic"
+            android:textSize="10dp"
+            android:paddingStart="4dp"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:onClick="onRegisterClick"
-            android:gravity="start"/>
+            android:gravity="start|center"/>
 
         <FrameLayout
             android:id="@+id/transitions_container"

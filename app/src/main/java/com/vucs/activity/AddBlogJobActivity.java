@@ -1,16 +1,13 @@
 package com.vucs.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -18,31 +15,58 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.filelibrary.Callback;
 import com.filelibrary.Utils;
-import com.filelibrary.exception.ActivityOrFragmentNullException;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.vucs.R;
+import com.vucs.api.ApiAddJobFileResponseModel;
+import com.vucs.api.ApiAddJobModel;
+import com.vucs.api.ApiAddJobResponseModel;
+import com.vucs.api.ApiCredential;
+import com.vucs.api.Service;
+import com.vucs.dao.JobDAO;
+import com.vucs.db.AppDatabase;
+import com.vucs.helper.AppPreference;
+import com.vucs.helper.ProgressRequestBody;
 import com.vucs.helper.Toast;
+import com.vucs.model.JobFileModel;
+import com.vucs.model.JobModel;
+import com.vucs.service.DataServiceGenerator;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class AddBlogJobActivity extends AppCompatActivity {
 
+    private static String TAG = "add job activity";
     List<Uri> uriList;
     LinearLayout file_layout;
-    private String TAG = "add job activity";
-    private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE=125;
-
-    TextInputLayout title,description;
-
+    TextInputLayout title, description;
+    private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE = 125;
+    private TextView dialog_text, percentage;
+    private ProgressBar progressBar;
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,38 +86,50 @@ public class AddBlogJobActivity extends AppCompatActivity {
             TextView header_text = findViewById(R.id.header_text);
             header_text.setText("Add job");
             initView();
+            dialog = new Dialog(this, R.style.Theme_Design_BottomSheetDialog);
+            View view = getLayoutInflater().inflate(R.layout.dialoge_uploading_file, null);
+            dialog_text = view.findViewById(R.id.text);
+            dialog_text.setText("Please wait");
+            percentage = view.findViewById(R.id.percentage);
+            percentage.setText("24%");
+            progressBar = view.findViewById(R.id.progress_bar);
+            progressBar.setProgress(25);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view, layoutParams);
+            dialog.setCancelable(false);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void initView() {
-        file_layout=findViewById(R.id.file_layout);
-        Button add_file=findViewById(R.id.add_file);
-        title=findViewById(R.id.title);
-        description=findViewById(R.id.description);
-        uriList=new ArrayList<>();
-        add_file.setOnClickListener(v ->{
-                    Log.e(TAG,"uri list = "+uriList.toString());
-            showGetFileDialog();
+        file_layout = findViewById(R.id.file_layout);
+        Button add_file = findViewById(R.id.add_file);
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.description);
+        uriList = new ArrayList<>();
+        add_file.setOnClickListener(v -> {
+                    Log.e(TAG, "uri list = " + uriList.toString());
+                    showGetFileDialog();
                 }
-                );
+        );
 
 
     }
-    private boolean isImageUri(Uri uri){
+
+    private boolean isImageUri(Uri uri) {
 
         try {
-            String [] s=uri.toString().split("\\.");
-            if(s[s.length-1].equals("jpg"))
+            String[] s = uri.toString().split("\\.");
+            if (s[s.length - 1].equals("jpg"))
                 return true;
             ContentResolver cR = getContentResolver();
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             String type = mime.getExtensionFromMimeType(cR.getType(uri));
 
-            Log.e(TAG,"uri="+uri);
-            Log.e(TAG,"uritype="+cR.getType(uri));
-            if (cR.getType(uri).contains("image")){
+            Log.e(TAG, "uri=" + uri);
+            Log.e(TAG, "uritype=" + cR.getType(uri));
+            if (cR.getType(uri).contains("image")) {
                 return true;
             }
         } catch (Exception e) {
@@ -102,6 +138,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
         return false;
 
     }
+
     private void showGetFileDialog() {
         BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
         View sheetView = getLayoutInflater().inflate(R.layout.item_get_file_layout, null);
@@ -122,7 +159,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                             .getResult(new Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath) {
-                                   addImage(uri);
+                                    addImage(uri);
 
                                 }
 
@@ -143,7 +180,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                 mBottomSheetDialog.dismiss();
                 Intent chooseFile;
                 Intent intent;
-                String [] mimeTypes = {"image/*", "application/pdf"};
+                String[] mimeTypes = {"image/*", "application/pdf"};
                 chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
                 chooseFile.setType("image/*|application/pdf");
                 chooseFile.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
@@ -157,25 +194,24 @@ public class AddBlogJobActivity extends AppCompatActivity {
         mBottomSheetDialog.setCancelable(true);
     }
 
-    private void addImage(Uri uri){
+    private void addImage(Uri uri) {
         try {
-            View view=getLayoutInflater().inflate(R.layout.item_image_delete,null);
+            View view = getLayoutInflater().inflate(R.layout.item_image_delete, null);
             uriList.add(uri);
-            ImageView imageView=view.findViewById(R.id.image);
-            ImageButton imageButton=view.findViewById(R.id.imageButton);
+            ImageView imageView = view.findViewById(R.id.image);
+            ImageButton imageButton = view.findViewById(R.id.imageButton);
             if (isImageUri(uri)) {
                 Glide.with(AddBlogJobActivity.this)
                         .load(uri)
                         .into(imageView);
-            }
-            else {
+            } else {
                 imageView.setImageDrawable(getDrawable(R.drawable.pdf_icon));
             }
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (int i=0;i<uriList.size();i++){
-                        if (uri==uriList.get(i)){
+                    for (int i = 0; i < uriList.size(); i++) {
+                        if (uri == uriList.get(i)) {
                             uriList.remove(i);
                             file_layout.removeView(view);
                             break;
@@ -190,6 +226,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
         }
 
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -200,10 +237,10 @@ public class AddBlogJobActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Utils.Builder.notifyActivityChange(requestCode, resultCode, data);
-        if(requestCode == CHOOSE_MULTIPLE_FILE_REQUEST_CODE) {
-            if(null != data) { // checking empty selection
-                if(null != data.getClipData()) { // checking multiple selection or not
-                    for(int i = 0; i < data.getClipData().getItemCount(); i++) {
+        if (requestCode == CHOOSE_MULTIPLE_FILE_REQUEST_CODE) {
+            if (null != data) { // checking empty selection
+                if (null != data.getClipData()) { // checking multiple selection or not
+                    for (int i = 0; i < data.getClipData().getItemCount(); i++) {
                         Uri uri = data.getClipData().getItemAt(i).getUri();
                         addImage(uri);
                     }
@@ -217,17 +254,184 @@ public class AddBlogJobActivity extends AppCompatActivity {
 
     public void onSubmitClick(View view) {
 
-        if (title.getEditText().getText().toString().isEmpty()){
-            Toast.makeText(this,"Please enter title");
-        }else if (description.getEditText().getText().toString().isEmpty()){
-            Toast.makeText(this,"Please enter description");
+        if (title.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter title");
+        } else if (description.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter description");
+        } else if (!com.vucs.helper.Utils.isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.no_internet_connection));
+        } else {
+            new UploadJob(this, title.getEditText().getText().toString(), description.getEditText().getText().toString(), uriList).execute();
         }
-        else if (!com.vucs.helper.Utils.isNetworkAvailable()){
-            Toast.makeText(this,getString(R.string.no_internet_connection));
-        }
-        else{
+
+    }
+
+    private static class UploadJob extends AsyncTask<Void, Void, String> implements ProgressRequestBody.UploadCallbacks {
+        int totalFile;
+        int count = 1;
+        JobDAO jobDAO;
+
+        private WeakReference<AddBlogJobActivity> homeWeakReference;
+        private String jobTitle, jobDescription;
+        private List<Uri> uriList;
+
+
+        UploadJob(AddBlogJobActivity home, String jobTitle, String jobDescription, List<Uri> uriList) {
+            homeWeakReference = new WeakReference<>(home);
+            this.jobDescription = jobDescription;
+            this.jobTitle = jobTitle;
+            this.uriList = uriList;
+            totalFile = uriList.size();
+            AppDatabase db = AppDatabase.getDatabase(homeWeakReference.get());
+            jobDAO = db.jobDAO();
 
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (homeWeakReference.get() == null)
+                return;
+
+            homeWeakReference.get().dialog.show();
+            homeWeakReference.get().dialog_text.setText("90%");
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                if (homeWeakReference.get() == null)
+                    return null;
+                final Service service = DataServiceGenerator.createService(Service.class);
+                AppPreference appPreference = new AppPreference(homeWeakReference.get());
+                ApiCredential apiCredential = new ApiCredential();
+                final ApiAddJobModel apiAddJobModel = new ApiAddJobModel(appPreference.getUserId(), jobTitle, jobDescription);
+                Call<ApiAddJobResponseModel> call = service.addJob(apiAddJobModel);
+                call.enqueue(new retrofit2.Callback<ApiAddJobResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ApiAddJobResponseModel> call, Response<ApiAddJobResponseModel> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                if (response.body() != null) {
+                                    final ApiAddJobResponseModel apiAddJobResponseModel = response.body();
+                                    Log.e(TAG, "add job response:\n" + apiAddJobResponseModel.toString());
+
+                                    if (apiAddJobResponseModel.getCode() == 1) {
+
+                                        jobDAO.insertJob(new JobModel(apiAddJobResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserName(), new Date(),
+                                                jobDescription, 1));
+                                        RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
+                                        RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
+                                        RequestBody jobId = RequestBody.create(MultipartBody.FORM, apiAddJobResponseModel.getJobId() + "");
+                                        RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
+                                        Log.e("total file", uriList.size() + "");
+                                        while (uriList.size() > 0) {
+                                            if (homeWeakReference.get() == null)
+                                                return;
+
+                                            File directory = homeWeakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
+                                            directory.mkdir();
+                                            InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(0));
+                                            byte[] buffer = new byte[in.available()];
+                                            in.read(buffer);
+                                            File file = new File(directory, "file");
+                                            OutputStream outStream = new FileOutputStream(file);
+                                            outStream.write(buffer);
+                                            outStream.close();
+                                            in.close();
+                                            uriList.remove(0);
+                                            Log.e("files length", file.length() + "");
+                                            ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + count + " of " + totalFile);
+                                            MultipartBody.Part jobFile =
+                                                    MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
+                                            Call<ApiAddJobFileResponseModel> call1 = service.uploadJobFile(apiLogin, apiPass, jobId, userId, jobFile);
+                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                                                    .permitAll().build();
+                                            StrictMode.setThreadPolicy(policy);
+                                          Response<ApiAddJobFileResponseModel> response1=call1.execute();
+                                            if (homeWeakReference.get() == null)
+                                                return;
+                                            if (response1.body() != null) {
+                                                final ApiAddJobFileResponseModel apiAddJobFileResponseModel = response1.body();
+                                                Log.e(TAG, "add job file:\n" + apiAddJobFileResponseModel.toString());
+
+                                                if (apiAddJobResponseModel.getCode() == 1) {
+                                                    count++;
+                                                    jobDAO.insertJobFile(new JobFileModel(apiAddJobResponseModel.getJobId(), apiAddJobFileResponseModel.getFileUrl()));
+
+
+                                                }
+                                            }
+                                        }
+                                        if (homeWeakReference.get() == null)
+                                            return;
+                                        homeWeakReference.get().dialog.dismiss();
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
+                                        homeWeakReference.get().onBackPressed();
+
+                                    } else {
+                                        if (homeWeakReference.get() == null)
+                                            return;
+                                        homeWeakReference.get().dialog.dismiss();
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            if (homeWeakReference.get() == null)
+                                return;
+                            homeWeakReference.get().dialog.dismiss();
+                            Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiAddJobResponseModel> call, Throwable t) {
+                        t.printStackTrace();
+                        if (homeWeakReference.get() == null)
+                            return;
+                        homeWeakReference.get().dialog.dismiss();
+                        Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        public void onProgressUpdate(int percentage1, String title) {
+            try {
+                if (homeWeakReference.get() == null)
+                    return;
+
+                Log.e("progrees opdate",percentage1+"");
+                homeWeakReference.get().percentage.setText(percentage1 + "%");
+                homeWeakReference.get().dialog_text.setText(title);
+                homeWeakReference.get().progressBar.setProgress(percentage1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+
+        @Override
+        public void onFinish(String title) {
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

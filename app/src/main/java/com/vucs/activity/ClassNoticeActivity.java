@@ -24,9 +24,11 @@ import com.vucs.R;
 import com.vucs.adapters.RecyclerViewClassNoticeAdapter;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Utils;
+import com.vucs.model.ClassNoticeModel;
 import com.vucs.viewmodel.NoticeViewModel;
 
 import java.util.Date;
+import java.util.List;
 
 public class ClassNoticeActivity extends AppCompatActivity {
     AppPreference appPreference;
@@ -47,6 +49,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
 
         try {
             appPreference = new AppPreference(this);
+            appPreference.setNotificationCount(0);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -102,7 +105,14 @@ public class ClassNoticeActivity extends AppCompatActivity {
 
     private void updateAdapter() {
         try {
-            adapter.addNotice(noticeViewModel.getAllClassNotice());
+            List<ClassNoticeModel> list = noticeViewModel.getAllClassNotice();
+            if(list.size() == 0){
+                findViewById(R.id.empty_notification_layout).setVisibility(View.VISIBLE);
+            }
+            else {
+                findViewById(R.id.empty_notification_layout).setVisibility(View.GONE);
+            }
+            adapter.addNotice(list);
         } catch (Exception e) {
             Utils.appendLog(TAG + ":update adapater: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

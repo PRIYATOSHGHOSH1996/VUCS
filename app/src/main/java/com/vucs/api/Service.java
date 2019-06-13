@@ -83,7 +83,17 @@ public interface Service {
     @POST("fetch_all_data")
     Call<ApiUpdateModel> getAllData(@Body ApiCredentialWithUserId credentials);
 
+    /* API for fetching all data */
+    @POST("fetch_blogs")
+    Call<ApiBlogUpdateModel> getBlog(@Body ApiCredentialWithUserId credentials);
+
     /* API for addJob */
-    @POST("fetch_all_data")
-    Call<ApiUpdateModel> getAllklData(@Body ApiCredentialWithUserId credentials);
+    @POST("add_job")
+    Call<ApiAddJobResponseModel> addJob(@Body ApiAddJobModel apiAddJobModel);
+
+    /* API for add Job File */
+    @Multipart
+    @POST("job_files_upload")
+    Call<ApiAddJobFileResponseModel> uploadJobFile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass, @Part("jobId") RequestBody jobId,@Part("userId") RequestBody userId,@Part MultipartBody.Part jobFile);
+
 }

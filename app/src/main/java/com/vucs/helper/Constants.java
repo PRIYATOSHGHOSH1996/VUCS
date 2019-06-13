@@ -14,4 +14,16 @@ public class Constants {
     public static boolean UPDATING_NOTICE=false;
     public static boolean UPDATING_USER=false;
 
+
+
+    public static final int ALL_DATA_UPDATE      =1;
+    public static final int BLOG_UPDATE          =2;
+    public static final int JOB_UPDATE           =3;
+    public static final int USER_UPDATE          =4;
+    public static final int NOTICE_UPDATE        =5;
+    public static final int IMAGE_UPDATE         =6;
+    public static final int CLASS_NOTICE_UPDATE = 7;
+    public static final int FORCED_LOGOUT        =9;
+
+
 }

@@ -132,6 +132,14 @@ public class AppPreference {
         return prefs.getBoolean("is_firebase_token_synced", false);
     }
 
+    public int getNotificationCount() {
+        return prefs.getInt("uncount", 0);
+    }
+
+    public void setNotificationCount(int uid) {
+        prefs.edit().putInt("uncount", uid).apply();
+    }
+
     public void clear() {
         prefs.edit().clear().apply();
     }

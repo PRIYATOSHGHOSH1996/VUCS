@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -49,6 +50,9 @@ import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -96,6 +100,7 @@ public class HomeActivity extends AppCompatActivity
     private static String TAG = "HomeActivity";
 
 
+    private boolean showNoticeCount=false;
     private int revealX;
     private int revealY;
     DrawerLayout drawer;
@@ -104,6 +109,14 @@ public class HomeActivity extends AppCompatActivity
     Animation makeInAnimation;
     FloatingActionButton floatingActionButton;
     Animation makeOutAnimation;
+    FrameLayout notification_circle;
+    TextView notice_count;
+   BroadcastReceiver notificationCountBroadCast = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setNotificationCount();
+        }
+    };
     BroadcastReceiver forceLogoutBroadCast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -149,9 +162,17 @@ public class HomeActivity extends AppCompatActivity
             TextView name=navigationView.getHeaderView(0).findViewById(R.id.name);
             mail.setText(appPreference.getUserEmail());
             name.setText(appPreference.getUserName());
-            Glide.with(this)
+            Glide
+                    .with(this)
                     .load(appPreference.getUserImageUrl())
-                    .into(profile_pic);
+                    .fitCenter()
+                    .transition(new DrawableTransitionOptions().crossFade())
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            profile_pic.setImageDrawable(resource);
+                        }
+                    });
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -229,6 +250,7 @@ public class HomeActivity extends AppCompatActivity
 
                 }
             });
+            navBack.setAlpha(0);
             drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
                 @Override
                 public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -412,23 +434,30 @@ public class HomeActivity extends AppCompatActivity
         return dir.delete();
     }
 
+    private void setNotificationCount() {
+
+        int count = appPreference.getNotificationCount();
+        if (count > 0) {
+            notification_circle.setVisibility(View.VISIBLE);
+            notice_count.setText(String.valueOf(count));
+        }
+        else {
+            notification_circle.setVisibility(View.GONE);
+            notice_count.setText(String.valueOf(count));
+        }
+    }
 
     private void logout() {
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        appPreference.clear();
-        /*Log.e(TAG, "logout " + getString(R.string.database_name));
-        appPreference.clear();
-        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-        try { ;
+        try {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-
+                    try {appPreference.clear();
+                        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         AppDatabase.getDatabase(getContext()).clearAllTables();
-                        clearApplicationData();
                         FirebaseMessaging.getInstance().setAutoInitEnabled(false);
                         FirebaseInstanceId.getInstance().deleteInstanceId();
+                        finish();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -438,7 +467,7 @@ public class HomeActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        finish();*/
+
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -643,6 +672,9 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.class_notice);
+        if (appPreference.getUserType()==1){
+            item.setVisible(false);
+        }
         item.setActionView(R.layout.icon_notification);
         View view = item.getActionView();
         FrameLayout frameLayout =view.findViewById(R.id.notification);
@@ -655,6 +687,9 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(intent,activityOptionsCompat.toBundle());
             }
         });
+        notification_circle=view.findViewById(R.id.red_circle);
+        notice_count=view.findViewById(R.id.count);
+        setNotificationCount();
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -733,6 +768,7 @@ public class HomeActivity extends AppCompatActivity
                 final Service service = DataServiceGenerator.createService(Service.class);
                 AppPreference appPreference=new AppPreference(homeWeakReference.get());
                 final ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel = new ApiUploadFirebaseTokenModel(appPreference.getUserId(), firebaseToken, appPreference.getUserSem(), appPreference.getUserType());
+                Log.e("upload token ",apiUploadFirebaseTokenModel.toString());
                 Call<ApiResponseModel> call = service.uploadToken(apiUploadFirebaseTokenModel);
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
@@ -770,13 +806,21 @@ public class HomeActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerReceiver(forceLogoutBroadCast, new IntentFilter(getString(R.string.force_logout_broadcast)));
+        registerReceiver(notificationCountBroadCast, new IntentFilter(getString(R.string.notification_count_broadcast)));
         appPreference=new AppPreference(this);
         openForceLogoutAlert();
+        if (showNoticeCount) {
+            setNotificationCount();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(forceLogoutBroadCast);
+        unregisterReceiver(notificationCountBroadCast);
+        showNoticeCount=true;
     }
+
+
 }

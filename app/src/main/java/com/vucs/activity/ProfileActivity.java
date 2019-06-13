@@ -1,6 +1,7 @@
 package com.vucs.activity;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,11 +16,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.vucs.R;
@@ -94,9 +100,17 @@ public class ProfileActivity extends AppCompatActivity {
             dob.setText(appPreference.getUserDob());
             ph_no.setText(appPreference.getUserPhoneNo());
             address.setText(appPreference.getUserAddress());
-            Glide.with(this)
+            Glide
+                    .with(this)
                     .load(appPreference.getUserImageUrl())
-                    .into(profile_pic);
+                    .fitCenter()
+                    .transition(new DrawableTransitionOptions().crossFade())
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            profile_pic.setImageDrawable(resource);
+                        }
+                    });
             career_layout.removeAllViews();
             List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(appPreference.getUserId());
             for (CareerModel careerModel : careerModels) {

@@ -4,28 +4,39 @@
     android:paddingStart="28dp"
     android:id="@+id/parent"
     android:transitionName="parent"
-    android:background="@drawable/cut_corner_white_shape"
+    android:background="@color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:paddingTop="8dp"
             android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/job_title"
                 style="@style/my_text_style_heading"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingStart="8dp"
                 android:paddingEnd="24dp"
+                android:layout_marginEnd="35dp"
                 android:text="this blog is seted by me for test"
                 android:transitionName="@string/item_title" />
+            <ImageButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-30dp"
+                android:layout_toRightOf="@id/job_title"
+                android:background="@android:color/transparent"
+                android:src="@drawable/delete_white_24dp"
+                android:tint="@color/red_to_green_0"
+               />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,15 +70,7 @@
                     android:transitionName="@string/item_date" />
 
             </LinearLayout>
-            <ImageButton
-                android:id="@+id/delete"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="-30dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/delete_white_24dp"
-                android:tint="@color/red_to_green_0"
-                android:visibility="gone"/>
+
 
 
         </RelativeLayout>

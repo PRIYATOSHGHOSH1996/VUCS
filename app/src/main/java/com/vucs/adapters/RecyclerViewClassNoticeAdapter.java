@@ -52,7 +52,7 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
             final ClassNoticeModel classNoticeModel = classNoticeModelList.get(position);
-            holder.notice_title.setText("By " + classNoticeModel.getNoticeTitle());
+            holder.notice_title.setText(classNoticeModel.getNoticeTitle());
 
             String date = "";
 
@@ -63,7 +63,7 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
                 holder.notice_by.setText(sems[classNoticeModel.getSem()]);
             }
             else {
-                holder.notice_by.setText(classNoticeModel.getNoticeBy());
+                holder.notice_by.setText( "By " + classNoticeModel.getNoticeBy());
             }
 
 

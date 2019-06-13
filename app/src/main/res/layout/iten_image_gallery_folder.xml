@@ -3,12 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
-
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp"
         android:background="@drawable/side_nav_bar"
@@ -18,13 +17,12 @@
             android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
             android:src="@drawable/ic_folder_black_24dp" />
 
         <TextView
             android:id="@+id/folderName"
-            style="@style/TextAppearance.MaterialComponents.Body1"
+            style="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/white"
             android:textStyle="italic"
             android:text="folder 1"

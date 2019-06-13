@@ -2,6 +2,7 @@ package com.vucs.helper;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -90,9 +91,13 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            mListener.onProgressUpdate((int) (100 * mUploaded / mTotal),title);
-            if (mUploaded == mTotal)
-                mListener.onFinish(title);
+            try {
+                mListener.onProgressUpdate((int) (100 * mUploaded / mTotal),title);
+                if (mUploaded == mTotal)
+                    mListener.onFinish(title);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
