@@ -1,6 +1,5 @@
 package com.vucs.service;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,13 +14,18 @@ import com.vucs.activity.ClassNoticeActivity;
 import com.vucs.activity.HomeActivity;
 import com.vucs.activity.LoginActivity;
 import com.vucs.api.ApiBlogUpdateModel;
+import com.vucs.api.ApiCareerUpdateModel;
 import com.vucs.api.ApiCredentialWithUserId;
-import com.vucs.api.ApiResponseModel;
-import com.vucs.api.ApiUpdateModel;
-import com.vucs.api.ApiUploadFirebaseTokenModel;
+import com.vucs.api.ApiImageUpdateModel;
+import com.vucs.api.ApiJobPostUpdateModel;
+import com.vucs.api.ApiNoticeUpdateModel;
+import com.vucs.api.ApiPhirePawaUpdateModel;
 import com.vucs.api.Service;
 import com.vucs.dao.BlogDAO;
+import com.vucs.dao.ImageGalleryDAO;
+import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
+import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
@@ -104,11 +108,59 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 case Constants.BLOG_UPDATE:
                     blogUpdate(data);
                     break;
+                case Constants.NOTICE_UPDATE:
+                    noticeUpdate(data);
+                    break;
+                case Constants.JOB_UPDATE:
+                    jobUpdate(data);
+                    break;
+                case Constants.IMAGE_UPDATE:
+                    ImageUpdate(data);
+                    break;
+                case Constants.USER_UPDATE:
+                    userUpdate(data);
+                    break;
+                case Constants.CAREER_UPDATE:
+                    careerUpdate(data);
+                    break;
+                case Constants.ALL_DATA_UPDATE:
+                    allDataUpdate(data);
+                    break;
                 default:
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void allDataUpdate(Map<String, String> data) {
+        new UpdateAllData(getBaseContext()).execute();
+    }
+
+    private void careerUpdate(Map<String, String> data) {
+        new UpdateCareer(getBaseContext()).execute();
+    }
+
+    private void userUpdate(Map<String, String> data) {
+        new UpdatePhirePawa(getBaseContext()).execute();
+
+    }
+
+    private void ImageUpdate(Map<String, String> data) {
+        new UpdateImage(getBaseContext()).execute();
+    }
+
+
+    private void jobUpdate(Map<String, String> data) {
+        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
+        new UpdateJob(getBaseContext()).execute();
+        Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+    }
+
+    private void noticeUpdate(Map<String, String> data) {
+        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
+        new UpdateNotice(getBaseContext()).execute();
+        Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
     }
 
     private void blogUpdate(Map<String, String> data) {
@@ -126,8 +178,8 @@ public class FirebaseMessaging extends FirebaseMessagingService {
             Intent intent = new Intent();
             intent.setAction(getString(R.string.class_notice_broadcast_receiver));
             sendBroadcast(intent);
-            AppPreference appPreference =new AppPreference(getBaseContext());
-            appPreference.setNotificationCount(appPreference.getNotificationCount()+1);
+            AppPreference appPreference = new AppPreference(getBaseContext());
+            appPreference.setNotificationCount(appPreference.getNotificationCount() + 1);
             Intent intent3 = new Intent();
             intent3.setAction(getString(R.string.notification_count_broadcast));
             sendBroadcast(intent3);
@@ -143,8 +195,8 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
 
     private static class UpdateBlog extends AsyncTask<Void, Void, String> {
-        private WeakReference<Context> weakReference;
         BlogDAO blogDAO;
+        private WeakReference<Context> weakReference;
 
         UpdateBlog(Context context) {
             weakReference = new WeakReference<>(context);
@@ -166,17 +218,17 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                 try {
                                     ApiBlogUpdateModel apiBlogUpdateModel = response.body();
                                     Log.e(TAG, "Api blog Response:\n" + response.body().toString());
-                                    List<BlogModel> blogModels=apiBlogUpdateModel.getBlogModels();
+                                    List<BlogModel> blogModels = apiBlogUpdateModel.getBlogModels();
 
                                     Thread blogThread = new Thread(
                                             new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     if (!Constants.UPDATING_BLOG) {
-                                                        Constants.UPDATING_BLOG=true;
+                                                        Constants.UPDATING_BLOG = true;
                                                         blogDAO.deleteAllBlog();
                                                         blogDAO.insertBlog(blogModels);
-                                                        Constants.UPDATING_BLOG=false;
+                                                        Constants.UPDATING_BLOG = false;
                                                     }
 
                                                 }
@@ -187,8 +239,8 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                                Intent in = new Intent(weakReference.get().getString(R.string.blog_broadcast_receiver));
-                                                getContext().sendBroadcast(in);
+                                            Intent in = new Intent(weakReference.get().getString(R.string.blog_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
 
                                         }
                                     });
@@ -212,12 +264,441 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onFailure(@NonNull Call<ApiBlogUpdateModel> call, @NonNull Throwable t) {
                         Log.e(TAG, "OnFailure " + t.getMessage());
-                       t.printStackTrace();
+                        t.printStackTrace();
                     }
                 });
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateNotice extends AsyncTask<Void, Void, String> {
+        NoticeDAO noticeDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateNotice(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            noticeDAO = db.noticeDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiNoticeUpdateModel> call = service.getNotice(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiNoticeUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiNoticeUpdateModel> call, Response<ApiNoticeUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiNoticeUpdateModel apiNoticeUpdateModel = response.body();
+                                    Log.e(TAG, "Api ntice Response:\n" + response.body().toString());
+                                    List<NoticeModel> noticeModels = apiNoticeUpdateModel.getNoticeModels();
+
+                                    Thread noticeThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (!Constants.UPDATING_NOTICE) {
+                                                        Constants.UPDATING_NOTICE = true;
+                                                        noticeDAO.deleteAllNotice();
+                                                        noticeDAO.insertNotice(noticeModels);
+                                                        Constants.UPDATING_NOTICE = false;
+                                                    }
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent in = new Intent(weakReference.get().getString(R.string.notice_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
+
+                                        }
+                                    });
+
+
+                                    noticeThread.start();
+
+                                    noticeThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiNoticeUpdateModel> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateImage extends AsyncTask<Void, Void, String> {
+        ImageGalleryDAO imageGalleryDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateImage(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            imageGalleryDAO = db.imageGalleryDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiImageUpdateModel> call = service.getImage(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiImageUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiImageUpdateModel> call, Response<ApiImageUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiImageUpdateModel apiImageUpdateModel = response.body();
+                                    Log.e(TAG, "Api image Response:\n" + response.body().toString());
+                                    List<ImageGalleryModel> imageGalleryModels = apiImageUpdateModel.getImageGalleryModels();
+
+                                    Thread imageGalleryThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (!Constants.UPDATING_IMAGE_GALLERY) {
+                                                        Constants.UPDATING_IMAGE_GALLERY = true;
+                                                        imageGalleryDAO.deleteAllImages();
+                                                        imageGalleryDAO.insertImage(imageGalleryModels);
+                                                        Constants.UPDATING_IMAGE_GALLERY = false;
+                                                    }
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent in = new Intent(weakReference.get().getString(R.string.image_gallery_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
+
+                                        }
+                                    });
+
+
+                                    imageGalleryThread.start();
+
+                                    imageGalleryThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiImageUpdateModel> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateJob extends AsyncTask<Void, Void, String> {
+        JobDAO jobDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateJob(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            jobDAO = db.jobDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiJobPostUpdateModel> call = service.getJob(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiJobPostUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiJobPostUpdateModel> call, Response<ApiJobPostUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiJobPostUpdateModel apiBlogUpdateModel = response.body();
+                                    Log.e(TAG, "Api job Response:\n" + response.body().toString());
+                                    List<JobFileModel> jobFileModels = apiBlogUpdateModel.getJobFileModels();
+                                    List<JobModel> jobModels = apiBlogUpdateModel.getJobModels();
+
+                                    Thread jobThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (!Constants.UPDATING_JOB) {
+                                                        Constants.UPDATING_JOB = true;
+                                                        jobDAO.deleteAllJob();
+                                                        jobDAO.deleteAllJobFile();
+                                                        jobDAO.insertJobFile(jobFileModels);
+                                                        jobDAO.insertJob(jobModels);
+                                                        Constants.UPDATING_JOB = false;
+                                                    }
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent in = new Intent(weakReference.get().getString(R.string.job_post_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
+
+                                        }
+                                    });
+
+
+                                    jobThread.start();
+
+                                    jobThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiJobPostUpdateModel> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdatePhirePawa extends AsyncTask<Void, Void, String> {
+        PhirePawaProfileDAO phirePawaProfileDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdatePhirePawa(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            phirePawaProfileDAO = db.phirePawaProfileDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiPhirePawaUpdateModel> call = service.getPhirePawa(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiPhirePawaUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiPhirePawaUpdateModel> call, Response<ApiPhirePawaUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiPhirePawaUpdateModel apiPhirePawaUpdateModel = response.body();
+                                    Log.e(TAG, "Api phire pawa Response:\n" + response.body().toString());
+                                    List<UserModel> userModels = apiPhirePawaUpdateModel.getUserModels();
+
+                                    Thread userThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    if (!Constants.UPDATING_USER) {
+                                                        Constants.UPDATING_USER = true;
+                                                        phirePawaProfileDAO.deleteAllUser();
+                                                        phirePawaProfileDAO.insertUsers(userModels);
+                                                        Constants.UPDATING_USER = false;
+                                                    }
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent in = new Intent(weakReference.get().getString(R.string.phire_pawa_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
+
+                                        }
+                                    });
+
+
+                                    userThread.start();
+
+                                    userThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiPhirePawaUpdateModel> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateCareer extends AsyncTask<Void, Void, String> {
+        PhirePawaProfileDAO phirePawaProfileDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateCareer(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            phirePawaProfileDAO = db.phirePawaProfileDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiCareerUpdateModel> call = service.getCareer(new ApiCredentialWithUserId());
+
+                call.enqueue(new Callback<ApiCareerUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiCareerUpdateModel> call, Response<ApiCareerUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiCareerUpdateModel apiCareerUpdateModel = response.body();
+                                    Log.e(TAG, "Api career Response:\n" + response.body().toString());
+                                    List<CareerModel> careerModels = apiCareerUpdateModel.getCareerModels();
+
+                                    Thread careerThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (!Constants.UPDATING_CAREER) {
+                                                        Constants.UPDATING_CAREER = true;
+                                                        phirePawaProfileDAO.deleteAllCareer();
+                                                        phirePawaProfileDAO.insertCareer(careerModels);
+                                                        Constants.UPDATING_CAREER = false;
+                                                    }
+
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent in = new Intent(weakReference.get().getString(R.string.phire_pawa_broadcast_receiver));
+                                            getContext().sendBroadcast(in);
+
+                                        }
+                                    });
+
+
+                                    careerThread.start();
+
+                                    careerThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiCareerUpdateModel> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateAllData extends AsyncTask<Void, Void, String> {
+
+        private WeakReference<Context> weakReference;
+
+        UpdateAllData(Context context) {
+            weakReference = new WeakReference<>(context);
+
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+          GetDataService.updateData(weakReference.get());
             return null;
         }
 

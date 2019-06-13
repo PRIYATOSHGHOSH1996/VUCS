@@ -83,9 +83,29 @@ public interface Service {
     @POST("fetch_all_data")
     Call<ApiUpdateModel> getAllData(@Body ApiCredentialWithUserId credentials);
 
-    /* API for fetching all data */
+    /* API for fetching all Blogs */
     @POST("fetch_blogs")
     Call<ApiBlogUpdateModel> getBlog(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all Jobs */
+    @POST("fetch_blogs")
+    Call<ApiJobPostUpdateModel> getJob(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all Image */
+    @POST("fetch_blogs")
+    Call<ApiImageUpdateModel> getImage(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all Notice */
+    @POST("fetch_blogs")
+    Call<ApiNoticeUpdateModel> getNotice(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all phirepawa */
+    @POST("fetch_blogs")
+    Call<ApiPhirePawaUpdateModel> getPhirePawa(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all phirepawa */
+    @POST("fetch_blogs")
+    Call<ApiCareerUpdateModel> getCareer(@Body ApiCredentialWithUserId credentials);
 
     /* API for addJob */
     @POST("add_job")

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "226769795690-vii3tfmnql2aog41e7gp8ra2dmrurbd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vucs",
+            "certificate_hash": "4936c9bb346f3e48c38915f341ca02695c6e66a1"
+          }
+        },
+        {
           "client_id": "226769795690-ktn61cb21a86vafermm64nqjk6teg6l7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

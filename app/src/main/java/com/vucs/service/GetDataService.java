@@ -96,9 +96,9 @@ public class GetDataService extends IntentService {
     }
 
 
-    public static void updateData(final Activity activity) {
+    public static void updateData(final Context context) {
         try {
-            AppDatabase db = AppDatabase.getDatabase(activity);
+            AppDatabase db = AppDatabase.getDatabase(context);
             blogDAO = db.blogDAO();
             eventDAO = db.eventDAO();
             imageGalleryDAO = db.imageGalleryDAO();
@@ -238,12 +238,11 @@ public class GetDataService extends IntentService {
                                     @Override
                                     public void run() {
                                         Log.e(TAG, "Completed updateData");
-                                        if (activity != null && !activity.isFinishing()) {
+
                                             Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                                             in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_action));
                                             getContext().sendBroadcast(in);
                                             Log.e(TAG,"Sending getData complete broadcast");
-                                        }
 
                                     }
                                 });

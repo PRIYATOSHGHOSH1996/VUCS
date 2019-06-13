@@ -123,6 +123,19 @@ public class HomeActivity extends AppCompatActivity
             openForceLogoutAlert();
         }
     };
+    BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Log.e(TAG, "onReceive");
+
+            String action = intent.getStringExtra(getString(R.string.dashboard_receiver_action));
+            if (action.equals(getString(R.string.get_data_action))) {
+              updateViewPager();
+
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -175,8 +188,7 @@ public class HomeActivity extends AppCompatActivity
                     });
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-            viewPager.setAdapter(viewPagerAdapter);
+            updateViewPager();
             pagerTabStrip = findViewById(R.id.tab_title);
 
             pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorPrimary1));
@@ -362,6 +374,11 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    private void updateViewPager(){
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -807,6 +824,7 @@ public class HomeActivity extends AppCompatActivity
         super.onResume();
         registerReceiver(forceLogoutBroadCast, new IntentFilter(getString(R.string.force_logout_broadcast)));
         registerReceiver(notificationCountBroadCast, new IntentFilter(getString(R.string.notification_count_broadcast)));
+        registerReceiver(serviceBroadcastReceiver, new IntentFilter(getString(R.string.fetch_all_data_broad_cast)));
         appPreference=new AppPreference(this);
         openForceLogoutAlert();
         if (showNoticeCount) {
@@ -819,6 +837,7 @@ public class HomeActivity extends AppCompatActivity
         super.onPause();
         unregisterReceiver(forceLogoutBroadCast);
         unregisterReceiver(notificationCountBroadCast);
+        unregisterReceiver(serviceBroadcastReceiver);
         showNoticeCount=true;
     }
 
