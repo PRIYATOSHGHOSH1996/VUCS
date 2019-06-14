@@ -56,14 +56,14 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
 
             String date = "";
 
-            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy  ");
+            SimpleDateFormat format = new SimpleDateFormat("MMM dd, hh:mm a  ");
             date = format.format(classNoticeModel.getDate());
             holder.notice_date.setText(date);
             if (appPreference.getUserType()==0){
-                holder.notice_by.setText(sems[classNoticeModel.getSem()]);
+                holder.notice_by.setText("To "+ sems[classNoticeModel.getSem()]);
             }
             else {
-                holder.notice_by.setText( "By " + classNoticeModel.getNoticeBy());
+                holder.notice_by.setText( "From " + classNoticeModel.getNoticeBy());
             }
 
 

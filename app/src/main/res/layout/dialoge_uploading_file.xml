@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_white_background"
+    android:layout_marginStart="35dp"
+    android:layout_marginEnd="35dp"
     android:orientation="vertical"
     android:padding="25dp">
 
@@ -18,7 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/progress_layout"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/percentage"
@@ -43,9 +47,11 @@
             android:indeterminateTint="#388E3C"
             android:max="100"
             android:progress="0"
-            android:progressTint="#388E3C" />
+            android:progressTint="#388E3C"
+           />
 
     </FrameLayout>
+
 
 
 

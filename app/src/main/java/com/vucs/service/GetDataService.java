@@ -128,8 +128,7 @@ public class GetDataService extends IntentService {
                              List<NoticeModel> noticeModels=apiUpdateModel.getNoticeModels();
                              List<UserModel> userModels=apiUpdateModel.getUserModels();
 
-
-                                Thread blogThread = new Thread(
+                             Thread blogThread = new Thread(
                                         new Runnable() {
                                             @Override
                                             public void run() {

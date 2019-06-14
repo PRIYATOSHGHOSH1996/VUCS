@@ -103,6 +103,7 @@
                 android:background="@drawable/login_button_background"
                 android:elevation="8dp"
                 android:text="Login"
+                android:animateLayoutChanges="true"
                 android:textColor="@color/white" />
 
             <ProgressBar

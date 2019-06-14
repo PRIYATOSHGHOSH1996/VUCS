@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
     private void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
         finish();
 
     }
@@ -285,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onRegisterClick(View view) {
         startActivity(new Intent(this, RegistrationActivity.class));
-        finish();
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
     }
 
     private void showSnackBar(String message) {

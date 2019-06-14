@@ -49,7 +49,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
 
         try {
             appPreference = new AppPreference(this);
-            appPreference.setNotificationCount(0);
+
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -93,7 +93,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
             }
             floatingActionButton.setOnClickListener(v -> {
                 startActivity(new Intent(this, AddClassNoticeActivity.class));
-                overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
+                overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
             });
         } catch (Exception e) {
             Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
@@ -105,6 +105,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
 
     private void updateAdapter() {
         try {
+            appPreference.setNotificationCount(0);
             List<ClassNoticeModel> list = noticeViewModel.getAllClassNotice();
             if(list.size() == 0){
                 findViewById(R.id.empty_notification_layout).setVisibility(View.VISIBLE);

@@ -36,16 +36,18 @@
 
             <item
                 android:id="@+id/my_profile"
-                android:icon="@drawable/photo_library"
+                android:icon="@drawable/ic_person_black_24dp"
                 android:title="@string/my_profile" />
             <item
                 android:id="@+id/my_job_post"
-                android:icon="@drawable/photo_library"
-                android:title="@string/my_job_post" />
+                android:icon="@drawable/ic_baseline_transfer_within_a_station_24px"
+                android:title="@string/my_job_post"
+                android:visible="false"/>
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_menu_share"
-                android:title="@string/about" />
+                android:title="@string/about"
+                android:visible="false"/>
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_menu_send"

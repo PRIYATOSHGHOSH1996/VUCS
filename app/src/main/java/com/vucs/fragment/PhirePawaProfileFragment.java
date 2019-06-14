@@ -1,7 +1,11 @@
 package com.vucs.fragment;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -43,8 +47,11 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     LinearLayout career_layout;
     private String TAG = "phirepawaProfileFragment";
     private View view;
-    private TextView batch, course, phone_no, mail, address;
+    private TextView batch, course, phone_no, mail, address,career_text;
     ScrollView scrollView;
+    int id;
+    PhirePawaProfileViewModel phirePawaProfileViewModel;
+    private BroadcastReceiver broadcastReceiver;
 
     @Nullable
     @Override
@@ -52,7 +59,17 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
         view = inflater.inflate(R.layout.item_phire_pawa_profile, container, false);
         Log.e("phire pawa profile", "start");
 
-        iniView();
+        try {
+            iniView();
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    updateCareer();
+                }
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
 //            @Override
 //            public void onShow(DialogInterface dialog) {
@@ -138,13 +155,14 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
             address = view.findViewById(R.id.address);
             career_layout = view.findViewById(R.id.career_layout);
             scrollView = view.findViewById(R.id.scrollView);
+            career_text = view.findViewById(R.id.career_text);
 
 
 
-            int id = (int) getArguments().getInt(getContext().getString(R.string.user_id), -1);
+            id = (int) getArguments().getInt(getContext().getString(R.string.user_id), -1);
             Log.e("phire pawa profile", "start id = " + id);
             if (id != -1) {
-                PhirePawaProfileViewModel phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
+                phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
                 UserModel userModel = phirePawaProfileViewModel.getUserDetailsById(id);
                 collapsingToolbarLayout.setTitle(userModel.getFirstName() + "  " + userModel.getLastName());
 
@@ -174,24 +192,8 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                 phone_no.setText(userModel.getPhoneNo());
                 mail.setText(userModel.getMail());
                 address.setText(userModel.getAddress());
-                List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(id);
-                for (CareerModel careerModel : careerModels){
-                    career_layout.setVisibility(View.VISIBLE);
-                    View view = getLayoutInflater().inflate(R.layout.item_career_layout, null);
-                    TextView company_name = view.findViewById(R.id.company_name);
-                    TextView duration = view.findViewById(R.id.company_duration);
-                    TextView occupation = view.findViewById(R.id.occupation);
-                    company_name.setText(careerModel.getCompany());
-                    occupation.setText(careerModel.getOccupation());
-                    if (careerModel.getEndDate()==-1){
-                        duration.setText(careerModel.getStartDate()+"");
-                    }
-                    else {
-                        duration.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
-                    }
-                    career_layout.addView(view);
+                updateCareer();
 
-                }
             } else {
                 Log.e("phire pawa profile", "object null");
             }
@@ -200,5 +202,54 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void updateCareer() {
+        if (id != -1) {
+            career_layout.removeAllViews();
+            List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(id);
+            career_text.setVisibility(View.GONE);
+            for (CareerModel careerModel : careerModels) {
+                career_text.setVisibility(View.VISIBLE);
+                View view = getLayoutInflater().inflate(R.layout.item_career_layout, null);
+                TextView company_name = view.findViewById(R.id.company_name);
+                TextView duration = view.findViewById(R.id.company_duration);
+                TextView occupation = view.findViewById(R.id.occupation);
+                company_name.setText(careerModel.getCompany());
+                occupation.setText(careerModel.getOccupation());
+                if (careerModel.getEndDate() == -1) {
+                    duration.setText(careerModel.getStartDate() + "");
+                } else {
+                    duration.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
+                }
+                career_layout.addView(view);
+
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            Log.e(TAG, "onpause");
+            getContext().unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onresume");
+        try {
+            updateCareer();
+            getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.career_broadcast_receiver)));
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
     }
 }

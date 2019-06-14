@@ -86,7 +86,7 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
 
                     Activity activity=(Activity)weakReference.get();
                     weakReference.get().startActivity(intent);
-                    activity.overridePendingTransition(R.anim.scale_up, R.anim.no_anim);
+                    activity.overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
                 }
             });
         } catch (Exception e) {

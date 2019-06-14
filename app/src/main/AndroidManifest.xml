@@ -11,7 +11,7 @@
 
     <application
         android:name=".App"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
@@ -23,7 +23,8 @@
         <activity android:name=".activity.AddClassNoticeActivity"></activity>
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.RegistrationActivity" />
-        <activity android:name=".activity.AddBlogJobActivity" />
+        <activity android:name=".activity.AddBlogJobActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.ClassNoticeActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
@@ -41,6 +42,8 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"
+
+            android:screenOrientation="fullUser"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.JobDetailsActivity" />
 

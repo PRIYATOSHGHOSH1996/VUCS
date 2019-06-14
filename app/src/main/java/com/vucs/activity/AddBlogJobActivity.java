@@ -7,11 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,10 +63,12 @@ public class AddBlogJobActivity extends AppCompatActivity {
     List<Uri> uriList;
     LinearLayout file_layout;
     TextInputLayout title, description;
+    FrameLayout progress_layout;
+    Dialog dialog;
     private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE = 125;
     private TextView dialog_text, percentage;
     private ProgressBar progressBar;
-    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
             percentage = view.findViewById(R.id.percentage);
             percentage.setText("24%");
             progressBar = view.findViewById(R.id.progress_bar);
+            progress_layout = view.findViewById(R.id.progress_layout);
             progressBar.setProgress(25);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             dialog.addContentView(view, layoutParams);
@@ -266,9 +269,14 @@ public class AddBlogJobActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
+    }
+
     private static class UploadJob extends AsyncTask<Void, Void, String> implements ProgressRequestBody.UploadCallbacks {
         int totalFile;
-        int count = 1;
         JobDAO jobDAO;
 
         private WeakReference<AddBlogJobActivity> homeWeakReference;
@@ -294,7 +302,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                 return;
 
             homeWeakReference.get().dialog.show();
-            homeWeakReference.get().dialog_text.setText("90%");
         }
 
         @Override
@@ -325,49 +332,66 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                         RequestBody jobId = RequestBody.create(MultipartBody.FORM, apiAddJobResponseModel.getJobId() + "");
                                         RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
                                         Log.e("total file", uriList.size() + "");
-                                        while (uriList.size() > 0) {
+                                        for (int i = 0; i < uriList.size(); i++) {
                                             if (homeWeakReference.get() == null)
                                                 return;
-
+                                            int count = i;
                                             File directory = homeWeakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
                                             directory.mkdir();
-                                            InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(0));
+                                            InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(i));
                                             byte[] buffer = new byte[in.available()];
                                             in.read(buffer);
-                                            File file = new File(directory, "file");
+                                            File file;
+                                            if (homeWeakReference.get().isImageUri(uriList.get(i))) {
+                                                file = new File(directory, i + ".jpg");
+                                            } else {
+                                                file = new File(directory, i + ".pdf");
+                                            }
                                             OutputStream outStream = new FileOutputStream(file);
                                             outStream.write(buffer);
                                             outStream.close();
                                             in.close();
-                                            uriList.remove(0);
                                             Log.e("files length", file.length() + "");
-                                            ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + count + " of " + totalFile);
+                                            ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + (i + 1) + " of " + totalFile);
                                             MultipartBody.Part jobFile =
                                                     MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
                                             Call<ApiAddJobFileResponseModel> call1 = service.uploadJobFile(apiLogin, apiPass, jobId, userId, jobFile);
-                                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                                                    .permitAll().build();
-                                            StrictMode.setThreadPolicy(policy);
-                                          Response<ApiAddJobFileResponseModel> response1=call1.execute();
-                                            if (homeWeakReference.get() == null)
-                                                return;
-                                            if (response1.body() != null) {
-                                                final ApiAddJobFileResponseModel apiAddJobFileResponseModel = response1.body();
-                                                Log.e(TAG, "add job file:\n" + apiAddJobFileResponseModel.toString());
+                                            call1.enqueue(new retrofit2.Callback<ApiAddJobFileResponseModel>() {
+                                                @Override
+                                                public void onResponse(Call<ApiAddJobFileResponseModel> call, Response<ApiAddJobFileResponseModel> response) {
+                                                    if (homeWeakReference.get() == null)
+                                                        return;
+                                                    if (response.body() != null) {
+                                                        final ApiAddJobFileResponseModel apiAddJobFileResponseModel = response.body();
+                                                        Log.e(TAG, "add job file:\n" + apiAddJobFileResponseModel.toString());
 
-                                                if (apiAddJobResponseModel.getCode() == 1) {
-                                                    count++;
-                                                    jobDAO.insertJobFile(new JobFileModel(apiAddJobResponseModel.getJobId(), apiAddJobFileResponseModel.getFileUrl()));
+                                                        if (apiAddJobResponseModel.getCode() == 1) {
+                                                            jobDAO.insertJobFile(new JobFileModel(apiAddJobResponseModel.getJobId(), apiAddJobFileResponseModel.getFileUrl()));
 
+
+                                                        }
+                                                        if (file.exists()){
+                                                            file.delete();
+                                                        }
+                                                        if (count == uriList.size() - 1) {
+                                                            if (homeWeakReference.get() == null)
+                                                                return;
+                                                            homeWeakReference.get().dialog.dismiss();
+                                                            Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
+                                                            homeWeakReference.get().onBackPressed();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ApiAddJobFileResponseModel> call, Throwable t) {
+                                                    t.printStackTrace();
 
                                                 }
-                                            }
+                                            });
+
                                         }
-                                        if (homeWeakReference.get() == null)
-                                            return;
-                                        homeWeakReference.get().dialog.dismiss();
-                                        Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
-                                        homeWeakReference.get().onBackPressed();
+
 
                                     } else {
                                         if (homeWeakReference.get() == null)
@@ -409,7 +433,8 @@ public class AddBlogJobActivity extends AppCompatActivity {
                 if (homeWeakReference.get() == null)
                     return;
 
-                Log.e("progrees opdate",percentage1+"");
+                Log.e("progrees opdate", percentage1 + "");
+                homeWeakReference.get().progress_layout.setVisibility(View.VISIBLE);
                 homeWeakReference.get().percentage.setText(percentage1 + "%");
                 homeWeakReference.get().dialog_text.setText(title);
                 homeWeakReference.get().progressBar.setProgress(percentage1);
@@ -428,10 +453,5 @@ public class AddBlogJobActivity extends AppCompatActivity {
         public void onFinish(String title) {
 
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 }

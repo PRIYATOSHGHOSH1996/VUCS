@@ -138,54 +138,60 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void careerUpdate(Map<String, String> data) {
-        new UpdateCareer(getBaseContext()).execute();
+        new UpdateCareer(getContext()).execute();
     }
 
     private void userUpdate(Map<String, String> data) {
-        new UpdatePhirePawa(getBaseContext()).execute();
+        new UpdatePhirePawa(getContext()).execute();
 
     }
 
     private void ImageUpdate(Map<String, String> data) {
-        new UpdateImage(getBaseContext()).execute();
+        new UpdateImage(getContext()).execute();
     }
 
 
     private void jobUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
-        new UpdateJob(getBaseContext()).execute();
-        Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        Intent intent1 = new Intent(getContext(), HomeActivity.class);
+        intent1.putExtra("item",3);
+        new UpdateJob(getContext()).execute();
+        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
     }
 
     private void noticeUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
-        new UpdateNotice(getBaseContext()).execute();
-        Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        Intent intent1 = new Intent(getContext(), HomeActivity.class);
+        intent1.putExtra("item",2);
+        new UpdateNotice(getContext()).execute();
+        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
     }
 
     private void blogUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getBaseContext(), HomeActivity.class);
-        new UpdateBlog(getBaseContext()).execute();
-        Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        Intent intent1 = new Intent(getContext(), HomeActivity.class);
+        intent1.putExtra("item",0);
+        new UpdateBlog(getContext()).execute();
+        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
     }
 
     private void setClassNotice(Map<String, String> data) {
         try {
-            ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), Integer.parseInt(data.get("sem")));
-            AppDatabase database = AppDatabase.getDatabase(getBaseContext());
-            NoticeDAO noticeDAO = database.noticeDAO();
-            noticeDAO.insertClassNotice(classNoticeModel);
-            Intent intent = new Intent();
-            intent.setAction(getString(R.string.class_notice_broadcast_receiver));
-            sendBroadcast(intent);
-            AppPreference appPreference = new AppPreference(getBaseContext());
-            appPreference.setNotificationCount(appPreference.getNotificationCount() + 1);
-            Intent intent3 = new Intent();
-            intent3.setAction(getString(R.string.notification_count_broadcast));
-            sendBroadcast(intent3);
-            Intent intent1 = new Intent(getBaseContext(), ClassNoticeActivity.class);
-            Notification.show(getBaseContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+            AppPreference appPreference = new AppPreference(getContext());
+            if (appPreference.getUserType()==2) {
+                ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), Integer.parseInt(data.get("sem")));
+                AppDatabase database = AppDatabase.getDatabase(getContext());
+                NoticeDAO noticeDAO = database.noticeDAO();
+                noticeDAO.insertClassNotice(classNoticeModel);
+                Intent intent = new Intent();
 
+
+                appPreference.setNotificationCount(appPreference.getNotificationCount() + 1);
+                Intent intent3 = new Intent();
+                intent3.setAction(getString(R.string.notification_count_broadcast));
+                intent.setAction(getString(R.string.class_notice_broadcast_receiver));
+                sendBroadcast(intent);
+                sendBroadcast(intent3);
+                Intent intent1 = new Intent(getContext(), ClassNoticeActivity.class);
+                Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -239,8 +245,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.blog_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.blog_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });
@@ -321,8 +329,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.notice_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.notice_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });
@@ -403,8 +413,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.image_gallery_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.image_gallery_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });
@@ -461,10 +473,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                             Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
-                                    ApiJobPostUpdateModel apiBlogUpdateModel = response.body();
+                                    ApiJobPostUpdateModel apiJobPostUpdateModel = response.body();
                                     Log.e(TAG, "Api job Response:\n" + response.body().toString());
-                                    List<JobFileModel> jobFileModels = apiBlogUpdateModel.getJobFileModels();
-                                    List<JobModel> jobModels = apiBlogUpdateModel.getJobModels();
+                                    List<JobFileModel> jobFileModels = apiJobPostUpdateModel.getJobFileModels();
+                                    List<JobModel> jobModels = apiJobPostUpdateModel.getJobModels();
 
                                     Thread jobThread = new Thread(
                                             new Runnable() {
@@ -487,8 +499,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.job_post_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.job_post_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });
@@ -568,8 +582,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.phire_pawa_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.phire_pawa_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });
@@ -650,8 +666,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     Thread completed = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent in = new Intent(weakReference.get().getString(R.string.phire_pawa_broadcast_receiver));
-                                            getContext().sendBroadcast(in);
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.career_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
 
                                         }
                                     });

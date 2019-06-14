@@ -645,7 +645,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this,LoginActivity.class));
+       super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
         finish();
+
     }
 }

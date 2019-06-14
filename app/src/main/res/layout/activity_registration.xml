@@ -9,8 +9,8 @@
     android:focusableInTouchMode="true"
     tools:context=".activity.RegistrationActivity">
 
-    <include layout="@layout/app_bar_main" />
 
+    <include layout="@layout/app_bar_main" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -300,15 +300,17 @@
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
+                            android:minHeight="40dp"
                             android:layout_gravity="bottom"
                             android:background="@color/black_fade">
 
                             <TextView
-                                style="@style/TextAppearance.MaterialComponents.Body2"
+                                style="@style/TextAppearance.MaterialComponents.Caption"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="Set profile picture"
                                 android:textColor="@color/white" />
 
@@ -333,15 +335,17 @@
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
+                            android:layout_height="wrap_content"
+                            android:minHeight="40dp"
                             android:layout_gravity="bottom"
                             android:background="@color/black_fade">
 
                             <TextView
-                                style="@style/TextAppearance.MaterialComponents.Body2"
+                                style="@style/TextAppearance.MaterialComponents.Caption"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="Set last marksheet from VU"
                                 android:textColor="@color/white" />
 

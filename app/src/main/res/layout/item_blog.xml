@@ -3,14 +3,16 @@
 
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:paddingStart="26dp"
-    android:paddingEnd="4dp"
+
     android:background="@drawable/cut_corner_white_shape"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="34dp"
+            android:paddingEnd="12dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="8dp">
 
             <RelativeLayout
@@ -26,6 +28,7 @@
                     android:layout_centerVertical="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/double_ring"
+                    android:visibility="gone"
                     android:transitionName="@string/item_image_url"
                      />
 

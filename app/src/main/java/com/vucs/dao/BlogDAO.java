@@ -13,7 +13,7 @@ import java.util.List;
 public interface BlogDAO {
 
 
-    @Query("SELECT * FROM dt_blog WHERE status = 1 ORDER BY date")
+    @Query("SELECT * FROM dt_blog WHERE status = 1 ORDER BY date DESC")
     public List<BlogModel> getAllBlog();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -33,6 +33,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
@@ -111,6 +112,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
                         .with(this)
                         .load(itemImageURL)
                         .fitCenter()
+                        .apply(new RequestOptions().override(200, 200))
                         .transition(new DrawableTransitionOptions().crossFade())
                         .into(new SimpleTarget<Drawable>() {
                             @Override

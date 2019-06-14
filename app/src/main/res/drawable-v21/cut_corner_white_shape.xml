@@ -4,9 +4,6 @@
 
     <item android:gravity="top">
 
-        <ripple android:color="@color/ripple_color">
-
-            <item android:gravity="top"  >
 
                 <shape android:innerRadius="45dp">
                     <gradient
@@ -17,7 +14,4 @@
                     </gradient>
                 </shape>
             </item>
-        </ripple>
-
-    </item>
 </layer-list>

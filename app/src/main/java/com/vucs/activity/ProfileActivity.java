@@ -1,5 +1,6 @@
 package com.vucs.activity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -56,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView name, mail, course, batch, dob;
     CircleImageView profile_pic;
     EditText ph_no, address;
-    LinearLayout career_layout;
+    LinearLayout career_layout,career_text_layout;
     AppPreference appPreference;
     PhirePawaProfileViewModel phirePawaProfileViewModel;
     TextView header_text;
@@ -74,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         ph_no = findViewById(R.id.ph_no);
         address = findViewById(R.id.address);
         career_layout = findViewById(R.id.career_layout);
+        career_text_layout = findViewById(R.id.career_text_layout);
         appPreference = new AppPreference(this);
         phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -112,33 +114,33 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
             career_layout.removeAllViews();
-            List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(appPreference.getUserId());
-            for (CareerModel careerModel : careerModels) {
-                View view = getLayoutInflater().inflate(R.layout.item_profile_career_layout, null);
-                EditText company_name = view.findViewById(R.id.company_name);
-                EditText start_year = view.findViewById(R.id.start_year);
-                EditText end_year = view.findViewById(R.id.end_year);
-                EditText occupation = view.findViewById(R.id.occupation);
-                end_year.setVisibility(View.GONE);
-                company_name.setText(careerModel.getCompany());
-                if (careerModel.getEndDate() == -1) {
-                    start_year.setText(careerModel.getStartDate() + "");
-                } else {
-                    start_year.setInputType(InputType.TYPE_CLASS_TEXT);
-                    start_year.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(20) });
-                    start_year.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
-                }
-                occupation.setText(careerModel.getOccupation());
-                ImageButton delete;
-                delete = view.findViewById(R.id.delete);
-                delete.setOnClickListener(v -> {
-                    if (Utils.isNetworkAvailable()) {
-                        new DeleteCareer(ProfileActivity.this, careerModel.getId()).execute();
+            if (appPreference.getUserType()!=0) {
+                career_text_layout.setVisibility(View.VISIBLE);
+                career_layout.setVisibility(View.VISIBLE);
+                List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(appPreference.getUserId());
+                for (CareerModel careerModel : careerModels) {
+                    View view = getLayoutInflater().inflate(R.layout.item_profile_career_layout, null);
+                    EditText company_name = view.findViewById(R.id.company_name);
+                    EditText start_year = view.findViewById(R.id.start_year);
+                    EditText end_year = view.findViewById(R.id.end_year);
+                    EditText occupation = view.findViewById(R.id.occupation);
+                    end_year.setVisibility(View.GONE);
+                    company_name.setText(careerModel.getCompany());
+                    if (careerModel.getEndDate() == -1) {
+                        start_year.setText(careerModel.getStartDate() + "");
                     } else {
-                        Toast.makeText(ProfileActivity.this, "No internet connection.");
+                        start_year.setInputType(InputType.TYPE_CLASS_TEXT);
+                        start_year.setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                        start_year.setText(careerModel.getStartDate() + " - " + careerModel.getEndDate());
                     }
-                });
-                career_layout.addView(view);
+                    occupation.setText(careerModel.getOccupation());
+                    ImageButton delete;
+                    delete = view.findViewById(R.id.delete);
+                    delete.setOnClickListener(v -> {
+                        deleteCareerDialog(careerModel.getId());
+                    });
+                    career_layout.addView(view);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,6 +148,32 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void deleteCareerDialog( int id){
+        Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
+        View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
+        TextView textView=view.findViewById(R.id.text);
+        textView.setText("Are you sure?");
+        Button ok = view.findViewById(R.id.ok);
+        Button no = view.findViewById(R.id.no);
+        no.setVisibility(View.VISIBLE);
+        no.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        ok.setText("Delete");
+        ok.setOnClickListener(v -> {
+            dialog.dismiss();
+            if (Utils.isNetworkAvailable()) {
+                new DeleteCareer(ProfileActivity.this, id).execute();
+            } else {
+                Toast.makeText(ProfileActivity.this, "No internet connection.");
+            }
+
+        });
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        dialog.addContentView(view,layoutParams);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
     public void onAddCareerClick(View view1) {
         View view = getLayoutInflater().inflate(R.layout.item_profile_career_layout, null);
         EditText company_name = view.findViewById(R.id.company_name);
@@ -184,6 +212,12 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
     }
 
     public void onChangePasswordClick(View view) {

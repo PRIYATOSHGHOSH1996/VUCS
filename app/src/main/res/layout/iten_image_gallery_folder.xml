@@ -25,9 +25,11 @@
             style="@style/TextAppearance.MaterialComponents.Caption"
             android:textColor="@color/white"
             android:textStyle="italic"
-            android:text="folder 1"
+            android:singleLine="true"
+            android:text="folderetyetyru6yuyr5yr5yyry 1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:gravity="center" />
 
     </LinearLayout>

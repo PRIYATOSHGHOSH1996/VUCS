@@ -88,23 +88,23 @@ public interface Service {
     Call<ApiBlogUpdateModel> getBlog(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all Jobs */
-    @POST("fetch_blogs")
+    @POST("fetch_job")
     Call<ApiJobPostUpdateModel> getJob(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all Image */
-    @POST("fetch_blogs")
+    @POST("fetch_gallery")
     Call<ApiImageUpdateModel> getImage(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all Notice */
-    @POST("fetch_blogs")
+    @POST("fetch_notice")
     Call<ApiNoticeUpdateModel> getNotice(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all phirepawa */
-    @POST("fetch_blogs")
+    @POST("fetch_user")
     Call<ApiPhirePawaUpdateModel> getPhirePawa(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all phirepawa */
-    @POST("fetch_blogs")
+    @POST("fetch_career")
     Call<ApiCareerUpdateModel> getCareer(@Body ApiCredentialWithUserId credentials);
 
     /* API for addJob */

@@ -31,6 +31,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -97,7 +98,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                 if (!jobFileModel.getJobFileURL().equals("default") && getApplication() != null) {
                     View view = getLayoutInflater().inflate(R.layout.item_file_layout, null);
 
-                    final GifImageView item_image = view.findViewById(R.id.item_image);
+                    GifImageView item_image = view.findViewById(R.id.item_image);
                     ImageButton download = view.findViewById(R.id.download);
 
                     itemFileURL = jobFileModel.getJobFileURL();
@@ -110,6 +111,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                                 .with(this)
                                 .load(jobFileModel.getJobFileURL())
                                 .fitCenter()
+                                .apply(new RequestOptions().override(200, 200))
                                 .transition(new DrawableTransitionOptions().crossFade())
                                 .listener(new RequestListener<Drawable>() {
                                     @Override

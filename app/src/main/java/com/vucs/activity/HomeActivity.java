@@ -189,6 +189,8 @@ public class HomeActivity extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
             updateViewPager();
+
+            viewPager.setCurrentItem(getIntent().getIntExtra("item",0));
             pagerTabStrip = findViewById(R.id.tab_title);
 
             pagerTabStrip.setTabIndicatorColor(getResources().getColor(R.color.colorPrimary1));
@@ -266,20 +268,15 @@ public class HomeActivity extends AppCompatActivity
             drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
                 @Override
                 public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                    //drawerView.setBackgroundColor(getResources().getColor(R.color.white));
+
                     drawerView.setBackground(getDrawable(R.drawable.nav_item_background));
                     drawerView.setElevation(0);
-                    // drawerView.setScaleY(slideOffset);
-                    // linearLayout.setTranslationX(slideOffset * linearLayout.getWidth() / 4);
-                    //drawerView.setTranslationZ(-100);
-                    // navigationView.setPadding((int) (1 - slideOffset) * drawerView.getWidth(), 0, 0, 0);
                     drawerView.setTranslationX((1 - slideOffset) * drawerView.getWidth());
                     drawerView.setRotationY((float) (90 * (1 - slideOffset)));
                     drawerView.setPivotX(0.2f);
                     navBack.setAlpha(1 - slideOffset);
                     content_background.setAlpha(slideOffset);
 
-                    //  drawerView.setPadding((int)(1-slideOffset)*drawerView.getWidth(),0,0,0);
 
                 }
 
@@ -378,6 +375,7 @@ public class HomeActivity extends AppCompatActivity
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
 
+
     }
     @Override
     public void onBackPressed() {
@@ -421,18 +419,9 @@ public class HomeActivity extends AppCompatActivity
             dialog.show();
         }
     }
-    public void clearApplicationData() {
+    public void clearApplicationCatch() {
         File cache = getCacheDir();
-        File appDir = new File(cache.getParent());
-        if (appDir.exists()) {
-            String[] children = appDir.list();
-            for (String s : children) {
-                if (!s.equals("lib")) {
-                    deleteDir(new File(appDir, s));
-                    Log.i("EEEEEERRRRRROOOOOOORRRR", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
-                }
-            }
-        }
+        deleteDir(cache);
     }
     public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
@@ -453,14 +442,18 @@ public class HomeActivity extends AppCompatActivity
 
     private void setNotificationCount() {
 
-        int count = appPreference.getNotificationCount();
-        if (count > 0) {
-            notification_circle.setVisibility(View.VISIBLE);
-            notice_count.setText(String.valueOf(count));
-        }
-        else {
-            notification_circle.setVisibility(View.GONE);
-            notice_count.setText(String.valueOf(count));
+        try {
+            int count = appPreference.getNotificationCount();
+            if (count > 0) {
+                notification_circle.setVisibility(View.VISIBLE);
+                notice_count.setText(String.valueOf(count));
+            }
+            else {
+                notification_circle.setVisibility(View.GONE);
+                notice_count.setText(String.valueOf(count));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -471,6 +464,7 @@ public class HomeActivity extends AppCompatActivity
                 public void run() {
                     try {appPreference.clear();
                         startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        clearApplicationCatch();
                         AppDatabase.getDatabase(getContext()).clearAllTables();
                         FirebaseMessaging.getInstance().setAutoInitEnabled(false);
                         FirebaseInstanceId.getInstance().deleteInstanceId();
@@ -512,6 +506,7 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.my_profile) {
             startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+            overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
 
         }else if (id == R.id.about) {
             startActivity(new Intent(HomeActivity.this, AboutActivity.class));
@@ -659,13 +654,13 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    public void onClassNoticeClick(View view) {
+    /*public void onClassNoticeClick(View view) {
         ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
         Intent intent = new Intent(this, ClassNoticeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent,activityOptionsCompat.toBundle());
 
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -712,6 +707,7 @@ public class HomeActivity extends AppCompatActivity
 
     public void onAddClick(View view) {
         startActivity(new Intent(HomeActivity.this,AddBlogJobActivity.class));
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
 
     }
 
