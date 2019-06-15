@@ -107,6 +107,13 @@ public class AppPreference {
     public void setUserCourse(String userName) {
         prefs.edit().putString("ucourse", userName).apply();
     }
+    public int getUserCourseCode() {
+        return prefs.getInt("ucoursecode", 0);
+    }
+
+    public void setUserCourseCode(int userName) {
+        prefs.edit().putInt("ucoursecode", userName).apply();
+    }
 
     public String getUserBatch() {
         return prefs.getString("ubatch", "");

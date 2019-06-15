@@ -18,6 +18,9 @@ public class ApiUploadFirebaseTokenModel {
     @SerializedName("token")
     private String token;
 
+    @SerializedName("course")
+    private int course;
+
     @SerializedName("sem")
     private int sem;
 
@@ -31,9 +34,10 @@ public class ApiUploadFirebaseTokenModel {
     private String deviceId;
 
     @SuppressLint("HardwareIds")
-    public ApiUploadFirebaseTokenModel(int userId, String token, int sem, int category) {
+    public ApiUploadFirebaseTokenModel(int userId, String token, int course, int sem, int category) {
         this.userId = userId;
         this.token = token;
+        this.course = course;
         this.sem = sem;
         this.category = category;
         this.apiCredential = new ApiCredential();
@@ -42,18 +46,6 @@ public class ApiUploadFirebaseTokenModel {
                 Settings.Secure.ANDROID_ID);
     }
 
-    @Override
-    public String toString() {
-        return "ApiUploadFirebaseTokenModel{" +
-                "apiCredential=" + apiCredential +
-                ", userId=" + userId +
-                ", token='" + token + '\'' +
-                ", sem=" + sem +
-                ", category='" + category + '\'' +
-                ", appVersion='" + appVersion + '\'' +
-                ", deviceId='" + deviceId + '\'' +
-                '}';
-    }
 
     public int getCategory() {
         return category;
@@ -69,5 +61,27 @@ public class ApiUploadFirebaseTokenModel {
 
     public void setSem(int sem) {
         this.sem = sem;
+    }
+
+    public int getCourse() {
+        return course;
+    }
+
+    public void setCourse(int course) {
+        this.course = course;
+    }
+
+    @Override
+    public String toString() {
+        return "ApiUploadFirebaseTokenModel{" +
+                "apiCredential=" + apiCredential +
+                ", userId=" + userId +
+                ", token='" + token + '\'' +
+                ", course=" + course +
+                ", sem=" + sem +
+                ", category=" + category +
+                ", appVersion='" + appVersion + '\'' +
+                ", deviceId='" + deviceId + '\'' +
+                '}';
     }
 }

@@ -391,6 +391,13 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                             });
 
                                         }
+                                        if (uriList.size()==0){
+                                            if (homeWeakReference.get() == null)
+                                                return;
+                                            homeWeakReference.get().dialog.dismiss();
+                                            Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
+                                            homeWeakReference.get().onBackPressed();
+                                        }
 
 
                                     } else {

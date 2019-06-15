@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -39,18 +40,53 @@ public class AddClassNoticeActivity extends AppCompatActivity {
 
     private static String TAG = "Add Class Notice Activity";
     private int sem = 0;
+    private int course = 0;
 
     TextView header_text;
+    Spinner spinner;
+    Spinner courseSp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class_notice);
 
-        Spinner spinner = findViewById(R.id.sem);
+        spinner = findViewById(R.id.sem);
+        courseSp = findViewById(R.id.course);
         EditText text = findViewById(R.id.text);
         Button submit = findViewById(R.id.submit);
+courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position != 0) {
+            String[] a;
+            spinner.setVisibility(View.VISIBLE);
+            if (position==1){
+                a= getResources().getStringArray(R.array.semesters);
+            }else{
+                a= getResources().getStringArray(R.array.semesters4th);
+            }
 
+            course = position;
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                    AddClassNoticeActivity.this,
+                    android.R.layout.simple_spinner_item,
+                    a
+            );
+            spinner.setAdapter(adapter);
+        }
+        else {
+                course=0;
+                sem=0;
+                spinner.setVisibility(View.INVISIBLE);
+            }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+});
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -64,14 +100,17 @@ public class AddClassNoticeActivity extends AppCompatActivity {
         });
 
         submit.setOnClickListener(v -> {
-            if (sem == 0) {
+            if (course==0){
+                Toast.makeText(this, "Please select course");
+            }
+           else if (sem == 0) {
                 Toast.makeText(this, "Please select semester");
             } else if (text.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please enter messages");
             } else if (!Utils.isNetworkAvailable()) {
                 Toast.makeText(this, getString(R.string.no_internet_connection));
             } else {
-                new SendMessage(this, text.getText().toString(), sem).execute();
+                new SendMessage(this, text.getText().toString(), course,sem).execute();
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -100,15 +139,17 @@ public class AddClassNoticeActivity extends AppCompatActivity {
         private static WeakReference<AddClassNoticeActivity> weakReference;
         private String message;
         private int sem;
+        private int course;
         private AppPreference appPreference;
         private ProgressDialog progressDialog;
         private NoticeDAO noticeDAO;
 
 
-        SendMessage(AddClassNoticeActivity context, String message, int sem) {
+        SendMessage(AddClassNoticeActivity context, String message,int course, int sem) {
             weakReference = new WeakReference<>(context);
             this.message = message;
             this.sem = sem;
+            this.course = course;
             appPreference = new AppPreference(context);
             progressDialog = new ProgressDialog(context);
             AppDatabase db = AppDatabase.getDatabase(context);
@@ -147,7 +188,7 @@ public class AddClassNoticeActivity extends AppCompatActivity {
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
                 final ApiClassNoticeModel apiClassNoticeModel = new ApiClassNoticeModel(appPreference.getUserId(),
-                        appPreference.getUserName(), sem, message);
+                        appPreference.getUserName(),course, sem, message);
                 Call<ApiResponseModel> call = service.sendClassNotice(apiClassNoticeModel);
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
@@ -164,7 +205,9 @@ public class AddClassNoticeActivity extends AppCompatActivity {
                                         return;
 
                                     try {
-                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), sem));
+                                        String[] courses=weakReference.get().getResources().getStringArray(R.array.category_name);
+                                        String[] semester=weakReference.get().getResources().getStringArray(R.array.semesters);
+                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), courses[course]+"("+semester[sem]+")"));
                                         activity.onBackPressed();
                                         Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                         progressDialog.dismiss();

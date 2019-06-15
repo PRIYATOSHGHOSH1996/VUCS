@@ -31,7 +31,7 @@ public class ClassNoticeModel {
 
     @SerializedName("sem")
     @ColumnInfo(name = "sem")
-    private int sem;
+    private String sem;
 
 
     @Ignore
@@ -39,7 +39,7 @@ public class ClassNoticeModel {
 
     }
 
-    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy, int sem) {
+    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy, String sem) {
         this.noticeTitle = noticeTitle;
         this.date = date;
         this.noticeBy = noticeBy;
@@ -78,11 +78,11 @@ public class ClassNoticeModel {
         this.noticeBy = noticeBy;
     }
 
-    public int getSem() {
+    public String getSem() {
         return sem;
     }
 
-    public void setSem(int sem) {
+    public void setSem(String sem) {
         this.sem = sem;
     }
 

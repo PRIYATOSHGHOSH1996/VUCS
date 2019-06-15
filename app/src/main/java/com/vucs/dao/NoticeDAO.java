@@ -26,7 +26,7 @@ public interface NoticeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNotice(List<NoticeModel> noticeModel);
 
-    @Query("SELECT * FROM dt_class_notice")
+    @Query("SELECT * FROM dt_class_notice ORDER BY date DESC")
     public List<ClassNoticeModel> getAllClassNotice();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

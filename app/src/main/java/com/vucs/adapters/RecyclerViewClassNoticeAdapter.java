@@ -26,14 +26,11 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     private List<ClassNoticeModel> classNoticeModelList = Collections.emptyList();
     private WeakReference<Context> weakReference;
     AppPreference appPreference;
-
-    String [] sems;
     private String TAG = "classnoticeAdapter";
 
     public RecyclerViewClassNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
         appPreference=new AppPreference(context);
-        sems=context.getResources().getStringArray(R.array.semesters);
     }
 
     public void addNotice(List<ClassNoticeModel> classNoticeModels) {
@@ -60,7 +57,7 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
             date = format.format(classNoticeModel.getDate());
             holder.notice_date.setText(date);
             if (appPreference.getUserType()==0){
-                holder.notice_by.setText("To "+ sems[classNoticeModel.getSem()]);
+                holder.notice_by.setText("To "+ classNoticeModel.getSem());
             }
             else {
                 holder.notice_by.setText( "From " + classNoticeModel.getNoticeBy());

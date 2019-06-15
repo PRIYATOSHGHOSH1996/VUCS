@@ -780,7 +780,7 @@ public class HomeActivity extends AppCompatActivity
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
                 AppPreference appPreference=new AppPreference(homeWeakReference.get());
-                final ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel = new ApiUploadFirebaseTokenModel(appPreference.getUserId(), firebaseToken, appPreference.getUserSem(), appPreference.getUserType());
+                final ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel = new ApiUploadFirebaseTokenModel(appPreference.getUserId(), firebaseToken, appPreference.getUserCourseCode(), appPreference.getUserSem(), appPreference.getUserType());
                 Log.e("upload token ",apiUploadFirebaseTokenModel.toString());
                 Call<ApiResponseModel> call = service.uploadToken(apiUploadFirebaseTokenModel);
                 call.enqueue(new Callback<ApiResponseModel>() {

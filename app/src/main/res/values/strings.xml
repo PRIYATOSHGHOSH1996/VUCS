@@ -67,7 +67,7 @@
     </string-array>
 
     <string-array name="category_name">
-        <item>Course</item>
+        <item>Select Course</item>
         <item>MCA</item>
         <item>M.Sc</item>
         <item>M.Phil</item>
@@ -85,5 +85,12 @@
         <item>4th Semester</item>
         <item>5th Semester</item>
         <item>6th Semester</item>
+    </string-array>
+    <string-array name="semesters4th">
+        <item>Select Semester</item>
+        <item>1st Semester</item>
+        <item>2nd Semester</item>
+        <item>3rd Semester</item>
+        <item>4th Semester</item>
     </string-array>
 </resources>

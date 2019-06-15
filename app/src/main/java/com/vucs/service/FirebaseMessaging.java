@@ -176,7 +176,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         try {
             AppPreference appPreference = new AppPreference(getContext());
             if (appPreference.getUserType()==2) {
-                ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), Integer.parseInt(data.get("sem")));
+                ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), data.get("sem"));
                 AppDatabase database = AppDatabase.getDatabase(getContext());
                 NoticeDAO noticeDAO = database.noticeDAO();
                 noticeDAO.insertClassNotice(classNoticeModel);

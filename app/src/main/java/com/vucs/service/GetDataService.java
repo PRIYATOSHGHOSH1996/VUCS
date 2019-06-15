@@ -127,6 +127,7 @@ public class GetDataService extends IntentService {
                              List <JobModel> jobModels=apiUpdateModel.getJobModels();
                              List<NoticeModel> noticeModels=apiUpdateModel.getNoticeModels();
                              List<UserModel> userModels=apiUpdateModel.getUserModels();
+                                Log.e(TAG, "Api image Response:\n" + apiUpdateModel.getImageGalleryModels().toString());
 
                              Thread blogThread = new Thread(
                                         new Runnable() {

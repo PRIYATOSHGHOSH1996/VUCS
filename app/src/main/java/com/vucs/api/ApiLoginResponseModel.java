@@ -33,6 +33,9 @@ public class ApiLoginResponseModel {
     @SerializedName("course")
     private String course;
 
+    @SerializedName("course_code")
+    private int courseCode;
+
     @SerializedName("batch")
     private String batch;
 
@@ -40,7 +43,7 @@ public class ApiLoginResponseModel {
     private int sem;
 
 
-    public ApiLoginResponseModel(Integer code, String message, Integer userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, String batch, int sem) {
+    public ApiLoginResponseModel(Integer code, String message, Integer userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, int courseCode, String batch, int sem) {
         this.code = code;
         this.message = message;
         this.userId = userId;
@@ -52,6 +55,7 @@ public class ApiLoginResponseModel {
         this.image = image;
         this.dob = dob;
         this.course = course;
+        this.courseCode = courseCode;
         this.batch = batch;
         this.sem = sem;
     }
@@ -161,6 +165,14 @@ public class ApiLoginResponseModel {
         this.sem = sem;
     }
 
+    public int getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(int courseCode) {
+        this.courseCode = courseCode;
+    }
+
     @Override
     public String toString() {
         return "ApiLoginResponseModel{" +
@@ -175,8 +187,9 @@ public class ApiLoginResponseModel {
                 ", image='" + image + '\'' +
                 ", dob='" + dob + '\'' +
                 ", course='" + course + '\'' +
+                ", courseCode=" + courseCode +
                 ", batch='" + batch + '\'' +
-                ", sem='" + sem + '\'' +
+                ", sem=" + sem +
                 '}';
     }
 }

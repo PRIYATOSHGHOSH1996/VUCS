@@ -184,8 +184,9 @@ public class LoginActivity extends AppCompatActivity {
     private void openHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
         finish();
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+
 
     }
 
@@ -400,6 +401,7 @@ public class LoginActivity extends AppCompatActivity {
                                         appPreference.setUserEmail(apiLoginResponseModel.getMail());
                                         appPreference.setUserPhoneNo(apiLoginResponseModel.getPhoneNo());
                                         appPreference.setUserAddress(apiLoginResponseModel.getAddress());
+                                        appPreference.setUserCourseCode(apiLoginResponseModel.getCourseCode());
                                         appPreference.setUserImageUrl(apiLoginResponseModel.getImage());
                                         appPreference.setUserDob(apiLoginResponseModel.getDob());
                                         appPreference.setUserCourse(apiLoginResponseModel.getCourse());

@@ -15,11 +15,33 @@
         <LinearLayout
             android:orientation="vertical"
             android:padding="10dp"
+            android:paddingBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:animateLayoutChanges="true"
+                android:layout_marginTop="16dp">
+
+
 
             <Spinner
-                android:layout_marginTop="16dp"
+                android:layout_weight="5"
+                android:id="@+id/course"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/squre_box"
+                android:entries="@array/category_name"
+                android:gravity="center"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:singleLine="true" />
+            <Spinner
+                android:layout_weight="5"
                 android:id="@+id/sem"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -30,7 +52,9 @@
                 android:gravity="center"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:visibility="invisible"
                 android:singleLine="true" />
+            </LinearLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_marginStart="8dp"
