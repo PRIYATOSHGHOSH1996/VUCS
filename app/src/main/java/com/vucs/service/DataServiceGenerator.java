@@ -18,7 +18,7 @@ public class DataServiceGenerator {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl("http://192.168.0.8/Projects/VUCS/api/");
+                .baseUrl("http://192.168.43.184/Projects/VUCS/api/");
         //.baseUrl("http://www.frametrics.com/trackpay/api/");
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()

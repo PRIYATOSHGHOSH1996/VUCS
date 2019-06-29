@@ -119,7 +119,7 @@ public class PreviewFile extends AppCompatActivity {
     private void download() {
         try {
             String url = imageGalleryModels.get(viewPager.getCurrentItem()).getImageURL();
-            if (! url.equals("") && !url.equals("default")) {
+            if (url!=null&&! url.equals("") && !url.equals("default")) {
                 if (isNetworkAvailable()) {
                     Toast.makeText(this, "Downloading ...");
                     DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -265,7 +265,7 @@ public class PreviewFile extends AppCompatActivity {
             View itemView = mLayoutInflater.inflate(R.layout.image_view, container, false);
 
             final PhotoView photoView = itemView.findViewById(R.id.show_image);
-            if (!imageGalleryModelList.get(position).getThumbURL().equals("default")) {
+            if (imageGalleryModelList.get(position).getThumbURL()!=null&&!imageGalleryModelList.get(position).getThumbURL().equals("default")) {
 
 
                 Glide

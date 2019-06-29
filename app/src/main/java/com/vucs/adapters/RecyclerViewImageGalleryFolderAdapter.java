@@ -83,7 +83,7 @@ public class RecyclerViewImageGalleryFolderAdapter extends RecyclerView.Adapter<
             holder.imageView.getLayoutParams().height = devicewidth-18;
             ImageGalleryModel imageGalleryModel =imageGalleryViewModel.getFirstImagesByFolder(folderName);
 
-            if (!imageGalleryModel.getThumbURL().equals("default") && weakReference.get() != null) {
+            if (imageGalleryModel.getThumbURL()!=null&&!imageGalleryModel.getThumbURL().equals("default") && weakReference.get() != null) {
 
 
                 Glide
