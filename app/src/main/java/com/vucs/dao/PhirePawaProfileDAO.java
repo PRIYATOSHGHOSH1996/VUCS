@@ -40,7 +40,7 @@ public interface PhirePawaProfileDAO {
     public List<UserModel> getUsersByCourse(String s);
 
     @Query("select * from dt_career where user_id = :id order by end_date")
-    public List<CareerModel> getCareerDetailsByUserId(int id);
+    public List<CareerModel> getCareerDetailsByUserId(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertCareer(CareerModel careerModel);
@@ -56,7 +56,7 @@ public interface PhirePawaProfileDAO {
     public void insertUsers(UserModel userModel);
     @Query("SELECT * FROM dt_users" +
             " WHERE id = :id")
-    public UserModel getUserDetailsById(int id);
+    public UserModel getUserDetailsById(String id);
 
     @Query("DELETE FROM dt_career WHERE id=:id")
     public void deleteCareerById(int id);

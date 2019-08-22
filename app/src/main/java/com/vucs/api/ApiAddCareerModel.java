@@ -13,7 +13,7 @@ public class ApiAddCareerModel {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private int user_id;
+    private String user_id;
 
     @SerializedName("company_name")
     private String companyName;
@@ -35,7 +35,7 @@ public class ApiAddCareerModel {
     private String deviceId;
 
     @SuppressLint("HardwareIds")
-    public ApiAddCareerModel(int user_id, String companyName, int startYear, int endYear, String occupation) {
+    public ApiAddCareerModel(String user_id, String companyName, int startYear, int endYear, String occupation) {
         this.user_id = user_id;
         this.companyName = companyName;
         this.startYear = startYear;
@@ -49,11 +49,11 @@ public class ApiAddCareerModel {
 
 
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

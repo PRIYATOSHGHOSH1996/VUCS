@@ -13,7 +13,7 @@ public class ApiAddJobModel {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private int user_id;
+    private String user_id;
 
     @SerializedName("job_title")
     private String jobTitle;
@@ -31,7 +31,7 @@ public class ApiAddJobModel {
 
 
     @SuppressLint("HardwareIds")
-    public ApiAddJobModel(int user_id, String jobTitle, String jobDescription) {
+    public ApiAddJobModel(String user_id, String jobTitle, String jobDescription) {
         this.user_id = user_id;
         this.jobTitle = jobTitle;
         this.jobDescription = jobDescription;
@@ -49,11 +49,11 @@ public class ApiAddJobModel {
         this.apiCredential = apiCredential;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 

@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusable="true"
+    android:background="#FFFF"
     android:focusableInTouchMode="true"
     tools:context=".activity.RegistrationActivity">
 
-
     <include layout="@layout/app_bar_main" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,12 +37,9 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="8dp"
-                android:paddingTop="12dp">
+                android:paddingTop="12dp"
+                >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -50,11 +48,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:background="@drawable/squre_box"
+
                         android:gravity="center"
                         android:layout_marginBottom="6dp"
-                        app:errorEnabled="true"
+
 
 
 
@@ -67,7 +64,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="@null"
                             android:hint="First Name"
                             android:inputType="text"
                             android:paddingLeft="8dp"
@@ -86,30 +82,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center"
                         android:elevation="1dp"
                         android:layout_marginBottom="6dp"
-                        app:errorEnabled="true">
+                       >
 
                         <EditText
                             style="@style/TextAppearance.MaterialComponents.Body2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
+                            android:layout_height="42dp"
                             android:hint="Last Name"
                             android:inputType="text"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -118,11 +107,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center"
                         android:layout_marginBottom="6dp"
-                        app:errorEnabled="true"
+
 
                         >
 
@@ -131,7 +118,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom"
-                            android:background="@null"
                             android:hint="Mail"
                             android:inputType="textEmailAddress"
                             android:paddingLeft="8dp"
@@ -148,24 +134,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center"
                         android:layout_marginBottom="6dp"
-                        app:errorEnabled="true">
+                        >
 
                         <EditText
                             style="@style/TextAppearance.MaterialComponents.Body2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
                             android:hint="Phone Number"
                             android:inputType="phone"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                </LinearLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/address"
@@ -173,17 +156,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/squre_box"
                     android:gravity="center"
                     android:layout_marginBottom="6dp"
-                    app:errorEnabled="true"
+
                     android:minHeight="45dp">
 
                     <EditText
                         style="@style/TextAppearance.MaterialComponents.Body2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null"
                         android:hint="Address"
                         android:inputType="textMultiLine"
                         android:minHeight="30dp"
@@ -206,12 +187,11 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center_vertical"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:singleLine="true"
-                        android:text="@string/date_of_birth" />
+                        android:hint="@string/date_of_birth" />
 
                     <Spinner
                         android:id="@+id/course"
@@ -223,7 +203,6 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="18dp"
                         android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:entries="@array/category_name"
                         android:gravity="center_vertical"
                         android:paddingLeft="8dp"
@@ -249,7 +228,6 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="18dp"
                         android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center_vertical"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -265,7 +243,6 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="18dp"
                         android:layout_weight="5"
-                        android:background="@drawable/squre_box"
                         android:gravity="center_vertical"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -365,6 +342,7 @@
                     android:onClick="onSubmitClick"
                     android:text="Submit"
                     android:textAllCaps="true"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/white" />
             </LinearLayout>
         </ScrollView>

@@ -65,11 +65,11 @@ public class PhirePawaProfileViewModel extends AndroidViewModel {
 
     }
 
-   public UserModel getUserDetailsById(int id){
+   public UserModel getUserDetailsById(String id){
         return phirePawaProfileDAO.getUserDetailsById(id);
    }
 
-    public List<CareerModel> getCareerDetailsByUserId(int id){
+    public List<CareerModel> getCareerDetailsByUserId(String id){
         return phirePawaProfileDAO.getCareerDetailsByUserId(id);
     }
 }

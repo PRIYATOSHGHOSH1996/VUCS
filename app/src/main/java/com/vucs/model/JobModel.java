@@ -27,7 +27,7 @@ public class JobModel {
 
     @SerializedName("job_by_id")
     @ColumnInfo(name = "job_by_id")
-    private int jobById;
+    private String jobById;
 
     @SerializedName("job_by")
     @ColumnInfo(name = "job_by")
@@ -50,7 +50,7 @@ public class JobModel {
 
     }
 
-    public JobModel(int jobId, String jobTitle, int jobById, String jobBy, Date date, String content, int status) {
+    public JobModel(int jobId, String jobTitle, String jobById, String jobBy, Date date, String content, int status) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.jobById = jobById;
@@ -109,11 +109,11 @@ public class JobModel {
         this.content = content;
     }
 
-    public int getJobById() {
+    public String getJobById() {
         return jobById;
     }
 
-    public void setJobById(int jobById) {
+    public void setJobById(String jobById) {
         this.jobById = jobById;
     }
 

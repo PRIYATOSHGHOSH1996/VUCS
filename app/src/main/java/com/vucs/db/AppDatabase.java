@@ -14,19 +14,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.vucs.R;
 import com.vucs.converters.DateTypeConverter;
 import com.vucs.dao.BlogDAO;
+import com.vucs.dao.ChattingDAO;
 import com.vucs.dao.EventDAO;
 import com.vucs.dao.ImageGalleryDAO;
 import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.dao.PhirePawaProfileDAO;
+import com.vucs.dao.TeacherDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.model.CareerModel;
+import com.vucs.model.ChattingModel;
 import com.vucs.model.ClassNoticeModel;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
 import com.vucs.model.NoticeModel;
+import com.vucs.model.TeacherModel;
 import com.vucs.model.UserModel;
 
 import java.util.Calendar;
@@ -35,7 +39,7 @@ import java.util.Locale;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class, TeacherModel.class, ChattingModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -92,6 +96,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhirePawaProfileDAO phirePawaProfileDAO();
 
     public abstract JobDAO jobDAO();
+
+    public abstract TeacherDAO teacherDAO();
+
+    public abstract ChattingDAO chattingDAO();
 
     /**
      * Populate the database in the background.

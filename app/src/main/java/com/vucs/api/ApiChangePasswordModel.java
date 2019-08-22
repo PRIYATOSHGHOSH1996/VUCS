@@ -13,7 +13,7 @@ public class ApiChangePasswordModel {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private int userId;
+    private String userId;
 
     @SerializedName("old_password")
     private String oldPassword;
@@ -28,7 +28,7 @@ public class ApiChangePasswordModel {
     private String deviceId;
 
     @SuppressLint("HardwareIds")
-    public ApiChangePasswordModel(int userId, String oldPassword,String newPassword) {
+    public ApiChangePasswordModel(String userId, String oldPassword,String newPassword) {
         this.apiCredential = new ApiCredential();
         this.userId = userId;
         this.newPassword = newPassword;

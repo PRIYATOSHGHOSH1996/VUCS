@@ -17,7 +17,7 @@ public class CareerModel {
 
     @SerializedName("user_id")
     @ColumnInfo(name = "user_id")
-    private int userId;
+    private String userId;
 
     @SerializedName("start_date")
     @ColumnInfo(name = "start_date")
@@ -37,7 +37,7 @@ public class CareerModel {
 
 
 
-    public CareerModel(int id, int userId, int startDate, int endDate, String company, String occupation) {
+    public CareerModel(int id, String userId, int startDate, int endDate, String company, String occupation) {
         this.id = id;
         this.userId = userId;
         this.startDate = startDate;
@@ -54,11 +54,11 @@ public class CareerModel {
         this.id = id;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

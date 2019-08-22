@@ -22,9 +22,9 @@ public class DataServiceGenerator {
         //.baseUrl("http://www.frametrics.com/trackpay/api/");
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                .readTimeout(90, TimeUnit.SECONDS)
-                .connectTimeout(90, TimeUnit.SECONDS)
-                .writeTimeout(90, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .cache(null);
 
         builder.client(httpClient.build());

@@ -13,7 +13,7 @@ public class ApiClassNoticeModel {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private int userId;
+    private String userId;
 
     @SerializedName("user_name")
     private String username;
@@ -34,7 +34,7 @@ public class ApiClassNoticeModel {
     private String deviceId;
 
     @SuppressLint("HardwareIds")
-    public ApiClassNoticeModel(int userId, String username, int course, int sem, String message) {
+    public ApiClassNoticeModel(String userId, String username, int course, int sem, String message) {
         this.userId = userId;
         this.username = username;
         this.course = course;

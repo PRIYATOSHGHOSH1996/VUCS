@@ -13,7 +13,7 @@ public class ApiUploadFirebaseTokenModel {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private int userId;
+    private String userId;
 
     @SerializedName("token")
     private String token;
@@ -34,7 +34,7 @@ public class ApiUploadFirebaseTokenModel {
     private String deviceId;
 
     @SuppressLint("HardwareIds")
-    public ApiUploadFirebaseTokenModel(int userId, String token, int course, int sem, int category) {
+    public ApiUploadFirebaseTokenModel(String userId, String token, int course, int sem, int category) {
         this.userId = userId;
         this.token = token;
         this.course = course;

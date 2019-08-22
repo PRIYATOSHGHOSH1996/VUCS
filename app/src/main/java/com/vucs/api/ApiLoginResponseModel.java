@@ -7,7 +7,7 @@ public class ApiLoginResponseModel {
     private String  message;
 
     @SerializedName("user_id")
-    private Integer userId;
+    private String userId;
 
     @SerializedName("category")
     private int type;
@@ -43,7 +43,7 @@ public class ApiLoginResponseModel {
     private int sem;
 
 
-    public ApiLoginResponseModel(Integer code, String message, Integer userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, int courseCode, String batch, int sem) {
+    public ApiLoginResponseModel(Integer code, String message, String userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, int courseCode, String batch, int sem) {
         this.code = code;
         this.message = message;
         this.userId = userId;
@@ -76,11 +76,11 @@ public class ApiLoginResponseModel {
         this.message = message;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

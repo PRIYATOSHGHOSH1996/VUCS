@@ -24,7 +24,7 @@ public class BlogModel {
 
     @SerializedName("blog_by_id")
     @ColumnInfo(name = "blog_by_id")
-    private int blogById;
+    private String blogById;
 
     @SerializedName("blog_by")
     @ColumnInfo(name = "blog_by")
@@ -50,7 +50,7 @@ public class BlogModel {
 
     }
 
-    public BlogModel(int blogId, String blogTitle, int blogById, String blogBy, Date date, String content, String blogImageURL, int status) {
+    public BlogModel(int blogId, String blogTitle, String blogById, String blogBy, Date date, String content, String blogImageURL, int status) {
         this.blogTitle = blogTitle;
         this.blogId = blogId;
         this.blogById = blogById;
@@ -121,11 +121,11 @@ public class BlogModel {
     }
 
 
-    public int getBlogById() {
+    public String getBlogById() {
         return blogById;
     }
 
-    public void setBlogById(int blogById) {
+    public void setBlogById(String blogById) {
         this.blogById = blogById;
     }
 

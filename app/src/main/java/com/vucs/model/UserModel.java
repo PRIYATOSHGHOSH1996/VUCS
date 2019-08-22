@@ -1,6 +1,7 @@
 package com.vucs.model;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -14,9 +15,10 @@ import java.util.Date;
 public class UserModel {
 
     @SerializedName("id")
+    @NonNull
     @PrimaryKey()
     @ColumnInfo(name = "id")
-    private int id;
+    private String id;
 
     @SerializedName("first_name")
     @ColumnInfo(name = "first_name")
@@ -60,7 +62,7 @@ public class UserModel {
 
 
 
-    public UserModel(int id, String firstName, String lastName, String mail, String phoneNo, String address, int batchStartDate, int batchEndDate, String imageUrl, String course, Date dob) {
+    public UserModel(String id, String firstName, String lastName, String mail, String phoneNo, String address, int batchStartDate, int batchEndDate, String imageUrl, String course, Date dob) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,11 +77,11 @@ public class UserModel {
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

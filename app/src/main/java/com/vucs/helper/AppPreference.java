@@ -16,12 +16,12 @@ public class AppPreference {
         prefs = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
 
-    public int getUserId() {
-        return prefs.getInt("uid", -1);
+    public String getUserId() {
+        return prefs.getString("uid", "");
     }
 
-    public void setUserId(int uid) {
-        prefs.edit().putInt("uid", uid).apply();
+    public void setUserId(String uid) {
+        prefs.edit().putString("uid", uid).apply();
     }
 
 

@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (appPreference.getUserId() != -1) {
+                if (!appPreference.getUserId().equals("")) {
                     openHomeActivity();
                 } else
                     initLoginview();

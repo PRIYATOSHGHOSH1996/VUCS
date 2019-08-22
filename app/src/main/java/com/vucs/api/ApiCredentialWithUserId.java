@@ -14,7 +14,7 @@ public class ApiCredentialWithUserId {
     private ApiCredential apiCredential;
 
     @SerializedName("user_id")
-    private Integer userId;
+    private String userId;
 
     @SerializedName("app_version")
     private String appVersion;

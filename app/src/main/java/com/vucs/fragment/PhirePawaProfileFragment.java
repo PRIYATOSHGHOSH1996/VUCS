@@ -49,7 +49,7 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     private View view;
     private TextView batch, course, phone_no, mail, address,career_text;
     ScrollView scrollView;
-    int id;
+    String id;
     PhirePawaProfileViewModel phirePawaProfileViewModel;
     private BroadcastReceiver broadcastReceiver;
 
@@ -159,9 +159,9 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
 
 
-            id = (int) getArguments().getInt(getContext().getString(R.string.user_id), -1);
+            id = (String) getArguments().getString(getContext().getString(R.string.user_id), "");
             Log.e("phire pawa profile", "start id = " + id);
-            if (id != -1) {
+            if (!id.equals("")) {
                 phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
                 UserModel userModel = phirePawaProfileViewModel.getUserDetailsById(id);
                 collapsingToolbarLayout.setTitle(userModel.getFirstName() + "  " + userModel.getLastName());
@@ -205,7 +205,7 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     }
 
     private void updateCareer() {
-        if (id != -1) {
+        if (!id.equals("")) {
             career_layout.removeAllViews();
             List<CareerModel> careerModels = phirePawaProfileViewModel.getCareerDetailsByUserId(id);
             career_text.setVisibility(View.GONE);
