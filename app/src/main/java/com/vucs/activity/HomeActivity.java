@@ -70,6 +70,7 @@ import com.vucs.fragment.NoticeFragment;
 import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
@@ -252,6 +253,12 @@ public class HomeActivity extends AppCompatActivity
                             navigationView.setCheckedItem(R.id.job_post);
                             if (!floatingActionButton.isShown()) {
                                 floatingActionButton.startAnimation(makeInAnimation);
+                            }
+                            break;
+                        case 4:
+                            navigationView.setCheckedItem(R.id.teacher);
+                            if (floatingActionButton.isShown()) {
+                                floatingActionButton.startAnimation(makeOutAnimation);
                             }
                             break;
 
@@ -498,7 +505,10 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.job_post) {
             viewPager.setCurrentItem(3, true);
 
-        } else if (id == R.id.image_gallery) {
+        } else if (id == R.id.teacher) {
+            viewPager.setCurrentItem(4, true);
+
+        }else if (id == R.id.image_gallery) {
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
             intent.putExtra(getString(R.string.folder_name), "root123");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
@@ -684,7 +694,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.class_notice);
-        if (appPreference.getUserType()==1){
+        if (appPreference.getUserType()== Constants.CATEGORY_EX_STUDENT){
             item.setVisible(false);
         }
         item.setActionView(R.layout.icon_notification);
@@ -743,7 +753,7 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Nullable

@@ -33,10 +33,6 @@ import com.vucs.model.NoticeModel;
 import com.vucs.model.TeacherModel;
 import com.vucs.model.UserModel;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 import static com.vucs.App.getContext;
 
 @Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class, TeacherModel.class, ChattingModel.class}, version = 1)
@@ -64,7 +60,7 @@ public abstract class AppDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            //new PopulateDbAsync(INSTANCE).execute();
+            new PopulateDbAsync(INSTANCE).execute();
         }
 
     };
@@ -113,6 +109,7 @@ public abstract class AppDatabase extends RoomDatabase {
         private final ImageGalleryDAO imageGalleryDAO;
         private final PhirePawaProfileDAO phirePawaProfileDAO;
         private final JobDAO jobDAO;
+        private final TeacherDAO teacherDAO;
 
         PopulateDbAsync(AppDatabase db) {
             blogDAO = db.blogDAO();
@@ -121,12 +118,20 @@ public abstract class AppDatabase extends RoomDatabase {
             imageGalleryDAO = db.imageGalleryDAO();
             phirePawaProfileDAO = db.phirePawaProfileDAO();
             jobDAO = db.jobDAO();
+            teacherDAO = db.teacherDAO();
 
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
             Log.e("app data","database created");
+
+            teacherDAO.insertTeacher(new TeacherModel("d","teacher 1","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("w","teacher 2","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("q","teacher 3","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("a","teacher 4","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("s","teacher 5","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("x","teacher 6","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
 
            /* noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
             noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));

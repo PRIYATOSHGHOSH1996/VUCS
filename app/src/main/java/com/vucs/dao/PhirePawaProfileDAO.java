@@ -17,27 +17,27 @@ public interface PhirePawaProfileDAO {
 
 
     @Query("SELECT * FROM dt_users" +
-            " ORDER BY first_name")
-    public List<UserModel> getUsersByName();
+            " WHERE dt_users.id <> :userId ORDER BY first_name")
+    public List<UserModel> getUsersByName(String userId);
 
     @Query("SELECT * FROM dt_users" +
-            " WHERE dt_users.first_name LIKE :s ORDER BY first_name")
-    public List<UserModel> getUsersByName(String s);
+            " WHERE dt_users.first_name LIKE :s AND dt_users.id <> :userId ORDER BY first_name")
+    public List<UserModel> getUsersByName(String s,String userId);
 
     @Query("SELECT * FROM dt_users" +
-            " ORDER BY batch_end_date DESC,first_name")
-    public List<UserModel> getUsersByBatch();
+            " WHERE   dt_users.id <> :userId ORDER BY batch_end_date DESC,first_name")
+    public List<UserModel> getUsersByBatch(String userId);
 
     @Query("SELECT * FROM dt_users" +
-            " WHERE dt_users.batch_end_date >= :start AND dt_users.batch_end_date<:end ORDER BY batch_end_date DESC, first_name")
-    public List<UserModel> getUsersByBatch(long start,long end);
+            " WHERE dt_users.batch_end_date >= :start AND dt_users.batch_end_date<:end AND dt_users.id <> :userId ORDER BY batch_end_date DESC, first_name")
+    public List<UserModel> getUsersByBatch(long start,long end,String userId);
 
-    @Query("SELECT * FROM dt_users order by course, first_name")
-    public List<UserModel> getUsersByCourse();
+    @Query("SELECT * FROM dt_users WHERE dt_users.id <> :userId order by course, first_name")
+    public List<UserModel> getUsersByCourse(String userId);
 
     @Query("SELECT * FROM dt_users" +
-            " WHERE course LIKE :s ORDER BY course,first_name")
-    public List<UserModel> getUsersByCourse(String s);
+            " WHERE course LIKE :s AND dt_users.id <> :userId ORDER BY course,first_name")
+    public List<UserModel> getUsersByCourse(String s,String userId);
 
     @Query("select * from dt_career where user_id = :id order by end_date")
     public List<CareerModel> getCareerDetailsByUserId(String id);

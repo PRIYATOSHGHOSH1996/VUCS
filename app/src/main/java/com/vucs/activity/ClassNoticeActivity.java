@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.transition.Explode;
 import android.transition.Transition;
@@ -11,21 +12,27 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.vucs.R;
-import com.vucs.adapters.RecyclerViewClassNoticeAdapter;
+import com.vucs.dao.TeacherDAO;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
-import com.vucs.model.ClassNoticeModel;
-import com.vucs.viewmodel.NoticeViewModel;
+import com.vucs.model.TeacherModel;
+import com.vucs.viewmodel.TeacherViewModel;
 
 import java.util.Date;
 import java.util.List;
@@ -33,9 +40,10 @@ import java.util.List;
 public class ClassNoticeActivity extends AppCompatActivity {
     AppPreference appPreference;
     private String TAG = "classnoticeActivity";
-    private RecyclerViewClassNoticeAdapter adapter;
     private BroadcastReceiver broadcastReceiver;
-    private NoticeViewModel noticeViewModel;
+    LinearLayout container;
+    TeacherViewModel teacherViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,8 @@ public class ClassNoticeActivity extends AppCompatActivity {
             appPreference = new AppPreference(this);
 
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            container =  findViewById(R.id.container);
+            teacherViewModel = ViewModelProviders.of(this).get(TeacherViewModel.class);
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -66,7 +76,7 @@ public class ClassNoticeActivity extends AppCompatActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    updateAdapter();
+                    initView();
                 }
             };
         } catch (Exception e) {
@@ -77,55 +87,58 @@ public class ClassNoticeActivity extends AppCompatActivity {
 
     private void initView() {
         try {
-            RecyclerView recyclerView = findViewById(R.id.recycler_view);
-            adapter = new RecyclerViewClassNoticeAdapter(this);
-            recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);
-            updateAdapter();
-            recyclerView.setAdapter(adapter);
 
-            FloatingActionButton floatingActionButton = findViewById(R.id.add);
-            if (appPreference.getUserType() == 0) {
-                floatingActionButton.setVisibility(View.VISIBLE);
+            if (appPreference.getUserType() == Constants.CATEGORY_TEACHER) {
+               showTeacherView();
             } else {
-                floatingActionButton.setVisibility(View.GONE);
+                showUserView();
             }
-            floatingActionButton.setOnClickListener(v -> {
-                startActivity(new Intent(this, AddClassNoticeActivity.class));
-                overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
-            });
+
         } catch (Exception e) {
-            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
         //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
     }
 
-    private void updateAdapter() {
-        try {
-            appPreference.setNotificationCount(0);
-            List<ClassNoticeModel> list = noticeViewModel.getAllClassNotice();
-            if(list.size() == 0){
-                findViewById(R.id.empty_notification_layout).setVisibility(View.VISIBLE);
+    private void showUserView() {
+        List<TeacherModel> teacherModels =teacherViewModel.getAllTeacher();
+        container.removeAllViews();
+        for (TeacherModel teacherModel:teacherModels){
+            View view = getLayoutInflater().inflate(R.layout.item_class_notice,null);
+            TextView title=view.findViewById(R.id.title);
+            ImageView imageView=view.findViewById(R.id.user_image);
+            title.setText(teacherModel.getName());
+            TextView message=view.findViewById(R.id.message);
+            if (teacherModel.getImageURL()!=null&&!teacherModel.getImageURL().equals("")&&!teacherModel.getImageURL().equals("default")){
+                Glide
+                        .with(this)
+                        .load(teacherModel.getImageURL())
+                        .fitCenter()
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                imageView.setImageDrawable(resource);
+                            }
+                        });
             }
-            else {
-                findViewById(R.id.empty_notification_layout).setVisibility(View.GONE);
-            }
-            adapter.addNotice(list);
-        } catch (Exception e) {
-            Utils.appendLog(TAG + ":update adapater: " + e.getMessage() + "Date :" + new Date());
-            e.printStackTrace();
+            container.addView(view);
+
         }
     }
+
+    private void showTeacherView() {
+
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
         Log.e(TAG, "onresume");
         try {
-            updateAdapter();
+            initView();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.class_notice_broadcast_receiver)));
         } catch (Exception e) {
             Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());

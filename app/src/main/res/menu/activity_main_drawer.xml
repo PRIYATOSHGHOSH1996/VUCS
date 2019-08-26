@@ -24,6 +24,10 @@
             android:id="@+id/job_post"
             android:icon="@drawable/ic_baseline_transfer_within_a_station_24px"
             android:title="@string/job_post" />
+        <item
+            android:id="@+id/teacher"
+            android:icon="@drawable/person"
+            android:title="@string/teachers" />
 
     </group>
 

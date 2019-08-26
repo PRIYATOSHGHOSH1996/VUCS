@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.Html;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
@@ -88,7 +89,12 @@ public class JobDetailsActivity extends AppCompatActivity {
 
         item_title.setText(itemTitle);
         item_date.setText(itemDate);
-        item_content.setText(itemContent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            item_content.setText(Html.fromHtml(itemContent,Html.FROM_HTML_MODE_LEGACY));
+        }
+        else {
+            item_content.setText(Html.fromHtml(itemContent));
+        }
         item_by.setText("By " + itemBy);
         JobViewModel jobViewModel = ViewModelProviders.of(this).get(JobViewModel.class);
 

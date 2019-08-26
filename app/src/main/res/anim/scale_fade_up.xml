@@ -2,17 +2,17 @@
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="true">
-    <scale android:fromXScale="80%p"
-        android:toXScale="100%p"
-        android:fromYScale="80%p"
-        android:toYScale="100%p"
+    <scale android:fromXScale="80%"
+        android:toXScale="100%"
+        android:fromYScale="80%"
+        android:toYScale="100%"
         android:pivotX="50%p"
         android:pivotY="50%p"
-        android:duration="150" />
+        android:duration="100" />
 
     <alpha android:fromAlpha="0"
         android:toAlpha="1.0"
-        android:duration="150"/>
+        android:duration="100"/>
 
 
 </set>

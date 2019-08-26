@@ -5,20 +5,43 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.vucs.App;
 import com.vucs.R;
+import com.vucs.adapters.RecyclerViewTeacherAdapter;
+import com.vucs.adapters.RecyclerViewUserAdapter;
+import com.vucs.helper.Utils;
+import com.vucs.viewmodel.PhirePawaProfileViewModel;
+import com.vucs.viewmodel.TeacherViewModel;
+
+import java.util.Date;
 
 
 public class TeachersFragment extends Fragment {
     String TAG = "teachersFragment";
     private View view;
     private BroadcastReceiver broadcastReceiver;
+    private RecyclerViewTeacherAdapter adapter;
+    private TeacherViewModel teacherViewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,10 +59,25 @@ public class TeachersFragment extends Fragment {
     }
 
     private void initView() {
+        try {
+            RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+            adapter = new RecyclerViewTeacherAdapter(getContext());
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            teacherViewModel = ViewModelProviders.of(this).get(TeacherViewModel.class);
+            updateAdapter();
+            recyclerView.setAdapter(adapter);
+            //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
+
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
     }
 
     private void updateAdapter() {
+        adapter.addTeacher(teacherViewModel.getAllTeacher());
     }
 
     @Override

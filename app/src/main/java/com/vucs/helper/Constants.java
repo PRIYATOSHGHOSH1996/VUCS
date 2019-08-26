@@ -27,4 +27,13 @@ public class Constants {
     public static final int FORCED_LOGOUT        =9;
 
 
+
+    public static final int CATEGORY_TEACHER               =0;
+    public static final int CATEGORY_CURRENT_STUDENT       =2;
+    public static final int CATEGORY_EX_STUDENT            =1;
+
+
+
+
+
 }

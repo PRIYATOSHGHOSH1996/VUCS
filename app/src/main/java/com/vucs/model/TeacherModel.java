@@ -26,19 +26,30 @@ public class TeacherModel {
     @ColumnInfo(name = "image_url")
     private String imageURL;
 
+    @SerializedName("page_url")
+    @ColumnInfo(name = "page_url")
+    private String pageURL;
+
     @SerializedName("description")
     @ColumnInfo(name = "description")
     private String description;
+
+
+    @SerializedName("reply_count")
+    @ColumnInfo(name = "reply_count")
+    private int replyCount;
 
     @Ignore
     public TeacherModel() {
     }
 
-    public TeacherModel(String id, String name, String imageURL, String description) {
+    public TeacherModel(String id, String name, String imageURL, String pageURL, String description, int replyCount) {
         this.id = id;
         this.name = name;
         this.imageURL = imageURL;
+        this.pageURL = pageURL;
         this.description = description;
+        this.replyCount = replyCount;
     }
 
     public String getId() {
@@ -73,13 +84,33 @@ public class TeacherModel {
         this.description = description;
     }
 
+    public int getReplyCount() {
+        return replyCount;
+    }
+
+    public void setReplyCount(int replyCount) {
+        this.replyCount = replyCount;
+    }
+
+
+    public String getPageURL() {
+        return pageURL;
+    }
+
+    public void setPageURL(String pageURL) {
+        this.pageURL = pageURL;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "TeacherModel{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", imageURL='" + imageURL + '\'' +
+                ", pageURL='" + pageURL + '\'' +
                 ", description='" + description + '\'' +
+                ", replyCount=" + replyCount +
                 '}';
     }
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cd6549b03c12c147d8a326dfeb00efe6",
+    "identityHash": "57dddc86bac2a3ee56a5793474b78d0e",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -456,7 +456,7 @@
       },
       {
         "tableName": "dt_teacher",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `image_url` TEXT, `description` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT, `image_url` TEXT, `page_url` TEXT, `description` TEXT, `reply_count` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -477,10 +477,22 @@
             "notNull": false
           },
           {
+            "fieldPath": "pageURL",
+            "columnName": "page_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "replyCount",
+            "columnName": "reply_count",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -570,7 +582,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cd6549b03c12c147d8a326dfeb00efe6\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"57dddc86bac2a3ee56a5793474b78d0e\")"
     ]
   }
 }
