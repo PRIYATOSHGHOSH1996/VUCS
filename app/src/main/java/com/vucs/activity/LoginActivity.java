@@ -321,6 +321,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void openDialog( String s){
         Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
+        ((ViewGroup)dialog.getWindow().getDecorView())
+                .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                        this,R.anim.dialog_anim));
         View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
         TextView textView=view.findViewById(R.id.text);
         textView.setText(s);

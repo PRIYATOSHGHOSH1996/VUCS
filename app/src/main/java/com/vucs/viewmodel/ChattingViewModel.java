@@ -31,6 +31,10 @@ public class ChattingViewModel extends AndroidViewModel {
         return chattingDAO.getAllChattingBySemAndCourse(sem,course);
     }
 
+    public ChattingModel getLastChattingBySemAndCourse(int sem, int course){
+        return chattingDAO.getLastChattingBySemAndCourse(sem,course);
+    }
+
     public List<ChattingModel> getAllChattingByTeacher(int teacherId){
         return chattingDAO.getAllChattingByTeacher(teacherId);
     }

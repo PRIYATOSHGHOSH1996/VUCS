@@ -24,6 +24,9 @@ public interface ChattingDAO {
     @Query("SELECT * FROM dt_chatting WHERE sem=:sem AND course=:course ORDER BY date DESC")
     public List<ChattingModel> getAllChattingBySemAndCourse(int sem, int course);
 
+    @Query("SELECT * FROM dt_chatting WHERE sem=:sem AND course=:course ORDER BY date DESC LIMIT 1")
+    public ChattingModel getLastChattingBySemAndCourse(int sem, int course);
+
     @Query("SELECT * FROM dt_chatting WHERE sender_id=:teacherId  ORDER BY date DESC")
     public List<ChattingModel> getAllChattingByTeacher(int teacherId);
 
