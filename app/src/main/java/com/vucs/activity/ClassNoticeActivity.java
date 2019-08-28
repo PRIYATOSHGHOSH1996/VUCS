@@ -125,6 +125,12 @@ public class ClassNoticeActivity extends AppCompatActivity {
                             }
                         });
             }
+            view.findViewById(R.id.parent).setOnClickListener(view1 -> {
+                Intent intent = new Intent(ClassNoticeActivity.this, ChattingActivity.class);
+                intent.putExtra(getString(R.string.teacherId), teacherModel.getId());
+                startActivity(intent);
+                overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+            });
             container.addView(view);
 
         }
@@ -134,9 +140,9 @@ public class ClassNoticeActivity extends AppCompatActivity {
         container.removeAllViews();
         String[] course=getResources().getStringArray(R.array.category_name);
         String[] sem=getResources().getStringArray(R.array.semesters);
-        for (int i=0;i<course.length;i++){
-            int size=(i==0?6:4);
-            for (int j=0;j<size;j++){
+        for (int i=1;i<course.length;i++){
+            int size=(i==1?6:4);
+            for (int j=1;j<=size;j++){
                 View view = getLayoutInflater().inflate(R.layout.item_class_notice_student,null);
                 TextView course_text=view.findViewById(R.id.course);
                 TextView sem_text=view.findViewById(R.id.sem);
@@ -147,8 +153,18 @@ public class ClassNoticeActivity extends AppCompatActivity {
                 }else {
                     last_message.setText("");
                 }
+
                 course_text.setText(course[i]);
                 sem_text.setText(sem[j]);
+                int finalI = i;
+                int finalJ = j;
+                view.findViewById(R.id.parent).setOnClickListener(view1 -> {
+                    Intent intent = new Intent(ClassNoticeActivity.this, ChattingActivity.class);
+                    intent.putExtra(getString(R.string.course), finalI );
+                    intent.putExtra(getString(R.string.sem), finalJ );
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+                });
                 container.addView(view);
             }
         }

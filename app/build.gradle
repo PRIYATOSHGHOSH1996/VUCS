@@ -92,4 +92,6 @@ dependencies {
     //recycle scroll
 
 
+    implementation 'com.wang.avi:library:1.0.3'
+
 }

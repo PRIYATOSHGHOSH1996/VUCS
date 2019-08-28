@@ -58,6 +58,9 @@
     <string name="my_job_post">My Job Post</string>
     <string name="notification_count_broadcast">notification_count_broadcast</string>
     <string name="career_broadcast_receiver">career_broadcast_receiver</string>
+    <string name="course">course</string>
+    <string name="sem">sem</string>
+    <string name="teacherId">teacherId</string>
 
 
     <string-array name="sort_types_phire_pawa">

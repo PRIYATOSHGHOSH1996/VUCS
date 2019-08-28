@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:orientation="vertical"
-    android:paddingTop="8dp"
-    android:paddingEnd="12dp"
-    android:paddingStart="12dp"
     android:background="@color/white">
     <LinearLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_weight="5"
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="MCA"
-            android:id="@+id/course"
-            android:textSize="24dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:gravity="start"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            />
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MCA"
+                android:id="@+id/course"
+                android:textSize="24dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="start"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                />
+            <TextView
+                android:layout_weight="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5th Sem"
+                android:id="@+id/sem"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="18dp"
+                android:gravity="end"
+                style="@style/TextAppearance.MaterialComponents.Body1"
+                />
+        </LinearLayout>
         <TextView
-            android:layout_weight="5"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            android:textSize="14dp"
+            android:id="@+id/last_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5th Sem"
-            android:id="@+id/sem"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textSize="18dp"
-            android:gravity="end"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            />
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="12dp"
+            android:text="ghjbh;lhliutiytfkuyf"/>
+        <LinearLayout
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:gravity="bottom"
+            android:background="#aaa"/>
     </LinearLayout>
-    <TextView
-        style="@style/TextAppearance.MaterialComponents.Caption"
-        android:textSize="14dp"
-        android:id="@+id/last_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp"
-        android:paddingTop="12dp"
-        android:text="ghjbh;lhliutiytfkuyf"/>
-    <LinearLayout
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:gravity="bottom"
-        android:background="#aaa"/>
+
 </LinearLayout>
 
 

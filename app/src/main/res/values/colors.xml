@@ -14,6 +14,16 @@
 
     <color name="colorPrimarytt1">#1F8AF3</color>
 
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlue">#42A5F5</color>
+    <color name="colorYellow">#fcbe1b</color>
+
+    <color name="logoDeepBlue">#212757</color>
+    <color name="logoLightBlue">#3793C4</color>
+
+    <color name="blueLight">#803793C4</color>
+    <color name="grayLight">#80888888</color>
+
 
     <color name="background">#F1F1F1</color>
     <color name="snackbar_background">#031433</color>

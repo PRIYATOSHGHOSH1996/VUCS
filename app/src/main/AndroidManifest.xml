@@ -3,28 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.vucs">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
-
     <application
         android:name=".App"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.AddClassNoticeActivity"></activity>
+        <activity android:name=".activity.ChattingActivity"></activity>
+        <activity android:name=".activity.AddClassNoticeActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.RegistrationActivity" />
-        <activity android:name=".activity.AddBlogJobActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.AddBlogJobActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.ClassNoticeActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
@@ -42,11 +38,24 @@
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"
-
             android:screenOrientation="fullUser"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.JobDetailsActivity" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher_foreground" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorPrimary1" />
+
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
         <receiver
             android:name=".receiver.DownloadCompleteReceiver"
             android:enabled="true">
@@ -54,7 +63,6 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-
         <service
             android:name=".service.FirebaseMessaging"
             android:permission="true">
@@ -62,19 +70,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher_foreground" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorPrimary1" />
-        <meta-data
-            android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" />
-        <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="false" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.SEND_DOWNLOAD_COMPLETED_INTENTS" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
