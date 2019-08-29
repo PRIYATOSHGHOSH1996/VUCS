@@ -21,7 +21,7 @@
         <activity
             android:name=".activity.AddBlogJobActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ClassNoticeActivity" />
+        <activity android:name=".activity.ChattingListingActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +41,7 @@
             android:screenOrientation="fullUser"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.JobDetailsActivity" />
+        <activity android:name=".activity.ClassNoticeActivity" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

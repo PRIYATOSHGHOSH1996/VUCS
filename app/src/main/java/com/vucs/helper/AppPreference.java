@@ -139,6 +139,24 @@ public class AppPreference {
         return prefs.getBoolean("is_firebase_token_synced", false);
     }
 
+    public boolean isFirebaseTopicSynced() {
+        return prefs.getBoolean("firetopic", false);
+    }
+    public void setFirebaseTopicSynced(boolean isSynced) {
+        prefs.edit().putBoolean("firetopic", isSynced).apply();
+    }
+    public boolean isFirebaseAllTopicSynced() {
+        return prefs.getBoolean("firealltopic", false);
+    }
+    public void setFirebaseAllTopicSynced(boolean isSynced) {
+        prefs.edit().putBoolean("firealltopic", isSynced).apply();
+    }
+    public boolean isFirebaseCurrentTopicSynced() {
+        return prefs.getBoolean("firecurrenttopic", false);
+    }
+    public void setFirebaseCurrentTopicSynced(boolean isSynced) {
+        prefs.edit().putBoolean("firecurrenttopic", isSynced).apply();
+    }
     public int getNotificationCount() {
         return prefs.getInt("uncount", 0);
     }

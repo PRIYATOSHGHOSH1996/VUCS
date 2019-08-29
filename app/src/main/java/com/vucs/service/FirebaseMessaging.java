@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.vucs.R;
+import com.vucs.activity.ChattingListingActivity;
 import com.vucs.activity.ClassNoticeActivity;
 import com.vucs.activity.HomeActivity;
 import com.vucs.activity.LoginActivity;

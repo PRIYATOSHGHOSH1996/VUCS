@@ -53,6 +53,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -160,6 +163,58 @@ public class HomeActivity extends AppCompatActivity
                         Log.e(TAG, "newToken = " + newToken);
                     }
                 });
+            }
+            if (!appPreference.isFirebaseTopicSynced()) {
+                if (Utils.isNetworkAvailable()) {
+                    FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+                    String s= appPreference.getUserCourseCode()+"_"+appPreference.getUserSem();
+                    Log.e("topic",s);
+                    FirebaseMessaging.getInstance().subscribeToTopic(s)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        appPreference.setFirebaseTopicSynced(true);
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                }
+            }
+            if (!appPreference.isFirebaseAllTopicSynced()) {
+                if (Utils.isNetworkAvailable()) {
+                    FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+                    FirebaseMessaging.getInstance().subscribeToTopic("ALL")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        appPreference.setFirebaseAllTopicSynced(true);
+                                    }
+                                }
+                            });
+
+                }
+            }
+            if (!appPreference.isFirebaseCurrentTopicSynced()) {
+                if (Utils.isNetworkAvailable()) {
+                    FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+                    FirebaseMessaging.getInstance().subscribeToTopic("CURRENT")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        appPreference.setFirebaseCurrentTopicSynced(true);
+                                    }
+                                }
+                            });
+
+                }
             }
             FrameLayout navBack = findViewById(R.id.nav_back);
             drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -663,15 +718,6 @@ public class HomeActivity extends AppCompatActivity
         viewPager.setOffscreenPageLimit(5);
 
     }
-
-    /*public void onClassNoticeClick(View view) {
-        ActivityOptionsCompat activityOptionsCompat  = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-        Intent intent = new Intent(this, ClassNoticeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent,activityOptionsCompat.toBundle());
-
-    }*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
