@@ -33,6 +33,11 @@
 
     <item android:title="@string/others">
         <menu>
+
+            <item
+                android:id="@+id/routine"
+                android:icon="@drawable/photo_library"
+                android:title="@string/routine" />
             <item
                 android:id="@+id/image_gallery"
                 android:icon="@drawable/photo_library"

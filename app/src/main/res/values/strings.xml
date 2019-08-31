@@ -61,6 +61,7 @@
     <string name="course">course</string>
     <string name="sem">sem</string>
     <string name="teacherId">teacherId</string>
+    <string name="routine">Routine</string>
 
 
     <string-array name="sort_types_phire_pawa">

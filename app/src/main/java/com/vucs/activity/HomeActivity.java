@@ -61,6 +61,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.vucs.App;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.api.ApiResponseModel;
@@ -201,7 +202,7 @@ public class HomeActivity extends AppCompatActivity
 
                 }
             }
-            if (!appPreference.isFirebaseCurrentTopicSynced()) {
+            if (!appPreference.isFirebaseCurrentTopicSynced()&&!(appPreference.getUserType()==Constants.CATEGORY_EX_STUDENT)) {
                 if (Utils.isNetworkAvailable()) {
                     FirebaseMessaging.getInstance().setAutoInitEnabled(true);
                     FirebaseMessaging.getInstance().subscribeToTopic("CURRENT")
@@ -242,6 +243,10 @@ public class HomeActivity extends AppCompatActivity
                             profile_pic.setImageDrawable(resource);
                         }
                     });
+            if (appPreference.getUserType()==Constants.CATEGORY_EX_STUDENT) {
+              MenuItem notice =(MenuItem)  navigationView.getMenu().findItem(R.id.notice);
+              notice.setVisible(false);
+            }
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);
             updateViewPager();
@@ -285,38 +290,69 @@ public class HomeActivity extends AppCompatActivity
 
                 @Override
                 public void onPageSelected(int position) {
-                    switch (position) {
-                        case 0:
-                            navigationView.setCheckedItem(R.id.blog);
-                            if (floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeOutAnimation);
-                            }
-                            break;
-                        case 1:
-                            navigationView.setCheckedItem(R.id.phire_pawa);
-                            if (floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeOutAnimation);
-                            }
-                            break;
-                        case 2:
-                            navigationView.setCheckedItem(R.id.notice);
-                            if (floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeOutAnimation);
-                            }
-                            break;
-                        case 3:
-                            navigationView.setCheckedItem(R.id.job_post);
-                            if (!floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeInAnimation);
-                            }
-                            break;
-                        case 4:
-                            navigationView.setCheckedItem(R.id.teacher);
-                            if (floatingActionButton.isShown()) {
-                                floatingActionButton.startAnimation(makeOutAnimation);
-                            }
-                            break;
+                    if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT) {
 
+                        switch (position) {
+                            case 0:
+                                navigationView.setCheckedItem(R.id.blog);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+                            case 1:
+                                navigationView.setCheckedItem(R.id.phire_pawa);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+                            case 2:
+                                navigationView.setCheckedItem(R.id.notice);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+                            case 3:
+                                navigationView.setCheckedItem(R.id.job_post);
+                                if (!floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeInAnimation);
+                                }
+                                break;
+                            case 4:
+                                navigationView.setCheckedItem(R.id.teacher);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+
+                        }
+                    }else {
+                        switch (position) {
+                            case 0:
+                                navigationView.setCheckedItem(R.id.blog);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+                            case 1:
+                                navigationView.setCheckedItem(R.id.phire_pawa);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+                            case 2:
+                                navigationView.setCheckedItem(R.id.job_post);
+                                if (!floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeInAnimation);
+                                }
+                                break;
+                            case 3:
+                                navigationView.setCheckedItem(R.id.teacher);
+                                if (floatingActionButton.isShown()) {
+                                    floatingActionButton.startAnimation(makeOutAnimation);
+                                }
+                                break;
+
+                        }
                     }
 
                 }
@@ -558,12 +594,26 @@ public class HomeActivity extends AppCompatActivity
             viewPager.setCurrentItem(2, true);
 
         } else if (id == R.id.job_post) {
-            viewPager.setCurrentItem(3, true);
+            if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT) {
+                viewPager.setCurrentItem(3, true);
+            }else {
+                viewPager.setCurrentItem(2, true);
+            }
 
         } else if (id == R.id.teacher) {
-            viewPager.setCurrentItem(4, true);
+            if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT) {
+                viewPager.setCurrentItem(4, true);
+            }else {
+                viewPager.setCurrentItem(3, true);
+            }
 
-        }else if (id == R.id.image_gallery) {
+
+        }else if (id == R.id.routine) {
+            startActivity(new Intent(HomeActivity.this, RoutineActivity.class));
+            overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+
+        }
+        else if (id == R.id.image_gallery) {
             Intent intent = new Intent(HomeActivity.this, ImageGalleryActivity.class);
             intent.putExtra(getString(R.string.folder_name), "root123");
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
@@ -769,26 +819,42 @@ public class HomeActivity extends AppCompatActivity
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+        AppPreference appPreference;
         public ViewPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
+            appPreference=new AppPreference(App.getContext());
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
             try {
-                switch (position) {
-                    case 0:
-                        return new BlogFragment();
-                    case 1:
-                        return new PhirePawaFragment();
-                    case 2:
-                        return new NoticeFragment();
-                    case 3:
-                        return new JobPostFragment();
-                    case 4:
-                        return new TeachersFragment();
+                if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT){
+                    switch (position) {
+                        case 0:
+                            return new BlogFragment();
+                        case 1:
+                            return new PhirePawaFragment();
+                        case 2:
+                            return new NoticeFragment();
+                        case 3:
+                            return new JobPostFragment();
+                        case 4:
+                            return new TeachersFragment();
+                    }
+                }else {
+                    switch (position) {
+                        case 0:
+                            return new BlogFragment();
+                        case 1:
+                            return new PhirePawaFragment();
+                        case 2:
+                            return new JobPostFragment();
+                        case 3:
+                            return new TeachersFragment();
+                    }
                 }
+
                 return null;
             } catch (Exception e) {
                 Utils.appendLog(TAG + ":viewpageradapter: " + e.getMessage() + "Date :" + new Date());
@@ -799,23 +865,40 @@ public class HomeActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 5;
+            if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT){
+                return 5;
+            }else {
+                return 4;
+            }
         }
 
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.blog);
-                case 1:
-                    return getString(R.string.phire_pawa);
-                case 2:
-                    return getString(R.string.notice);
-                case 3:
-                    return getString(R.string.job_post);
-                case 4:
-                    return getString(R.string.teachers);
+            if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT) {
+                switch (position) {
+                    case 0:
+                        return getString(R.string.blog);
+                    case 1:
+                        return getString(R.string.phire_pawa);
+                    case 2:
+                        return getString(R.string.notice);
+                    case 3:
+                        return getString(R.string.job_post);
+                    case 4:
+                        return getString(R.string.teachers);
+                }
+            }else{
+                switch (position) {
+                    case 0:
+                        return getString(R.string.blog);
+                    case 1:
+                        return getString(R.string.phire_pawa);
+                    case 2:
+                        return getString(R.string.job_post);
+                    case 3:
+                        return getString(R.string.teachers);
+                }
             }
             return super.getPageTitle(position);
         }
