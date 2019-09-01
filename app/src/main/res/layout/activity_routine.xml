@@ -16,6 +16,7 @@
         android:background="@drawable/toolbar_background_gradient"
         app:tabIndicatorColor="@android:color/holo_red_dark"
         app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/md_purple_A700"
         app:tabTextColor="@color/colorWhite" />
 
     <androidx.viewpager.widget.ViewPager

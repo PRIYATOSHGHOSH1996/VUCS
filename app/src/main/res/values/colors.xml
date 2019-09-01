@@ -31,6 +31,7 @@
     <color name="text_color">#C3000000</color>
     <color name="white_blue">#E4F0F7</color>
     <color name="black_fade">#80000000</color>
+    <color name="ass">#838282</color>
     <color name="red_400">#FF0000</color>
 
     <color name="colorPrimary1fade">#8801203D</color>

@@ -54,9 +54,15 @@ public class RoutineActivity extends AppCompatActivity {
         header_text.setText(getString(R.string.routine));
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ViewPager viewPager = findViewById(R.id.view_pager);
-        RoutinePagerAdapter adapter=new RoutinePagerAdapter(this);
+        Calendar calendar = Calendar.getInstance();
+        int dayNo=calendar.get(Calendar.DAY_OF_WEEK);
+        RoutinePagerAdapter adapter=new RoutinePagerAdapter(this,dayNo-2);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager,true);
+        if (dayNo>1&&dayNo<7){
+            viewPager.setCurrentItem(dayNo-2,true);
+        }
+
     }
     @Override
     public void onBackPressed() {
@@ -70,10 +76,16 @@ public class RoutineActivity extends AppCompatActivity {
 
     RoutineActivity context;
     RoutineViewModel routineViewModel;
-
-     RoutinePagerAdapter(RoutineActivity context) {
+    Calendar calendar;
+int dayNo;
+     RoutinePagerAdapter(RoutineActivity context, int dayNo) {
         this.context = context;
+        this.dayNo=dayNo;
         routineViewModel = ViewModelProviders.of(context).get(RoutineViewModel.class);
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
     }
 
     @Nullable
@@ -114,17 +126,36 @@ public class RoutineActivity extends AppCompatActivity {
             TextView time = layout.findViewById(R.id.time);
             TextView className= layout.findViewById(R.id.class_name);
             TextView teacherName = layout.findViewById(R.id.teacher_name);
-            TextView status = layout.findViewById(R.id.status);
+            long tm=System.currentTimeMillis()-calendar.getTimeInMillis();
+            tm = tm/1000;
+
             time.setText(getTime(routineModel.getStartTime())+"");
             className.setText(routineModel.getSubject()+"");
             teacherName.setText(routineModel.getTeacherName()+"");
 
+            if (dayNo == routineModel.getDayNo()) {
+                if (tm > routineModel.getEndTime()) {
+                    time.setTextColor(context.getResources().getColor(R.color.ass));
+                    className.setTextColor(context.getResources().getColor(R.color.ass));
+                    teacherName.setTextColor(context.getResources().getColor(R.color.ass));
+
+                } else if (tm > routineModel.getStartTime() && tm < routineModel.getEndTime()) {
+                    time.setTextColor(context.getResources().getColor(R.color.md_green_A700));
+                    className.setTextColor(context.getResources().getColor(R.color.md_green_A700));
+                    teacherName.setTextColor(context.getResources().getColor(R.color.md_green_A700));
+                } else {
+                    time.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                    className.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                    teacherName.setTextColor(context.getResources().getColor(R.color.colorBlack));
+                }
+            }
             linearLayout.addView(layout);
         }
 
         container.addView(linearLayout);
         return linearLayout;
     }
+
 
     private String getTime(long time){
         Calendar calendar =Calendar.getInstance();
