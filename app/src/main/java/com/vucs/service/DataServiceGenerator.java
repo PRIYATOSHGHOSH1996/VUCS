@@ -11,15 +11,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DataServiceGenerator {
+    static {
+        System.loadLibrary("vucs");
+    }
+    public static  native String getBaseURL();
     public static <S> S createService(Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
 
+
         Retrofit.Builder builder = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl("http://sarasij.com/vucs_up/pf-admin/api/");
-        //.baseUrl("http://www.frametrics.com/trackpay/api/");
+                .baseUrl(getBaseURL());
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)

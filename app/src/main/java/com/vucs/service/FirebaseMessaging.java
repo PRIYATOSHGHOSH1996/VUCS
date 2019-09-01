@@ -127,11 +127,22 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 case Constants.ALL_DATA_UPDATE:
                     allDataUpdate(data);
                     break;
+                case Constants.BATCH_UPDATE:
+                    batchUpdate(data);
+                    break;
                 default:
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void batchUpdate(Map<String, String> data) {
+        AppPreference appPreference = new AppPreference(getBaseContext());
+        appPreference.setUserCourse(data.get("course"));
+        appPreference.setUserCourseCode(Integer.parseInt(Objects.requireNonNull(data.get("course_code"))));
+        appPreference.setUserSem(Integer.parseInt(Objects.requireNonNull(data.get("sem"))));
+        appPreference.setUserType(Integer.parseInt(Objects.requireNonNull(data.get("user_type"))));
     }
 
     private void allDataUpdate(Map<String, String> data) {

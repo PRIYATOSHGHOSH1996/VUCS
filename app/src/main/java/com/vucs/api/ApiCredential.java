@@ -12,9 +12,17 @@ public class ApiCredential {
     private String apiLogin;
     private String apiPass;
 
+    static {
+        System.loadLibrary("vucs");
+    }
+
+    public native String getUsername();
+
+    public native String getPassword();
+
     public ApiCredential() {
-        this.apiLogin  = getContext().getString(R.string.apiLogin);
-        this.apiPass   = getContext().getString(R.string.apiPass);
+        this.apiLogin  = getUsername();
+        this.apiPass   = getPassword();
     }
 
     public String getApiLogin() {

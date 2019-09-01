@@ -21,6 +21,15 @@ public interface RoutineDAO {
             " LEFT JOIN dt_teacher ON dt_routine.teacher_id = dt_teacher.id WHERE day_no=:dayNo ORDER BY start_time ")
     public List<RoutineDisplayModel> getAllRoutineByDayNo(int dayNo);
 
+    @Query("SELECT dt_routine.*,dt_teacher.name as teacherName FROM dt_routine" +
+            " LEFT JOIN dt_teacher ON dt_routine.teacher_id = dt_teacher.id WHERE day_no=:dayNo AND course=:course AND sem=:sem ORDER BY start_time ")
+    public List<RoutineDisplayModel> getAllRoutineForStudent(int dayNo,int course,int sem);
+
+    @Query("SELECT dt_routine.*,dt_teacher.name as teacherName FROM dt_routine" +
+            " LEFT JOIN dt_teacher ON dt_routine.teacher_id = dt_teacher.id WHERE day_no=:dayNo AND teacher_id=:teacherId ORDER BY start_time ")
+    public List<RoutineDisplayModel> getAllRoutineForTeacher(int dayNo,String teacherId);
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertRoutine(RoutineModel routineModel);
 

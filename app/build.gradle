@@ -33,6 +33,11 @@ android {
     configurations {
         all*.exclude group: 'com.google.guava', module: 'listenablefuture'
     }
+    externalNativeBuild {
+        ndkBuild {
+            path 'src/main/jni/Android.mk'
+        }
+    }
 }
 
 dependencies {

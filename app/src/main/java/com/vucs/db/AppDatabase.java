@@ -134,18 +134,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
             teacherDAO.insertTeacher(new TeacherModel("d","teacher 1","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
             teacherDAO.insertTeacher(new TeacherModel("w","teacher 2","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
-            teacherDAO.insertTeacher(new TeacherModel("q","teacher 3","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
+            teacherDAO.insertTeacher(new TeacherModel("3","teacher 3","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
             teacherDAO.insertTeacher(new TeacherModel("a","teacher 4","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
             teacherDAO.insertTeacher(new TeacherModel("s","teacher 5","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
             teacherDAO.insertTeacher(new TeacherModel("x","teacher 6","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "jhfesduy", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
 
 
-            routineDAO.insertRoutine(new RoutineModel(0,36752,40352,"w","AI",1,6));
+            routineDAO.insertRoutine(new RoutineModel(0,36752,40352,"3","AI",1,6));
             routineDAO.insertRoutine(new RoutineModel(0,40352,43952,"a","web",1,6));
             routineDAO.insertRoutine(new RoutineModel(0,43952,47552 ,"d","java",1,6));
             routineDAO.insertRoutine(new RoutineModel(0,47552 ,52352,"s","c",1,6));
-            routineDAO.insertRoutine(new RoutineModel(0,52752,57352,"x","c++",1,6));
-            routineDAO.insertRoutine(new RoutineModel(0,57352,62352,"w","net wr",1,6));
+            routineDAO.insertRoutine(new RoutineModel(0,52752,57352,"x","c++",1,4));
+            routineDAO.insertRoutine(new RoutineModel(0,57352,62352,"3","net wr",2,4));
             routineDAO.insertRoutine(new RoutineModel(0,62352,67352,"w","AI",1,6));
            /* noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh"));
             noticeDAO.insertClassNotice(new ClassNoticeModel("This is a Dummy Text To Test The View", new Date(), "priyatosh ghosh weyuuuuuuuuuuuuuuuuuuuuuuuuugoaiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiirn"));

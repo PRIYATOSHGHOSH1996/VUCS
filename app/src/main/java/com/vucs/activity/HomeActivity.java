@@ -246,6 +246,7 @@ public class HomeActivity extends AppCompatActivity
             if (appPreference.getUserType()==Constants.CATEGORY_EX_STUDENT) {
               MenuItem notice =(MenuItem)  navigationView.getMenu().findItem(R.id.notice);
               notice.setVisible(false);
+                ((MenuItem)  navigationView.getMenu().findItem(R.id.routine)).setVisible(false);
             }
             navigationView.setNavigationItemSelectedListener(this);
             viewPager = findViewById(R.id.view_pager);

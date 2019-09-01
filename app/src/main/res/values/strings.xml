@@ -44,8 +44,6 @@
     <string name="user_id">user_id</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="registration">Registration</string>
-    <string name="apiLogin">VUcsK95</string>
-    <string name="apiPass">VUcsPri96</string>
     <string name="my_profile">My Profile</string>
     <string name="server_error">Server Error</string>
     <string name="dashboard_receiver_action">dashboard_receiver_action</string>

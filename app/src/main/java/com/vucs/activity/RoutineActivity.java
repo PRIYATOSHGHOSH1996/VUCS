@@ -21,6 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.vucs.R;
 import com.vucs.dao.RoutineDAO;
 import com.vucs.db.AppDatabase;
+import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.model.RoutineDisplayModel;
 import com.vucs.model.RoutineModel;
 import com.vucs.viewmodel.RoutineViewModel;
@@ -29,6 +31,7 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -77,7 +80,10 @@ public class RoutineActivity extends AppCompatActivity {
     RoutineActivity context;
     RoutineViewModel routineViewModel;
     Calendar calendar;
-int dayNo;
+    int dayNo;
+    AppPreference appPreference;
+    String[] courses;
+    String[] sems;
      RoutinePagerAdapter(RoutineActivity context, int dayNo) {
         this.context = context;
         this.dayNo=dayNo;
@@ -86,6 +92,9 @@ int dayNo;
         calendar.set(Calendar.HOUR_OF_DAY,0);
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,0);
+        appPreference = new AppPreference(context);
+        courses=context.getResources().getStringArray(R.array.category_name);
+        sems=context.getResources().getStringArray(R.array.semesters);
     }
 
     @Nullable
@@ -116,11 +125,16 @@ int dayNo;
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(context);
-
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        List<RoutineDisplayModel> routineModels = routineViewModel.getAllRoutineByDayNo(position);
+        List<RoutineDisplayModel> routineModels = Collections.emptyList();
+        if (appPreference.getUserType()== Constants.CATEGORY_TEACHER){
+            routineModels = routineViewModel.getAllRoutineForTeacher(position,appPreference.getUserId());
+        }else if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+            routineModels = routineViewModel.getAllRoutineForStudent(position,appPreference.getUserCourseCode(),appPreference.getUserSem());
+        }
+
         for (RoutineDisplayModel routineModel:routineModels){
             ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.item_routine, container, false);
             TextView time = layout.findViewById(R.id.time);
@@ -131,7 +145,12 @@ int dayNo;
 
             time.setText(getTime(routineModel.getStartTime())+"");
             className.setText(routineModel.getSubject()+"");
-            teacherName.setText(routineModel.getTeacherName()+"");
+
+            if (appPreference.getUserType()== Constants.CATEGORY_TEACHER){
+                teacherName.setText(courses[routineModel.getCourse()]+"\n"+sems[routineModel.getSem()]);
+            }else if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+                teacherName.setText(routineModel.getTeacherName()+"");
+            }
 
             if (dayNo == routineModel.getDayNo()) {
                 if (tm > routineModel.getEndTime()) {
