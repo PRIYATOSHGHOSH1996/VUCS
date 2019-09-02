@@ -13,6 +13,8 @@ public class Constants {
     public static boolean UPDATING_JOB=false;
     public static boolean UPDATING_NOTICE=false;
     public static boolean UPDATING_USER=false;
+    public static boolean UPDATING_TEACHER=false;
+    public static boolean UPDATING_ROUTINE=false;
 
 
 
@@ -26,6 +28,8 @@ public class Constants {
     public static final int CAREER_UPDATE        =8;
     public static final int FORCED_LOGOUT        =9;
     public static final int BATCH_UPDATE         =10;
+    public static final int ROUTINE_UPDATE         =11;
+    public static final int TEACHER_UPDATE         =12;
 
 
 

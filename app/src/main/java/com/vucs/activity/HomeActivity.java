@@ -58,7 +58,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.vucs.App;
@@ -75,6 +74,7 @@ import com.vucs.fragment.PhirePawaFragment;
 import com.vucs.fragment.TeachersFragment;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
+import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
@@ -487,7 +487,7 @@ public class HomeActivity extends AppCompatActivity
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
-            showSnackBar("Press back again to exit VUCS");
+            Snackbar.show(this,findViewById(R.id.coordinator),"Press back again to exit VUCS");
 
             new Handler().postDelayed(new Runnable() {
 
@@ -637,60 +637,6 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void showSnackBar(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG);
-        View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
-        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextAppearance(this, R.style.mySnackbarStyle);
-        snackbar.show();
-    }
-
-    private void showSnackBarWithNetworkAction(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG)
-                .setAction("Open Setting", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent();
-                        i.setAction(Settings.ACTION_WIRELESS_SETTINGS);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                    }
-                });
-        View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
-        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
-        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
-        textView.setTextAppearance(this, R.style.mySnackbarStyle);
-        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
-        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
-        snackbar.show();
-    }
-
-    private void showSnackBarWithRetryStoragePermission(String message) {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG)
-                .setAction("Open Setting", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(HomeActivity.this, "Please allow storage permission");
-                        Intent i = new Intent();
-                        i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        i.addCategory(Intent.CATEGORY_DEFAULT);
-                        i.setData(Uri.parse("package:" + getPackageName()));
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        // User selected the Never Ask Again Option
-                        startActivity(i);
-                    }
-                });
-        View view = snackbar.getView();
-        view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
-        TextView textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
-        TextView textView1 = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_action);
-        textView.setTextAppearance(this, R.style.mySnackbarStyle);
-        textView1.setTextAppearance(this, R.style.mySnackbarStyle);
-        textView1.setTextColor(getResources().getColor(R.color.colorAccent));
-        snackbar.show();
-    }
 
     @Override
     public void downloadFile(NoticeModel noticeModel) {
@@ -709,7 +655,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void download() {
         try {
-            if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")) {
+            if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")&&!noticeModel.getDownloadURL().equals("")) {
                 if (Utils.isNetworkAvailable()) {
                     Toast.makeText(this, "Downloading ...");
                     DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -730,7 +676,7 @@ public class HomeActivity extends AppCompatActivity
 
                     downloadManager.enqueue(request);
                 } else {
-                    showSnackBarWithNetworkAction("Internet connection not available");
+                    Snackbar.withNetworkAction(this,findViewById(R.id.coordinator),"Internet connection not available");
                 }
             }
         } catch (Exception e) {
@@ -748,11 +694,11 @@ public class HomeActivity extends AppCompatActivity
                 download();
             }
             else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
-                showSnackBarWithRetryStoragePermission("Please give storage permission.");
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.coordinator),"Please give storage permission.");
 
 
             } else {
-                showSnackBar("Please give storage permission");
+                Snackbar.show(this,findViewById(R.id.coordinator),"Please give storage permission");
             }
         }
 

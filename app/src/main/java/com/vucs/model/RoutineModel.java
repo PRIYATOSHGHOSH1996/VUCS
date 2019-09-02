@@ -41,7 +41,7 @@ public class RoutineModel {
     @ColumnInfo(name = "course")
     private int course;
 
-    @SerializedName("sem")
+    @SerializedName("semester")
     @ColumnInfo(name = "sem")
     private int sem;
 

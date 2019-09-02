@@ -30,6 +30,9 @@ public interface RoutineDAO {
     public List<RoutineDisplayModel> getAllRoutineForTeacher(int dayNo,String teacherId);
 
 
+    @Query("SELECT dt_routine.day_no FROM dt_routine GROUP BY day_no ORDER BY day_no ")
+    public List<Integer> getDays();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertRoutine(RoutineModel routineModel);
 

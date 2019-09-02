@@ -82,7 +82,6 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
 
 
         } catch (Exception e) {
-            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 

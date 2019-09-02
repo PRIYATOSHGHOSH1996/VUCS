@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.vucs.R;
-import com.vucs.activity.ChattingListingActivity;
 import com.vucs.activity.ClassNoticeActivity;
 import com.vucs.activity.HomeActivity;
 import com.vucs.activity.LoginActivity;
@@ -21,12 +20,16 @@ import com.vucs.api.ApiImageUpdateModel;
 import com.vucs.api.ApiJobPostUpdateModel;
 import com.vucs.api.ApiNoticeUpdateModel;
 import com.vucs.api.ApiPhirePawaUpdateModel;
+import com.vucs.api.ApiRoutineUpdateModel;
+import com.vucs.api.ApiTeacherUpdateModel;
 import com.vucs.api.Service;
 import com.vucs.dao.BlogDAO;
 import com.vucs.dao.ImageGalleryDAO;
 import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.dao.PhirePawaProfileDAO;
+import com.vucs.dao.RoutineDAO;
+import com.vucs.dao.TeacherDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
@@ -38,6 +41,8 @@ import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
 import com.vucs.model.NoticeModel;
+import com.vucs.model.RoutineModel;
+import com.vucs.model.TeacherModel;
 import com.vucs.model.UserModel;
 
 import java.lang.ref.WeakReference;
@@ -130,11 +135,21 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 case Constants.BATCH_UPDATE:
                     batchUpdate(data);
                     break;
+                case Constants.ROUTINE_UPDATE:
+                    routineUpdate(data);
+                    break;
+                case Constants.TEACHER_UPDATE:
+                    teacherUpdate(data);
+                    break;
                 default:
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void teacherUpdate(Map<String, String> data) {
+        new UpdateTeacher(getBaseContext()).execute();
     }
 
     private void batchUpdate(Map<String, String> data) {
@@ -162,6 +177,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         new UpdateImage(getContext()).execute();
     }
 
+    private void routineUpdate(Map<String, String> data) {
+        new UpdateRoutine(getContext()).execute();
+    }
 
     private void jobUpdate(Map<String, String> data) {
         Intent intent1 = new Intent(getContext(), HomeActivity.class);
@@ -188,7 +206,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         try {
             AppPreference appPreference = new AppPreference(getContext());
             if (appPreference.getUserType()==2) {
-                ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), data.get("sem"));
+                ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), data.get("sem"), data.get("url"));
                 AppDatabase database = AppDatabase.getDatabase(getContext());
                 NoticeDAO noticeDAO = database.noticeDAO();
                 noticeDAO.insertClassNotice(classNoticeModel);
@@ -729,6 +747,174 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         @Override
         protected String doInBackground(Void... voids) {
           GetDataService.updateData(weakReference.get());
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateRoutine extends AsyncTask<Void, Void, String> {
+        RoutineDAO routineDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateRoutine(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            routineDAO = db.routineDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiRoutineUpdateModel> call = service.getRoutine(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiRoutineUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiRoutineUpdateModel> call, Response<ApiRoutineUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiRoutineUpdateModel apiRoutineUpdateModel = response.body();
+                                    Log.e(TAG, "Api blog Response:\n" + response.body().toString());
+                                    List<RoutineModel> routineModels = apiRoutineUpdateModel.getRoutineModels();
+
+                                    Thread routineThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (!Constants.UPDATING_ROUTINE) {
+                                                        Constants.UPDATING_ROUTINE = true;
+                                                        routineDAO.deleteAllRoutine();
+                                                        routineDAO.insertRoutine(routineModels);
+                                                        Constants.UPDATING_ROUTINE = false;
+                                                    }
+
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.routine_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
+
+                                        }
+                                    });
+
+
+                                    routineThread.start();
+
+                                    routineThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiRoutineUpdateModel> call, Throwable t) {
+                        Log.e(TAG, "OnFailure " + t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+    }
+
+    private static class UpdateTeacher extends AsyncTask<Void, Void, String> {
+        TeacherDAO teacherDAO;
+        private WeakReference<Context> weakReference;
+
+        UpdateTeacher(Context context) {
+            weakReference = new WeakReference<>(context);
+            AppDatabase db = AppDatabase.getDatabase(weakReference.get());
+            teacherDAO = db.teacherDAO();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                final Service service = DataServiceGenerator.createService(Service.class);
+                Call<ApiTeacherUpdateModel> call = service.getTeacher(new ApiCredentialWithUserId());
+                call.enqueue(new Callback<ApiTeacherUpdateModel>() {
+                    @Override
+                    public void onResponse(Call<ApiTeacherUpdateModel> call, Response<ApiTeacherUpdateModel> response) {
+                        if (response.isSuccessful()) {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                            if (response.body() != null) {
+                                try {
+                                    ApiTeacherUpdateModel apiTeacherUpdateModel = response.body();
+                                    Log.e(TAG, "Api blog Response:\n" + response.body().toString());
+                                    List<TeacherModel> teacherModels = apiTeacherUpdateModel.getTeacherModels();
+
+                                    Thread teacherThread = new Thread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (!Constants.UPDATING_TEACHER) {
+                                                        Constants.UPDATING_TEACHER = true;
+                                                        teacherDAO.deleteAllTeacher();
+                                                        teacherDAO.insertTeacher(teacherModels);
+                                                        Constants.UPDATING_TEACHER = false;
+                                                    }
+
+                                                }
+                                            }
+                                    );
+
+
+                                    Thread completed = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (weakReference.get()!=null) {
+                                                Intent in = new Intent(weakReference.get().getString(R.string.teacher_broadcast_receiver));
+                                                getContext().sendBroadcast(in);
+                                            }
+
+                                        }
+                                    });
+
+
+                                    teacherThread.start();
+
+                                    teacherThread.join();
+
+                                    completed.start();
+                                    completed.join();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            Log.e(TAG, "Response code: " + response.code() + "");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiTeacherUpdateModel> call, Throwable t) {
+                        Log.e(TAG, "OnFailure " + t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
 

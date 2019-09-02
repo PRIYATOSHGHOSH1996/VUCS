@@ -1,9 +1,11 @@
 package com.vucs.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,10 +29,17 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     private WeakReference<Context> weakReference;
     AppPreference appPreference;
     private String TAG = "classnoticeAdapter";
+    private CallbackInterface mCallback;
 
     public RecyclerViewClassNoticeAdapter(Context context) {
         weakReference = new WeakReference<>(context);
         appPreference=new AppPreference(context);
+        try {
+            mCallback = (CallbackInterface) weakReference.get();
+        } catch (ClassCastException ex) {
+            //.. should log the error or throw and exception
+            Log.e("MyAdapter", "Must implement the CallbackInterface in the Activity", ex);
+        }
     }
 
     public void addNotice(List<ClassNoticeModel> classNoticeModels) {
@@ -49,8 +58,12 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
             final ClassNoticeModel classNoticeModel = classNoticeModelList.get(position);
+            if (classNoticeModel.getFileUrl()==null||classNoticeModel.getFileUrl().equals("")){
+                holder.download.setVisibility(View.GONE);
+            }else {
+                holder.download.setVisibility(View.VISIBLE);
+            }
             holder.notice_title.setText(classNoticeModel.getNoticeTitle());
-
             String date = "";
 
             SimpleDateFormat format = new SimpleDateFormat("MMM dd, hh:mm a  ");
@@ -62,10 +75,15 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
             else {
                 holder.notice_by.setText( "From " + classNoticeModel.getNoticeBy());
             }
+            holder.download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.downloadFile(classNoticeModel);
 
+                }
+            });
 
         } catch (Exception e) {
-            Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
         }
 
@@ -77,10 +95,14 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
         return classNoticeModelList.size();
     }
 
+    public interface CallbackInterface {
 
+        void downloadFile(ClassNoticeModel classNoticeModel);
+    }
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView notice_title, notice_date, notice_by;
         LinearLayout linearLayout;
+        ImageButton download;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +110,7 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
             notice_date = itemView.findViewById(R.id.notice_date);
             notice_by = itemView.findViewById(R.id.notice_by);
             linearLayout = itemView.findViewById(R.id.bottom_layout);
+            download = itemView.findViewById(R.id.download);
 
         }
     }

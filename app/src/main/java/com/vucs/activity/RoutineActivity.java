@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,11 +60,14 @@ public class RoutineActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
         Calendar calendar = Calendar.getInstance();
         int dayNo=calendar.get(Calendar.DAY_OF_WEEK);
-        RoutinePagerAdapter adapter=new RoutinePagerAdapter(this,dayNo-2);
+        RoutineViewModel routineViewModel=ViewModelProviders.of(this).get(RoutineViewModel.class);
+        List<Integer> days = routineViewModel.getDays();
+        Log.e("days",days.toString());
+        RoutinePagerAdapter adapter=new RoutinePagerAdapter(this,dayNo-1,days);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager,true);
-        if (dayNo>1&&dayNo<7){
-            viewPager.setCurrentItem(dayNo-2,true);
+        if (days.size()>0&&(dayNo-1)>=days.get(0)&&(dayNo-1)<=days.get(days.size()-1)){
+            viewPager.setCurrentItem(dayNo-1,true);
         }
 
     }
@@ -84,28 +88,33 @@ public class RoutineActivity extends AppCompatActivity {
     AppPreference appPreference;
     String[] courses;
     String[] sems;
-     RoutinePagerAdapter(RoutineActivity context, int dayNo) {
-        this.context = context;
-        this.dayNo=dayNo;
-        routineViewModel = ViewModelProviders.of(context).get(RoutineViewModel.class);
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        appPreference = new AppPreference(context);
-        courses=context.getResources().getStringArray(R.array.category_name);
-        sems=context.getResources().getStringArray(R.array.semesters);
-    }
+    List<Integer> days;
 
-    @Nullable
+     public RoutinePagerAdapter(RoutineActivity routineActivity, int i, List<Integer> days) {
+         this.context = routineActivity;
+         this.dayNo=i;
+         routineViewModel = ViewModelProviders.of(context).get(RoutineViewModel.class);
+         calendar = Calendar.getInstance();
+         calendar.set(Calendar.HOUR_OF_DAY,0);
+         calendar.set(Calendar.MINUTE,0);
+         calendar.set(Calendar.SECOND,0);
+         appPreference = new AppPreference(context);
+         courses=context.getResources().getStringArray(R.array.category_name);
+         sems=context.getResources().getStringArray(R.array.semesters);
+         this.days=days;
+     }
+
+     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
-            case 0:return "Monday";
-            case 1:return "Tuesday";
-            case 2:return "Wednesday";
-            case 3:return "Thursday";
-            case 4:return "Friday";
+        switch (days.get(position)){
+            case 0:return "Sunday";
+            case 1:return "Monday";
+            case 2:return "Tuesday";
+            case 3:return "Wednesday";
+            case 4:return "Thursday";
+            case 5:return "Friday";
+            case 6:return "Saturday";
 
         }
         return super.getPageTitle(position);
@@ -118,7 +127,7 @@ public class RoutineActivity extends AppCompatActivity {
 
     @Override
     public int getCount() {
-        return 5;
+        return days.size();
     }
 
     @NonNull
@@ -130,9 +139,9 @@ public class RoutineActivity extends AppCompatActivity {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         List<RoutineDisplayModel> routineModels = Collections.emptyList();
         if (appPreference.getUserType()== Constants.CATEGORY_TEACHER){
-            routineModels = routineViewModel.getAllRoutineForTeacher(position,appPreference.getUserId());
+            routineModels = routineViewModel.getAllRoutineForTeacher(days.get(position),appPreference.getUserId());
         }else if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
-            routineModels = routineViewModel.getAllRoutineForStudent(position,appPreference.getUserCourseCode(),appPreference.getUserSem());
+            routineModels = routineViewModel.getAllRoutineForStudent(days.get(position),appPreference.getUserCourseCode(),appPreference.getUserSem());
         }
 
         for (RoutineDisplayModel routineModel:routineModels){

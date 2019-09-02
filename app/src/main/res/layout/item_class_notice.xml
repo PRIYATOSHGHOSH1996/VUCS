@@ -50,11 +50,25 @@
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="April 23, 2019"
-
                 android:transitionName="@string/item_date" />
 
-        </LinearLayout>
 
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/download"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_below="@id/bottom_layout"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_height="40dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/button_background_square"
+            android:src="@drawable/download_icon"
+            android:tint="@color/white"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
     <View

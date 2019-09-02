@@ -5,51 +5,62 @@
 JNIEXPORT jstring JNICALL
 Java_com_vucs_service_DataServiceGenerator_getBaseURL(JNIEnv *env, jobject instance) {
 
-    /* char k1 = 'h';
-     char k2 = 't';
-     char k3 = 't';
-     char k4 = 'p';
-     char k5 = 's';
-     char k6 = ':';
-     char k7 = '/';
-     char k8 = '/';
-     char k9 = 'w';
-     char k10 = 'w';
-     char k11 = 'w';
-     char k12 = '.';
-     char k13 = 't';
-     char k14 = 'r';
-     char k15 = 'a';
-     char k16 = 'c';
-     char k17 = 'k';
-     char k18 = 'b';
-     char k19 = 'e';
-     char k20 = 'e';
-     char k21 = '.';
-     char k22 = 'c';
-     char k23 = 'o';
-     char k24 = 'm';
-     char k25 = '/';
-     char k26 = 's';
-     char k27 = 'u';
-     char k28 = 'r';
-     char k29 = 'v';
-     char k30 = 'e';
-     char k31 = 'y';
-     char k32 = '_';
-     char k33 = 'v';
-     char k34 = '8';
-     char k35 = '/';
-     char k36 = 'c';
-     char k37 = 'o';
-     char k38 = 'n';
-     char k39 = 'n';
-     char k40 = 'e';
-     char k41 = 'c';
-     char k42 = 't';
-     char k43 = '/';
- */
     char k1 = 'h';
+    char k2 = 't';
+    char k3 = 't';
+    char k4 = 'p';
+    char k5 = 's';
+    char k6 = ':';
+    char k7 = '/';
+    char k8 = '/';
+    char k9 = '1';
+    char k10 = '9';
+    char k11 = '2';
+    char k12 = '.';
+    char k13 = '1';
+    char k14 = '6';
+    char k15 = '8';
+    char k16 = '.';
+    char k17 = '0';
+    char k18 = '.';
+    char k19 = '6';
+    char k20 = '/';
+    char k21 = 'P';
+    char k22 = 'r';
+    char k23 = 'o';
+    char k24 = 'j';
+    char k25 = 'e';
+    char k26 = 'c';
+    char k27 = 't';
+    char k28 = 's';
+    char k29 = '/';
+    char k30 = 'v';
+    char k31 = 'u';
+    char k32 = 'c';
+    char k33 = 's';
+    char k34 = '_';
+    char k35 = 'a';
+    char k36 = 'd';
+    char k37 = 'm';
+    char k38 = 'i';
+    char k39 = 'n';
+    char k40 = '/';
+    char k41 = 'p';
+    char k42 = 'f';
+    char k43 = '-';
+    char k44 = 'a';
+    char k45 = 'd';
+    char k46 = 'm';
+    char k47 = 'i';
+    char k48 = 'n';
+    char k49 = '/';
+    char k50 = 'a';
+    char k51 = 'p';
+    char k52 = 'i';
+    char k53 = '/';
+
+
+    /*char k1 = 'h';
     char k2 = 't';
     char k3 = 't';
     char k4 = 'p';
@@ -89,10 +100,10 @@ Java_com_vucs_service_DataServiceGenerator_getBaseURL(JNIEnv *env, jobject insta
     char k38 = 'a';
     char k39 = 'p';
     char k40 = 'i';
-    char k41 = '/';
+    char k41 = '/';*/
 
-    //char key [SIZE] = {k1,k2,k3,k4,k5,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21,k22,k23,k24,k25,k26,k27,k28,k29,k30,k31,k32,k33,k34,k35,k36,k37,k38,k39,k40,k41,k42,k43,'\0'};
-    char key [SIZE] = {k1,k2,k3,k4,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21,k22,k23,k24,k25,k26,k27,k28,k29,k30,k31,k32,k33,k34,k35,k36,k37,k38,k39,k40,k41,'\0'};
+    char key [SIZE] = {k1,k2,k3,k4,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21,k22,k23,k24,k25,k26,k27,k28,k29,k30,k31,k32,k33,k34,k35,k36,k37,k38,k39,k40,k41,k42,k43,k44,k45,k46,k47,k48,k49,k50,k51,k52,k53,'\0'};
+//    char key [SIZE] = {k1,k2,k3,k4,k6,k7,k8,k9,k10,k11,k12,k13,k14,k15,k16,k17,k18,k19,k20,k21,k22,k23,k24,k25,k26,k27,k28,k29,k30,k31,k32,k33,k34,k35,k36,k37,k38,k39,k40,k41,'\0'};
     return (*env)->NewStringUTF(env, key);
 }
 JNIEXPORT jstring JNICALL

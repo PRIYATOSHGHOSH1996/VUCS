@@ -21,7 +21,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.vucs.R;
-import com.vucs.activity.PreviewFile;
+import com.vucs.activity.PreviewImageGalleryImageActivity;
 import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
 import com.vucs.model.ImageGalleryModel;
@@ -98,7 +98,7 @@ public class RecyclerViewImageGalleryAdapter extends RecyclerView.Adapter<Recycl
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(weakReference.get(), PreviewFile.class);
+                    Intent intent = new Intent(weakReference.get(), PreviewImageGalleryImageActivity.class);
                     intent. putExtra("list", (Serializable) imageGalleryModelList);
                     intent. putExtra("position", position);
                     Pair<View, String> p = Pair.create((View) holder.imageView, "transition");

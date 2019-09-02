@@ -24,6 +24,8 @@ import com.vucs.dao.ImageGalleryDAO;
 import com.vucs.dao.JobDAO;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.dao.PhirePawaProfileDAO;
+import com.vucs.dao.RoutineDAO;
+import com.vucs.dao.TeacherDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
@@ -33,6 +35,8 @@ import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
 import com.vucs.model.NoticeModel;
+import com.vucs.model.RoutineModel;
+import com.vucs.model.TeacherModel;
 import com.vucs.model.UserModel;
 
 import java.lang.ref.WeakReference;
@@ -56,6 +60,8 @@ public class GetDataService extends IntentService {
     private static  JobDAO jobDAO;
     private static  NoticeDAO noticeDAO;
     private static  PhirePawaProfileDAO phirePawaProfileDAO;
+    private static TeacherDAO teacherDAO;
+    private static RoutineDAO routineDAO;
 
     public GetDataService() {
         super("GetData Service");
@@ -105,6 +111,8 @@ public class GetDataService extends IntentService {
             jobDAO = db.jobDAO();
             noticeDAO = db.noticeDAO();
             phirePawaProfileDAO = db.phirePawaProfileDAO();
+            teacherDAO = db.teacherDAO();
+            routineDAO = db.routineDAO();
             Service service = DataServiceGenerator.createService(Service.class);
             // add another part within the multipart request
             Call<ApiUpdateModel> call = service.getAllData(new ApiCredentialWithUserId());
@@ -127,7 +135,9 @@ public class GetDataService extends IntentService {
                              List <JobModel> jobModels=apiUpdateModel.getJobModels();
                              List<NoticeModel> noticeModels=apiUpdateModel.getNoticeModels();
                              List<UserModel> userModels=apiUpdateModel.getUserModels();
-                                Log.e(TAG, "Api image Response:\n" + apiUpdateModel.getImageGalleryModels().toString());
+                             List<TeacherModel> teacherModels =apiUpdateModel.getTeacherModels();
+                             List<RoutineModel> routineModels = apiUpdateModel.getRoutineModels();
+                                Log.e(TAG, "Api routine:\n" + apiUpdateModel.getRoutineModels().toString());
 
                              Thread blogThread = new Thread(
                                         new Runnable() {
@@ -233,6 +243,34 @@ public class GetDataService extends IntentService {
                                             }
                                         }
                                 );
+                                Thread teacherThread = new Thread(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                if (!Constants.UPDATING_TEACHER) {
+                                                    Constants.UPDATING_TEACHER=true;
+                                                    teacherDAO.deleteAllTeacher();
+                                                    teacherDAO.insertTeacher(teacherModels);
+                                                    Constants.UPDATING_TEACHER=false;
+                                                }
+                                            }
+                                        }
+                                );
+                                Thread routineThread = new Thread(
+                                        new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                if (!Constants.UPDATING_ROUTINE) {
+                                                    Constants.UPDATING_ROUTINE=true;
+                                                    routineDAO.deleteAllRoutine();
+                                                    routineDAO.insertRoutine(routineModels);
+                                                    Constants.UPDATING_ROUTINE=false;
+                                                }
+                                            }
+                                        }
+                                );
 
                                 Thread completed = new Thread(new Runnable() {
                                     @Override
@@ -255,6 +293,8 @@ public class GetDataService extends IntentService {
                                 jobThread.start();
                                 noticeThread.start();
                                 userThread.start();
+                                teacherThread.start();
+                                routineThread.start();
 
                                 //eventThread.join();
                                 blogThread.join();
@@ -263,6 +303,8 @@ public class GetDataService extends IntentService {
                                 jobThread.join();
                                 noticeThread.join();
                                 userThread.join();
+                                teacherThread.join();
+                                routineThread.join();
 
                                 completed.start();
                                 completed.join();

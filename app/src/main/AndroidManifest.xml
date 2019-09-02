@@ -35,7 +35,7 @@
         <activity android:name=".activity.BlogDetailsActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.ChatRoomActivity" />
-        <activity android:name=".activity.PreviewFile" />
+        <activity android:name=".activity.PreviewImageGalleryImageActivity" />
         <activity
             android:name=".activity.HomeActivity"
             android:label="@string/app_name"

@@ -1,14 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+ext.versionMajor = 1 //MAJOR version when you make incompatible API changes (2 digits)
+ext.versionMinor = 0 //MINOR version when you add functionality in a backwards-compatible manner (3 digits)
+ext.versionPatch = 1 //PATCH version when you make backwards-compatible bug fixes (2 digits)
+ext.versionClassifier = "beta"
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.vucs"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
             annotationProcessorOptions {
@@ -18,7 +22,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -99,4 +105,18 @@ dependencies {
 
     implementation 'com.wang.avi:library:1.0.3'
 
+}
+
+
+private Integer generateVersionCode() {
+    return ext.versionMajor * 100000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "v" + "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName;
 }

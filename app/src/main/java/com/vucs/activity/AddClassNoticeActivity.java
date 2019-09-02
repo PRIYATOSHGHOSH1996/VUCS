@@ -1,21 +1,32 @@
 package com.vucs.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.filelibrary.exception.ActivityOrFragmentNullException;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.vucs.R;
 import com.vucs.api.ApiClassNoticeModel;
 import com.vucs.api.ApiResponseModel;
@@ -23,6 +34,7 @@ import com.vucs.api.Service;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.ClassNoticeModel;
@@ -31,7 +43,6 @@ import com.vucs.service.DataServiceGenerator;
 import java.lang.ref.WeakReference;
 import java.util.Date;
 
-import dagger.Binds;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +52,10 @@ public class AddClassNoticeActivity extends AppCompatActivity {
     private static String TAG = "Add Class Notice Activity";
     private int sem = 0;
     private int course = 0;
-
+private Uri fileUri;
+private ImageView fileView;
+    private static final int REQUEST_WRITE_PERMISSIONS = 103;
+    private static final int REQUEST_GET_FILE = 109;
     TextView header_text;
     Spinner spinner;
     Spinner courseSp;
@@ -53,40 +67,40 @@ public class AddClassNoticeActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.sem);
         courseSp = findViewById(R.id.course);
+        fileView = findViewById(R.id.show_file);
         EditText text = findViewById(R.id.text);
         Button submit = findViewById(R.id.submit);
-courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position != 0) {
-            String[] a;
-            spinner.setVisibility(View.VISIBLE);
-            if (position==1){
-                a= getResources().getStringArray(R.array.semesters);
-            }else{
-                a= getResources().getStringArray(R.array.semesters4th);
+        courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    String[] a;
+                    spinner.setVisibility(View.VISIBLE);
+                    if (position == 1) {
+                        a = getResources().getStringArray(R.array.semesters);
+                    } else {
+                        a = getResources().getStringArray(R.array.semesters4th);
+                    }
+
+                    course = position;
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            AddClassNoticeActivity.this,
+                            android.R.layout.simple_spinner_item,
+                            a
+                    );
+                    spinner.setAdapter(adapter);
+                } else {
+                    course = 0;
+                    sem = 0;
+                    spinner.setVisibility(View.INVISIBLE);
+                }
             }
 
-            course = position;
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                    AddClassNoticeActivity.this,
-                    android.R.layout.simple_spinner_item,
-                    a
-            );
-            spinner.setAdapter(adapter);
-        }
-        else {
-                course=0;
-                sem=0;
-                spinner.setVisibility(View.INVISIBLE);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-});
+        });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -100,17 +114,16 @@ courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         });
 
         submit.setOnClickListener(v -> {
-            if (course==0){
+            if (course == 0) {
                 Toast.makeText(this, "Please select course");
-            }
-           else if (sem == 0) {
+            } else if (sem == 0) {
                 Toast.makeText(this, "Please select semester");
             } else if (text.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please enter messages");
             } else if (!Utils.isNetworkAvailable()) {
                 Toast.makeText(this, getString(R.string.no_internet_connection));
             } else {
-                new SendMessage(this, text.getText().toString(), course,sem).execute();
+                new SendMessage(this, text.getText().toString(), course, sem).execute();
             }
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -135,6 +148,157 @@ courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
     }
 
+    public void addFile(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSIONS);
+            }
+            else {
+                getFile();
+            }
+        }else {
+            getFile();
+        }
+    }
+
+    private void getFile() {
+        showGetFileDialog();
+    }
+
+    public void deleteFile(View view) {
+        fileUri=null;
+        fileView.setImageResource(R.drawable.box_shadow1);
+    }
+    private String getUriType(Uri uri){
+        try {
+
+            ContentResolver cR = getContentResolver();
+            return cR.getType(uri);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    private boolean isImageUri(Uri uri) {
+
+        try {
+            String[] s = uri.toString().split("\\.");
+            if (s[s.length - 1].equals("jpg"))
+                return true;
+            if (getUriType(uri).contains("image")) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+    private void showGetFileDialog() {
+        BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.item_get_file_layout, null);
+        ImageView camera = sheetView.findViewById(R.id.camera);
+        ImageView file_manager = sheetView.findViewById(R.id.file_manager);
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetDialog.dismiss();
+                try {
+                    com.filelibrary.Utils.with(AddClassNoticeActivity.this)
+                            .getImageFromCamera()
+                            .compressEnable(true)
+                            .cropEnable(true)
+                            .getResult(new com.filelibrary.Callback() {
+                                @Override
+                                public void onSuccess(Uri uri, String filePath) {
+                                    fileUri = uri;
+                                    fileView.setImageURI(uri);
+
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+
+                                }
+                            })
+                            .start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        file_manager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetDialog.dismiss();
+                try {
+                    com.filelibrary.Utils.with(AddClassNoticeActivity.this)
+                            .getFile()
+                            .cropEnable(true)
+                            .compressEnable(true)
+                            .getResult(new com.filelibrary.Callback() {
+                                @Override
+                                public void onSuccess(Uri uri, String filePath) {
+                                    fileUri = uri;
+                                    Log.e("fileuri",fileUri.toString());
+                                    if (isImageUri(uri)){
+                                        fileView.setImageURI(uri);
+                                    }
+                                    else {
+                                        fileView.setImageResource(R.drawable.ic_insert_drive_file_gray_24dp);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+
+                                }
+                            }).start();
+                } catch (ActivityOrFragmentNullException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        mBottomSheetDialog.setContentView(sheetView);
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setCancelable(true);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        com.filelibrary.Utils.Builder.notifyPermissionsChange(requestCode,permissions,grantResults);
+        if (requestCode == REQUEST_WRITE_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getFile();
+            } else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage permission.");
+            } else {
+                Snackbar.show(this,findViewById(R.id.parent),"Please give storage permission");
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        com.filelibrary.Utils.Builder.notifyActivityChange(requestCode,resultCode,data);
+    }
+
+    public void onImageClick(View view) {
+        if (fileUri!=null){
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(fileUri, getUriType(fileUri));
+            startActivity(intent);
+        }
+        else {
+            Snackbar.show(this,findViewById(R.id.parent),"File not set");
+        }
+    }
+
     private static class SendMessage extends AsyncTask<Void, Void, Void> {
         private static WeakReference<AddClassNoticeActivity> weakReference;
         private String message;
@@ -145,7 +309,7 @@ courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         private NoticeDAO noticeDAO;
 
 
-        SendMessage(AddClassNoticeActivity context, String message,int course, int sem) {
+        SendMessage(AddClassNoticeActivity context, String message, int course, int sem) {
             weakReference = new WeakReference<>(context);
             this.message = message;
             this.sem = sem;
@@ -188,7 +352,7 @@ courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
                 final ApiClassNoticeModel apiClassNoticeModel = new ApiClassNoticeModel(appPreference.getUserId(),
-                        appPreference.getUserName(),course, sem, message);
+                        appPreference.getUserName(), course, sem, message);
                 Call<ApiResponseModel> call = service.sendClassNotice(apiClassNoticeModel);
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
@@ -205,9 +369,9 @@ courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         return;
 
                                     try {
-                                        String[] courses=weakReference.get().getResources().getStringArray(R.array.category_name);
-                                        String[] semester=weakReference.get().getResources().getStringArray(R.array.semesters);
-                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), courses[course]+"("+semester[sem]+")"));
+                                        String[] courses = weakReference.get().getResources().getStringArray(R.array.category_name);
+                                        String[] semester = weakReference.get().getResources().getStringArray(R.array.semesters);
+                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), courses[course] + "(" + semester[sem] + ")", ""));
                                         activity.onBackPressed();
                                         Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                         progressDialog.dismiss();

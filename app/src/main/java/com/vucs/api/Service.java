@@ -87,6 +87,14 @@ public interface Service {
     @POST("fetch_blogs")
     Call<ApiBlogUpdateModel> getBlog(@Body ApiCredentialWithUserId credentials);
 
+    /* API for fetching all routine */
+    @POST("fetch_blogs")
+    Call<ApiRoutineUpdateModel> getRoutine(@Body ApiCredentialWithUserId credentials);
+
+    /* API for fetching all teacher */
+    @POST("fetch_blogs")
+    Call<ApiTeacherUpdateModel> getTeacher(@Body ApiCredentialWithUserId credentials);
+
     /* API for fetching all Jobs */
     @POST("fetch_job")
     Call<ApiJobPostUpdateModel> getJob(@Body ApiCredentialWithUserId credentials);

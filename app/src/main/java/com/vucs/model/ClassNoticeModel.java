@@ -33,17 +33,22 @@ public class ClassNoticeModel {
     @ColumnInfo(name = "sem")
     private String sem;
 
+    @SerializedName("file_url")
+    @ColumnInfo(name = "file_url")
+    private String fileUrl;
+
 
     @Ignore
     public ClassNoticeModel() {
 
     }
 
-    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy, String sem) {
+    public ClassNoticeModel(String noticeTitle, Date date, String noticeBy, String sem, String fileUrl) {
         this.noticeTitle = noticeTitle;
         this.date = date;
         this.noticeBy = noticeBy;
         this.sem = sem;
+        this.fileUrl = fileUrl;
     }
 
     public int getNoticeId() {
@@ -86,6 +91,14 @@ public class ClassNoticeModel {
         this.sem = sem;
     }
 
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
     @Override
     public String toString() {
         return "ClassNoticeModel{" +
@@ -94,6 +107,7 @@ public class ClassNoticeModel {
                 ", date=" + date +
                 ", noticeBy='" + noticeBy + '\'' +
                 ", sem='" + sem + '\'' +
+                ", fileUrl='" + fileUrl + '\'' +
                 '}';
     }
 }

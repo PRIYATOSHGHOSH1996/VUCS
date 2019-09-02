@@ -38,4 +38,8 @@ public class RoutineViewModel extends AndroidViewModel {
     public List<RoutineDisplayModel> getAllRoutineForTeacher(int dayNo,String teacherId){
         return routineDAO.getAllRoutineForTeacher(dayNo,teacherId);
     }
+
+    public List<Integer> getDays(){
+        return routineDAO.getDays();
+    }
 }
