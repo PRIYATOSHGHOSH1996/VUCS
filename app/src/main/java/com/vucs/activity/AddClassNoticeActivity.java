@@ -3,6 +3,7 @@ package com.vucs.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -34,15 +35,21 @@ import com.vucs.api.Service;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.ProgressRequestBody;
 import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.ClassNoticeModel;
 import com.vucs.service.DataServiceGenerator;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.Date;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -215,6 +222,7 @@ private ImageView fileView;
                                     fileUri = uri;
                                     fileView.setImageURI(uri);
 
+
                                 }
 
                                 @Override
@@ -242,6 +250,7 @@ private ImageView fileView;
                                 public void onSuccess(Uri uri, String filePath) {
                                     fileUri = uri;
                                     Log.e("fileuri",fileUri.toString());
+
                                     if (isImageUri(uri)){
                                         fileView.setImageURI(uri);
                                     }
@@ -265,7 +274,23 @@ private ImageView fileView;
         mBottomSheetDialog.show();
         mBottomSheetDialog.setCancelable(true);
     }
+    public static String getMimeType(Context context, Uri uri) {
+        String extension;
 
+        //Check uri format to avoid null
+        if (uri.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            //If scheme is a content
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            extension = mime.getExtensionFromMimeType(context.getContentResolver().getType(uri));
+        } else {
+            //If scheme is a File
+            //This will replace white spaces with %20 and also other special characters. This will avoid returning null values on file name with spaces and special characters.
+            extension = MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(new File(uri.getPath())).toString());
+
+        }
+
+        return extension;
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -299,7 +324,7 @@ private ImageView fileView;
         }
     }
 
-    private static class SendMessage extends AsyncTask<Void, Void, Void> {
+    public static class SendMessage extends AsyncTask<Void, Void, Void> implements ProgressRequestBody.UploadCallbacks{
         private static WeakReference<AddClassNoticeActivity> weakReference;
         private String message;
         private int sem;
@@ -353,7 +378,31 @@ private ImageView fileView;
                 final Service service = DataServiceGenerator.createService(Service.class);
                 final ApiClassNoticeModel apiClassNoticeModel = new ApiClassNoticeModel(appPreference.getUserId(),
                         appPreference.getUserName(), course, sem, message);
-                Call<ApiResponseModel> call = service.sendClassNotice(apiClassNoticeModel);
+                Call<ApiResponseModel> call;
+                if (weakReference.get().fileUri!=null){
+                    File directory = weakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
+                    directory.mkdir();
+                    InputStream in = weakReference.get().getContentResolver().openInputStream(weakReference.get().fileUri);
+                    byte[] buffer = new byte[in.available()];
+                    in.read(buffer);
+                    File file;
+
+                        file = new File(directory, "classnotice" + "."+getMimeType(weakReference.get(),weakReference.get().fileUri));
+
+                    OutputStream outStream = new FileOutputStream(file);
+                    outStream.write(buffer);
+                    outStream.close();
+                    in.close();
+                    Log.e("files length", file.length() + "");
+                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", AddClassNoticeActivity.SendMessage.this, "Uploading File " );
+                    MultipartBody.Part jobFile =
+                            MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
+                    call = service.sendClassNoticeWithFile(apiClassNoticeModel,jobFile);
+
+                }else {
+                    call = service.sendClassNotice(apiClassNoticeModel);
+                }
+
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
                     public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
@@ -415,6 +464,21 @@ private ImageView fileView;
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        public void onProgressUpdate(int percentage, String title) {
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+
+        @Override
+        public void onFinish(String title) {
+
         }
     }
 }

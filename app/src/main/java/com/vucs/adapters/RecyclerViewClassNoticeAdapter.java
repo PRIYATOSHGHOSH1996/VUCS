@@ -58,6 +58,7 @@ public class RecyclerViewClassNoticeAdapter extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         try {
             final ClassNoticeModel classNoticeModel = classNoticeModelList.get(position);
+            Log.e("cls nt",classNoticeModel.toString());
             if (classNoticeModel.getFileUrl()==null||classNoticeModel.getFileUrl().equals("")){
                 holder.download.setVisibility(View.GONE);
             }else {

@@ -79,6 +79,11 @@ public interface Service {
     @POST("add_class_notification")
     Call<ApiResponseModel> sendClassNotice(@Body ApiClassNoticeModel apiClassNoticeModel);
 
+    //     API for send class notice
+    @Multipart
+    @POST("add_class_notification")
+    Call<ApiResponseModel> sendClassNoticeWithFile(@Body ApiClassNoticeModel apiClassNoticeModel,@Part MultipartBody.Part jobFile);
+
     /* API for fetching all data */
     @POST("fetch_all_data")
     Call<ApiUpdateModel> getAllData(@Body ApiCredentialWithUserId credentials);
