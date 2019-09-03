@@ -33,6 +33,10 @@ public class NoticeModel {
     @ColumnInfo(name = "download_url")
     private String downloadURL;
 
+
+    @ColumnInfo(name = "file_path")
+    private String filePath="";
+
     @Ignore
     public NoticeModel() {
 
@@ -43,6 +47,14 @@ public class NoticeModel {
         this.date = date;
         this.noticeBy = noticeBy;
         this.downloadURL = downloadURL;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public int getNoticeId() {
@@ -94,6 +106,7 @@ public class NoticeModel {
                 ", date=" + date +
                 ", noticeBy='" + noticeBy + '\'' +
                 ", downloadURL='" + downloadURL + '\'' +
+                ", filePath='" + filePath + '\'' +
                 '}';
     }
 }

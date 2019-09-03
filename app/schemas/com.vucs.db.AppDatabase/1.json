@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4ac638d2394e027a30e1706b7199a1c2",
+    "identityHash": "d94155169044f8356b880acfa7d0b061",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "dt_notice",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT, `file_path` TEXT)",
         "fields": [
           {
             "fieldPath": "noticeId",
@@ -97,6 +97,12 @@
           {
             "fieldPath": "downloadURL",
             "columnName": "download_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "filePath",
+            "columnName": "file_path",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -650,7 +656,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4ac638d2394e027a30e1706b7199a1c2\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d94155169044f8356b880acfa7d0b061\")"
     ]
   }
 }

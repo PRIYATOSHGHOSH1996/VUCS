@@ -53,7 +53,7 @@ public class NoticeFragment extends Fragment {
     private void initView() {
         try {
             RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-            adapter = new RecyclerViewNoticeAdapter(getContext());
+            adapter = new RecyclerViewNoticeAdapter(getContext(),recyclerView);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             noticeViewModel = ViewModelProviders.of(this).get(NoticeViewModel.class);

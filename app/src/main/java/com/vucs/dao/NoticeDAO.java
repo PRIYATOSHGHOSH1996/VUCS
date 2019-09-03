@@ -29,6 +29,9 @@ public interface NoticeDAO {
     @Query("SELECT * FROM dt_class_notice ORDER BY date DESC")
     public List<ClassNoticeModel> getAllClassNotice();
 
+    @Query("UPDATE dt_notice SET file_path=:filPath WHERE notice_id=:id")
+    public void updateFilePath(int id,String filPath);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertClassNotice(ClassNoticeModel classNoticeModel);
 

@@ -2,7 +2,6 @@ package com.vucs.activity;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,13 +10,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -46,6 +43,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
@@ -66,6 +64,7 @@ import com.vucs.adapters.RecyclerViewNoticeAdapter;
 import com.vucs.api.ApiResponseModel;
 import com.vucs.api.ApiUploadFirebaseTokenModel;
 import com.vucs.api.Service;
+import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.fragment.BlogFragment;
 import com.vucs.fragment.JobPostFragment;
@@ -80,8 +79,14 @@ import com.vucs.helper.Utils;
 import com.vucs.model.NoticeModel;
 import com.vucs.service.DataServiceGenerator;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -115,6 +120,8 @@ public class HomeActivity extends AppCompatActivity
     FloatingActionButton floatingActionButton;
     Animation makeOutAnimation;
     FrameLayout notification_circle;
+    RecyclerView recyclerView;
+    int position;
     TextView notice_count;
    BroadcastReceiver notificationCountBroadCast = new BroadcastReceiver() {
         @Override
@@ -639,8 +646,10 @@ public class HomeActivity extends AppCompatActivity
 
 
     @Override
-    public void downloadFile(NoticeModel noticeModel) {
+    public void downloadFile(RecyclerView recyclerViewNoticeAdapter, int position, NoticeModel noticeModel) {
         this.noticeModel = noticeModel;
+        this.recyclerView = recyclerViewNoticeAdapter;
+        this.position = position;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 download();
@@ -652,18 +661,116 @@ public class HomeActivity extends AppCompatActivity
         }
 
     }
+    private static class DownloadFile extends AsyncTask<String, Integer, String> {
+        WeakReference<HomeActivity> context;
+        WeakReference<RecyclerView> recyclerViewWeakReference;
+        File file;
+        int position;
+        NoticeModel noticeModel;
+        NoticeDAO noticeDAO;
+        public DownloadFile(HomeActivity homeActivity, RecyclerView recyclerViewNoticeAdapter, int position, NoticeModel noticeModel) {
+            context = new WeakReference<>(homeActivity);
+            recyclerViewWeakReference = new WeakReference<>(recyclerViewNoticeAdapter);
+            this.position=position;
+            this.noticeModel=noticeModel;
+            String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
+            String s1[] = s.split("\\.");
+            s = s1[s1.length - 1];
+            File wallpaperDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+ "/VUCS ClassNotice/" + "/");
+            // have the object build the directory structure, if needed.
+            wallpaperDirectory.mkdirs();
+            file = new File(wallpaperDirectory, noticeModel.getNoticeTitle()+System.currentTimeMillis() + "." + s);
+            AppDatabase db=AppDatabase.getDatabase(context.get());
+            noticeDAO = db.noticeDAO();
+
+        }
+
+        @Override
+        protected String doInBackground(String... sUrl) {
+            try {
+
+                URL url = new URL(noticeModel.getDownloadURL());
+
+                URLConnection connection = url.openConnection();
+                connection.connect();
+                // this will be useful so that you can show a typical 0-100% progress bar
+                int fileLength = connection.getContentLength();
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream());
+
+                OutputStream output = new FileOutputStream(file.getPath() );
+
+                byte data[] = new byte[1024];
+                long total = 0;
+                int count;
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    publishProgress((int) (total * 100 / fileLength));
+                    output.write(data, 0, count);
+                }
+
+                output.flush();
+                output.close();
+                input.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            super.onProgressUpdate(progress);
+            Log.e("progress",progress[0]+"");
+            if (recyclerViewWeakReference.get()!=null){
+                RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
+                if (progress[0]>=100){
+                    noticeDAO.updateFilePath(noticeModel.getNoticeId(),file.getPath());
+                    noticeModel.setFilePath(file.getPath());
+                    holder.progressBar.setVisibility(View.GONE);
+                    ( (RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).noticeModelList.set(position,noticeModel);
+                    ( (RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).notifyDataSetChanged();
+                }
+                else {
+                    holder.progressBar.setProgress(progress[0]);
+                }
+
+
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (recyclerViewWeakReference.get()!=null){
+                RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
+                holder.progressBar.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
     private void download() {
         try {
             if (noticeModel != null && !noticeModel.getDownloadURL().equals("default")&&!noticeModel.getDownloadURL().equals("")) {
                 if (Utils.isNetworkAvailable()) {
-                    Toast.makeText(this, "Downloading ...");
-                    DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                    Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
+                    //Toast.makeText(this, "Downloading ...");
 
-                    String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
+                    new DownloadFile(this,recyclerView,position,noticeModel).execute();
+                    /*DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+                    Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
+ String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
                     String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
+
                     Log.e("fie name with ex = ", s);
                     Log.e("fie name = ", s1.length + "");
                     DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
@@ -674,7 +781,7 @@ public class HomeActivity extends AppCompatActivity
                     request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Notice/" + "/" + noticeModel.getNoticeTitle() + "." + s);
 
 
-                    downloadManager.enqueue(request);
+                    downloadManager.enqueue(request);*/
                 } else {
                     Snackbar.withNetworkAction(this,findViewById(R.id.coordinator),"Internet connection not available");
                 }
