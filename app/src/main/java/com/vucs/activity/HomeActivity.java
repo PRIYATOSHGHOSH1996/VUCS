@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -76,6 +77,7 @@ import com.vucs.helper.Constants;
 import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
+import com.vucs.model.NoticeFileModel;
 import com.vucs.model.NoticeModel;
 import com.vucs.service.DataServiceGenerator;
 
@@ -315,15 +317,23 @@ public class HomeActivity extends AppCompatActivity
                                 break;
                             case 2:
                                 navigationView.setCheckedItem(R.id.notice);
+
                                 if (floatingActionButton.isShown()) {
                                     floatingActionButton.startAnimation(makeOutAnimation);
                                 }
                                 break;
                             case 3:
                                 navigationView.setCheckedItem(R.id.job_post);
-                                if (!floatingActionButton.isShown()) {
-                                    floatingActionButton.startAnimation(makeInAnimation);
+                                if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+                                    if (floatingActionButton.isShown()) {
+                                        floatingActionButton.startAnimation(makeOutAnimation);
+                                    }
+                                }else {
+                                    if (!floatingActionButton.isShown()) {
+                                        floatingActionButton.startAnimation(makeInAnimation);
+                                    }
                                 }
+
                                 break;
                             case 4:
                                 navigationView.setCheckedItem(R.id.teacher);
@@ -676,10 +686,10 @@ public class HomeActivity extends AppCompatActivity
             String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
             String s1[] = s.split("\\.");
             s = s1[s1.length - 1];
-            File wallpaperDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+ "/VUCS ClassNotice/" + "/");
+            File wallpaperDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+ "/VUCS Notice/" + "/");
             // have the object build the directory structure, if needed.
             wallpaperDirectory.mkdirs();
-            file = new File(wallpaperDirectory, noticeModel.getNoticeTitle()+System.currentTimeMillis() + "." + s);
+            file = new File(wallpaperDirectory, noticeModel.getNoticeTitle()+noticeModel.getNoticeId() + "." + s);
             AppDatabase db=AppDatabase.getDatabase(context.get());
             noticeDAO = db.noticeDAO();
 
@@ -724,20 +734,23 @@ public class HomeActivity extends AppCompatActivity
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
             Log.e("progress",progress[0]+"");
-            if (recyclerViewWeakReference.get()!=null){
-                RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
-                if (progress[0]>=100){
-                    noticeDAO.updateFilePath(noticeModel.getNoticeId(),file.getPath());
-                    noticeModel.setFilePath(file.getPath());
-                    holder.progressBar.setVisibility(View.GONE);
-                    ( (RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).noticeModelList.set(position,noticeModel);
-                    ( (RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).notifyDataSetChanged();
-                }
-                else {
-                    holder.progressBar.setProgress(progress[0]);
-                }
+            try {
+                if (recyclerViewWeakReference.get()!=null){
+                    RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
+                    if (progress[0]>=100){
+                        NoticeFileModel noticeFileModel = new NoticeFileModel(noticeModel.getNoticeId(),file.getPath());
+                        noticeDAO.insertNoticeFile(noticeFileModel);
+                        holder.progressBar.setVisibility(View.GONE);
+                        ((RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).sparseBooleanArray.put(position,true);
+                    }
+                    else {
+                        holder.progressBar.setProgress(progress[0]);
+                    }
 
 
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
@@ -754,6 +767,7 @@ public class HomeActivity extends AppCompatActivity
             if (recyclerViewWeakReference.get()!=null){
                 RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
                 holder.progressBar.setVisibility(View.VISIBLE);
+                ((RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).sparseBooleanArray.put(position,true);
             }
         }
     }

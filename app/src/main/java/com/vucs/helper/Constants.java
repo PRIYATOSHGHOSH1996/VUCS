@@ -5,6 +5,10 @@ public class Constants {
     public static final int LANDSCAPE_COLUMN_COUNT = 5;
 
 
+    public static final int MAX_JOB_FILE_SELECT = 5;
+    public static final int MAX_FILE_SIZE_SELECT = 20;
+
+
 
     public static boolean UPDATING_EVENT=false;
     public static boolean UPDATING_CAREER=false;

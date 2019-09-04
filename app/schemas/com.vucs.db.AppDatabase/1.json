@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d94155169044f8356b880acfa7d0b061",
+    "identityHash": "a272636f31fbcb65eaaf2da79b0d47bd",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "dt_notice",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT, `file_path` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT)",
         "fields": [
           {
             "fieldPath": "noticeId",
@@ -97,12 +97,6 @@
           {
             "fieldPath": "downloadURL",
             "columnName": "download_url",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "filePath",
-            "columnName": "file_path",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -651,12 +645,64 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "dt_notice_file",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER NOT NULL, `notice_file_uri` TEXT, PRIMARY KEY(`notice_id`))",
+        "fields": [
+          {
+            "fieldPath": "noticeId",
+            "columnName": "notice_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noticeFileURI",
+            "columnName": "notice_file_uri",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "notice_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "dt_class_notice_file",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER NOT NULL, `notice_file_uri` TEXT, PRIMARY KEY(`notice_id`))",
+        "fields": [
+          {
+            "fieldPath": "noticeId",
+            "columnName": "notice_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "noticeFileURI",
+            "columnName": "notice_file_uri",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "notice_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d94155169044f8356b880acfa7d0b061\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a272636f31fbcb65eaaf2da79b0d47bd\")"
     ]
   }
 }

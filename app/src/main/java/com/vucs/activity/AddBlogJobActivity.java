@@ -37,6 +37,7 @@ import com.vucs.api.Service;
 import com.vucs.dao.JobDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.helper.ProgressRequestBody;
 import com.vucs.helper.Toast;
 import com.vucs.model.JobFileModel;
@@ -113,7 +114,11 @@ public class AddBlogJobActivity extends AppCompatActivity {
         uriList = new ArrayList<>();
         add_file.setOnClickListener(v -> {
                     Log.e(TAG, "uri list = " + uriList.toString());
-                    showGetFileDialog();
+                    if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
+                        showGetFileDialog();
+                    }else {
+                        com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
+                    }
                 }
         );
 
@@ -242,10 +247,15 @@ public class AddBlogJobActivity extends AppCompatActivity {
         Utils.Builder.notifyActivityChange(requestCode, resultCode, data);
         if (requestCode == CHOOSE_MULTIPLE_FILE_REQUEST_CODE) {
             if (null != data) { // checking empty selection
-                if (null != data.getClipData()) { // checking multiple selection or not
-                    for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-                        Uri uri = data.getClipData().getItemAt(i).getUri();
-                        addImage(uri);
+                if (null != data.getClipData()) {
+                    // checking multiple selection or not
+                    if ((data.getClipData().getItemCount()+uriList.size())<=Constants.MAX_JOB_FILE_SELECT) {
+                        for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                            Uri uri = data.getClipData().getItemAt(i).getUri();
+                            addImage(uri);
+                        }
+                    }else {
+                        com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
                     }
                 } else {
                     Uri uri = data.getData();

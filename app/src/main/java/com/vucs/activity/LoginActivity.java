@@ -319,23 +319,7 @@ public class LoginActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    private void openDialog( String s){
-        Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
-        ((ViewGroup)dialog.getWindow().getDecorView())
-                .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
-                        this,R.anim.dialog_anim));
-        View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
-        TextView textView=view.findViewById(R.id.text);
-        textView.setText(s);
-        Button ok = view.findViewById(R.id.ok);
-        ok.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
-        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        dialog.addContentView(view,layoutParams);
-        dialog.setCancelable(false);
-        dialog.show();
-    }
+
 
     private static class CheckingUser extends AsyncTask<Void, Void, Void> {
         private static WeakReference<LoginActivity> weakReference;
@@ -431,7 +415,7 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
                                     }
 
-                                    activity.openDialog(apiLoginResponseModel.getMessage());
+                                    Utils.openDialog(activity,apiLoginResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
                                     Log.e(TAG, apiLoginResponseModel.getMessage());
@@ -518,7 +502,7 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
 
                                     try {
-                                        activity.openDialog(apiResponseModel.getMessage());
+                                        Utils.openDialog(activity,apiResponseModel.getMessage());
                                         activity.progressBarToButton();
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -531,7 +515,7 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
                                     }
 
-                                    activity.openDialog(apiResponseModel.getMessage());
+                                    Utils.openDialog(activity,apiResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
                                     Log.e(TAG, apiResponseModel.getMessage());

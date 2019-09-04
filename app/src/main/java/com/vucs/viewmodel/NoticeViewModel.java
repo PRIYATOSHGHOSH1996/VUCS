@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.model.ClassNoticeModel;
+import com.vucs.model.NoticeFileModel;
 import com.vucs.model.NoticeModel;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public class NoticeViewModel extends AndroidViewModel {
         super(application);
         AppDatabase db = AppDatabase.getDatabase(application);
         noticeDAO = db.noticeDAO();
+    }
+
+    public NoticeFileModel getNoticeFile(int id){
+        return  noticeDAO.getNoticeFile(id);
     }
 
     public List<NoticeModel> getAllNotice() {

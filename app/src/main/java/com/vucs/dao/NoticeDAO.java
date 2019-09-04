@@ -5,7 +5,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.vucs.model.ClassNoticeFileModel;
 import com.vucs.model.ClassNoticeModel;
+import com.vucs.model.NoticeFileModel;
 import com.vucs.model.NoticeModel;
 
 import java.util.List;
@@ -17,6 +19,12 @@ public interface NoticeDAO {
     @Query("SELECT * FROM dt_notice ORDER BY date DESC")
     public List<NoticeModel> getAllNotice();
 
+    @Query("SELECT * FROM dt_notice_file WHERE notice_id=:id")
+    public NoticeFileModel getNoticeFile(int id);
+
+    @Query("SELECT * FROM dt_class_notice_file WHERE notice_id=:id")
+    public ClassNoticeFileModel getClassNoticeFile(int id);
+
     @Query("DELETE FROM dt_notice")
     public void deleteAllNotice();
 
@@ -26,11 +34,15 @@ public interface NoticeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertNotice(List<NoticeModel> noticeModel);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertNoticeFile(NoticeFileModel noticeFileModel);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertClassNoticeFile(ClassNoticeFileModel classNoticeFileModel);
+
     @Query("SELECT * FROM dt_class_notice ORDER BY date DESC")
     public List<ClassNoticeModel> getAllClassNotice();
 
-    @Query("UPDATE dt_notice SET file_path=:filPath WHERE notice_id=:id")
-    public void updateFilePath(int id,String filPath);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertClassNotice(ClassNoticeModel classNoticeModel);

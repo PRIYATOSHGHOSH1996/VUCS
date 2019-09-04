@@ -25,11 +25,13 @@ import com.vucs.dao.TeacherDAO;
 import com.vucs.model.BlogModel;
 import com.vucs.model.CareerModel;
 import com.vucs.model.ChattingModel;
+import com.vucs.model.ClassNoticeFileModel;
 import com.vucs.model.ClassNoticeModel;
 import com.vucs.model.EventModel;
 import com.vucs.model.ImageGalleryModel;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
+import com.vucs.model.NoticeFileModel;
 import com.vucs.model.NoticeModel;
 import com.vucs.model.RoutineModel;
 import com.vucs.model.TeacherModel;
@@ -37,7 +39,7 @@ import com.vucs.model.UserModel;
 
 import static com.vucs.App.getContext;
 
-@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class, TeacherModel.class, ChattingModel.class, RoutineModel.class}, version = 1)
+@Database(entities = {BlogModel.class, NoticeModel.class, EventModel.class, ImageGalleryModel.class, JobFileModel.class, JobModel.class, ClassNoticeModel.class, CareerModel.class , UserModel.class, TeacherModel.class, ChattingModel.class, RoutineModel.class, NoticeFileModel.class, ClassNoticeFileModel.class}, version = 1)
 @TypeConverters({DateTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 

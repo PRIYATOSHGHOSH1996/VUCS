@@ -1,6 +1,7 @@
 package com.vucs.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,12 +13,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,11 +35,14 @@ import com.filelibrary.exception.ActivityOrFragmentNullException;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.vucs.R;
 import com.vucs.api.ApiClassNoticeModel;
+import com.vucs.api.ApiClassNoticeResponseModel;
+import com.vucs.api.ApiCredential;
 import com.vucs.api.ApiResponseModel;
 import com.vucs.api.Service;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.helper.ProgressRequestBody;
 import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
@@ -43,6 +51,7 @@ import com.vucs.model.ClassNoticeModel;
 import com.vucs.service.DataServiceGenerator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -50,6 +59,7 @@ import java.lang.ref.WeakReference;
 import java.util.Date;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -247,15 +257,26 @@ private ImageView fileView;
                             .compressEnable(true)
                             .getResult(new com.filelibrary.Callback() {
                                 @Override
-                                public void onSuccess(Uri uri, String filePath) {
-                                    fileUri = uri;
-                                    Log.e("fileuri",fileUri.toString());
+                                public void onSuccess(Uri uri, String filePath)  {
 
-                                    if (isImageUri(uri)){
-                                        fileView.setImageURI(uri);
-                                    }
-                                    else {
-                                        fileView.setImageResource(R.drawable.ic_insert_drive_file_gray_24dp);
+                                    Log.e("fileuri",uri.toString());
+                                    try {
+                                        InputStream in = getContentResolver().openInputStream(uri);
+                                        Log.e("file size",in.available()+"");
+                                        if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
+                                            fileUri = uri;
+
+                                            if (isImageUri(uri)) {
+                                                fileView.setImageURI(uri);
+                                            } else {
+                                                fileView.setImageResource(R.drawable.ic_insert_drive_file_gray_24dp);
+                                            }
+                                        }
+                                        else {
+                                            Utils.openDialog(AddClassNoticeActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
                                 }
 
@@ -330,8 +351,11 @@ private ImageView fileView;
         private int sem;
         private int course;
         private AppPreference appPreference;
-        private ProgressDialog progressDialog;
+
         private NoticeDAO noticeDAO;
+        TextView progressText;
+        ProgressBar progressBar;
+        Dialog dialog;
 
 
         SendMessage(AddClassNoticeActivity context, String message, int course, int sem) {
@@ -340,9 +364,21 @@ private ImageView fileView;
             this.sem = sem;
             this.course = course;
             appPreference = new AppPreference(context);
-            progressDialog = new ProgressDialog(context);
             AppDatabase db = AppDatabase.getDatabase(context);
             noticeDAO = db.noticeDAO();
+
+            dialog = new Dialog(weakReference.get(), R.style.my_dialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    weakReference.get(),R.anim.dialog_anim));
+            View view=weakReference.get().getLayoutInflater().inflate(R.layout.dialoge_loading,null);
+            progressText=view.findViewById(R.id.text);
+            progressBar=view.findViewById(R.id.progress_bar);
+            progressText.setText("Please wait...");
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view,layoutParams);
+            dialog.setCancelable(false);
+
 
 
         }
@@ -354,9 +390,7 @@ private ImageView fileView;
             if (activity == null || activity.isFinishing()) {
                 return;
             }
-            progressDialog.setMessage("Sending ...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+            dialog.show();
         }
 
         @Override
@@ -378,7 +412,15 @@ private ImageView fileView;
                 final Service service = DataServiceGenerator.createService(Service.class);
                 final ApiClassNoticeModel apiClassNoticeModel = new ApiClassNoticeModel(appPreference.getUserId(),
                         appPreference.getUserName(), course, sem, message);
-                Call<ApiResponseModel> call;
+                ApiCredential apiCredential=new ApiCredential();
+                RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
+                RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
+                RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
+                RequestBody userName = RequestBody.create(MultipartBody.FORM, appPreference.getUserName() + "");
+                RequestBody courseR = RequestBody.create(MultipartBody.FORM, course + "");
+                RequestBody semR = RequestBody.create(MultipartBody.FORM, sem + "");
+                RequestBody messageR = RequestBody.create(MultipartBody.FORM, message + "");
+                Call<ApiClassNoticeResponseModel> call;
                 if (weakReference.get().fileUri!=null){
                     File directory = weakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
                     directory.mkdir();
@@ -394,22 +436,23 @@ private ImageView fileView;
                     outStream.close();
                     in.close();
                     Log.e("files length", file.length() + "");
-                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", AddClassNoticeActivity.SendMessage.this, "Uploading File " );
+                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", AddClassNoticeActivity.SendMessage.this, "Uploading File ..." );
                     MultipartBody.Part jobFile =
                             MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
-                    call = service.sendClassNoticeWithFile(apiClassNoticeModel,jobFile);
+
+                    call = service.sendClassNoticeWithFile(apiLogin,apiPass,userId,userName,courseR,semR,messageR,jobFile);
 
                 }else {
-                    call = service.sendClassNotice(apiClassNoticeModel);
+                    call = service.sendClassNotice(apiLogin,apiPass,userId,userName,courseR,semR,messageR);
                 }
 
-                call.enqueue(new Callback<ApiResponseModel>() {
+                call.enqueue(new Callback<ApiClassNoticeResponseModel>() {
                     @Override
-                    public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
+                    public void onResponse(Call<ApiClassNoticeResponseModel> call, Response<ApiClassNoticeResponseModel> response) {
                         if (response.isSuccessful()) {
                             Log.e(TAG, "Response code = " + response.code() + "");
                             if (response.body() != null) {
-                                final ApiResponseModel apiResponseModel = response.body();
+                                final ApiClassNoticeResponseModel apiResponseModel = response.body();
                                 Log.e(TAG, "Response:\n" + apiResponseModel.toString());
 
                                 if (apiResponseModel.getCode() == 1) {
@@ -420,10 +463,10 @@ private ImageView fileView;
                                     try {
                                         String[] courses = weakReference.get().getResources().getStringArray(R.array.category_name);
                                         String[] semester = weakReference.get().getResources().getStringArray(R.array.semesters);
-                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), courses[course] + "(" + semester[sem] + ")", ""));
+                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserName(), courses[course] + "(" + semester[sem] + ")", apiResponseModel.getFileUrl()));
                                         activity.onBackPressed();
                                         Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
-                                        progressDialog.dismiss();
+                                        dialog.dismiss();
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -435,7 +478,7 @@ private ImageView fileView;
                                         return;
                                     }
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
-                                    progressDialog.dismiss();
+                                    dialog.dismiss();
                                     //Failure
                                     Log.e(TAG, apiResponseModel.getMessage());
                                 }
@@ -446,18 +489,18 @@ private ImageView fileView;
                                 return;
                             }
                             Toast.makeText(weakReference.get(), weakReference.get().getString(R.string.server_error));
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponseModel> call, Throwable t) {
+                    public void onFailure(Call<ApiClassNoticeResponseModel> call, Throwable t) {
                         Log.e(TAG, "fail " + t.getMessage());
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }
                         Toast.makeText(weakReference.get(), weakReference.get().getString(R.string.server_error));
-                        progressDialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
             } catch (Exception e) {
@@ -468,6 +511,10 @@ private ImageView fileView;
 
         @Override
         public void onProgressUpdate(int percentage, String title) {
+            if (weakReference.get()!=null){
+                progressBar.setProgress(percentage);
+                progressText.setText(title);
+            }
 
         }
 
