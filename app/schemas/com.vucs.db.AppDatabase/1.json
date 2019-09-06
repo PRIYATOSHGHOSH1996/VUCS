@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a272636f31fbcb65eaaf2da79b0d47bd",
+    "identityHash": "6e3eefcae9590cf61de5555c01fb805f",
     "entities": [
       {
         "tableName": "dt_blog",
@@ -68,7 +68,7 @@
       },
       {
         "tableName": "dt_notice",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notice_id` INTEGER NOT NULL, `notice_title` TEXT, `date` INTEGER, `notice_by` TEXT, `download_url` TEXT, PRIMARY KEY(`notice_id`))",
         "fields": [
           {
             "fieldPath": "noticeId",
@@ -105,7 +105,7 @@
           "columnNames": [
             "notice_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -702,7 +702,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a272636f31fbcb65eaaf2da79b0d47bd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6e3eefcae9590cf61de5555c01fb805f\")"
     ]
   }
 }

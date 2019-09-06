@@ -13,7 +13,9 @@ import java.util.Date;
 @Entity(tableName = "dt_notice")
 public class NoticeModel {
 
-    @PrimaryKey(autoGenerate = true)
+
+    @SerializedName("notice_id")
+    @PrimaryKey()
     @ColumnInfo(name = "notice_id")
     private int noticeId;
 
@@ -39,7 +41,8 @@ public class NoticeModel {
 
     }
 
-    public NoticeModel(String noticeTitle, Date date, String noticeBy, String downloadURL) {
+    public NoticeModel(int noticeId, String noticeTitle, Date date, String noticeBy, String downloadURL) {
+        this.noticeId = noticeId;
         this.noticeTitle = noticeTitle;
         this.date = date;
         this.noticeBy = noticeBy;

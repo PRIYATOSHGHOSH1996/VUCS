@@ -65,11 +65,11 @@ public interface Service {
     Call<ApiBlogUpdateModel> getBlog(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all routine */
-    @POST("fetch_blogs")
+    @POST("fetch_routine")
     Call<ApiRoutineUpdateModel> getRoutine(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all teacher */
-    @POST("fetch_blogs")
+    @POST("fetch_teachers")
     Call<ApiTeacherUpdateModel> getTeacher(@Body ApiCredentialWithUserId credentials);
 
     /* API for fetching all Jobs */

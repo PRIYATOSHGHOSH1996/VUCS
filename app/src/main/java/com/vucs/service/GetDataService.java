@@ -252,6 +252,7 @@ public class GetDataService extends IntentService {
                                                     Constants.UPDATING_TEACHER=true;
                                                     teacherDAO.deleteAllTeacher();
                                                     teacherDAO.insertTeacher(teacherModels);
+                                                    teacherDAO.insertTeacher(new TeacherModel("d","teacher 1","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "www.google.com", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
                                                     Constants.UPDATING_TEACHER=false;
                                                 }
                                             }

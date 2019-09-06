@@ -741,7 +741,7 @@ public class HomeActivity extends AppCompatActivity
                         NoticeFileModel noticeFileModel = new NoticeFileModel(noticeModel.getNoticeId(),file.getPath());
                         noticeDAO.insertNoticeFile(noticeFileModel);
                         holder.progressBar.setVisibility(View.GONE);
-                        ((RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).sparseBooleanArray.put(position,true);
+                        ((RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).sparseBooleanArray.put(position,false);
                     }
                     else {
                         holder.progressBar.setProgress(progress[0]);

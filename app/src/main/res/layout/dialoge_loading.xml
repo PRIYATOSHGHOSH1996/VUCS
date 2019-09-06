@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
     android:background="@drawable/rounded_white_background"
     android:orientation="vertical">
 
@@ -40,12 +41,14 @@
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            style="@style/Widget.AppCompat.ProgressBar"
+            style="@android:style/Widget.Holo.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
+            android:indeterminate="false"
+
             android:indeterminateTint="@color/colorPrimary1"
-             />
+            android:max="100"
+            android:progress="3366" />
 
         <TextView
             android:paddingStart="12dp"

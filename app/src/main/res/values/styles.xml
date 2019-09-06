@@ -19,8 +19,9 @@
 
     </style>
 
-    <style name="my_dialog" parent="android:Theme.Holo.Dialog.NoActionBar.MinWidth">
+    <style name="my_dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/Widget.Design.BottomSheet.Modal</item>
     </style>
@@ -79,5 +80,13 @@
         <item name="colorControlHighlight">#ff6d00</item>
         <item name="android:progressDrawable">@drawable/custom_progressbar_horizontal</item>
         <item name="android:minWidth">200dp</item>
+    </style>
+
+    <style name="MyProgressBarbrowser" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorButtonNormal">@color/md_brown_900</item>
+        <item name="colorControlActivated">@color/colorPrimary1</item>
+        <item name="colorControlHighlight">#ff6d00</item>
+        <item name="android:progressDrawable">@drawable/browser_progressbar</item>
+        <item name="android:minWidth">?attr/actionBarSize</item>
     </style>
 </resources>

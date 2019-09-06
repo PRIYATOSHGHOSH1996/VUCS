@@ -87,6 +87,13 @@ private ImageView fileView;
         fileView = findViewById(R.id.show_file);
         EditText text = findViewById(R.id.text);
         Button submit = findViewById(R.id.submit);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                AddClassNoticeActivity.this,
+                R.layout.item_simple_text,R.id.text,
+                getResources().getStringArray(R.array.category_name)
+        );
+        courseSp.setAdapter(adapter);
+
         courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -102,9 +109,10 @@ private ImageView fileView;
                     course = position;
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                             AddClassNoticeActivity.this,
-                            android.R.layout.simple_spinner_item,
+                            R.layout.item_simple_text,R.id.text,
                             a
                     );
+
                     spinner.setAdapter(adapter);
                 } else {
                     course = 0;
@@ -367,14 +375,15 @@ private ImageView fileView;
             AppDatabase db = AppDatabase.getDatabase(context);
             noticeDAO = db.noticeDAO();
 
-            dialog = new Dialog(weakReference.get(), R.style.my_dialog);
+            dialog = new Dialog(weakReference.get(), R.style.Theme_Design_BottomSheetDialog);
             ((ViewGroup)dialog.getWindow().getDecorView())
                     .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
                     weakReference.get(),R.anim.dialog_anim));
             View view=weakReference.get().getLayoutInflater().inflate(R.layout.dialoge_loading,null);
             progressText=view.findViewById(R.id.text);
             progressBar=view.findViewById(R.id.progress_bar);
-            progressText.setText("Please wait...");
+            progressBar.setProgress(88);
+            progressText.setText("Sending ...");
             LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             dialog.addContentView(view,layoutParams);
             dialog.setCancelable(false);
@@ -410,8 +419,6 @@ private ImageView fileView;
             final AddClassNoticeActivity activity = weakReference.get();
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
-                final ApiClassNoticeModel apiClassNoticeModel = new ApiClassNoticeModel(appPreference.getUserId(),
-                        appPreference.getUserName(), course, sem, message);
                 ApiCredential apiCredential=new ApiCredential();
                 RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
                 RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
@@ -511,7 +518,9 @@ private ImageView fileView;
 
         @Override
         public void onProgressUpdate(int percentage, String title) {
+
             if (weakReference.get()!=null){
+                Log.e("persented",percentage+"");
                 progressBar.setProgress(percentage);
                 progressText.setText(title);
             }

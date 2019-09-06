@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -90,6 +92,9 @@ public class AddBlogJobActivity extends AppCompatActivity {
             header_text.setText("Add job");
             initView();
             dialog = new Dialog(this, R.style.Theme_Design_BottomSheetDialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    this,R.anim.dialog_anim));
             View view = getLayoutInflater().inflate(R.layout.dialoge_uploading_file, null);
             dialog_text = view.findViewById(R.id.text);
             dialog_text.setText("Please wait");

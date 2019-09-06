@@ -313,7 +313,7 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
                         ClassNoticeFileModel classNoticeFileModel = new ClassNoticeFileModel(classNoticeModel.getNoticeId(),file.getPath());
                         noticeDAO.insertClassNoticeFile(classNoticeFileModel);
                         holder.progressBar.setVisibility(View.GONE);
-                        ((RecyclerViewClassNoticeAdapter)context.get().recyclerView.getAdapter()).sparseBooleanArray.put(position,true);
+                        ((RecyclerViewClassNoticeAdapter)context.get().recyclerView.getAdapter()).sparseBooleanArray.put(position,false);
                     }
                     else {
                         holder.progressBar.setProgress(progress[0]);
@@ -337,9 +337,9 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
         protected void onPreExecute() {
             super.onPreExecute();
             if (context.get()!=null){
-                RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) context.get().recyclerView.findViewHolderForAdapterPosition(position));
+                RecyclerViewClassNoticeAdapter.MyViewHolder holder=((RecyclerViewClassNoticeAdapter.MyViewHolder) context.get().recyclerView.findViewHolderForAdapterPosition(position));
                 holder.progressBar.setVisibility(View.VISIBLE);
-                ((RecyclerViewNoticeAdapter)context.get().recyclerView.getAdapter()).sparseBooleanArray.put(position,true);
+                ((RecyclerViewClassNoticeAdapter)context.get().recyclerView.getAdapter()).sparseBooleanArray.put(position,true);
             }
         }
     }

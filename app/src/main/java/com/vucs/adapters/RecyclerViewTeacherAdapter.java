@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.vucs.R;
 import com.vucs.activity.BlogDetailsActivity;
+import com.vucs.activity.TeacherDetailsActivity;
 import com.vucs.helper.Utils;
 import com.vucs.model.BlogModel;
 import com.vucs.model.TeacherModel;
@@ -89,7 +91,17 @@ public class RecyclerViewTeacherAdapter extends RecyclerView.Adapter<RecyclerVie
                         });
                 // notifyItemChanged(position);
             }
-
+holder.itemView.setOnClickListener(view -> {
+    Log.e("teacher",teacherModel.toString());
+    if (teacherModel.getPageURL()!=null&&(!teacherModel.getPageURL().equals(""))) {
+        Intent intent  =new Intent(weakReference.get(), TeacherDetailsActivity.class);
+        intent.putExtra(weakReference.get().getString(R.string.title),teacherModel.getName());
+        intent.putExtra(weakReference.get().getString(R.string.url),teacherModel.getPageURL());
+        Activity activity=(Activity)weakReference.get();
+        weakReference.get().startActivity(intent);
+        activity.overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+    }
+});
         } catch (Exception e) {
             Utils.appendLog(TAG + ":onBind: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

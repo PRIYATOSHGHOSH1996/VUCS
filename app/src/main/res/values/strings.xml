@@ -61,6 +61,8 @@
     <string name="teacherId">teacherId</string>
     <string name="routine">Routine</string>
     <string name="routine_broadcast_receiver">routine_broadcast_receiver</string>
+    <string name="title">title</string>
+    <string name="url">url</string>
 
 
     <string-array name="sort_types_phire_pawa">

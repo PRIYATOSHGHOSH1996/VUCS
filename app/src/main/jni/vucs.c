@@ -21,9 +21,9 @@ Java_com_vucs_service_DataServiceGenerator_getBaseURL(JNIEnv *env, jobject insta
     char k14 = '6';
     char k15 = '8';
     char k16 = '.';
-    char k17 = '0';
+    char k17 = '2';
     char k18 = '.';
-    char k19 = '6';
+    char k19 = '7';
     char k20 = '/';
     char k21 = 'P';
     char k22 = 'r';
