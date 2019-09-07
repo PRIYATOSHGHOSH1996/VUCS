@@ -52,7 +52,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="name"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -63,7 +62,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="email"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -73,7 +71,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="course"
                         android:textColor="@color/white" />
 
                     <TextView
@@ -82,15 +79,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="batch"
+                        android:visibility="gone"
                         android:textColor="@color/white" />
 
                     <Button
+
                         style="@style/TextAppearance.MaterialComponents.Caption"
                         android:layout_width="wrap_content"
                         android:layout_height="35dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/button_background_square"
                         android:gravity="center"
                         android:onClick="onChangePasswordClick"
@@ -119,6 +117,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/dob_container"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
 
@@ -137,8 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:paddingStart="4dp"
-                android:singleLine="true"
-                android:text="DOB"
+                android:maxLines="1"
                 android:textColor="@color/colorBlack" />
         </LinearLayout>
 
@@ -147,6 +146,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/phone_no_container"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
 
@@ -158,17 +159,14 @@
                 android:singleLine="true"
                 android:text="phone No" />
 
-            <EditText
+            <TextView
                 android:id="@+id/ph_no"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:maxLines="1"
                 android:background="@android:color/transparent"
-                android:enabled="false"
-                android:hint="phone No"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
                 android:textColor="@color/colorBlack" />
         </LinearLayout>
 
@@ -177,7 +175,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:orientation="horizontal"
+            android:id="@+id/address_container"
             android:paddingStart="12dp"
+            android:visibility="gone"
             android:paddingEnd="12dp">
 
             <TextView
@@ -186,19 +186,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
                 android:singleLine="true"
-
                 android:text="Address" />
 
-            <EditText
+            <TextView
                 android:id="@+id/address"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:maxLines="1"
                 android:background="@android:color/transparent"
-                android:enabled="false"
-                android:hint="Address"
-                android:inputType="textMultiLine"
                 android:textColor="@color/colorBlack" />
         </LinearLayout>
 

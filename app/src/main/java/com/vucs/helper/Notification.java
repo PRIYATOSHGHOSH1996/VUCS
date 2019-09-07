@@ -30,7 +30,7 @@ public class Notification {
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_foreground))
-                .setColor(context.getResources().getColor(R.color.colorPrimary1))
+                .setColor(context.getResources().getColor(R.color.md_deep_orange_900))
                 .setContentText(desc).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)

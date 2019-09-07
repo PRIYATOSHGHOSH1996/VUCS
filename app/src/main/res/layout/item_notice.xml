@@ -73,14 +73,15 @@ android:background="@drawable/cut_corner_white_shape">
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_weight="8"
-        style="@style/Widget.AppCompat.ProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="30dp"
         android:layout_height="match_parent"
         android:indeterminate="true"
         android:padding="2dp"
         android:layout_gravity="start"
         android:visibility="gone"
-        android:indeterminateTint="@color/colorPrimary1"
+        android:indeterminateDrawable="@drawable/circlular_progress"
+        android:progressDrawable="@drawable/circlular_progress"
         />
     <ImageButton
         android:layout_gravity="end"

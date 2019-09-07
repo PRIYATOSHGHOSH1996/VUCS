@@ -7,8 +7,7 @@
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="4dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -28,6 +27,7 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         style="@style/TextAppearance.MaterialComponents.Caption"
         />
 
@@ -38,7 +38,18 @@
         android:text="@string/nav_header_subtitle"
         android:textColor="@color/white"
         android:textSize="14sp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:textStyle="italic"
         style="@style/TextAppearance.MaterialComponents.Caption"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/version"
+        android:text="version"
+        android:layout_gravity="end"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:paddingRight="4dp"
 
+        style="@style/TextAppearance.MaterialComponents.Caption"/>
 </LinearLayout>

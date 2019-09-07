@@ -63,6 +63,7 @@
     <string name="routine_broadcast_receiver">routine_broadcast_receiver</string>
     <string name="title">title</string>
     <string name="url">url</string>
+    <string name="registration_url">https://www.palefire.com</string>
 
 
     <string-array name="sort_types_phire_pawa">

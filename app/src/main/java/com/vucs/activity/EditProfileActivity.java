@@ -1,12 +1,16 @@
 package com.vucs.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.Manifest;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,29 +19,24 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.filelibrary.exception.ActivityOrFragmentNullException;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputLayout;
 import com.vucs.R;
-import com.vucs.api.ApiClassNoticeModel;
 import com.vucs.api.ApiClassNoticeResponseModel;
 import com.vucs.api.ApiCredential;
-import com.vucs.api.ApiResponseModel;
 import com.vucs.api.Service;
 import com.vucs.dao.NoticeDAO;
 import com.vucs.db.AppDatabase;
@@ -51,12 +50,14 @@ import com.vucs.model.ClassNoticeModel;
 import com.vucs.service.DataServiceGenerator;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -66,93 +67,19 @@ import retrofit2.Response;
 
 import static com.vucs.helper.Utils.getMimeType;
 
-public class AddClassNoticeActivity extends AppCompatActivity {
-
-    private static String TAG = "Add Class Notice Activity";
-    private int sem = 0;
-    private int course = 0;
-private Uri fileUri;
-private ImageView fileView;
+public class EditProfileActivity extends AppCompatActivity {
+    TextInputLayout first_name, last_name, phone_no, address;
+    Uri profileImage = null;
+    Spinner start_year, end_year;
+    int startingyear, endYear;
+    ImageView profile_pic_image_view;
+    Boolean isSetBatch=false;
+    AppPreference appPreference;
     private static final int REQUEST_WRITE_PERMISSIONS = 103;
-    private static final int REQUEST_GET_FILE = 109;
-    TextView header_text;
-    Spinner spinner;
-    Spinner courseSp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_class_notice);
-
-        spinner = findViewById(R.id.sem);
-        courseSp = findViewById(R.id.course);
-        fileView = findViewById(R.id.show_file);
-        EditText text = findViewById(R.id.text);
-        Button submit = findViewById(R.id.submit);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                AddClassNoticeActivity.this,
-                R.layout.item_simple_text,R.id.text,
-                getResources().getStringArray(R.array.category_name)
-        );
-        courseSp.setAdapter(adapter);
-
-        courseSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    String[] a;
-                    spinner.setVisibility(View.VISIBLE);
-                    if (position == 1) {
-                        a = getResources().getStringArray(R.array.semesters);
-                    } else {
-                        a = getResources().getStringArray(R.array.semesters4th);
-                    }
-
-                    course = position;
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                            AddClassNoticeActivity.this,
-                            R.layout.item_simple_text,R.id.text,
-                            a
-                    );
-
-                    spinner.setAdapter(adapter);
-                } else {
-                    course = 0;
-                    sem = 0;
-                    spinner.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sem = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        submit.setOnClickListener(v -> {
-            if (course == 0) {
-                Toast.makeText(this, "Please select course");
-            } else if (sem == 0) {
-                Toast.makeText(this, "Please select semester");
-            } else if (text.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Please enter messages");
-            } else if (!Utils.isNetworkAvailable()) {
-                Toast.makeText(this, getString(R.string.no_internet_connection));
-            } else {
-                new SendMessage(this, text.getText().toString(), course, sem).execute();
-            }
-        });
+        setContentView(R.layout.activity_edit_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -163,63 +90,156 @@ private ImageView fileView;
             }
         });
         getSupportActionBar().setTitle("");
-        header_text = findViewById(R.id.header_text);
-        header_text.setText("Send Class Notice");
+       TextView header_text = findViewById(R.id.header_text);
+        header_text.setText("Edit Profile");
+        appPreference= new AppPreference(this);
+        initView();
+
+    }
+
+    private void initView() {
+        profile_pic_image_view = findViewById(R.id.profile_pic_image_view);
+        first_name = findViewById(R.id.first_name);
+        last_name = findViewById(R.id.last_name);
+        phone_no = findViewById(R.id.phone_no);
+        address = findViewById(R.id.address);
+        start_year = findViewById(R.id.start_year);
+        end_year = findViewById(R.id.end_year);
+        profile_pic_image_view=findViewById(R.id.profile_pic);
+        if (!appPreference.getUserFirstName().equals("")){
+            first_name.getEditText().setText(appPreference.getUserFirstName()+"");
+        }
+        if (!appPreference.getUserLastName().equals("")){
+            last_name.getEditText().setText(appPreference.getUserLastName()+"");
+        }
+
+        if (appPreference.getUserPhoneNo()!=null&&(!appPreference.getUserPhoneNo().equals(""))){
+            phone_no.getEditText().setText(appPreference.getUserPhoneNo()+"");
+        }
+        if (appPreference.getUserAddress()!=null&&(!appPreference.getUserAddress().equals(""))){
+            address.getEditText().setText(appPreference.getUserAddress()+"");
+
+        }
+        Glide
+                .with(this)
+                .load(appPreference.getUserImageUrl())
+                .fitCenter()
+                .transition(new DrawableTransitionOptions().crossFade())
+                .into(new SimpleTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        profile_pic_image_view.setImageDrawable(resource);
+                    }
+                });
+        Calendar calendar = Calendar.getInstance();
+        List<String> startYearList = new ArrayList<>();
+        startYearList.add("Batch Start Year");
+        int styrpos=0;
+        int count=0;
+        for (int i = 2000; i <= calendar.get(Calendar.YEAR); i++) {
+            startYearList.add(i + "");
+            count++;
+            if (i==appPreference.getUserStartBatch()){
+                isSetBatch=true;
+                styrpos=count;
+            }
+
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this,
+                R.layout.item_simple_text,R.id.text,
+                startYearList
+        );
+        adapter.setDropDownViewResource(R.layout.item_simple_text);
+        start_year.setAdapter(adapter);
+        start_year.setSelection(styrpos);
+        start_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                try {
+                    if (position != 0) {
+                        end_year.setVisibility(View.VISIBLE);
+                        Integer s = Integer.parseInt((String) parent.getSelectedItem());
+                        startingyear = s;
+                        s = s + 2;
+                        List<String> endYearList = new ArrayList<>();
+                        endYearList.add("Batch End Year");
+                        int styrpos=0;
+                        int count=0;
+                        for (int i = s; i <= s + 5; i++) {
+                            count++;
+                            if (i==appPreference.getUserEndBatch()){
+                                styrpos=count;
+                            }
+                            endYearList.add(i + "");
+                        }
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                EditProfileActivity.this,
+                                R.layout.item_simple_text,R.id.text,
+                                endYearList
+                        );
+                        adapter.setDropDownViewResource(R.layout.item_simple_text);
+                        end_year.setAdapter(adapter);
+                        if (isSetBatch){
+                            isSetBatch=false;
+                            end_year.setSelection(styrpos);
+                        }
+
+
+                    } else {
+                        startingyear = 0;
+                        end_year.setVisibility(View.INVISIBLE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        end_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    if (position != 0) {
+                        endYear = Integer.parseInt((String) parent.getSelectedItem());
+
+                    } else {
+                        endYear = 0;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
-        finish();
-
     }
 
-    public void addFile(View view) {
+    public void addImageFile(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSIONS);
             }
             else {
-                getFile();
+                showGetFileDialog();
             }
         }else {
-            getFile();
+            showGetFileDialog();
         }
-    }
-
-    private void getFile() {
-        showGetFileDialog();
-    }
-
-    public void deleteFile(View view) {
-        fileUri=null;
-        fileView.setImageResource(R.drawable.box_shadow1);
-    }
-    private String getUriType(Uri uri){
-        try {
-
-            ContentResolver cR = getContentResolver();
-            return cR.getType(uri);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-    private boolean isImageUri(Uri uri) {
-
-        try {
-            String[] s = uri.toString().split("\\.");
-            if (s[s.length - 1].equals("jpg"))
-                return true;
-            if (getUriType(uri).contains("image")) {
-                return true;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-
     }
     private void showGetFileDialog() {
         BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
@@ -232,15 +252,16 @@ private ImageView fileView;
             public void onClick(View v) {
                 mBottomSheetDialog.dismiss();
                 try {
-                    com.filelibrary.Utils.with(AddClassNoticeActivity.this)
+                    com.filelibrary.Utils.with(EditProfileActivity.this)
                             .getImageFromCamera()
                             .compressEnable(true)
                             .cropEnable(true)
+                            .setAspectRatio(1,1)
                             .getResult(new com.filelibrary.Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath) {
-                                    fileUri = uri;
-                                    fileView.setImageURI(uri);
+                                    profileImage = uri;
+                                    profile_pic_image_view.setImageURI(uri);
 
 
                                 }
@@ -261,30 +282,19 @@ private ImageView fileView;
             public void onClick(View v) {
                 mBottomSheetDialog.dismiss();
                 try {
-                    com.filelibrary.Utils.with(AddClassNoticeActivity.this)
-                            .getFile()
+                    com.filelibrary.Utils.with(EditProfileActivity.this)
+                            .getImageFile()
                             .cropEnable(true)
                             .compressEnable(true)
+                            .setAspectRatio(1,1)
                             .getResult(new com.filelibrary.Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath)  {
 
                                     Log.e("fileuri",uri.toString());
                                     try {
-                                        InputStream in = getContentResolver().openInputStream(uri);
-                                        Log.e("file size",in.available()+"");
-                                        if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
-                                            fileUri = uri;
-
-                                            if (isImageUri(uri)) {
-                                                fileView.setImageURI(uri);
-                                            } else {
-                                                fileView.setImageResource(R.drawable.ic_insert_drive_file_gray_24dp);
-                                            }
-                                        }
-                                        else {
-                                            Utils.openDialog(AddClassNoticeActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
-                                        }
+                                        profileImage = uri;
+                                        profile_pic_image_view.setImageURI(uri);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -312,7 +322,7 @@ private ImageView fileView;
         com.filelibrary.Utils.Builder.notifyPermissionsChange(requestCode,permissions,grantResults);
         if (requestCode == REQUEST_WRITE_PERMISSIONS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getFile();
+                showGetFileDialog();
             } else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
                 Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage permission.");
             } else {
@@ -327,40 +337,61 @@ private ImageView fileView;
         com.filelibrary.Utils.Builder.notifyActivityChange(requestCode,resultCode,data);
     }
 
-    public void onImageClick(View view) {
-        if (fileUri!=null){
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.setDataAndType(fileUri, getUriType(fileUri));
-            startActivity(intent);
+    public void OnUpdateClick(View view) {
+        String firstName=first_name.getEditText().toString()+"";
+        String lastName=last_name.getEditText().toString()+"";
+        String phoneNumber=phone_no.getEditText().toString()+"";
+        String address=this.address.getEditText().toString()+"";
+
+
+        if (startingyear==0&&endYear!=0){
+            Snackbar.show(this,findViewById(R.id.parent),"Please select batch start year.");
+            return;
         }
-        else {
-            Snackbar.show(this,findViewById(R.id.parent),"File not set");
+        if (startingyear!=0&&endYear==0){
+            Snackbar.show(this,findViewById(R.id.parent),"Please select batch end year.");
+            return;
         }
+        if (startingyear==0&&endYear==0){
+            Snackbar.show(this,findViewById(R.id.parent),"Please select batch.");
+            return;
+        }
+        if (!Utils.isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.no_internet_connection));
+        } else if (firstName.isEmpty()){
+           Snackbar.show(this,findViewById(R.id.parent),"Please enter your first name.");
+        }else if (lastName.isEmpty()){
+            Snackbar.show(this,findViewById(R.id.parent),"Please enter your last name.");
+        }else {
+            new UpdateProfile(this,firstName,lastName,phoneNumber,address,startingyear,endYear).execute();
+        }
+
     }
 
-    public static class SendMessage extends AsyncTask<Void, Void, Void> implements ProgressRequestBody.UploadCallbacks{
-        private static WeakReference<AddClassNoticeActivity> weakReference;
-        private String message;
-        private int sem;
-        private int course;
-        private AppPreference appPreference;
+    public static class UpdateProfile extends AsyncTask<Void, Void, Void> implements ProgressRequestBody.UploadCallbacks{
+        private static WeakReference<EditProfileActivity> weakReference;
+        private String firstName;
+        private String lastName;
+        private String phoneNumber;
+        private String address;
+        private int startYear;
+        private int endYear;
 
-        private NoticeDAO noticeDAO;
+        private AppPreference appPreference;
         TextView progressText;
         ProgressBar progressBar;
         Dialog dialog;
 
 
-        SendMessage(AddClassNoticeActivity context, String message, int course, int sem) {
+        public UpdateProfile(EditProfileActivity context,String firstName, String lastName, String phoneNumber, String address, int startYear, int endYear) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.phoneNumber = phoneNumber;
+            this.address = address;
+            this.startYear = startYear;
+            this.endYear = endYear;
             weakReference = new WeakReference<>(context);
-            this.message = message;
-            this.sem = sem;
-            this.course = course;
             appPreference = new AppPreference(context);
-            AppDatabase db = AppDatabase.getDatabase(context);
-            noticeDAO = db.noticeDAO();
-
             dialog = new Dialog(weakReference.get(), R.style.Theme_Design_BottomSheetDialog);
             ((ViewGroup)dialog.getWindow().getDecorView())
                     .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
@@ -372,15 +403,14 @@ private ImageView fileView;
             LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             dialog.addContentView(view,layoutParams);
             dialog.setCancelable(false);
-
-
-
         }
+
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            AddClassNoticeActivity activity = weakReference.get();
+            EditProfileActivity activity = weakReference.get();
             if (activity == null || activity.isFinishing()) {
                 return;
             }
@@ -401,52 +431,54 @@ private ImageView fileView;
 
         @Override
         protected Void doInBackground(Void... voids) {
-            final AddClassNoticeActivity activity = weakReference.get();
+            final EditProfileActivity activity = weakReference.get();
             try {
                 final Service service = DataServiceGenerator.createService(Service.class);
                 ApiCredential apiCredential=new ApiCredential();
                 RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
                 RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
                 RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
-                RequestBody userName = RequestBody.create(MultipartBody.FORM, appPreference.getUserFirstName()+" "+appPreference.getUserLastName());
-                RequestBody courseR = RequestBody.create(MultipartBody.FORM, course + "");
-                RequestBody semR = RequestBody.create(MultipartBody.FORM, sem + "");
-                RequestBody messageR = RequestBody.create(MultipartBody.FORM, message + "");
+                RequestBody firstNameR = RequestBody.create(MultipartBody.FORM,firstName );
+                RequestBody lastNameR = RequestBody.create(MultipartBody.FORM, lastName);
+                RequestBody phoneNumberR = RequestBody.create(MultipartBody.FORM, phoneNumber);
+                RequestBody addressR = RequestBody.create(MultipartBody.FORM, address);
+                RequestBody startYearR = RequestBody.create(MultipartBody.FORM, startYear + "");
+                RequestBody endYearR = RequestBody.create(MultipartBody.FORM, endYear + "");
+
                 Call<ApiClassNoticeResponseModel> call;
-                final File[] file = new File[1];
-                if (weakReference.get().fileUri!=null){
+                if (weakReference.get().profileImage!=null){
                     File directory = weakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
                     directory.mkdir();
-                    InputStream in = weakReference.get().getContentResolver().openInputStream(weakReference.get().fileUri);
+                    InputStream in = weakReference.get().getContentResolver().openInputStream(weakReference.get().profileImage);
                     byte[] buffer = new byte[in.available()];
                     in.read(buffer);
+                    File file;
 
+                    file = new File(directory, "prpfileimage" + "."+getMimeType(weakReference.get(),weakReference.get().profileImage));
 
-                        file[0] = new File(directory, "classnotice" + "."+getMimeType(weakReference.get(),weakReference.get().fileUri));
-
-                    OutputStream outStream = new FileOutputStream(file[0]);
+                    OutputStream outStream = new FileOutputStream(file);
                     outStream.write(buffer);
                     outStream.close();
                     in.close();
-                    Log.e("files length", file[0].length() + "");
-                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file[0], "*/*", AddClassNoticeActivity.SendMessage.this, "Uploading File ..." );
+                    Log.e("files length", file.length() + "");
+                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", EditProfileActivity.UpdateProfile.this, "Uploading File ..." );
                     MultipartBody.Part jobFile =
-                            MultipartBody.Part.createFormData("file", file[0].getName(), fileBody1);
+                            MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
 
-                    call = service.sendClassNoticeWithFile(apiLogin,apiPass,userId,userName,courseR,semR,messageR,jobFile);
+                    call = service.updateProfile(apiLogin,apiPass,userId,firstNameR,lastNameR,phoneNumberR,addressR,startYearR,endYearR,jobFile);
 
                 }else {
-                    call = service.sendClassNotice(apiLogin,apiPass,userId,userName,courseR,semR,messageR);
+                    call = service.updateProfile(apiLogin,apiPass,userId,firstNameR,lastNameR,phoneNumberR,addressR,startYearR,endYearR);
                 }
 
                 call.enqueue(new Callback<ApiClassNoticeResponseModel>() {
                     @Override
                     public void onResponse(Call<ApiClassNoticeResponseModel> call, Response<ApiClassNoticeResponseModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code = " + response.code() + "");
+                            Log.e("editProfile", "Response code = " + response.code() + "");
                             if (response.body() != null) {
                                 final ApiClassNoticeResponseModel apiResponseModel = response.body();
-                                Log.e(TAG, "Response:\n" + apiResponseModel.toString());
+                                Log.e("editProfile", "Response:\n" + apiResponseModel.toString());
 
                                 if (apiResponseModel.getCode() == 1) {
                                     ;
@@ -454,12 +486,13 @@ private ImageView fileView;
                                         return;
 
                                     try {
-                                        String[] courses = weakReference.get().getResources().getStringArray(R.array.category_name);
-                                        String[] semester = weakReference.get().getResources().getStringArray(R.array.semesters);
-                                        if (file[0]!=null){
-                                            file[0].delete();
-                                        }
-                                        noticeDAO.insertClassNotice(new ClassNoticeModel(message, new Date(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), courses[course] + "(" + semester[sem] + ")", apiResponseModel.getFileUrl()));
+                                        appPreference.setUserFirstName(firstName);
+                                        appPreference.setUserLastName(lastName);
+                                        appPreference.setUserStartBatch(startYear);
+                                        appPreference.setUserEndBatch(endYear);
+                                        appPreference.setUserPhoneNo(phoneNumber);
+                                        appPreference.setUserAddress(address);
+                                        appPreference.setUserImageUrl(apiResponseModel.getFileUrl());
                                         activity.onBackPressed();
                                         Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                         dialog.dismiss();
@@ -467,7 +500,7 @@ private ImageView fileView;
                                         e.printStackTrace();
                                     }
 
-                                    Log.e(TAG, apiResponseModel.getMessage());
+                                    Log.e("editProfile", apiResponseModel.getMessage());
 
                                 } else {
                                     if (activity == null || activity.isFinishing()) {
@@ -476,11 +509,10 @@ private ImageView fileView;
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                     dialog.dismiss();
                                     //Failure
-                                    Log.e(TAG, apiResponseModel.getMessage());
+                                    Log.e("editProfile", apiResponseModel.getMessage());
                                 }
                             }
                         } else {
-                            Log.e(TAG, "Error Response Code = " + response.code() + "");
                             if (activity == null || activity.isFinishing()) {
                                 return;
                             }
@@ -491,7 +523,7 @@ private ImageView fileView;
 
                     @Override
                     public void onFailure(Call<ApiClassNoticeResponseModel> call, Throwable t) {
-                        Log.e(TAG, "fail " + t.getMessage());
+                        t.printStackTrace();
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }
@@ -509,7 +541,6 @@ private ImageView fileView;
         public void onProgressUpdate(int percentage, String title) {
 
             if (weakReference.get()!=null){
-                progressBar.setIndeterminate(false);
                 Log.e("persented",percentage+"");
                 progressBar.setProgress(percentage);
                 progressText.setText(title);

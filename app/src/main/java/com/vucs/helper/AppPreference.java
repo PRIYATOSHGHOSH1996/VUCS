@@ -43,12 +43,21 @@ public class AppPreference {
         prefs.edit().putInt("utype", uid).apply();
     }
 
-    public void setUserName(String userName) {
-        prefs.edit().putString("uname", userName).apply();
+
+    public void setUserFirstName(String userName) {
+        prefs.edit().putString("ufrname", userName).apply();
     }
 
-    public String getUserName() {
-        return prefs.getString("uname", "");
+    public String getUserFirstName() {
+        return prefs.getString("ufrname", "");
+    }
+
+    public void setUserLastName(String userName) {
+        prefs.edit().putString("ulsname", userName).apply();
+    }
+
+    public String getUserLastName() {
+        return prefs.getString("ulsname", "");
     }
 
 
@@ -123,7 +132,21 @@ public class AppPreference {
         prefs.edit().putString("ubatch", userName).apply();
     }
 
+    public int getUserStartBatch() {
+        return prefs.getInt("ustbatch", 0);
+    }
 
+    public void setUserStartBatch(int userName) {
+        prefs.edit().putInt("ustbatch", userName).apply();
+    }
+
+    public int getUserEndBatch() {
+        return prefs.getInt("uendbatch", 0);
+    }
+
+    public void setUserEndBatch(int userName) {
+        prefs.edit().putInt("uendbatch", userName).apply();
+    }
     public void setForceLogout(boolean value){
         prefs.edit().putBoolean("force_logout", value).apply();
     }

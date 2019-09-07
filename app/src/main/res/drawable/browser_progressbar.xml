@@ -21,10 +21,14 @@
     <item android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal">
         <scale android:scaleWidth="100%">
-            <shape android:shape="rectangle"
-                android:tint="@color/colorPrimary1">
+            <shape android:shape="rectangle">
                 <size android:height="?attr/actionBarSize" />
-                <solid android:color="#FF01203D" />
+                <gradient
+                    android:angle="0"
+                    android:endColor="#FF008080"
+                    android:startColor="#FF01203D"
+                    android:type="linear" />
+
             </shape>
         </scale>
     </item>

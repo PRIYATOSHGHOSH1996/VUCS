@@ -125,7 +125,7 @@
             android:textStyle="italic"
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:onClick="onRegisterClick"
-            android:visibility="gone"
+
             android:gravity="end"/>
     </LinearLayout>
 

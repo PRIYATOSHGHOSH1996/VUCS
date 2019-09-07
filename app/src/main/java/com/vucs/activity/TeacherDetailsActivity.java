@@ -42,7 +42,7 @@ public class TeacherDetailsActivity extends AppCompatActivity {
         webView = (WebView) findViewById(R.id.webView1);
         progressBar = findViewById(R.id.progress_bar);
         header_text.setText(getIntent().getStringExtra(getString(R.string.title))+"");
-        startWebView("https://"+getIntent().getStringExtra(getString(R.string.url))+"");
+        startWebView(getIntent().getStringExtra(getString(R.string.url))+"");
     }
     private void startWebView(String url) {
 

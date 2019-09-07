@@ -26,7 +26,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="4dp"
                 app:errorEnabled="true">
                 <EditText
                     style="@style/TextAppearance.MaterialComponents.Body2"
@@ -39,26 +39,11 @@
                     android:paddingRight="8dp"
                     android:singleLine="true"/>
             </com.google.android.material.textfield.TextInputLayout>
-            <Button
-                android:id="@+id/add_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:elevation="1dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/button_background_square"
-                android:textColor="@color/white"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:text="Add File"
-                android:textStyle="italic"/>
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 android:maxHeight="120dp">
                 <LinearLayout
                     android:id="@+id/file_layout"
@@ -76,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:layout_marginBottom="6dp"
                 app:errorEnabled="true">
@@ -96,18 +81,19 @@
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="end"
                 android:gravity="center"
+
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:onClick="onSubmitClick"
                 android:elevation="1dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/button_background_square"
                 android:textColor="@color/white"
                 style="@style/TextAppearance.MaterialComponents.Button"
-                android:text="SUBMIT"/>
+                android:text="POST"/>
         </LinearLayout>
 
 

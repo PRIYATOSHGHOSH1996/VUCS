@@ -42,4 +42,8 @@ public class RoutineViewModel extends AndroidViewModel {
     public List<Integer> getDays(){
         return routineDAO.getDays();
     }
+
+    public List<Integer> getDays(int course,int sem){ return routineDAO.getDays(course,sem); }
+
+    public List<Integer> getDays(String teacherId){ return routineDAO.getDays(teacherId); }
 }

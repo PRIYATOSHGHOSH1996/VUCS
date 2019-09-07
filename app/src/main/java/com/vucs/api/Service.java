@@ -101,4 +101,17 @@ public interface Service {
     @POST("job_files_upload")
     Call<ApiAddJobFileResponseModel> uploadJobFile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass, @Part("jobId") RequestBody jobId,@Part("userId") RequestBody userId,@Part MultipartBody.Part jobFile);
 
+    /* API for update profile */
+    @Multipart
+    @POST("edit_profile")
+    Call<ApiClassNoticeResponseModel> updateProfile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass,@Part("user_id") RequestBody userId, @Part("first_name") RequestBody firstName,
+                                                   @Part("last_name") RequestBody lastName, @Part("phone_number") RequestBody phoneNumber, @Part("address") RequestBody address,
+                                                   @Part("start_year") RequestBody startYear, @Part("end_year") RequestBody endYear);
+
+    /* API for update profile */
+    @Multipart
+    @POST("edit_profile")
+    Call<ApiClassNoticeResponseModel> updateProfile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass,@Part("user_id") RequestBody userId, @Part("first_name") RequestBody firstName,
+                                                   @Part("last_name") RequestBody lastName, @Part("phone_number") RequestBody phoneNumber, @Part("address") RequestBody address,
+                                                   @Part("start_year") RequestBody startYear, @Part("end_year") RequestBody endYear,@Part MultipartBody.Part profileImage);
 }

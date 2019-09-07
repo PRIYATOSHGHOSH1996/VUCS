@@ -130,7 +130,7 @@ public class PreviewImageGalleryImageActivity extends AppCompatActivity {
                     request.setAllowedOverRoaming(false);
                     request.setTitle(s);
                     request.setVisibleInDownloadsUi(true);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Images/" + s);
+                    request.setDestinationInExternalPublicDir("/VUCS", "/Image Gallery/" + s);
 
 
                     downloadManager.enqueue(request);

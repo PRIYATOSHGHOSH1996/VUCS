@@ -27,6 +27,7 @@ import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.dao.RoutineDAO;
 import com.vucs.dao.TeacherDAO;
 import com.vucs.db.AppDatabase;
+import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
 import com.vucs.helper.Utils;
 import com.vucs.model.BlogModel;
@@ -103,6 +104,7 @@ public class GetDataService extends IntentService {
 
 
     public static void updateData(final Context context) {
+        AppPreference appPreference=new AppPreference(getContext());
         try {
             AppDatabase db = AppDatabase.getDatabase(context);
             blogDAO = db.blogDAO();
@@ -115,13 +117,14 @@ public class GetDataService extends IntentService {
             routineDAO = db.routineDAO();
             Service service = DataServiceGenerator.createService(Service.class);
             // add another part within the multipart request
+
             Call<ApiUpdateModel> call = service.getAllData(new ApiCredentialWithUserId());
 
             call.enqueue(new Callback<ApiUpdateModel>() {
                 @Override
                 public void onResponse(@NonNull Call<ApiUpdateModel> call, @NonNull Response<ApiUpdateModel> response) {
                     if (response.isSuccessful()) {
-                        Log.e(TAG, "Response code: " + response.code() + "");
+                        Log.e(TAG, "Response code1: " + response.code() + "");
                         if (response.body() != null) {
                             try {
                             ApiUpdateModel apiUpdateModel = response.body();
@@ -252,7 +255,6 @@ public class GetDataService extends IntentService {
                                                     Constants.UPDATING_TEACHER=true;
                                                     teacherDAO.deleteAllTeacher();
                                                     teacherDAO.insertTeacher(teacherModels);
-                                                    teacherDAO.insertTeacher(new TeacherModel("d","teacher 1","https://firebasestorage.googleapis.com/v0/b/chattingapp-8dde4.appspot.com/o/l4.jpg?alt=media&token=724fd54b-68ce-4551-af9b-7c4364de32b6", "www.google.com", "gdfgaseiodyfcgusaedlfcbiularsdogfisakdgfuysgzdcisagduifa",3));
                                                     Constants.UPDATING_TEACHER=false;
                                                 }
                                             }
@@ -311,29 +313,36 @@ public class GetDataService extends IntentService {
                                 completed.join();
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Intent in = new Intent(getContext().getString(R.string.app_name));
+                                Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                                 in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                                 getContext().sendBroadcast(in);
                             }
                         }
                     } else {
-                        Log.e(TAG, "Response code: " + response.code() + "");
+                        appPreference.clear();
+                        Log.e(TAG, "Response code2: " + response.code() + "");
+                        Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
+                        in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
+                        getContext().sendBroadcast(in);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<ApiUpdateModel> call, @NonNull Throwable t) {
+                    appPreference.clear();
                     Log.e(TAG, "OnFailure " + t.getMessage());
-                    Intent in = new Intent(getContext().getString(R.string.app_name));
+                    Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                     in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                     getContext().sendBroadcast(in);
                 }
             });
         } catch (Exception e) {
+            appPreference.clear();
             e.printStackTrace();
-            Intent in = new Intent(getContext().getString(R.string.app_name));
+            Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
             in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
             getContext().sendBroadcast(in);
+
         }
     }
 }

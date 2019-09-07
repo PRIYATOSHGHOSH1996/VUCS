@@ -7,6 +7,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.vucs.R;
@@ -153,11 +156,33 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void batchUpdate(Map<String, String> data) {
+
         AppPreference appPreference = new AppPreference(getBaseContext());
+        String s= appPreference.getUserCourseCode()+"_"+appPreference.getUserSem();
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().unsubscribeFromTopic(s);
         appPreference.setUserCourse(data.get("course"));
         appPreference.setUserCourseCode(Integer.parseInt(Objects.requireNonNull(data.get("course_code"))));
         appPreference.setUserSem(Integer.parseInt(Objects.requireNonNull(data.get("sem"))));
         appPreference.setUserType(Integer.parseInt(Objects.requireNonNull(data.get("user_type"))));
+        appPreference.setFirebaseTopicSynced(false);
+        String s1= appPreference.getUserCourseCode()+"_"+appPreference.getUserSem();
+        com.google.firebase.messaging.FirebaseMessaging.getInstance().subscribeToTopic(s1)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            appPreference.setFirebaseTopicSynced(true);
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+       if (appPreference.getUserType()==Constants.CATEGORY_EX_STUDENT){
+           com.google.firebase.messaging.FirebaseMessaging.getInstance().unsubscribeFromTopic("CURRENT");
+       }
     }
 
     private void allDataUpdate(Map<String, String> data) {
@@ -205,7 +230,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     private void setClassNotice(Map<String, String> data) {
         try {
             AppPreference appPreference = new AppPreference(getContext());
-            if (appPreference.getUserType()==2) {
+            if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT) {
                 ClassNoticeModel classNoticeModel = new ClassNoticeModel(data.get("message"), new Date(data.get("date")), data.get("notice_by"), data.get("sem"), data.get("url"));
                 AppDatabase database = AppDatabase.getDatabase(getContext());
                 NoticeDAO noticeDAO = database.noticeDAO();

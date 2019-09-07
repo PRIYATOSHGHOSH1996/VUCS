@@ -73,10 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:indeterminate="false"
-                android:indeterminateTint="#388E3C"
                 android:max="100"
                 android:progress="0"
-                android:progressTint="#388E3C"
                 />
 
         </FrameLayout>

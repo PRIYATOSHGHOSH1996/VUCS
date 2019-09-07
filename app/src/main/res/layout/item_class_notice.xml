@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/white">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_shadow_background"
         android:paddingLeft="18dp"
         android:paddingTop="8dp"
         android:paddingRight="18dp"
@@ -62,14 +63,14 @@
             android:orientation="horizontal">
             <ProgressBar
                 android:id="@+id/progress_bar"
-
-                style="@style/Widget.AppCompat.ProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
-                android:indeterminate="true"
                 android:padding="2dp"
+                android:indeterminate="true"
                 android:layout_gravity="start"
-                android:indeterminateTint="@color/colorPrimary1"
+                android:indeterminateDrawable="@drawable/circlular_progress"
+                android:progressDrawable="@drawable/circlular_progress"
                 />
             <ImageButton
                 android:id="@+id/download"
@@ -88,10 +89,5 @@
 
 
     </RelativeLayout>
-    <View
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black_fade"/>
 
 </androidx.cardview.widget.CardView>

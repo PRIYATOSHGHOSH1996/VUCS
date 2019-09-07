@@ -101,7 +101,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         if (itemId != -1) {
             List<JobFileModel> jobFileModelList = jobViewModel.getAllJobFileById(itemId);
             for (JobFileModel jobFileModel : jobFileModelList) {
-                if (!jobFileModel.getJobFileURL().equals("default") && getApplication() != null) {
+                if (jobFileModel.getJobFileURL()!=null&&!jobFileModel.getJobFileURL().equals("default") && getApplication() != null) {
                     View view = getLayoutInflater().inflate(R.layout.item_file_layout, null);
 
                     GifImageView item_image = view.findViewById(R.id.item_image);
@@ -177,7 +177,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                     request.setAllowedOverRoaming(false);
                     request.setTitle(s);
                     request.setVisibleInDownloadsUi(true);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Job/" + "/" + s);
+                    request.setDestinationInExternalPublicDir("/VUCS", "/JobFile/"  + s);
 
 
                     downloadManager.enqueue(request);

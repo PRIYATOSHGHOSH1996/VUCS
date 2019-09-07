@@ -60,8 +60,16 @@ public class RoutineActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
         Calendar calendar = Calendar.getInstance();
         int dayNo=calendar.get(Calendar.DAY_OF_WEEK);
+        AppPreference appPreference = new AppPreference(this);
         RoutineViewModel routineViewModel=ViewModelProviders.of(this).get(RoutineViewModel.class);
-        List<Integer> days = routineViewModel.getDays();
+        List<Integer> days=Collections.emptyList();
+        if (appPreference.getUserType()==Constants.CATEGORY_TEACHER){
+            days = routineViewModel.getDays(appPreference.getUserId());
+        }
+        else if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+            days = routineViewModel.getDays(appPreference.getUserCourseCode(),appPreference.getUserSem());
+        }
+
         Log.e("days",days.toString());
         RoutinePagerAdapter adapter=new RoutinePagerAdapter(this,dayNo-1,days);
         viewPager.setAdapter(adapter);

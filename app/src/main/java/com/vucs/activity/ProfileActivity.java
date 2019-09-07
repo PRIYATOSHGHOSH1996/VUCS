@@ -2,6 +2,7 @@ package com.vucs.activity;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +42,7 @@ import com.vucs.api.Service;
 import com.vucs.dao.PhirePawaProfileDAO;
 import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
 import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.CareerModel;
@@ -46,7 +50,10 @@ import com.vucs.service.DataServiceGenerator;
 import com.vucs.viewmodel.PhirePawaProfileViewModel;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -56,7 +63,7 @@ import retrofit2.Response;
 public class ProfileActivity extends AppCompatActivity {
     TextView name, mail, course, batch, dob;
     CircleImageView profile_pic;
-    EditText ph_no, address;
+    TextView ph_no, address;
     LinearLayout career_layout,career_text_layout;
     AppPreference appPreference;
     PhirePawaProfileViewModel phirePawaProfileViewModel;
@@ -95,13 +102,28 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initView() {
         try {
-            name.setText(appPreference.getUserName());
+            name.setText(appPreference.getUserFirstName()+" "+appPreference.getUserLastName());
             mail.setText(appPreference.getUserEmail());
             course.setText(appPreference.getUserCourse());
-            batch.setText(appPreference.getUserBatch());
-            dob.setText(appPreference.getUserDob());
-            ph_no.setText(appPreference.getUserPhoneNo());
-            address.setText(appPreference.getUserAddress());
+
+            if (!appPreference.getUserDob().equals("")){
+                findViewById(R.id.dob_container).setVisibility(View.VISIBLE);
+                dob.setText(appPreference.getUserDob());
+            }
+
+            if (appPreference.getUserPhoneNo()!=null&&(!appPreference.getUserPhoneNo().equals(""))){
+                ph_no.setText(appPreference.getUserPhoneNo());
+                findViewById(R.id.phone_no_container).setVisibility(View.VISIBLE);
+            }
+            if (appPreference.getUserAddress()!=null&&(!appPreference.getUserAddress().equals(""))){
+                findViewById(R.id.address_container).setVisibility(View.VISIBLE);
+                address.setText(appPreference.getUserAddress());
+
+            }
+            if (appPreference.getUserStartBatch() != 0 && appPreference.getUserEndBatch() != 0) {
+                batch.setVisibility(View.VISIBLE);
+                batch.setText(appPreference.getUserStartBatch() + " - "+appPreference.getUserEndBatch());
+            }
             Glide
                     .with(this)
                     .load(appPreference.getUserImageUrl())
@@ -148,7 +170,23 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void deleteCareerDialog( int id){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.edit_profile: startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
+                overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteCareerDialog(int id){
         Dialog dialog = new Dialog(this,R.style.Theme_Design_BottomSheetDialog);
         View view=getLayoutInflater().inflate(R.layout.dialoge_forgot_password,null);
         TextView textView=view.findViewById(R.id.text);
@@ -294,9 +332,7 @@ public class ProfileActivity extends AppCompatActivity {
                 reEnterPassword.setError("Please re enter new password.");
             } else if (!reEnterPassword.getEditText().getText().toString().equals(enterPassword.getEditText().getText().toString())) {
                 reEnterPassword.setError("Passwords does not match.");
-            } else if (!appPreference.getPassword().equals(current_password.getEditText().getText().toString())) {
-                current_password.setError("enter correct password.");
-            } else if (!Utils.isNetworkAvailable()) {
+            }  else if (!Utils.isNetworkAvailable()) {
                 Toast.makeText(ProfileActivity.this, "Internet connection not available");
             } else {
                 mBottomSheetDialog.dismiss();
@@ -399,6 +435,15 @@ public class ProfileActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.edit_profile);
+        if (appPreference.getUserType()== Constants.CATEGORY_TEACHER){
+            item.setVisible(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private static class DeleteCareer extends AsyncTask<Void, Void, Void> {
@@ -584,5 +629,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
     }
 }

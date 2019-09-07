@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -125,6 +126,8 @@ public class HomeActivity extends AppCompatActivity
     RecyclerView recyclerView;
     int position;
     TextView notice_count;
+    int switchCount=0;
+    String[] bottomTextSwitcher={"Vidyasagar University","Dept. of Computer Science","Developed By PaleFire"};
    BroadcastReceiver notificationCountBroadCast = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -239,8 +242,11 @@ public class HomeActivity extends AppCompatActivity
             CircleImageView profile_pic=navigationView.getHeaderView(0).findViewById(R.id.imageView);
             TextView mail=navigationView.getHeaderView(0).findViewById(R.id.email);
             TextView name=navigationView.getHeaderView(0).findViewById(R.id.name);
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            TextView version=navigationView.getHeaderView(0).findViewById(R.id.version);
+            version.setText(pInfo.versionName);
             mail.setText(appPreference.getUserEmail());
-            name.setText(appPreference.getUserName());
+            name.setText(appPreference.getUserFirstName()+" "+appPreference.getUserLastName());
             Glide
                     .with(this)
                     .load(appPreference.getUserImageUrl())
@@ -438,15 +444,16 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void run()
                 {
-                  if (textChangeFlag){
-                      textSwitcher.setText("Vidyasagar University");
-                      textChangeFlag =false;
-                  }
-                  else {
-                      textSwitcher.setText("Dept. of Computer Science");
-                      textChangeFlag =true;
-                  }
-                    tipsHanlder.postDelayed(this, 5000);
+                    try {
+                        textSwitcher.setText(bottomTextSwitcher[switchCount]);
+                        switchCount++;
+                        if (switchCount>=bottomTextSwitcher.length){
+                            switchCount=0;
+                        }
+                        tipsHanlder.postDelayed(this, 5000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             };
 
@@ -686,7 +693,7 @@ public class HomeActivity extends AppCompatActivity
             String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
             String s1[] = s.split("\\.");
             s = s1[s1.length - 1];
-            File wallpaperDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+ "/VUCS Notice/" + "/");
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory().getPath()+ "/VUCS/Notice/");
             // have the object build the directory structure, if needed.
             wallpaperDirectory.mkdirs();
             file = new File(wallpaperDirectory, noticeModel.getNoticeTitle()+noticeModel.getNoticeId() + "." + s);
@@ -744,6 +751,7 @@ public class HomeActivity extends AppCompatActivity
                         ((RecyclerViewNoticeAdapter)recyclerViewWeakReference.get().getAdapter()).sparseBooleanArray.put(position,false);
                     }
                     else {
+                        holder.progressBar.setIndeterminate(false);
                         holder.progressBar.setProgress(progress[0]);
                     }
 
@@ -781,7 +789,7 @@ public class HomeActivity extends AppCompatActivity
                     new DownloadFile(this,recyclerView,position,noticeModel).execute();
                     /*DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                     Uri Download_Uri = Uri.parse(noticeModel.getDownloadURL());
- String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
+                    String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
                     String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
 
@@ -793,8 +801,6 @@ public class HomeActivity extends AppCompatActivity
                     request.setTitle(noticeModel.getNoticeTitle());
                     request.setVisibleInDownloadsUi(true);
                     request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Notice/" + "/" + noticeModel.getNoticeTitle() + "." + s);
-
-
                     downloadManager.enqueue(request);*/
                 } else {
                     Snackbar.withNetworkAction(this,findViewById(R.id.coordinator),"Internet connection not available");

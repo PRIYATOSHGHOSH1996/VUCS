@@ -258,7 +258,7 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
             String s = URLUtil.guessFileName(classNoticeModel.getFileUrl(), null, null);
             String s1[] = s.split("\\.");
             s = s1[s1.length - 1];
-            File wallpaperDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+ "/VUCS ClassNotice/" + "/");
+            File wallpaperDirectory = new File(Environment.getExternalStorageDirectory().getPath()+ "/VUCS/ClassNotice/");
             // have the object build the directory structure, if needed.
             wallpaperDirectory.mkdirs();
             file = new File(wallpaperDirectory, noticeModel.getNoticeTitle()+noticeModel.getNoticeId() + "." + s);
@@ -316,6 +316,7 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
                         ((RecyclerViewClassNoticeAdapter)context.get().recyclerView.getAdapter()).sparseBooleanArray.put(position,false);
                     }
                     else {
+                        holder.progressBar.setIndeterminate(false);
                         holder.progressBar.setProgress(progress[0]);
                     }
 

@@ -38,18 +38,16 @@
         android:paddingTop="25dp"
         android:paddingEnd="25dp"
         android:paddingBottom="25dp">
-
         <ProgressBar
+
             android:id="@+id/progress_bar"
-            style="@android:style/Widget.Holo.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="false"
-
-            android:indeterminateTint="@color/colorPrimary1"
-            android:max="100"
-            android:progress="3366" />
-
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/circlular_progress"
+            android:progressDrawable="@drawable/circlular_progress"
+            />
         <TextView
             android:paddingStart="12dp"
             android:layout_gravity="center"

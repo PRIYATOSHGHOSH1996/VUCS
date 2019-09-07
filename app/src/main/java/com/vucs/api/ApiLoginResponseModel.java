@@ -12,8 +12,11 @@ public class ApiLoginResponseModel {
     @SerializedName("category")
     private int type;
 
-    @SerializedName("name")
-    private String name;
+    @SerializedName("first_name")
+    private String firstName;
+
+    @SerializedName("last_name")
+    private String lastName;
 
     @SerializedName("mail")
     private String mail;
@@ -36,19 +39,22 @@ public class ApiLoginResponseModel {
     @SerializedName("course_code")
     private int courseCode;
 
-    @SerializedName("batch")
-    private String batch;
-
     @SerializedName("sem")
     private int sem;
 
+    @SerializedName("start_batch")
+    private int startBatch;
 
-    public ApiLoginResponseModel(Integer code, String message, String userId, int type, String name, String mail, String phoneNo, String address, String image, String dob, String course, int courseCode, String batch, int sem) {
+    @SerializedName("end_batch")
+    private int endBatch;
+
+    public ApiLoginResponseModel(Integer code, String message, String userId, int type, String firstName, String lastName, String mail, String phoneNo, String address, String image, String dob, String course, int courseCode, int sem, int startBatch, int endBatch) {
         this.code = code;
         this.message = message;
         this.userId = userId;
         this.type = type;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.mail = mail;
         this.phoneNo = phoneNo;
         this.address = address;
@@ -56,8 +62,9 @@ public class ApiLoginResponseModel {
         this.dob = dob;
         this.course = course;
         this.courseCode = courseCode;
-        this.batch = batch;
         this.sem = sem;
+        this.startBatch = startBatch;
+        this.endBatch = endBatch;
     }
 
     public Integer getCode() {
@@ -84,12 +91,20 @@ public class ApiLoginResponseModel {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getMail() {
@@ -140,15 +155,6 @@ public class ApiLoginResponseModel {
         this.course = course;
     }
 
-    public String getBatch() {
-        return batch;
-    }
-
-    public void setBatch(String batch) {
-        this.batch = batch;
-    }
-
-
     public int getType() {
         return type;
     }
@@ -173,14 +179,32 @@ public class ApiLoginResponseModel {
         this.courseCode = courseCode;
     }
 
+
+    public int getStartBatch() {
+        return startBatch;
+    }
+
+    public void setStartBatch(int startBatch) {
+        this.startBatch = startBatch;
+    }
+
+    public int getEndBatch() {
+        return endBatch;
+    }
+
+    public void setEndBatch(int endBatch) {
+        this.endBatch = endBatch;
+    }
+
     @Override
     public String toString() {
         return "ApiLoginResponseModel{" +
                 "code=" + code +
                 ", message='" + message + '\'' +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", type=" + type +
-                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", mail='" + mail + '\'' +
                 ", phoneNo='" + phoneNo + '\'' +
                 ", address='" + address + '\'' +
@@ -188,8 +212,9 @@ public class ApiLoginResponseModel {
                 ", dob='" + dob + '\'' +
                 ", course='" + course + '\'' +
                 ", courseCode=" + courseCode +
-                ", batch='" + batch + '\'' +
                 ", sem=" + sem +
+                ", startBatch=" + startBatch +
+                ", endBatch=" + endBatch +
                 '}';
     }
 }

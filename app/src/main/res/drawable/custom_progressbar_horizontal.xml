@@ -3,31 +3,24 @@
     <item android:id="@android:id/background"
         android:gravity="center_vertical|fill_horizontal">
         <shape android:shape="rectangle"
-            android:tint="?attr/colorControlNormal">
+            >
             <corners android:radius="8dp"/>
             <size android:height="20dp" />
-            <solid android:color="#90caf9" />
+            <solid android:color="@color/black_fade" />
         </shape>
-    </item>
-    <item android:id="@android:id/secondaryProgress"
-        android:gravity="center_vertical|fill_horizontal">
-        <scale android:scaleWidth="100%">
-            <shape android:shape="rectangle"
-                android:tint="?attr/colorControlHighlight">
-                <corners android:radius="8dp"/>
-                <size android:height="20dp" />
-                <solid android:color="#90caf9" />
-            </shape>
-        </scale>
     </item>
     <item android:id="@android:id/progress"
         android:gravity="center_vertical|fill_horizontal">
         <scale android:scaleWidth="100%">
             <shape android:shape="rectangle"
-                android:tint="?attr/colorControlActivated">
+                >
                 <corners android:radius="8dp"/>
                 <size android:height="20dp" />
-                <solid android:color="#388E3C" />
+                <gradient
+                    android:angle="0"
+                    android:endColor="#FF008080"
+                    android:startColor="#FF01203D"
+                    android:type="linear" />
             </shape>
         </scale>
     </item>

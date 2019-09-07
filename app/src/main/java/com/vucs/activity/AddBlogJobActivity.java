@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -48,6 +50,7 @@ import com.vucs.service.DataServiceGenerator;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
@@ -113,21 +116,34 @@ public class AddBlogJobActivity extends AppCompatActivity {
 
     private void initView() {
         file_layout = findViewById(R.id.file_layout);
-        Button add_file = findViewById(R.id.add_file);
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         uriList = new ArrayList<>();
-        add_file.setOnClickListener(v -> {
-                    Log.e(TAG, "uri list = " + uriList.toString());
-                    if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
-                        showGetFileDialog();
-                    }else {
-                        com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
-                    }
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_blog_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.attachment:
+                Log.e(TAG, "uri list = " + uriList.toString());
+                if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
+                    showGetFileDialog();
+                }else {
+                    com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
                 }
-        );
-
-
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private boolean isImageUri(Uri uri) {
@@ -252,19 +268,38 @@ public class AddBlogJobActivity extends AppCompatActivity {
         Utils.Builder.notifyActivityChange(requestCode, resultCode, data);
         if (requestCode == CHOOSE_MULTIPLE_FILE_REQUEST_CODE) {
             if (null != data) { // checking empty selection
-                if (null != data.getClipData()) {
-                    // checking multiple selection or not
-                    if ((data.getClipData().getItemCount()+uriList.size())<=Constants.MAX_JOB_FILE_SELECT) {
-                        for (int i = 0; i < data.getClipData().getItemCount(); i++) {
-                            Uri uri = data.getClipData().getItemAt(i).getUri();
-                            addImage(uri);
+                try {
+                    if (null != data.getClipData()) {
+                        // checking multiple selection or not
+                        if ((data.getClipData().getItemCount()+uriList.size())<=Constants.MAX_JOB_FILE_SELECT) {
+                            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                                Uri uri = data.getClipData().getItemAt(i).getUri();
+                                InputStream in = getContentResolver().openInputStream(uri);
+                                Log.e("file size",in.available()+"");
+                                if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
+                                    addImage(uri);
+
+                                }else {
+                                    com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
+                                }
+
+                            }
+                        }else {
+                            com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
                         }
-                    }else {
-                        com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
+                    } else {
+                        Uri uri = data.getData();
+                        InputStream in = getContentResolver().openInputStream(uri);
+                        Log.e("file size",in.available()+"");
+                        if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
+                            addImage(uri);
+
+                        }else {
+                            com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
+                        }
                     }
-                } else {
-                    Uri uri = data.getData();
-                    addImage(uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -340,7 +375,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
 
                                     if (apiAddJobResponseModel.getCode() == 1) {
 
-                                        jobDAO.insertJob(new JobModel(apiAddJobResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserName(), new Date(),
+                                        jobDAO.insertJob(new JobModel(apiAddJobResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), new Date(),
                                                 jobDescription, 1));
                                         RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
                                         RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());

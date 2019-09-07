@@ -1,17 +1,16 @@
 package com.vucs.activity;
 
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
-import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
@@ -29,11 +28,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.vucs.R;
 import com.vucs.api.ApiForgotPasswordModel;
 import com.vucs.api.ApiLoginModel;
@@ -64,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     FrameLayout frameLayout;
     TextInputLayout user_name, password;
     AppPreference appPreference;
-    private boolean forgotPassword=false;
+    private boolean forgotPassword = false;
     TextView forgot_password;
     BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -77,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
                 openHomeActivity();
 
             } else if (action.equals(getString(R.string.get_data_on_failure_action))) {
-
-                showSnackBar("Error ocurred while updating data");
+                progressBarToButton();
+                showSnackBar(getString(R.string.server_error));
             }
         }
     };
@@ -140,19 +137,16 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (Utils.isNetworkAvailable()) {
                         buttonToProgressBar();
                         new CheckingUser(LoginActivity.this, user_name.getEditText().getText().toString(), password.getEditText().getText().toString()).execute();
-                    }
-                    else {
+                    } else {
                         showSnackBarWithNetworkAction("No internet connection");
                     }
                 } else {
                     if (user_name.getEditText().getText().toString().isEmpty()) {
                         showSnackBar("Please enter user name");
-                    }
-                    else if (Utils.isNetworkAvailable()) {
-                       buttonToProgressBar();
+                    } else if (Utils.isNetworkAvailable()) {
+                        buttonToProgressBar();
                         new ForgetPassword(LoginActivity.this, user_name.getEditText().getText().toString()).execute();
-                    }
-                    else {
+                    } else {
                         showSnackBarWithNetworkAction("No internet connection");
                     }
                 }
@@ -163,17 +157,16 @@ public class LoginActivity extends AppCompatActivity {
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (forgotPassword){
+                if (forgotPassword) {
                     login.setText("Login");
                     forgot_password.setText("Forgot password");
                     password.setVisibility(View.VISIBLE);
-                    forgotPassword=false;
-                }
-                else {
+                    forgotPassword = false;
+                } else {
                     login.setText("Get password");
                     forgot_password.setText("Login");
                     password.setVisibility(View.GONE);
-                    forgotPassword=true;
+                    forgotPassword = true;
                 }
             }
         });
@@ -285,11 +278,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onRegisterClick(View view) {
-        startActivity(new Intent(this, RegistrationActivity.class));
-        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+        /*startActivity(new Intent(this, RegistrationActivity.class));
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);*/
+        String url = getString(R.string.registration_url);
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.setPackage("com.android.chrome");
+        try {
+            startActivity(i);
+        } catch (ActivityNotFoundException e) {
+            // Chrome is probably not installed
+            // Try with the default browser
+            i.setPackage(null);
+            startActivity(i);
+        }
     }
 
-    private void showSnackBar(String message) {
+    private void  showSnackBar(String message) {
         Snackbar snackbar = Snackbar.make(findViewById(R.id.parent), message, Snackbar.LENGTH_LONG);
         View view = snackbar.getView();
         view.setBackgroundColor(getResources().getColor(R.color.colorPrimary1));
@@ -318,7 +323,6 @@ public class LoginActivity extends AppCompatActivity {
         textView1.setTextColor(getResources().getColor(R.color.colorAccent));
         snackbar.show();
     }
-
 
 
     private static class CheckingUser extends AsyncTask<Void, Void, Void> {
@@ -384,7 +388,8 @@ public class LoginActivity extends AppCompatActivity {
                                         appPreference.setUserId(apiLoginResponseModel.getUserId());
                                         appPreference.setUserType(apiLoginResponseModel.getType());
                                         appPreference.setUserPassword(passWord);
-                                        appPreference.setUserName(apiLoginResponseModel.getName());
+                                        appPreference.setUserFirstName(apiLoginResponseModel.getFirstName());
+                                        appPreference.setUserLastName(apiLoginResponseModel.getLastName());
                                         appPreference.setUserEmail(apiLoginResponseModel.getMail());
                                         appPreference.setUserPhoneNo(apiLoginResponseModel.getPhoneNo());
                                         appPreference.setUserAddress(apiLoginResponseModel.getAddress());
@@ -392,8 +397,9 @@ public class LoginActivity extends AppCompatActivity {
                                         appPreference.setUserImageUrl(apiLoginResponseModel.getImage());
                                         appPreference.setUserDob(apiLoginResponseModel.getDob());
                                         appPreference.setUserCourse(apiLoginResponseModel.getCourse());
-                                        appPreference.setUserBatch(apiLoginResponseModel.getBatch());
                                         appPreference.setUserSem(apiLoginResponseModel.getSem());
+                                        appPreference.setUserStartBatch(apiLoginResponseModel.getStartBatch());
+                                        appPreference.setUserEndBatch(apiLoginResponseModel.getEndBatch());
                                         Thread workThread = new Thread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -415,7 +421,7 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
                                     }
 
-                                    Utils.openDialog(activity,apiLoginResponseModel.getMessage());
+                                    Utils.openDialog(activity, apiLoginResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
                                     Log.e(TAG, apiLoginResponseModel.getMessage());
@@ -497,12 +503,13 @@ public class LoginActivity extends AppCompatActivity {
                                 final ApiResponseModel apiResponseModel = response.body();
                                 Log.e(TAG, "Response:\n" + apiResponseModel.toString());
 
-                                if (apiResponseModel.getCode() == 1) { ;
+                                if (apiResponseModel.getCode() == 1) {
+                                    ;
                                     if (activity == null || activity.isFinishing())
                                         return;
 
                                     try {
-                                        Utils.openDialog(activity,apiResponseModel.getMessage());
+                                        Utils.openDialog(activity, apiResponseModel.getMessage());
                                         activity.progressBarToButton();
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -515,14 +522,13 @@ public class LoginActivity extends AppCompatActivity {
                                         return;
                                     }
 
-                                    Utils.openDialog(activity,apiResponseModel.getMessage());
+                                    Utils.openDialog(activity, apiResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
                                     Log.e(TAG, apiResponseModel.getMessage());
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             Log.e(TAG, "Error Response Code = " + response.code() + "");
                             if (activity == null || activity.isFinishing()) {
                                 return;
@@ -551,13 +557,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (forgotPassword){
+        if (forgotPassword) {
             login.setText("Login");
             forgot_password.setText("Forgot password");
             password.setVisibility(View.VISIBLE);
-            forgotPassword=false;
-        }
-        else {
+            forgotPassword = false;
+        } else {
             super.onBackPressed();
         }
 

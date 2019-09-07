@@ -160,7 +160,7 @@ public class BlogDetailsActivity extends AppCompatActivity {
                     request.setAllowedOverRoaming(false);
                     request.setTitle(itemTitle);
                     request.setVisibleInDownloadsUi(true);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/VUCS Blog/" + itemTitle + "." + s);
+                    request.setDestinationInExternalPublicDir("/VUCS", "/Blog/" + itemTitle + "." + s);
 
 
                     downloadManager.enqueue(request);
