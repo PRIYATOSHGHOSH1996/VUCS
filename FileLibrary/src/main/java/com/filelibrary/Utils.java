@@ -155,9 +155,6 @@ public class Utils extends AppCompatActivity {
         }
 
         public static synchronized void notifyPermissionsChange(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            if (activityParent.get() == null || builder == null) {
-                return;
-            }
             if (requestCode == REQUEST_WRITE_PERMISSIONS) {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                          builder.chooseFile();

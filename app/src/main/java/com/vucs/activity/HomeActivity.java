@@ -239,25 +239,6 @@ public class HomeActivity extends AppCompatActivity
             toggle.syncState();
 
             navigationView = (NavigationView) findViewById(R.id.nav_view);
-            CircleImageView profile_pic=navigationView.getHeaderView(0).findViewById(R.id.imageView);
-            TextView mail=navigationView.getHeaderView(0).findViewById(R.id.email);
-            TextView name=navigationView.getHeaderView(0).findViewById(R.id.name);
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            TextView version=navigationView.getHeaderView(0).findViewById(R.id.version);
-            version.setText(pInfo.versionName);
-            mail.setText(appPreference.getUserEmail());
-            name.setText(appPreference.getUserFirstName()+" "+appPreference.getUserLastName());
-            Glide
-                    .with(this)
-                    .load(appPreference.getUserImageUrl())
-                    .fitCenter()
-                    .transition(new DrawableTransitionOptions().crossFade())
-                    .into(new SimpleTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            profile_pic.setImageDrawable(resource);
-                        }
-                    });
             if (appPreference.getUserType()==Constants.CATEGORY_EX_STUDENT) {
               MenuItem notice =(MenuItem)  navigationView.getMenu().findItem(R.id.notice);
               notice.setVisible(false);
@@ -1031,13 +1012,37 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(forceLogoutBroadCast, new IntentFilter(getString(R.string.force_logout_broadcast)));
-        registerReceiver(notificationCountBroadCast, new IntentFilter(getString(R.string.notification_count_broadcast)));
-        registerReceiver(serviceBroadcastReceiver, new IntentFilter(getString(R.string.fetch_all_data_broad_cast)));
-        appPreference=new AppPreference(this);
-        openForceLogoutAlert();
-        if (showNoticeCount) {
-            setNotificationCount();
+        try {
+            registerReceiver(forceLogoutBroadCast, new IntentFilter(getString(R.string.force_logout_broadcast)));
+            registerReceiver(notificationCountBroadCast, new IntentFilter(getString(R.string.notification_count_broadcast)));
+            registerReceiver(serviceBroadcastReceiver, new IntentFilter(getString(R.string.fetch_all_data_broad_cast)));
+            appPreference=new AppPreference(this);
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            CircleImageView profile_pic=navigationView.getHeaderView(0).findViewById(R.id.imageView);
+            TextView mail=navigationView.getHeaderView(0).findViewById(R.id.email);
+            TextView name=navigationView.getHeaderView(0).findViewById(R.id.name);
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            TextView version=navigationView.getHeaderView(0).findViewById(R.id.version);
+            version.setText(pInfo.versionName);
+            mail.setText(appPreference.getUserEmail());
+            name.setText(appPreference.getUserFirstName()+" "+appPreference.getUserLastName());
+            Glide
+                    .with(this)
+                    .load(appPreference.getUserImageUrl())
+                    .fitCenter()
+                    .transition(new DrawableTransitionOptions().crossFade())
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            profile_pic.setImageDrawable(resource);
+                        }
+                    });
+            openForceLogoutAlert();
+            if (showNoticeCount) {
+                setNotificationCount();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

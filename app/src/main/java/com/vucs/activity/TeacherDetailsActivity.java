@@ -52,7 +52,12 @@ public class TeacherDetailsActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient() {
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                if (url.equals(getString(R.string.login_url))){
+                    onBackPressed();
+                }
+                else {
+                    view.loadUrl(url);
+                }
                 return true;
             }
 
@@ -69,6 +74,8 @@ public class TeacherDetailsActivity extends AppCompatActivity {
 
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
 
         // Other webview options
         /*

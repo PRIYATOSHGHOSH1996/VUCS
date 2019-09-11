@@ -69,11 +69,10 @@ public class AddBlogJobActivity extends AppCompatActivity {
     List<Uri> uriList;
     LinearLayout file_layout;
     TextInputLayout title, description;
-    FrameLayout progress_layout;
-    Dialog dialog;
+
+
     private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE = 125;
-    private TextView dialog_text, percentage;
-    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,21 +93,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
             TextView header_text = findViewById(R.id.header_text);
             header_text.setText("Add job");
             initView();
-            dialog = new Dialog(this, R.style.Theme_Design_BottomSheetDialog);
-            ((ViewGroup)dialog.getWindow().getDecorView())
-                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
-                    this,R.anim.dialog_anim));
-            View view = getLayoutInflater().inflate(R.layout.dialoge_uploading_file, null);
-            dialog_text = view.findViewById(R.id.text);
-            dialog_text.setText("Please wait");
-            percentage = view.findViewById(R.id.percentage);
-            percentage.setText("24%");
-            progressBar = view.findViewById(R.id.progress_bar);
-            progress_layout = view.findViewById(R.id.progress_layout);
-            progressBar.setProgress(25);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            dialog.addContentView(view, layoutParams);
-            dialog.setCancelable(false);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -332,6 +317,10 @@ public class AddBlogJobActivity extends AppCompatActivity {
         private WeakReference<AddBlogJobActivity> homeWeakReference;
         private String jobTitle, jobDescription;
         private List<Uri> uriList;
+        Dialog dialog;
+        private TextView dialog_text, percentage;
+        private ProgressBar progressBar;
+        FrameLayout progress_layout;
 
 
         UploadJob(AddBlogJobActivity home, String jobTitle, String jobDescription, List<Uri> uriList) {
@@ -342,6 +331,21 @@ public class AddBlogJobActivity extends AppCompatActivity {
             totalFile = uriList.size();
             AppDatabase db = AppDatabase.getDatabase(homeWeakReference.get());
             jobDAO = db.jobDAO();
+            dialog = new Dialog(homeWeakReference.get(), R.style.Theme_MaterialComponents_BottomSheetDialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    homeWeakReference.get(),R.anim.dialog_anim));
+            View view = homeWeakReference.get().getLayoutInflater().inflate(R.layout.dialoge_uploading_file, null);
+            dialog_text = view.findViewById(R.id.text);
+            dialog_text.setText("Uploading your post.");
+            percentage = view.findViewById(R.id.percentage);
+            percentage.setText("0%");
+            progressBar = view.findViewById(R.id.progress_bar);
+            progress_layout = view.findViewById(R.id.progress_layout);
+            progressBar.setProgress(25);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view, layoutParams);
+            dialog.setCancelable(false);
 
         }
 
@@ -351,7 +355,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
             if (homeWeakReference.get() == null)
                 return;
 
-            homeWeakReference.get().dialog.show();
+            dialog.show();
         }
 
         @Override
@@ -426,7 +430,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                                         if (count == uriList.size() - 1) {
                                                             if (homeWeakReference.get() == null)
                                                                 return;
-                                                            homeWeakReference.get().dialog.dismiss();
+                                                            dialog.dismiss();
                                                             Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
                                                             homeWeakReference.get().onBackPressed();
                                                         }
@@ -444,7 +448,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                         if (uriList.size()==0){
                                             if (homeWeakReference.get() == null)
                                                 return;
-                                            homeWeakReference.get().dialog.dismiss();
+                                            dialog.dismiss();
                                             Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
                                             homeWeakReference.get().onBackPressed();
                                         }
@@ -453,7 +457,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                     } else {
                                         if (homeWeakReference.get() == null)
                                             return;
-                                        homeWeakReference.get().dialog.dismiss();
+                                        dialog.dismiss();
                                         Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
                                     }
                                 }
@@ -462,7 +466,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                             e.printStackTrace();
                             if (homeWeakReference.get() == null)
                                 return;
-                            homeWeakReference.get().dialog.dismiss();
+                            dialog.dismiss();
                             Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
                         }
                     }
@@ -472,7 +476,7 @@ public class AddBlogJobActivity extends AppCompatActivity {
                         t.printStackTrace();
                         if (homeWeakReference.get() == null)
                             return;
-                        homeWeakReference.get().dialog.dismiss();
+                        dialog.dismiss();
                         Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
                     }
                 });
@@ -491,10 +495,10 @@ public class AddBlogJobActivity extends AppCompatActivity {
                     return;
 
                 Log.e("progrees opdate", percentage1 + "");
-                homeWeakReference.get().progress_layout.setVisibility(View.VISIBLE);
-                homeWeakReference.get().percentage.setText(percentage1 + "%");
-                homeWeakReference.get().dialog_text.setText(title);
-                homeWeakReference.get().progressBar.setProgress(percentage1);
+                progress_layout.setVisibility(View.VISIBLE);
+                percentage.setText(percentage1 + "%");
+                dialog_text.setText(title);
+                progressBar.setProgress(percentage1);
             } catch (Exception e) {
                 e.printStackTrace();
             }

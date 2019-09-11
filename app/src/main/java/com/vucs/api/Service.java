@@ -23,7 +23,7 @@ public interface Service {
                                                       @Part MultipartBody.Part supportFile);
 
     //     API for login
-    @POST("check_login")
+    @POST("get_login")
     Call<ApiLoginResponseModel> getUserLogin(@Body ApiLoginModel apiLoginModel);
 
     //     API for career delete
@@ -39,7 +39,7 @@ public interface Service {
     Call<ApiResponseModel> changePassword(@Body ApiChangePasswordModel apiChangePasswordModel);
 
     //     API for forgot password
-    @POST("check_login")
+    @POST("forgot_password")
     Call<ApiResponseModel> forgotPassword(@Body ApiForgotPasswordModel apiForgotPasswordModel);
 
     //     API for upload token

@@ -59,7 +59,7 @@
                 android:visible="false"/>
             <item
                 android:id="@+id/logout"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/icon_logout"
                 android:title="@string/logout" />
         </menu>
     </item>

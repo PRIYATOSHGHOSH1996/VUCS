@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
+
         <shape android:shape="rectangle">
-            <size android:height="@dimen/bottom_shape_hight"/>
             <solid android:color="@color/white" />
         </shape>
+
     </item>
-    <item android:gravity="top" >
+
+
+    <item
+        android:gravity="top">
         <shape>
-            <size android:height="15dp" />
+            <size android:height="10dp" />
             <gradient
                 android:angle="270"
                 android:endColor="#00FFFFFF"
-                android:startColor="#4F6D6D6D"
+                android:startColor="#336D6D6D"
                 android:type="linear" />
         </shape>
     </item>

@@ -177,8 +177,8 @@ private ImageView fileView;
 
     public void addFile(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSIONS);
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,}, REQUEST_WRITE_PERMISSIONS);
             }
             else {
                 getFile();
@@ -311,12 +311,12 @@ private ImageView fileView;
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         com.filelibrary.Utils.Builder.notifyPermissionsChange(requestCode,permissions,grantResults);
         if (requestCode == REQUEST_WRITE_PERMISSIONS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getFile();
-            } else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
-                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage permission.");
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                showGetFileDialog();
+            } else if (Build.VERSION.SDK_INT >= 23 && (!shouldShowRequestPermissionRationale(permissions[0])||!shouldShowRequestPermissionRationale(permissions[1]))) {
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage and camera permission.");
             } else {
-                Snackbar.show(this,findViewById(R.id.parent),"Please give storage permission");
+                Snackbar.show(this,findViewById(R.id.parent),"Please give storage and camera permission");
             }
         }
     }

@@ -153,6 +153,10 @@ public class EditProfileActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.item_simple_text);
         start_year.setAdapter(adapter);
         start_year.setSelection(styrpos);
+        if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+            start_year.setVisibility(View.GONE);
+            end_year.setVisibility(View.GONE);
+        }
         start_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -190,6 +194,9 @@ public class EditProfileActivity extends AppCompatActivity {
                     } else {
                         startingyear = 0;
                         end_year.setVisibility(View.INVISIBLE);
+                    }
+                    if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
+                        end_year.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -231,8 +238,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void addImageFile(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_WRITE_PERMISSIONS);
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,}, REQUEST_WRITE_PERMISSIONS);
             }
             else {
                 showGetFileDialog();
@@ -321,12 +328,12 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         com.filelibrary.Utils.Builder.notifyPermissionsChange(requestCode,permissions,grantResults);
         if (requestCode == REQUEST_WRITE_PERMISSIONS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 showGetFileDialog();
-            } else if (Build.VERSION.SDK_INT >= 23 && !shouldShowRequestPermissionRationale(permissions[0])) {
-                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage permission.");
+            } else if (Build.VERSION.SDK_INT >= 23 && (!shouldShowRequestPermissionRationale(permissions[0])||!shouldShowRequestPermissionRationale(permissions[1]))) {
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage and camera permission.");
             } else {
-                Snackbar.show(this,findViewById(R.id.parent),"Please give storage permission");
+                Snackbar.show(this,findViewById(R.id.parent),"Please give storage and camera permission");
             }
         }
     }
@@ -338,21 +345,21 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void OnUpdateClick(View view) {
-        String firstName=first_name.getEditText().toString()+"";
-        String lastName=last_name.getEditText().toString()+"";
-        String phoneNumber=phone_no.getEditText().toString()+"";
-        String address=this.address.getEditText().toString()+"";
+        String firstName=first_name.getEditText().getText().toString()+"";
+        String lastName=last_name.getEditText().getText().toString()+"";
+        String phoneNumber=phone_no.getEditText().getText().toString()+"";
+        String address=this.address.getEditText().getText().toString()+"";
 
 
-        if (startingyear==0&&endYear!=0){
+        if (startingyear==0&&endYear!=0&&appPreference.getUserType()!=Constants.CATEGORY_CURRENT_STUDENT){
             Snackbar.show(this,findViewById(R.id.parent),"Please select batch start year.");
             return;
         }
-        if (startingyear!=0&&endYear==0){
+        if (startingyear!=0&&endYear==0&&appPreference.getUserType()!=Constants.CATEGORY_CURRENT_STUDENT){
             Snackbar.show(this,findViewById(R.id.parent),"Please select batch end year.");
             return;
         }
-        if (startingyear==0&&endYear==0){
+        if (startingyear==0&&endYear==0&&appPreference.getUserType()!=Constants.CATEGORY_CURRENT_STUDENT){
             Snackbar.show(this,findViewById(R.id.parent),"Please select batch.");
             return;
         }
@@ -492,7 +499,10 @@ public class EditProfileActivity extends AppCompatActivity {
                                         appPreference.setUserEndBatch(endYear);
                                         appPreference.setUserPhoneNo(phoneNumber);
                                         appPreference.setUserAddress(address);
-                                        appPreference.setUserImageUrl(apiResponseModel.getFileUrl());
+                                        if (apiResponseModel.getFileUrl()!=null&&(!apiResponseModel.getFileUrl().equals(""))){
+                                            appPreference.setUserImageUrl(apiResponseModel.getFileUrl());
+                                        }
+
                                         activity.onBackPressed();
                                         Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                         dialog.dismiss();
@@ -544,6 +554,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 Log.e("persented",percentage+"");
                 progressBar.setProgress(percentage);
                 progressText.setText(title);
+                progressBar.setIndeterminate(false);
             }
 
         }

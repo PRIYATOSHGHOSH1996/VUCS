@@ -1,6 +1,7 @@
 package com.vucs.activity;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -280,18 +281,12 @@ public class LoginActivity extends AppCompatActivity {
     public void onRegisterClick(View view) {
         /*startActivity(new Intent(this, RegistrationActivity.class));
         overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);*/
-        String url = getString(R.string.registration_url);
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.setPackage("com.android.chrome");
-        try {
-            startActivity(i);
-        } catch (ActivityNotFoundException e) {
-            // Chrome is probably not installed
-            // Try with the default browser
-            i.setPackage(null);
-            startActivity(i);
-        }
+        Intent intent  =new Intent(this, TeacherDetailsActivity.class);
+        intent.putExtra(getString(R.string.title),"Registration");
+        intent.putExtra(getString(R.string.url),getString(R.string.registration_url));
+        startActivity(intent);
+        overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+
     }
 
     private void  showSnackBar(String message) {
