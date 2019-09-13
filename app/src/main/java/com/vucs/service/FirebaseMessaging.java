@@ -67,10 +67,8 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.e(TAG, "  message received");
         if (remoteMessage != null) {
             if (remoteMessage.getData().size() > 0) {
-                Log.e(TAG, "Message data payload: " + remoteMessage.getData());
                 try {
                     sendData(remoteMessage.getData());
                 } catch (Exception e) {
@@ -83,7 +81,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
             else if (remoteMessage.getNotification() != null) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 Notification.show(this, 3241, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), intent);
-                Log.e(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
 
             }
         }
@@ -274,11 +271,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(@NonNull Call<ApiBlogUpdateModel> call, @NonNull Response<ApiBlogUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiBlogUpdateModel apiBlogUpdateModel = response.body();
-                                    Log.e(TAG, "Api blog Response:\n" + response.body().toString());
                                     List<BlogModel> blogModels = apiBlogUpdateModel.getBlogModels();
 
                                     Thread blogThread = new Thread(
@@ -320,13 +315,11 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                 }
                             }
                         } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ApiBlogUpdateModel> call, @NonNull Throwable t) {
-                        Log.e(TAG, "OnFailure " + t.getMessage());
                         t.printStackTrace();
                     }
                 });
@@ -358,11 +351,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiNoticeUpdateModel> call, Response<ApiNoticeUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiNoticeUpdateModel apiNoticeUpdateModel = response.body();
-                                    Log.e(TAG, "Api ntice Response:\n" + response.body().toString());
                                     List<NoticeModel> noticeModels = apiNoticeUpdateModel.getNoticeModels();
 
                                     Thread noticeThread = new Thread(
@@ -403,8 +394,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
@@ -442,11 +431,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiImageUpdateModel> call, Response<ApiImageUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiImageUpdateModel apiImageUpdateModel = response.body();
-                                    Log.e(TAG, "Api image Response:\n" + response.body().toString());
                                     List<ImageGalleryModel> imageGalleryModels = apiImageUpdateModel.getImageGalleryModels();
 
                                     Thread imageGalleryThread = new Thread(
@@ -487,8 +474,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
@@ -525,11 +510,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiJobPostUpdateModel> call, Response<ApiJobPostUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiJobPostUpdateModel apiJobPostUpdateModel = response.body();
-                                    Log.e(TAG, "Api job Response:\n" + response.body().toString());
                                     List<JobFileModel> jobFileModels = apiJobPostUpdateModel.getJobFileModels();
                                     List<JobModel> jobModels = apiJobPostUpdateModel.getJobModels();
 
@@ -573,8 +556,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
@@ -611,11 +592,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiPhirePawaUpdateModel> call, Response<ApiPhirePawaUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiPhirePawaUpdateModel apiPhirePawaUpdateModel = response.body();
-                                    Log.e(TAG, "Api phire pawa Response:\n" + response.body().toString());
                                     List<UserModel> userModels = apiPhirePawaUpdateModel.getUserModels();
 
                                     Thread userThread = new Thread(
@@ -656,8 +635,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
@@ -695,11 +672,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiCareerUpdateModel> call, Response<ApiCareerUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiCareerUpdateModel apiCareerUpdateModel = response.body();
-                                    Log.e(TAG, "Api career Response:\n" + response.body().toString());
                                     List<CareerModel> careerModels = apiCareerUpdateModel.getCareerModels();
 
                                     Thread careerThread = new Thread(
@@ -740,8 +715,6 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
@@ -797,11 +770,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiRoutineUpdateModel> call, Response<ApiRoutineUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiRoutineUpdateModel apiRoutineUpdateModel = response.body();
-                                    Log.e(TAG, "Api blog Response:\n" + response.body().toString());
                                     List<RoutineModel> routineModels = apiRoutineUpdateModel.getRoutineModels();
 
                                     Thread routineThread = new Thread(
@@ -842,14 +813,11 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiRoutineUpdateModel> call, Throwable t) {
-                        Log.e(TAG, "OnFailure " + t.getMessage());
                         t.printStackTrace();
                     }
                 });
@@ -881,11 +849,9 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                     @Override
                     public void onResponse(Call<ApiTeacherUpdateModel> call, Response<ApiTeacherUpdateModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                             if (response.body() != null) {
                                 try {
                                     ApiTeacherUpdateModel apiTeacherUpdateModel = response.body();
-                                    Log.e(TAG, "Api blog Response:\n" + response.body().toString());
                                     List<TeacherModel> teacherModels = apiTeacherUpdateModel.getTeacherModels();
 
                                     Thread teacherThread = new Thread(
@@ -926,14 +892,11 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                                     e.printStackTrace();
                                 }
                             }
-                        } else {
-                            Log.e(TAG, "Response code: " + response.code() + "");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiTeacherUpdateModel> call, Throwable t) {
-                        Log.e(TAG, "OnFailure " + t.getMessage());
                         t.printStackTrace();
                     }
                 });

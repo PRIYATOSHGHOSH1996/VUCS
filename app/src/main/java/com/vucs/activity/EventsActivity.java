@@ -148,7 +148,6 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.event_broadcast_receiver)));
@@ -161,7 +160,6 @@ public class EventsActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

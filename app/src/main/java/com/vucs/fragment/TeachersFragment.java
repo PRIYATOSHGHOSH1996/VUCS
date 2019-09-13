@@ -83,7 +83,6 @@ public class TeachersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.teacher_broadcast_receiver)));
@@ -96,7 +95,6 @@ public class TeachersFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

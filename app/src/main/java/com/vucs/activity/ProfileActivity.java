@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -390,7 +393,6 @@ public class ProfileActivity extends AppCompatActivity {
 
                 final Service service = DataServiceGenerator.createService(Service.class);
                 final ApiChangePasswordModel apiChangePasswordModel = new ApiChangePasswordModel(appPreference.getUserId(),appPreference.getPassword(), password);
-                Log.e("chnge pass",apiChangePasswordModel.toString());
                 Call<ApiResponseModel> call = service.changePassword(apiChangePasswordModel);
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
@@ -450,7 +452,9 @@ public class ProfileActivity extends AppCompatActivity {
         private static WeakReference<ProfileActivity> weakReference;
         private final int id;
         PhirePawaProfileDAO phirePawaProfileDAO;
-        ProgressDialog progressDialog;
+        TextView progressText;
+        ProgressBar progressBar;
+        Dialog dialog;
 
         DeleteCareer(ProfileActivity context, int id) {
             weakReference = new WeakReference<>(context);
@@ -458,16 +462,24 @@ public class ProfileActivity extends AppCompatActivity {
             ProfileActivity activity = weakReference.get();
             AppDatabase db = AppDatabase.getDatabase(activity);
             phirePawaProfileDAO = db.phirePawaProfileDAO();
-            progressDialog = new ProgressDialog(weakReference.get());
+            dialog = new Dialog(weakReference.get(), R.style.Theme_Design_BottomSheetDialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    weakReference.get(),R.anim.dialog_anim));
+            View view=weakReference.get().getLayoutInflater().inflate(R.layout.dialoge_loading,null);
+            progressText=view.findViewById(R.id.text);
+            progressBar=view.findViewById(R.id.progress_bar);
+            progressText.setText("Sending ...");
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view,layoutParams);
+            dialog.setCancelable(false);
 
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+            dialog.show();
         }
 
         @Override
@@ -495,7 +507,7 @@ public class ProfileActivity extends AppCompatActivity {
                             if (weakReference.get() == null)
                                 return;
 
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                             if (response.body() != null) {
                                 ApiResponseModel apiResponseModel = response.body();
                                 if (apiResponseModel.getCode() == 1) {
@@ -507,12 +519,12 @@ public class ProfileActivity extends AppCompatActivity {
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                 }
                             } else {
-                                progressDialog.dismiss();
+                                dialog.dismiss();
                                 Toast.makeText(weakReference.get(), "Server Error");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                         }
 
                     }
@@ -522,7 +534,7 @@ public class ProfileActivity extends AppCompatActivity {
                         t.printStackTrace();
                         if (weakReference.get() != null) {
                             Toast.makeText(weakReference.get(), "Server Error");
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                         }
 
                     }
@@ -537,7 +549,9 @@ public class ProfileActivity extends AppCompatActivity {
     private static class AddCareer extends AsyncTask<Void, Void, Void> {
         private static WeakReference<ProfileActivity> weakReference;
         PhirePawaProfileDAO phirePawaProfileDAO;
-        ProgressDialog progressDialog;
+        TextView progressText;
+        ProgressBar progressBar;
+        Dialog dialog;
         private String companyName, occupation;
         private int startYear, endYear;
         AppPreference appPreference;
@@ -551,17 +565,25 @@ public class ProfileActivity extends AppCompatActivity {
             this.endYear = endYear;
             AppDatabase db = AppDatabase.getDatabase(activity);
             phirePawaProfileDAO = db.phirePawaProfileDAO();
-            progressDialog = new ProgressDialog(weakReference.get());
             appPreference = new AppPreference(weakReference.get());
+            dialog = new Dialog(weakReference.get(), R.style.Theme_Design_BottomSheetDialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    weakReference.get(),R.anim.dialog_anim));
+            View view=weakReference.get().getLayoutInflater().inflate(R.layout.dialoge_loading,null);
+            progressText=view.findViewById(R.id.text);
+            progressBar=view.findViewById(R.id.progress_bar);
+            progressText.setText("Sending ...");
+            LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view,layoutParams);
+            dialog.setCancelable(false);
 
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog.setMessage("Please wait...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
+            dialog.show();
         }
 
         @Override
@@ -590,7 +612,7 @@ public class ProfileActivity extends AppCompatActivity {
                             if (weakReference.get() == null)
                                 return;
 
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                             if (response.body() != null) {
                                 ApiAddCareerResponseModel apiAddCareerResponseModel = response.body();
                                 if (apiAddCareerResponseModel.getCode() == 1) {
@@ -604,13 +626,13 @@ public class ProfileActivity extends AppCompatActivity {
                                     Toast.makeText(weakReference.get(), apiAddCareerResponseModel.getMessage());
                                 }
                             } else {
-                                progressDialog.dismiss();
+                                dialog.dismiss();
                                 Toast.makeText(weakReference.get(), "Server Error");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                             if (weakReference.get() != null)
-                                progressDialog.dismiss();
+                                dialog.dismiss();
                         }
                     }
 
@@ -619,7 +641,7 @@ public class ProfileActivity extends AppCompatActivity {
                         t.printStackTrace();
                         if (weakReference.get() != null) {
                             Toast.makeText(weakReference.get(), "Server Error");
-                            progressDialog.dismiss();
+                            dialog.dismiss();
                         }
 
                     }

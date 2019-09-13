@@ -78,7 +78,6 @@ public class GetDataService extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Toast.makeText(this, "Starting GetDataService", Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Starting GetDataService");
         if (Utils.isNetworkAvailable()) {
             Intent notificationIntent = new Intent(this, LoginActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -92,8 +91,6 @@ public class GetDataService extends IntentService {
                     .build();
 
             startForeground(NOTIFICATION_ID, notification);
-        } else {
-            Log.e(TAG, "No internet connection");
         }
         return START_STICKY;
     }
@@ -124,11 +121,9 @@ public class GetDataService extends IntentService {
                 @Override
                 public void onResponse(@NonNull Call<ApiUpdateModel> call, @NonNull Response<ApiUpdateModel> response) {
                     if (response.isSuccessful()) {
-                        Log.e(TAG, "Response code1: " + response.code() + "");
                         if (response.body() != null) {
                             try {
                             ApiUpdateModel apiUpdateModel = response.body();
-                            Log.e(TAG, "Api Response:\n" + response.body().toString());
                              List<CareerModel> careerModels=apiUpdateModel.getCareerModels();
                              List<BlogModel> blogModels=apiUpdateModel.getBlogModels();
                             // List<EventModel> eventModels=apiUpdateModel.getEventModels();
@@ -140,7 +135,6 @@ public class GetDataService extends IntentService {
                              List<UserModel> userModels=apiUpdateModel.getUserModels();
                              List<TeacherModel> teacherModels =apiUpdateModel.getTeacherModels();
                              List<RoutineModel> routineModels = apiUpdateModel.getRoutineModels();
-                                Log.e(TAG, "Api routine:\n" + apiUpdateModel.getRoutineModels().toString());
 
                              Thread blogThread = new Thread(
                                         new Runnable() {
@@ -278,12 +272,10 @@ public class GetDataService extends IntentService {
                                 Thread completed = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.e(TAG, "Completed updateData");
 
                                             Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                                             in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_action));
                                             getContext().sendBroadcast(in);
-                                            Log.e(TAG,"Sending getData complete broadcast");
 
                                     }
                                 });
@@ -320,7 +312,6 @@ public class GetDataService extends IntentService {
                         }
                     } else {
                         appPreference.clear();
-                        Log.e(TAG, "Response code2: " + response.code() + "");
                         Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                         in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                         getContext().sendBroadcast(in);
@@ -330,7 +321,6 @@ public class GetDataService extends IntentService {
                 @Override
                 public void onFailure(@NonNull Call<ApiUpdateModel> call, @NonNull Throwable t) {
                     appPreference.clear();
-                    Log.e(TAG, "OnFailure " + t.getMessage());
                     Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                     in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                     getContext().sendBroadcast(in);

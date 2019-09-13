@@ -111,7 +111,6 @@ public class JobDetailsActivity extends AppCompatActivity {
                     String s = URLUtil.guessFileName(itemFileURL, null, null);
                     String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
-                    Log.e("file type", s);
                     if (!s.equals("pdf")) {
                         Glide
                                 .with(this)

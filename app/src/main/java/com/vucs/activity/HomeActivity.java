@@ -143,9 +143,6 @@ public class HomeActivity extends AppCompatActivity
     BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            Log.e(TAG, "onReceive");
-
             String action = intent.getStringExtra(getString(R.string.dashboard_receiver_action));
             if (action.equals(getString(R.string.get_data_action))) {
               updateViewPager();
@@ -173,7 +170,6 @@ public class HomeActivity extends AppCompatActivity
                     String newToken = instanceIdResult.getToken();
                     if (Utils.isNetworkAvailable()) {
                         new UpdateFireBaseToken(HomeActivity.this, newToken).execute();
-                        Log.e(TAG, "newToken = " + newToken);
                     }
                 });
             }
@@ -181,7 +177,6 @@ public class HomeActivity extends AppCompatActivity
                 if (Utils.isNetworkAvailable()) {
                     FirebaseMessaging.getInstance().setAutoInitEnabled(true);
                     String s= appPreference.getUserCourseCode()+"_"+appPreference.getUserSem();
-                    Log.e("topic",s);
                     FirebaseMessaging.getInstance().subscribeToTopic(s)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -721,7 +716,6 @@ public class HomeActivity extends AppCompatActivity
         @Override
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
-            Log.e("progress",progress[0]+"");
             try {
                 if (recyclerViewWeakReference.get()!=null){
                     RecyclerViewNoticeAdapter.MyViewHolder holder=((RecyclerViewNoticeAdapter.MyViewHolder) recyclerViewWeakReference.get().findViewHolderForAdapterPosition(position));
@@ -773,9 +767,6 @@ public class HomeActivity extends AppCompatActivity
                     String s = URLUtil.guessFileName(noticeModel.getDownloadURL(), null, null);
                     String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
-
-                    Log.e("fie name with ex = ", s);
-                    Log.e("fie name = ", s1.length + "");
                     DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
                     request.setAllowedOverRoaming(false);
@@ -975,7 +966,6 @@ public class HomeActivity extends AppCompatActivity
                 final Service service = DataServiceGenerator.createService(Service.class);
                 AppPreference appPreference=new AppPreference(homeWeakReference.get());
                 final ApiUploadFirebaseTokenModel apiUploadFirebaseTokenModel = new ApiUploadFirebaseTokenModel(appPreference.getUserId(), firebaseToken, appPreference.getUserCourseCode(), appPreference.getUserSem(), appPreference.getUserType());
-                Log.e("upload token ",apiUploadFirebaseTokenModel.toString());
                 Call<ApiResponseModel> call = service.uploadToken(apiUploadFirebaseTokenModel);
                 call.enqueue(new Callback<ApiResponseModel>() {
                     @Override
@@ -983,8 +973,6 @@ public class HomeActivity extends AppCompatActivity
                         if (response.isSuccessful()) {
                             if (response.body() != null) {
                                 final ApiResponseModel apiResponseModel = response.body();
-                                Log.e(TAG, "upload token Response:\n" + apiResponseModel.toString());
-
                                 if (apiResponseModel.getCode() == 1) {
                                     appPreference.setIsFirebaseTokenUpdated(true);
 

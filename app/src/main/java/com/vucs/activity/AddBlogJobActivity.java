@@ -120,7 +120,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.attachment:
-                Log.e(TAG, "uri list = " + uriList.toString());
                 if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
                     showGetFileDialog();
                 }else {
@@ -138,11 +137,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
             if (s[s.length - 1].equals("jpg"))
                 return true;
             ContentResolver cR = getContentResolver();
-            MimeTypeMap mime = MimeTypeMap.getSingleton();
-            String type = mime.getExtensionFromMimeType(cR.getType(uri));
-
-            Log.e(TAG, "uri=" + uri);
-            Log.e(TAG, "uritype=" + cR.getType(uri));
             if (cR.getType(uri).contains("image")) {
                 return true;
             }
@@ -260,7 +254,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                             for (int i = 0; i < data.getClipData().getItemCount(); i++) {
                                 Uri uri = data.getClipData().getItemAt(i).getUri();
                                 InputStream in = getContentResolver().openInputStream(uri);
-                                Log.e("file size",in.available()+"");
                                 if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
                                     addImage(uri);
 
@@ -275,7 +268,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                     } else {
                         Uri uri = data.getData();
                         InputStream in = getContentResolver().openInputStream(uri);
-                        Log.e("file size",in.available()+"");
                         if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
                             addImage(uri);
 
@@ -375,8 +367,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                             if (response.isSuccessful()) {
                                 if (response.body() != null) {
                                     final ApiAddJobResponseModel apiAddJobResponseModel = response.body();
-                                    Log.e(TAG, "add job response:\n" + apiAddJobResponseModel.toString());
-
                                     if (apiAddJobResponseModel.getCode() == 1) {
 
                                         jobDAO.insertJob(new JobModel(apiAddJobResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), new Date(),
@@ -385,7 +375,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                         RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
                                         RequestBody jobId = RequestBody.create(MultipartBody.FORM, apiAddJobResponseModel.getJobId() + "");
                                         RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
-                                        Log.e("total file", uriList.size() + "");
                                         for (int i = 0; i < uriList.size(); i++) {
                                             if (homeWeakReference.get() == null)
                                                 return;
@@ -405,7 +394,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                             outStream.write(buffer);
                                             outStream.close();
                                             in.close();
-                                            Log.e("files length", file.length() + "");
                                             ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + (i + 1) + " of " + totalFile);
                                             MultipartBody.Part jobFile =
                                                     MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
@@ -417,8 +405,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
                                                         return;
                                                     if (response.body() != null) {
                                                         final ApiAddJobFileResponseModel apiAddJobFileResponseModel = response.body();
-                                                        Log.e(TAG, "add job file:\n" + apiAddJobFileResponseModel.toString());
-
                                                         if (apiAddJobResponseModel.getCode() == 1) {
                                                             jobDAO.insertJobFile(new JobFileModel(apiAddJobResponseModel.getJobId(), apiAddJobFileResponseModel.getFileUrl()));
 
@@ -493,8 +479,6 @@ public class AddBlogJobActivity extends AppCompatActivity {
             try {
                 if (homeWeakReference.get() == null)
                     return;
-
-                Log.e("progrees opdate", percentage1 + "");
                 progress_layout.setVisibility(View.VISIBLE);
                 percentage.setText(percentage1 + "%");
                 dialog_text.setText(title);

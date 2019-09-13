@@ -78,7 +78,6 @@ public class JobPostFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.job_post_broadcast_receiver)));
@@ -92,7 +91,6 @@ public class JobPostFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

@@ -72,7 +72,6 @@ public class PreviewImageGalleryImageActivity extends AppCompatActivity {
 
 
                 imageGalleryModels = (List<ImageGalleryModel>) intent.getSerializableExtra("list");
-                Log.e("preview",imageGalleryModels.toString());
                 position=intent.getIntExtra("position",0);
 
                 CustomPagerAdapter customPagerAdapter =new CustomPagerAdapter(this,imageGalleryModels);

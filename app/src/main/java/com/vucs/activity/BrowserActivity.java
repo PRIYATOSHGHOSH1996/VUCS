@@ -3,8 +3,8 @@ package com.vucs.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,18 +15,17 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vucs.R;
 
-public class TeacherDetailsActivity extends AppCompatActivity {
+public class BrowserActivity extends AppCompatActivity {
     TextView header_text;
     private WebView webView;
     ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_teacher_details);
+        setContentView(R.layout.activity_browser);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,12 +43,15 @@ public class TeacherDetailsActivity extends AppCompatActivity {
         header_text.setText(getIntent().getStringExtra(getString(R.string.title))+"");
         startWebView(getIntent().getStringExtra(getString(R.string.url))+"");
     }
+    @SuppressLint("SetJavaScriptEnabled")
     private void startWebView(String url) {
 
         //Create new webview Client to show progress dialog
         //When opening a url or click on link
 
         webView.setWebViewClient(new WebViewClient() {
+
+
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.equals(getString(R.string.login_url))){
@@ -119,7 +121,7 @@ public class TeacherDetailsActivity extends AppCompatActivity {
                 dr.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                 DownloadManager dm=(DownloadManager)getSystemService(DOWNLOAD_SERVICE);
                 dm.enqueue(dr);
-                com.vucs.helper.Toast.makeText(TeacherDetailsActivity.this,"file is downloading");
+                com.vucs.helper.Toast.makeText(BrowserActivity.this,"file is downloading");
             }
         });
         webView.loadUrl(url);

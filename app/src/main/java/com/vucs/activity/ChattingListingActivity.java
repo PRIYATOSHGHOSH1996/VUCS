@@ -175,7 +175,6 @@ public class ChattingListingActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             initView();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.class_notice_broadcast_receiver)));
@@ -189,7 +188,6 @@ public class ChattingListingActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

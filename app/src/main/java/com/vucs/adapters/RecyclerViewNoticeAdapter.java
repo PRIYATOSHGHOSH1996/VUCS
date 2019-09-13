@@ -51,7 +51,7 @@ public class RecyclerViewNoticeAdapter extends RecyclerView.Adapter<RecyclerView
             mCallback = (CallbackInterface) weakReference.get();
         } catch (ClassCastException ex) {
             //.. should log the error or throw and exception
-            Log.e("MyAdapter", "Must implement the CallbackInterface in the Activity", ex);
+          ex.printStackTrace();
         }
     }
 

@@ -268,11 +268,8 @@ private ImageView fileView;
                             .getResult(new com.filelibrary.Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath)  {
-
-                                    Log.e("fileuri",uri.toString());
                                     try {
                                         InputStream in = getContentResolver().openInputStream(uri);
-                                        Log.e("file size",in.available()+"");
                                         if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
                                             fileUri = uri;
 
@@ -428,7 +425,6 @@ private ImageView fileView;
                     outStream.write(buffer);
                     outStream.close();
                     in.close();
-                    Log.e("files length", file[0].length() + "");
                     ProgressRequestBody fileBody1 = new ProgressRequestBody(file[0], "*/*", AddClassNoticeActivity.SendMessage.this, "Uploading File ..." );
                     MultipartBody.Part jobFile =
                             MultipartBody.Part.createFormData("file", file[0].getName(), fileBody1);
@@ -443,11 +439,8 @@ private ImageView fileView;
                     @Override
                     public void onResponse(Call<ApiClassNoticeResponseModel> call, Response<ApiClassNoticeResponseModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code = " + response.code() + "");
                             if (response.body() != null) {
                                 final ApiClassNoticeResponseModel apiResponseModel = response.body();
-                                Log.e(TAG, "Response:\n" + apiResponseModel.toString());
-
                                 if (apiResponseModel.getCode() == 1) {
                                     ;
                                     if (activity == null || activity.isFinishing())
@@ -467,8 +460,6 @@ private ImageView fileView;
                                         e.printStackTrace();
                                     }
 
-                                    Log.e(TAG, apiResponseModel.getMessage());
-
                                 } else {
                                     if (activity == null || activity.isFinishing()) {
                                         return;
@@ -476,11 +467,9 @@ private ImageView fileView;
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                     dialog.dismiss();
                                     //Failure
-                                    Log.e(TAG, apiResponseModel.getMessage());
                                 }
                             }
                         } else {
-                            Log.e(TAG, "Error Response Code = " + response.code() + "");
                             if (activity == null || activity.isFinishing()) {
                                 return;
                             }
@@ -491,7 +480,6 @@ private ImageView fileView;
 
                     @Override
                     public void onFailure(Call<ApiClassNoticeResponseModel> call, Throwable t) {
-                        Log.e(TAG, "fail " + t.getMessage());
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }
@@ -510,7 +498,6 @@ private ImageView fileView;
 
             if (weakReference.get()!=null){
                 progressBar.setIndeterminate(false);
-                Log.e("persented",percentage+"");
                 progressBar.setProgress(percentage);
                 progressText.setText(title);
             }

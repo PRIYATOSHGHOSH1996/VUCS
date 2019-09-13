@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.EditProfileActivity"></activity>
-        <activity android:name=".activity.TeacherDetailsActivity" />
+        <activity android:name=".activity.BrowserActivity" />
         <activity android:name=".activity.RoutineActivity" />
         <activity android:name=".activity.ChattingActivity" />
         <activity android:name=".activity.AddClassNoticeActivity" />

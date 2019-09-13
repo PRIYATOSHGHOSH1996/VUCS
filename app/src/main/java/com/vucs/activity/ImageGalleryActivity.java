@@ -65,7 +65,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
     }
 
     private void showImages(String folderName) {
-        Log.e(TAG, "image");
         final RecyclerViewImageGalleryAdapter recyclerViewImageGalleryAdapter = new RecyclerViewImageGalleryAdapter(this);
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -84,7 +83,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
     }
 
     private void showFolders() {
-        Log.e(TAG, "folder");
         final RecyclerViewImageGalleryFolderAdapter recyclerViewImageGalleryFolderAdapter = new RecyclerViewImageGalleryFolderAdapter(this);
         recyclerView.setAdapter(recyclerViewImageGalleryFolderAdapter);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -107,7 +105,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
             columnCount = 3;
         }
         else {
-            Log.e(TAG,"lanscape");
             columnCount = 5;
         }
     }
@@ -132,7 +129,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.image_gallery_broadcast_receiver)));
@@ -145,7 +141,6 @@ public class ImageGalleryActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

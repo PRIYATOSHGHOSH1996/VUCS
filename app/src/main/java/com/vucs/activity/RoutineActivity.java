@@ -69,8 +69,6 @@ public class RoutineActivity extends AppCompatActivity {
         else if (appPreference.getUserType()==Constants.CATEGORY_CURRENT_STUDENT){
             days = routineViewModel.getDays(appPreference.getUserCourseCode(),appPreference.getUserSem());
         }
-
-        Log.e("days",days.toString());
         RoutinePagerAdapter adapter=new RoutinePagerAdapter(this,dayNo-1,days);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager,true);

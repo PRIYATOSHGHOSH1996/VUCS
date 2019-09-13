@@ -71,7 +71,6 @@ public class UploadJobFile extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Toast.makeText(this, "Starting GetDataService", Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Starting GetDataService");
         if (Utils.isNetworkAvailable()) {
             Intent notificationIntent = new Intent(this, LoginActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(this,
@@ -85,8 +84,6 @@ public class UploadJobFile extends IntentService {
                     .build();
 
             startForeground(NOTIFICATION_ID, notification);
-        } else {
-            Log.e(TAG, "No internet connection");
         }
         return START_STICKY;
     }
@@ -111,11 +108,9 @@ public class UploadJobFile extends IntentService {
                 @Override
                 public void onResponse(@NonNull Call<ApiUpdateModel> call, @NonNull Response<ApiUpdateModel> response) {
                     if (response.isSuccessful()) {
-                        Log.e(TAG, "Response code: " + response.code() + "");
                         if (response.body() != null) {
                             try {
                             ApiUpdateModel apiUpdateModel = response.body();
-                            Log.e(TAG, "Api Response:\n" + response.body().toString());
                              List<CareerModel> careerModels=apiUpdateModel.getCareerModels();
                              List<BlogModel> blogModels=apiUpdateModel.getBlogModels();
                             // List<EventModel> eventModels=apiUpdateModel.getEventModels();
@@ -235,12 +230,10 @@ public class UploadJobFile extends IntentService {
                                 Thread completed = new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.e(TAG, "Completed updateData");
                                         if (activity != null && !activity.isFinishing()) {
                                             Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                                             in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_action));
                                             getContext().sendBroadcast(in);
-                                            Log.e(TAG,"Sending getData complete broadcast");
                                         }
 
                                     }
@@ -272,14 +265,11 @@ public class UploadJobFile extends IntentService {
                                 getContext().sendBroadcast(in);
                             }
                         }
-                    } else {
-                        Log.e(TAG, "Response code: " + response.code() + "");
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<ApiUpdateModel> call, @NonNull Throwable t) {
-                    Log.e(TAG, "OnFailure " + t.getMessage());
                     Intent in = new Intent(getContext().getString(R.string.app_name));
                     in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                     getContext().sendBroadcast(in);

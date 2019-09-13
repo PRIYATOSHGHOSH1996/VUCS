@@ -22,9 +22,7 @@ public class DownloadCompleteReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e(TAG, "receive");
         if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
-            Log.e(TAG, "receive from download");
 
             long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
             if (id != -1) {
@@ -40,9 +38,6 @@ public class DownloadCompleteReceiver extends BroadcastReceiver {
                         String filePath = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
                         String mimeType = c.getString(c.getColumnIndex(DownloadManager.COLUMN_MEDIA_TYPE));
                         String fileName = c.getString(c.getColumnIndex(DownloadManager.COLUMN_TITLE));
-                        Log.e(TAG, "broadcast download file name=   " + fileName);
-                        Log.e(TAG, "broadcast download file type =   " + mimeType);
-                        Log.e(TAG, "broadcast download file path =   " + filePath);
                         Intent notificationIntent = new Intent();
                         Uri uri = Uri.parse(filePath);
                         if (ContentResolver.SCHEME_FILE.equals(uri.getScheme())) {

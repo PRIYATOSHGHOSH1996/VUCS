@@ -57,7 +57,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.item_phire_pawa_profile, container, false);
-        Log.e("phire pawa profile", "start");
 
         try {
             iniView();
@@ -93,7 +92,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                 @Override
 
                 public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                    Log.e("Phire pawa Profile","expaefwefefnd");
 
                     switch (newState) {
 
@@ -102,12 +100,9 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                             break;
 
                         case BottomSheetBehavior.STATE_EXPANDED:
-                            Log.e("Phire pawa Profile","expand");
                             break;
 
                         case BottomSheetBehavior.STATE_COLLAPSED:
-                            Log.e("Phire pawa Profile","collaps");
-
                             break;
 
                         case BottomSheetBehavior.STATE_DRAGGING:
@@ -142,7 +137,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     }
     private void iniView() {
         try {
-            Log.e("phire pawa profile", "initView");
             Toolbar toolbar = view.findViewById(R.id.toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             toolbar.setNavigationOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction().remove(PhirePawaProfileFragment.this).commit());
@@ -160,7 +154,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
 
 
             id = (String) getArguments().getString(getContext().getString(R.string.user_id), "");
-            Log.e("phire pawa profile", "start id = " + id);
             if (!id.equals("")) {
                 phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
                 UserModel userModel = phirePawaProfileViewModel.getUserDetailsById(id);
@@ -195,7 +188,7 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
                 updateCareer();
 
             } else {
-                Log.e("phire pawa profile", "object null");
+
             }
         } catch (Exception e) {
             Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
@@ -232,7 +225,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     public void onPause() {
         super.onPause();
         try {
-            Log.e(TAG, "onpause");
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
             Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
@@ -243,7 +235,6 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateCareer();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.career_broadcast_receiver)));

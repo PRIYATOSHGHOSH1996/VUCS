@@ -297,8 +297,6 @@ public class EditProfileActivity extends AppCompatActivity {
                             .getResult(new com.filelibrary.Callback() {
                                 @Override
                                 public void onSuccess(Uri uri, String filePath)  {
-
-                                    Log.e("fileuri",uri.toString());
                                     try {
                                         profileImage = uri;
                                         profile_pic_image_view.setImageURI(uri);
@@ -467,7 +465,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     outStream.write(buffer);
                     outStream.close();
                     in.close();
-                    Log.e("files length", file.length() + "");
                     ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", EditProfileActivity.UpdateProfile.this, "Uploading File ..." );
                     MultipartBody.Part jobFile =
                             MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
@@ -482,11 +479,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ApiClassNoticeResponseModel> call, Response<ApiClassNoticeResponseModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e("editProfile", "Response code = " + response.code() + "");
                             if (response.body() != null) {
                                 final ApiClassNoticeResponseModel apiResponseModel = response.body();
-                                Log.e("editProfile", "Response:\n" + apiResponseModel.toString());
-
                                 if (apiResponseModel.getCode() == 1) {
                                     ;
                                     if (activity == null || activity.isFinishing())
@@ -510,8 +504,6 @@ public class EditProfileActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
-                                    Log.e("editProfile", apiResponseModel.getMessage());
-
                                 } else {
                                     if (activity == null || activity.isFinishing()) {
                                         return;
@@ -519,7 +511,6 @@ public class EditProfileActivity extends AppCompatActivity {
                                     Toast.makeText(weakReference.get(), apiResponseModel.getMessage());
                                     dialog.dismiss();
                                     //Failure
-                                    Log.e("editProfile", apiResponseModel.getMessage());
                                 }
                             }
                         } else {
@@ -551,7 +542,6 @@ public class EditProfileActivity extends AppCompatActivity {
         public void onProgressUpdate(int percentage, String title) {
 
             if (weakReference.get()!=null){
-                Log.e("persented",percentage+"");
                 progressBar.setProgress(percentage);
                 progressText.setText(title);
                 progressBar.setIndeterminate(false);

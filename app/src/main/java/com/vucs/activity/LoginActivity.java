@@ -1,14 +1,11 @@
 package com.vucs.activity;
 
 import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,9 +64,6 @@ public class LoginActivity extends AppCompatActivity {
     BroadcastReceiver serviceBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
-            Log.e(TAG, "onReceive");
-
             String action = intent.getStringExtra(getString(R.string.dashboard_receiver_action));
             if (action.equals(getString(R.string.get_data_action))) {
                 openHomeActivity();
@@ -281,7 +275,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onRegisterClick(View view) {
         /*startActivity(new Intent(this, RegistrationActivity.class));
         overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);*/
-        Intent intent  =new Intent(this, TeacherDetailsActivity.class);
+        Intent intent  =new Intent(this, BrowserActivity.class);
         intent.putExtra(getString(R.string.title),"Registration");
         intent.putExtra(getString(R.string.url),getString(R.string.registration_url));
         startActivity(intent);
@@ -368,18 +362,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<ApiLoginResponseModel> call, @NonNull Response<ApiLoginResponseModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code = " + response.code() + "");
                             if (response.body() != null) {
                                 final ApiLoginResponseModel apiLoginResponseModel = response.body();
-                                Log.e(TAG, "Response:\n" + apiLoginResponseModel.toString());
-
                                 if (apiLoginResponseModel.getCode() == 1) {
                                     AppPreference appPreference = new AppPreference(weakReference.get());
                                     if (activity == null || activity.isFinishing())
                                         return;
 
                                     try {
-                                        Log.e(TAG, "user_id = " + apiLoginResponseModel.getUserId() + "");
                                         appPreference.setUserId(apiLoginResponseModel.getUserId());
                                         appPreference.setUserType(apiLoginResponseModel.getType());
                                         appPreference.setUserPassword(passWord);
@@ -404,12 +394,9 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                                         workThread.start();
                                         workThread.join();
-                                        Log.e(TAG, "COMPLETE");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
-
-                                    Log.e(TAG, apiLoginResponseModel.getMessage());
 
                                 } else {
                                     if (activity == null || activity.isFinishing()) {
@@ -419,11 +406,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Utils.openDialog(activity, apiLoginResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
-                                    Log.e(TAG, apiLoginResponseModel.getMessage());
                                 }
                             }
                         } else {
-                            Log.e(TAG, "Error Response Code = " + response.code() + "");
                             if (activity == null || activity.isFinishing()) {
                                 return;
                             }
@@ -434,7 +419,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiLoginResponseModel> call, @NonNull Throwable t) {
-                        Log.e(TAG, "fail " + t.getMessage());
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }
@@ -493,11 +477,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                         if (response.isSuccessful()) {
-                            Log.e(TAG, "Response code = " + response.code() + "");
                             if (response.body() != null) {
                                 final ApiResponseModel apiResponseModel = response.body();
-                                Log.e(TAG, "Response:\n" + apiResponseModel.toString());
-
                                 if (apiResponseModel.getCode() == 1) {
                                     ;
                                     if (activity == null || activity.isFinishing())
@@ -510,8 +491,6 @@ public class LoginActivity extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
-                                    Log.e(TAG, apiResponseModel.getMessage());
-
                                 } else {
                                     if (activity == null || activity.isFinishing()) {
                                         return;
@@ -520,11 +499,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Utils.openDialog(activity, apiResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
-                                    Log.e(TAG, apiResponseModel.getMessage());
                                 }
                             }
                         } else {
-                            Log.e(TAG, "Error Response Code = " + response.code() + "");
                             if (activity == null || activity.isFinishing()) {
                                 return;
                             }
@@ -535,7 +512,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ApiResponseModel> call, Throwable t) {
-                        Log.e(TAG, "fail " + t.getMessage());
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }

@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,20 +21,16 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.vucs.R;
-import com.vucs.activity.BlogDetailsActivity;
-import com.vucs.activity.TeacherDetailsActivity;
+import com.vucs.activity.BrowserActivity;
 import com.vucs.helper.Utils;
-import com.vucs.model.BlogModel;
 import com.vucs.model.TeacherModel;
 
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.droidsonroids.gif.GifImageView;
 
 public class RecyclerViewTeacherAdapter extends RecyclerView.Adapter<RecyclerViewTeacherAdapter.MyViewHolder> {
     private String TAG = "BlogAdapter";
@@ -92,9 +86,8 @@ public class RecyclerViewTeacherAdapter extends RecyclerView.Adapter<RecyclerVie
                 // notifyItemChanged(position);
             }
 holder.itemView.setOnClickListener(view -> {
-    Log.e("teacher",teacherModel.toString());
     if (teacherModel.getPageURL()!=null&&(!teacherModel.getPageURL().equals(""))) {
-        Intent intent  =new Intent(weakReference.get(), TeacherDetailsActivity.class);
+        Intent intent  =new Intent(weakReference.get(), BrowserActivity.class);
         intent.putExtra(weakReference.get().getString(R.string.title),teacherModel.getName());
         intent.putExtra(weakReference.get().getString(R.string.url),teacherModel.getPageURL());
         Activity activity=(Activity)weakReference.get();

@@ -153,7 +153,6 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.class_notice_broadcast_receiver)));
@@ -167,7 +166,6 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {
@@ -208,8 +206,6 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
                     String s = URLUtil.guessFileName(classNoticeModel.getFileUrl(), null, null);
                     String s1[] = s.split("\\.");
                     s = s1[s1.length - 1];
-                    Log.e("fie name with ex = ", s);
-                    Log.e("fie name = ", s1.length + "");
                     DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
                     request.setAllowedOverRoaming(false);
@@ -305,7 +301,6 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
         @Override
         protected void onProgressUpdate(Integer... progress) {
             super.onProgressUpdate(progress);
-            Log.e("progress",progress[0]+"");
             try {
                 if (context.get()!=null){
                     RecyclerViewClassNoticeAdapter.MyViewHolder holder=((RecyclerViewClassNoticeAdapter.MyViewHolder) context.get().recyclerView.findViewHolderForAdapterPosition(position));

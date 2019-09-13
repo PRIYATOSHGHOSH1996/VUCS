@@ -80,7 +80,6 @@ public class BlogFragment extends Fragment {
 
         try {
             adapter.addBlog(blogViewModel.getAllBlog());
-            Log.e(TAG,"blogs="+blogViewModel.getAllBlog());
         } catch (Exception e) {
             Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();
@@ -93,7 +92,6 @@ public class BlogFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(TAG, "onresume");
         try {
             updateAdapter();
             getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.blog_broadcast_receiver)));
@@ -107,7 +105,6 @@ public class BlogFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e(TAG, "onpause");
         try {
             getContext().unregisterReceiver(broadcastReceiver);
         } catch (Exception e) {

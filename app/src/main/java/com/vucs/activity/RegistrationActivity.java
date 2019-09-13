@@ -523,7 +523,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         }
         else {
-            Log.e(TAG,"validation failed");
         }
 
     }
@@ -592,7 +591,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     public void onResponse(Call<ApiResponseModel> call, Response<ApiResponseModel> response) {
                         if (weakReference != null) {
                             progressDialog.dismiss();
-                            Log.e("registration response ",response.body().toString());
                             if (response.body() != null) {
                                 ApiResponseModel apiResponseModel = response.body();
                                 if (apiResponseModel.getCode() == 1) {
