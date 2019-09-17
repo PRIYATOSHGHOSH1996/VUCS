@@ -100,7 +100,7 @@ public class GetDataService extends IntentService {
     }
 
 
-    public static void updateData(final Context context) {
+    public static void updateData(final Context context,boolean isDelete) {
         AppPreference appPreference=new AppPreference(getContext());
         try {
             AppDatabase db = AppDatabase.getDatabase(context);
@@ -311,7 +311,9 @@ public class GetDataService extends IntentService {
                             }
                         }
                     } else {
-                        appPreference.clear();
+                        if (isDelete) {
+                            appPreference.clear();
+                        }
                         Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                         in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                         getContext().sendBroadcast(in);
@@ -320,14 +322,18 @@ public class GetDataService extends IntentService {
 
                 @Override
                 public void onFailure(@NonNull Call<ApiUpdateModel> call, @NonNull Throwable t) {
-                    appPreference.clear();
+                    if (isDelete) {
+                        appPreference.clear();
+                    }
                     Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
                     in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));
                     getContext().sendBroadcast(in);
                 }
             });
         } catch (Exception e) {
-            appPreference.clear();
+            if (isDelete) {
+                appPreference.clear();
+            }
             e.printStackTrace();
             Intent in = new Intent(getContext().getString(R.string.fetch_all_data_broad_cast));
             in.putExtra(getContext().getString(R.string.dashboard_receiver_action),getContext().getString(R.string.get_data_on_failure_action));

@@ -237,7 +237,9 @@ public class PhirePawaProfileFragment extends BottomSheetDialogFragment {
         super.onResume();
         try {
             updateCareer();
-            getContext().registerReceiver(broadcastReceiver, new IntentFilter(getString(R.string.career_broadcast_receiver)));
+            IntentFilter intentFilter =new IntentFilter(getString(R.string.career_broadcast_receiver));
+            intentFilter.addAction(getString(R.string.fetch_all_data_broad_cast));
+            getContext().registerReceiver(broadcastReceiver, intentFilter);
         } catch (Exception e) {
             Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

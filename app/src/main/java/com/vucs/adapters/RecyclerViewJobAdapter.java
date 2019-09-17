@@ -62,6 +62,8 @@ public class RecyclerViewJobAdapter extends RecyclerView.Adapter<RecyclerViewJob
             }
             final JobModel jobModel = jobModelList.get(position);
             holder.job__title.setText(jobModel.getJobTitle());
+
+
             holder.job_by.setText("By " + jobModel.getJobBy() + "  ");
             String date = "";
 

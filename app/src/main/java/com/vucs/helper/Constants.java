@@ -6,7 +6,7 @@ public class Constants {
 
 
     public static final int MAX_JOB_FILE_SELECT = 3;
-    public static final int MAX_FILE_SIZE_SELECT = 5;
+    public static final int MAX_FILE_SIZE_SELECT = 2;
 
 
 

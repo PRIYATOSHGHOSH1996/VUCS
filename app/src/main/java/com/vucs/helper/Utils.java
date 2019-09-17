@@ -1,6 +1,7 @@
 package com.vucs.helper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -26,7 +27,7 @@ import java.io.IOException;
 
 public class Utils {
     public static void appendLog(String text) {
-        text = text + ",,,";
+        /*text = text + ",,,";
         File logFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/log.txt");
         if (!logFile.exists()) {
             try {
@@ -45,7 +46,7 @@ public class Utils {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static boolean isNetworkAvailable() {
@@ -55,7 +56,8 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
     public static void openDialog(Activity activity, String s){
-        Dialog dialog = new Dialog(activity, R.style.Theme_Design_BottomSheetDialog);
+        Dialog dialog = new Dialog(activity, R.style.Theme_MaterialComponents_BottomSheetDialog);
+        AlertDialog.Builder a=new AlertDialog.Builder(activity);
         ((ViewGroup)dialog.getWindow().getDecorView())
                 .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
                 activity,R.anim.dialog_anim));
@@ -66,7 +68,7 @@ public class Utils {
         ok.setOnClickListener(v -> {
             dialog.dismiss();
         });
-        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         dialog.addContentView(view,layoutParams);
         dialog.setCancelable(false);
         dialog.show();

@@ -63,8 +63,8 @@
     <string name="routine_broadcast_receiver">routine_broadcast_receiver</string>
     <string name="title">title</string>
     <string name="url">url</string>
-    <string name="registration_url">http://sarasij.com/vucs_up/login/register</string>
-    <string name="login_url">http://sarasij.com/vucs_up/login</string>
+    <string name="registration_url">http://vucs.in/login/register</string>
+    <string name="login_url">http://vucs.in/login</string>
 
 
     <string-array name="sort_types_phire_pawa">

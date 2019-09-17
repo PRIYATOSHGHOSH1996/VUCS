@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.PagerTabStrip;
 import androidx.viewpager.widget.ViewPager;
 
@@ -58,11 +61,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.vucs.App;
 import com.vucs.R;
 import com.vucs.adapters.RecyclerViewNoticeAdapter;
+import com.vucs.api.ApiLoginModel;
+import com.vucs.api.ApiLoginResponseModel;
 import com.vucs.api.ApiResponseModel;
 import com.vucs.api.ApiUploadFirebaseTokenModel;
 import com.vucs.api.Service;
@@ -76,11 +87,11 @@ import com.vucs.fragment.TeachersFragment;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
 import com.vucs.helper.Snackbar;
-import com.vucs.helper.Toast;
 import com.vucs.helper.Utils;
 import com.vucs.model.NoticeFileModel;
 import com.vucs.model.NoticeModel;
 import com.vucs.service.DataServiceGenerator;
+import com.vucs.service.GetDataService;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -111,6 +122,10 @@ public class HomeActivity extends AppCompatActivity
     private boolean doubleBackToExitPressedOnce = false;
     private NoticeModel noticeModel;
     private static String TAG = "HomeActivity";
+    LinearLayout updateLayout;
+    Button updateButton;
+    private final int APP_UPDATE_REQUEST_CODE=12321;
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     private boolean showNoticeCount=false;
@@ -145,7 +160,17 @@ public class HomeActivity extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
             String action = intent.getStringExtra(getString(R.string.dashboard_receiver_action));
             if (action.equals(getString(R.string.get_data_action))) {
-              updateViewPager();
+                if (swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(false);
+                    Snackbar.show(HomeActivity.this,findViewById(R.id.coordinator),"All data updated");
+                }
+             // updateViewPager();
+
+            }else if (action.equals(getString(R.string.get_data_on_failure_action))) {
+                if (swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(false);
+                    Snackbar.show(HomeActivity.this,findViewById(R.id.coordinator),getString(R.string.server_error));
+                }
 
             }
         }
@@ -164,6 +189,52 @@ public class HomeActivity extends AppCompatActivity
             content_background = findViewById(R.id.default_background);
             content_background.setAlpha(0);
             appPreference = new AppPreference(this);
+            updateLayout=findViewById(R.id.update_layout);
+            updateButton=findViewById(R.id.update_app);
+            swipeRefreshLayout=findViewById(R.id.swipe);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    if (Utils.isNetworkAvailable()) {
+                        new UpdateData(HomeActivity.this).execute();
+                    }
+                    else {
+                        swipeRefreshLayout.setRefreshing(false);
+                        Snackbar.show(HomeActivity.this,findViewById(R.id.coordinator),getString(R.string.no_internet_connection));
+                    }
+                }
+            });
+            AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(this);
+            // Returns an intent object that you use to check for an update.
+            com.google.android.play.core.tasks.Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+            // Checks that the platform will allow the specified type of update.
+            appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+                if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                    appUpdateManager.completeUpdate();
+                }
+                else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                        // For a flexible update, use AppUpdateType.FLEXIBLE
+                        && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                    updateLayout.setVisibility(View.VISIBLE);
+                    updateButton.setOnClickListener(view ->{
+                        try {
+                            appUpdateManager.startUpdateFlowForResult(
+                                    // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                                    appUpdateInfo,
+                                    // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                                    AppUpdateType.IMMEDIATE,
+                                    // The current activity making the update request.
+                                    HomeActivity.this,
+                                    // Include a request code to later monitor this update request.
+                                    APP_UPDATE_REQUEST_CODE);
+                        } catch (IntentSender.SendIntentException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    // Request the update.
+                }
+            });
+
             if (!appPreference.getIsFirebaseTokenUpdated()) {
                 com.google.firebase.messaging.FirebaseMessaging.getInstance().setAutoInitEnabled(true);
                 FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
@@ -277,11 +348,13 @@ public class HomeActivity extends AppCompatActivity
             viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                   // swipeRefreshLayout.setEnabled(false);
 
                 }
 
                 @Override
                 public void onPageSelected(int position) {
+                  //  swipeRefreshLayout.setEnabled(true);
                     if (appPreference.getUserType()!=Constants.CATEGORY_EX_STUDENT) {
 
                         switch (position) {
@@ -359,6 +432,12 @@ public class HomeActivity extends AppCompatActivity
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
+                    if (state == ViewPager.SCROLL_STATE_IDLE){
+                       swipeRefreshLayout.setEnabled(true);
+                    }
+                    else if (state==ViewPager.SCROLL_STATE_DRAGGING){
+                        swipeRefreshLayout.setEnabled(false);
+                    }
 
                 }
             });
@@ -367,6 +446,7 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
 
+                    swipeRefreshLayout.setEnabled(false);
                     drawerView.setBackground(getDrawable(R.drawable.nav_item_background));
                     drawerView.setElevation(0);
                     drawerView.setTranslationX((1 - slideOffset) * drawerView.getWidth());
@@ -385,6 +465,7 @@ public class HomeActivity extends AppCompatActivity
 
                 @Override
                 public void onDrawerClosed(@NonNull View drawerView) {
+                    swipeRefreshLayout.setEnabled(true);
 
                 }
 
@@ -467,7 +548,11 @@ public class HomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-
+if (appPreference.getUserId().equals("")){
+    startActivity(new Intent(this,LoginActivity.class));
+    finish();
+    overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+}
     }
 
     private void updateViewPager(){
@@ -806,6 +891,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == APP_UPDATE_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                com.vucs.helper.Toast.makeText(this,"Update failed");
+            }
+        }
     }
 
     @Override
@@ -1033,7 +1123,52 @@ public class HomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
+    private static class UpdateData extends AsyncTask<Void, Void, Void> {
+        private static WeakReference<HomeActivity> weakReference;
 
+
+
+        UpdateData(HomeActivity context) {
+            weakReference = new WeakReference<>(context);
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            /*LoginActivity activity = weakReference.get();
+            if (activity == null || activity.isFinishing()) {
+                return;
+            }*/
+
+            // progressDialog.dismiss();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                Thread workThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        GetDataService.updateData(weakReference.get(),false);
+                    }
+
+                });
+                workThread.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
     @Override
     protected void onPause() {
         super.onPause();

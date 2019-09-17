@@ -99,6 +99,11 @@ public class ClassNoticeActivity extends AppCompatActivity implements RecyclerVi
                     updateAdapter();
                 }
             };
+            if (appPreference.getUserId().equals("")){
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+                overridePendingTransition(R.anim.scale_fade_up, R.anim.no_anim);
+            }
         } catch (Exception e) {
             Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
             e.printStackTrace();

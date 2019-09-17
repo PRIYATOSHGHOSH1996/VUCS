@@ -44,24 +44,69 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/swipe">
 
-        <androidx.viewpager.widget.PagerTabStrip
-            android:id="@+id/tab_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:background="@color/colorPrimary1"
-            android:splitMotionEvents="true"
-            android:textAppearance="@style/PagerTab">
+            android:layout_height="match_parent"
 
-        </androidx.viewpager.widget.PagerTabStrip>
-    </androidx.viewpager.widget.ViewPager>
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/update_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryFade"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="New update available"
+                    android:paddingTop="@dimen/padding_sm"
+                    android:paddingStart="@dimen/padding_lg_left"
+                    android:textSize="14dp"
+                    style="@style/TextAppearance.MaterialComponents.Caption"
+                    android:textColor="@color/colorWhite"/>
+                <Button
+                    android:id="@+id/update_app"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Update"
+                    android:layout_marginTop="@dimen/padding_sm"
+                    android:layout_marginBottom="@dimen/margins_md"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="@dimen/margins_md_right"
+                    android:background="@drawable/button_background_square"
+                    android:textColor="@color/colorWhite"
+                    style="@style/TextAppearance.MaterialComponents.Button"/>
+            </LinearLayout>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <androidx.viewpager.widget.PagerTabStrip
+                    android:id="@+id/tab_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:background="@color/colorPrimary1"
+                    android:splitMotionEvents="true"
+                    android:textAppearance="@style/PagerTab">
+
+                </androidx.viewpager.widget.PagerTabStrip>
+            </androidx.viewpager.widget.ViewPager>
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add"
         android:layout_width="wrap_content"

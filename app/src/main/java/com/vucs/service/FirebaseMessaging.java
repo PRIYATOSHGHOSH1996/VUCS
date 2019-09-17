@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.TaskStackBuilder;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,7 +71,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
         if (remoteMessage != null) {
             if (remoteMessage.getData().size() > 0) {
                 try {
-                    sendData(remoteMessage.getData());
+                    AppPreference appPreference=new AppPreference(getBaseContext());
+                    if (!appPreference.isForceLogout()) {
+                        sendData(remoteMessage.getData());
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -79,8 +83,10 @@ public class FirebaseMessaging extends FirebaseMessagingService {
             }
             // Check if message contains a notification payload.
             else if (remoteMessage.getNotification() != null) {
-                Intent intent = new Intent(this, LoginActivity.class);
-                Notification.show(this, 3241, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), intent);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+                Intent splashIntent = new Intent(getContext(), LoginActivity.class);
+                stackBuilder.addNextIntentWithParentStack(splashIntent);
+                Notification.show(this, 3241, remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), stackBuilder);
 
             }
         }
@@ -103,45 +109,47 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
     private void sendData(Map<String, String> data) {
         try {
-            int code = Integer.parseInt(Objects.requireNonNull(data.get("code")));
-            switch (code) {
-                case Constants.FORCED_LOGOUT:
-                    forcedLogout();
-                    break;
-                case Constants.CLASS_NOTICE_UPDATE:
-                    setClassNotice(data);
-                    break;
-                case Constants.BLOG_UPDATE:
-                    blogUpdate(data);
-                    break;
-                case Constants.NOTICE_UPDATE:
-                    noticeUpdate(data);
-                    break;
-                case Constants.JOB_UPDATE:
-                    jobUpdate(data);
-                    break;
-                case Constants.IMAGE_UPDATE:
-                    ImageUpdate(data);
-                    break;
-                case Constants.USER_UPDATE:
-                    userUpdate(data);
-                    break;
-                case Constants.CAREER_UPDATE:
-                    careerUpdate(data);
-                    break;
-                case Constants.ALL_DATA_UPDATE:
-                    allDataUpdate(data);
-                    break;
-                case Constants.BATCH_UPDATE:
-                    batchUpdate(data);
-                    break;
-                case Constants.ROUTINE_UPDATE:
-                    routineUpdate(data);
-                    break;
-                case Constants.TEACHER_UPDATE:
-                    teacherUpdate(data);
-                    break;
-                default:
+            if (data.containsKey("code")) {
+                int code = Integer.parseInt(Objects.requireNonNull(data.get("code")));
+                switch (code) {
+                    case Constants.FORCED_LOGOUT:
+                        forcedLogout();
+                        break;
+                    case Constants.CLASS_NOTICE_UPDATE:
+                        setClassNotice(data);
+                        break;
+                    case Constants.BLOG_UPDATE:
+                        blogUpdate(data);
+                        break;
+                    case Constants.NOTICE_UPDATE:
+                        noticeUpdate(data);
+                        break;
+                    case Constants.JOB_UPDATE:
+                        jobUpdate(data);
+                        break;
+                    case Constants.IMAGE_UPDATE:
+                        ImageUpdate(data);
+                        break;
+                    case Constants.USER_UPDATE:
+                        userUpdate(data);
+                        break;
+                    case Constants.CAREER_UPDATE:
+                        careerUpdate(data);
+                        break;
+                    case Constants.ALL_DATA_UPDATE:
+                        allDataUpdate(data);
+                        break;
+                    case Constants.BATCH_UPDATE:
+                        batchUpdate(data);
+                        break;
+                    case Constants.ROUTINE_UPDATE:
+                        routineUpdate(data);
+                        break;
+                    case Constants.TEACHER_UPDATE:
+                        teacherUpdate(data);
+                        break;
+                    default:
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,24 +212,33 @@ public class FirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void jobUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getContext(), HomeActivity.class);
-        intent1.putExtra("item",3);
         new UpdateJob(getContext()).execute();
-        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+        Intent homeIntent = new Intent(getContext(), HomeActivity.class);
+        homeIntent.putExtra("item",3);
+        stackBuilder.addNextIntentWithParentStack(homeIntent);
+        AppPreference appPreference=new AppPreference(getBaseContext());
+        if (data.containsKey("user_id")&&!data.get("user_id").equals(appPreference.getUserId())) {
+            Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), stackBuilder);
+        }
     }
 
     private void noticeUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getContext(), HomeActivity.class);
-        intent1.putExtra("item",2);
         new UpdateNotice(getContext()).execute();
-        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+        Intent homeIntent = new Intent(getContext(), HomeActivity.class);
+        homeIntent.putExtra("item",2);
+        stackBuilder.addNextIntentWithParentStack(homeIntent);
+        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), stackBuilder);
     }
 
     private void blogUpdate(Map<String, String> data) {
-        Intent intent1 = new Intent(getContext(), HomeActivity.class);
-        intent1.putExtra("item",0);
         new UpdateBlog(getContext()).execute();
-        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+        Intent homeIntent = new Intent(getContext(), HomeActivity.class);
+        homeIntent.putExtra("item",0);
+        stackBuilder.addNextIntentWithParentStack(homeIntent);
+        Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), stackBuilder);
     }
 
     private void setClassNotice(Map<String, String> data) {
@@ -241,8 +258,12 @@ public class FirebaseMessaging extends FirebaseMessagingService {
                 intent.setAction(getString(R.string.class_notice_broadcast_receiver));
                 sendBroadcast(intent);
                 sendBroadcast(intent3);
-                Intent intent1 = new Intent(getContext(), ClassNoticeActivity.class);
-                Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), intent1);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getBaseContext());
+                Intent classNoticeIntent = new Intent(getContext(), ClassNoticeActivity.class);
+                Intent homeIntent = new Intent(getContext(), HomeActivity.class);
+                stackBuilder.addNextIntentWithParentStack(homeIntent);
+                stackBuilder.addNextIntent(classNoticeIntent);
+                Notification.show(getContext(), new Random().nextInt(9999), data.get("title"), data.get("message"), stackBuilder);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -744,7 +765,7 @@ public class FirebaseMessaging extends FirebaseMessagingService {
 
         @Override
         protected String doInBackground(Void... voids) {
-          GetDataService.updateData(weakReference.get());
+          GetDataService.updateData(weakReference.get(),false);
             return null;
         }
 

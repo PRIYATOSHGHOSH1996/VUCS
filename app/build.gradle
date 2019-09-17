@@ -3,7 +3,7 @@ apply plugin: 'com.google.gms.google-services'
 
 ext.versionMajor = 1 //MAJOR version when you make incompatible API changes (2 digits)
 ext.versionMinor = 0 //MINOR version when you add functionality in a backwards-compatible manner (3 digits)
-ext.versionPatch = 1 //PATCH version when you make backwards-compatible bug fixes (2 digits)
+ext.versionPatch = 2 //PATCH version when you make backwards-compatible bug fixes (2 digits)
 ext.versionClassifier = "beta"
 android {
     compileSdkVersion 28
@@ -49,11 +49,12 @@ android {
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.firebase:firebase-messaging:17.6.0'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.android.play:core:1.6.3'
 
 
     implementation 'com.android.support:palette-v7:28.0.0'

@@ -1,11 +1,14 @@
 package com.vucs.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +37,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import com.vucs.R;
 import com.vucs.api.ApiAddJobFileResponseModel;
+import com.vucs.api.ApiAddJobFileWithResponseModel;
 import com.vucs.api.ApiAddJobModel;
 import com.vucs.api.ApiAddJobResponseModel;
 import com.vucs.api.ApiCredential;
@@ -43,6 +47,7 @@ import com.vucs.db.AppDatabase;
 import com.vucs.helper.AppPreference;
 import com.vucs.helper.Constants;
 import com.vucs.helper.ProgressRequestBody;
+import com.vucs.helper.Snackbar;
 import com.vucs.helper.Toast;
 import com.vucs.model.JobFileModel;
 import com.vucs.model.JobModel;
@@ -55,6 +60,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +68,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 public class AddBlogJobActivity extends AppCompatActivity {
 
@@ -69,10 +76,8 @@ public class AddBlogJobActivity extends AppCompatActivity {
     List<Uri> uriList;
     LinearLayout file_layout;
     TextInputLayout title, description;
-
-
     private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE = 125;
-
+    private static final int REQUEST_WRITE_PERMISSIONS = 103;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +126,17 @@ public class AddBlogJobActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.attachment:
                 if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
-                    showGetFileDialog();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,}, REQUEST_WRITE_PERMISSIONS);
+                        }
+                        else {
+                            showGetFileDialog();
+                        }
+                    }else {
+                        showGetFileDialog();
+                    }
+
                 }else {
                     com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
                 }
@@ -239,6 +254,15 @@ public class AddBlogJobActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Utils.Builder.notifyPermissionsChange(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                showGetFileDialog();
+            } else if (Build.VERSION.SDK_INT >= 23 && (!shouldShowRequestPermissionRationale(permissions[0])||!shouldShowRequestPermissionRationale(permissions[1]))) {
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage and camera permission.");
+            } else {
+                Snackbar.show(this,findViewById(R.id.parent),"Please give storage and camera permission");
+            }
+        }
     }
 
     @Override
@@ -334,8 +358,8 @@ public class AddBlogJobActivity extends AppCompatActivity {
             percentage.setText("0%");
             progressBar = view.findViewById(R.id.progress_bar);
             progress_layout = view.findViewById(R.id.progress_layout);
-            progressBar.setProgress(25);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            progressBar.setProgress(0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             dialog.addContentView(view, layoutParams);
             dialog.setCancelable(false);
 
@@ -358,93 +382,66 @@ public class AddBlogJobActivity extends AppCompatActivity {
                 final Service service = DataServiceGenerator.createService(Service.class);
                 AppPreference appPreference = new AppPreference(homeWeakReference.get());
                 ApiCredential apiCredential = new ApiCredential();
-                final ApiAddJobModel apiAddJobModel = new ApiAddJobModel(appPreference.getUserId(), jobTitle, jobDescription);
-                Call<ApiAddJobResponseModel> call = service.addJob(apiAddJobModel);
-                call.enqueue(new retrofit2.Callback<ApiAddJobResponseModel>() {
+                List<MultipartBody.Part> files= new ArrayList<>();
+                for (int i = 0; i < uriList.size(); i++) {
+                    File directory = homeWeakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
+                    directory.mkdir();
+                    InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(i));
+                    byte[] buffer = new byte[in.available()];
+                    in.read(buffer);
+                    File file;
+                    if (homeWeakReference.get().isImageUri(uriList.get(i))) {
+                        file = new File(directory, i + ".jpg");
+                    } else {
+                        file = new File(directory, i + ".pdf");
+                    }
+                    OutputStream outStream = new FileOutputStream(file);
+                    outStream.write(buffer);
+                    outStream.close();
+                    in.close();
+                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + (i + 1) + " of " + totalFile);
+                    MultipartBody.Part jobFile =
+                            MultipartBody.Part.createFormData("file"+i, file.getName(), fileBody1);
+                    files.add(jobFile);
+
+                }
+                RequestBody apiLoginR = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
+                RequestBody apiPassR = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
+                RequestBody userIdR = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
+                RequestBody userTypeR = RequestBody.create(MultipartBody.FORM, appPreference.getUserType() + "");
+                RequestBody jobTitleR = RequestBody.create(MultipartBody.FORM, jobTitle + "");
+                RequestBody jobDescriptionR = RequestBody.create(MultipartBody.FORM, jobDescription + "");
+                RequestBody fileCountR = RequestBody.create(MultipartBody.FORM, uriList.size() + "");
+
+                Call<ApiAddJobFileWithResponseModel> call=service.uploadJobWithFile(apiLoginR,apiPassR,userIdR,userTypeR,jobTitleR,jobDescriptionR,fileCountR,files);
+                call.enqueue(new retrofit2.Callback<ApiAddJobFileWithResponseModel>() {
+
                     @Override
-                    public void onResponse(Call<ApiAddJobResponseModel> call, Response<ApiAddJobResponseModel> response) {
+                    public void onResponse(Call<ApiAddJobFileWithResponseModel> call, Response<ApiAddJobFileWithResponseModel> response) {
                         try {
                             if (response.isSuccessful()) {
+                                Log.e(TAG,"response code:"+response.code());
                                 if (response.body() != null) {
-                                    final ApiAddJobResponseModel apiAddJobResponseModel = response.body();
-                                    if (apiAddJobResponseModel.getCode() == 1) {
-
-                                        jobDAO.insertJob(new JobModel(apiAddJobResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), new Date(),
+                                    final ApiAddJobFileWithResponseModel apiAddJobFileWithResponseModel = response.body();
+                                    Log.e(TAG,"response :"+apiAddJobFileWithResponseModel.toString());
+                                    if (apiAddJobFileWithResponseModel.getCode() == 1) {
+                                        jobDAO.insertJob(new JobModel(apiAddJobFileWithResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), new Date(),
                                                 jobDescription, 1));
-                                        RequestBody apiLogin = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
-                                        RequestBody apiPass = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
-                                        RequestBody jobId = RequestBody.create(MultipartBody.FORM, apiAddJobResponseModel.getJobId() + "");
-                                        RequestBody userId = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
-                                        for (int i = 0; i < uriList.size(); i++) {
-                                            if (homeWeakReference.get() == null)
-                                                return;
-                                            int count = i;
-                                            File directory = homeWeakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
-                                            directory.mkdir();
-                                            InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(i));
-                                            byte[] buffer = new byte[in.available()];
-                                            in.read(buffer);
-                                            File file;
-                                            if (homeWeakReference.get().isImageUri(uriList.get(i))) {
-                                                file = new File(directory, i + ".jpg");
-                                            } else {
-                                                file = new File(directory, i + ".pdf");
-                                            }
-                                            OutputStream outStream = new FileOutputStream(file);
-                                            outStream.write(buffer);
-                                            outStream.close();
-                                            in.close();
-                                            ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + (i + 1) + " of " + totalFile);
-                                            MultipartBody.Part jobFile =
-                                                    MultipartBody.Part.createFormData("file", file.getName(), fileBody1);
-                                            Call<ApiAddJobFileResponseModel> call1 = service.uploadJobFile(apiLogin, apiPass, jobId, userId, jobFile);
-                                            call1.enqueue(new retrofit2.Callback<ApiAddJobFileResponseModel>() {
-                                                @Override
-                                                public void onResponse(Call<ApiAddJobFileResponseModel> call, Response<ApiAddJobFileResponseModel> response) {
-                                                    if (homeWeakReference.get() == null)
-                                                        return;
-                                                    if (response.body() != null) {
-                                                        final ApiAddJobFileResponseModel apiAddJobFileResponseModel = response.body();
-                                                        if (apiAddJobResponseModel.getCode() == 1) {
-                                                            jobDAO.insertJobFile(new JobFileModel(apiAddJobResponseModel.getJobId(), apiAddJobFileResponseModel.getFileUrl()));
 
-
-                                                        }
-                                                        if (file.exists()){
-                                                            file.delete();
-                                                        }
-                                                        if (count == uriList.size() - 1) {
-                                                            if (homeWeakReference.get() == null)
-                                                                return;
-                                                            dialog.dismiss();
-                                                            Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
-                                                            homeWeakReference.get().onBackPressed();
-                                                        }
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<ApiAddJobFileResponseModel> call, Throwable t) {
-                                                    t.printStackTrace();
-
-                                                }
-                                            });
-
+                                        for (String url:apiAddJobFileWithResponseModel.getFileUrl()){
+                                            jobDAO.insertJobFile(new JobFileModel(apiAddJobFileWithResponseModel.getJobId(), url));
                                         }
-                                        if (uriList.size()==0){
-                                            if (homeWeakReference.get() == null)
-                                                return;
-                                            dialog.dismiss();
-                                            Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
-                                            homeWeakReference.get().onBackPressed();
-                                        }
-
-
-                                    } else {
                                         if (homeWeakReference.get() == null)
                                             return;
                                         dialog.dismiss();
-                                        Toast.makeText(homeWeakReference.get(), apiAddJobResponseModel.getMessage());
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobFileWithResponseModel.getMessage());
+                                        homeWeakReference.get().onBackPressed();
+                                    }
+                                    else {
+                                        if (homeWeakReference.get() == null)
+                                            return;
+                                        dialog.dismiss();
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobFileWithResponseModel.getMessage());
                                     }
                                 }
                             }
@@ -458,12 +455,13 @@ public class AddBlogJobActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<ApiAddJobResponseModel> call, Throwable t) {
+                    public void onFailure(Call<ApiAddJobFileWithResponseModel> call, Throwable t) {
                         t.printStackTrace();
                         if (homeWeakReference.get() == null)
                             return;
                         dialog.dismiss();
                         Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
+
                     }
                 });
 

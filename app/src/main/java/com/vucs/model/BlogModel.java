@@ -12,7 +12,6 @@ import java.util.Date;
 @Entity(tableName = "dt_blog")
 public class BlogModel {
 
-
     @SerializedName("blog_id")
     @PrimaryKey()
     @ColumnInfo(name = "blog_id")

@@ -1,6 +1,8 @@
 package com.vucs.api;
 
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -99,7 +101,12 @@ public interface Service {
     /* API for add Job File */
     @Multipart
     @POST("job_files_upload")
-    Call<ApiAddJobFileResponseModel> uploadJobFile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass, @Part("jobId") RequestBody jobId,@Part("userId") RequestBody userId,@Part MultipartBody.Part jobFile);
+    Call<ApiAddJobFileResponseModel> uploadJobFile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass, @Part("jobId") RequestBody jobId,@Part("userId") RequestBody userId,@Part() MultipartBody.Part jobFile);
+
+    /* API for add Job With File */
+    @Multipart
+    @POST("add_job")
+    Call<ApiAddJobFileWithResponseModel> uploadJobWithFile(@Part("apiLogin") RequestBody apiLogin, @Part("apiPass") RequestBody apiPass, @Part("user_id") RequestBody userId,@Part("user_type") RequestBody userType, @Part("job_title") RequestBody jobTitle, @Part("job_description") RequestBody jobDescription,@Part("file_count") RequestBody fileCount,@Part List< MultipartBody.Part> jobFile);
 
     /* API for update profile */
     @Multipart

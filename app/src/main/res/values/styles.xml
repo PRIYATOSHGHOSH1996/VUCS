@@ -22,6 +22,7 @@
     <style name="my_dialog" >
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
 
         <item name="android:windowAnimationStyle">@style/Animation.Design.BottomSheetDialog</item>
 

@@ -388,7 +388,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Thread workThread = new Thread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                GetDataService.updateData(activity);
+                                                GetDataService.updateData(activity,true);
                                             }
 
                                         });
@@ -402,7 +402,6 @@ public class LoginActivity extends AppCompatActivity {
                                     if (activity == null || activity.isFinishing()) {
                                         return;
                                     }
-
                                     Utils.openDialog(activity, apiLoginResponseModel.getMessage());
                                     activity.progressBarToButton();
                                     //Failure
@@ -419,6 +418,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<ApiLoginResponseModel> call, @NonNull Throwable t) {
+                        t.printStackTrace();
                         if (activity == null || activity.isFinishing()) {
                             return;
                         }

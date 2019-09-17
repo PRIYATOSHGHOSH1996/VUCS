@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
+    android:id="@+id/parent"
     android:focusable="true"
     tools:context=".activity.AddBlogJobActivity">
     <include layout="@layout/app_bar_main"/>
