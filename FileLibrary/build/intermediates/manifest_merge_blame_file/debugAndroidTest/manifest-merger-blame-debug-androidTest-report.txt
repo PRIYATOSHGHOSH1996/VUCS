@@ -1,0 +1,77 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.filelibrary.test" >
+4
+5    <uses-sdk
+5-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:5:5-74
+6        android:minSdkVersion="21"
+6-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:5:15-41
+7        android:targetSdkVersion="28" />
+7-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:5:42-71
+8
+9    <instrumentation
+9-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:11:5-15:70
+10        android:name="androidx.test.runner.AndroidJUnitRunner"
+10-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:11:22-76
+11        android:functionalTest="false"
+11-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:14:22-52
+12        android:handleProfiling="false"
+12-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:13:22-53
+13        android:label="Tests for com.filelibrary.test"
+13-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:15:22-68
+14        android:targetPackage="com.filelibrary.test" />
+14-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:12:22-66
+15
+16    <uses-permission android:name="android.permission.CAMERA" />
+16-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-65
+16-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-62
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-81
+17-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-78
+18    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+18-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:5-80
+18-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:14:22-77
+19
+20    <application
+20-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:7:5-9:19
+21        android:allowBackup="true"
+21-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.1.0-alpha04] C:\Users\Priyatosh\.gradle\caches\transforms-2\files-2.1\9132449bc65f9f1a500e9b827d9d813d\core-1.1.0-alpha04\AndroidManifest.xml:22:18-86
+23        android:debuggable="true"
+23-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:7:18-43
+24        android:label="@string/app_name"
+24-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:9-41
+25        android:supportsRtl="true" >
+25-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:9-35
+26        <uses-library android:name="android.test.runner" />
+26-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:8:9-60
+26-->C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger2835124428335017708.xml:8:23-57
+27
+28        <activity
+28-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:9-23:59
+29            android:name="cropper.CropImageActivity"
+29-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-53
+30            android:theme="@style/Base.Theme.AppCompat" />
+30-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:13-56
+31
+32        <provider
+32-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:9-33:20
+33            android:name="androidx.core.content.FileProvider"
+33-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-62
+34            android:authorities="com.filelibrary.test.file_library_provider"
+34-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:13-73
+35            android:exported="false"
+35-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:13-37
+36            android:grantUriPermissions="true" >
+36-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:13-47
+37            <meta-data
+37-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:13-32:54
+38                android:name="android.support.FILE_PROVIDER_PATHS"
+38-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:31:17-67
+39                android:resource="@xml/file_paths" />
+39-->[__tested_artifact__::FileLibrary] C:\Users\Priyatosh\AndroidStudioProjects\VUCS\FileLibrary\build\intermediates\library_manifest\debug\AndroidManifest.xml:32:17-51
+40        </provider>
+41    </application>
+42
+43</manifest>
