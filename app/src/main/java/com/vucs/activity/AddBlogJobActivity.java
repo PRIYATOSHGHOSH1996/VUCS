@@ -1,0 +1,500 @@
+package com.vucs.activity;
+
+import android.Manifest;
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.bumptech.glide.Glide;
+import com.filelibrary.Callback;
+import com.filelibrary.Utils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputLayout;
+import com.vucs.R;
+import com.vucs.api.ApiAddJobFileResponseModel;
+import com.vucs.api.ApiAddJobFileWithResponseModel;
+import com.vucs.api.ApiAddJobModel;
+import com.vucs.api.ApiAddJobResponseModel;
+import com.vucs.api.ApiCredential;
+import com.vucs.api.Service;
+import com.vucs.dao.JobDAO;
+import com.vucs.db.AppDatabase;
+import com.vucs.helper.AppPreference;
+import com.vucs.helper.Constants;
+import com.vucs.helper.ProgressRequestBody;
+import com.vucs.helper.Snackbar;
+import com.vucs.helper.Toast;
+import com.vucs.model.JobFileModel;
+import com.vucs.model.JobModel;
+import com.vucs.service.DataServiceGenerator;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.Multipart;
+
+public class AddBlogJobActivity extends AppCompatActivity {
+
+    private static String TAG = "add job activity";
+    List<Uri> uriList;
+    LinearLayout file_layout;
+    TextInputLayout title, description;
+    private int CHOOSE_MULTIPLE_FILE_REQUEST_CODE = 125;
+    private static final int REQUEST_WRITE_PERMISSIONS = 103;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_blog_job);
+        try {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            getSupportActionBar().setTitle("");
+
+            TextView header_text = findViewById(R.id.header_text);
+            header_text.setText("Add job");
+            initView();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initView() {
+        file_layout = findViewById(R.id.file_layout);
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.description);
+        uriList = new ArrayList<>();
+
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_blog_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.attachment:
+                if (uriList.size()< Constants.MAX_JOB_FILE_SELECT) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED||checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA,}, REQUEST_WRITE_PERMISSIONS);
+                        }
+                        else {
+                            showGetFileDialog();
+                        }
+                    }else {
+                        showGetFileDialog();
+                    }
+
+                }else {
+                    com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean isImageUri(Uri uri) {
+
+        try {
+            String[] s = uri.toString().split("\\.");
+            if (s[s.length - 1].equals("jpg"))
+                return true;
+            ContentResolver cR = getContentResolver();
+            if (cR.getType(uri).contains("image")) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    private void showGetFileDialog() {
+        BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(this);
+        View sheetView = getLayoutInflater().inflate(R.layout.item_get_file_layout, null);
+
+
+        ImageView camera = sheetView.findViewById(R.id.camera);
+
+
+        ImageView file_manager = sheetView.findViewById(R.id.file_manager);
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetDialog.dismiss();
+                try {
+                    Utils.with(AddBlogJobActivity.this)
+                            .getImageFromCamera()
+                            .getResult(new Callback() {
+                                @Override
+                                public void onSuccess(Uri uri, String filePath) {
+                                    addImage(uri);
+
+                                }
+
+                                @Override
+                                public void onFailure(String error) {
+
+                                }
+                            })
+                            .start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        file_manager.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomSheetDialog.dismiss();
+                Intent chooseFile;
+                Intent intent;
+                String[] mimeTypes = {"image/*", "application/pdf"};
+                chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                chooseFile.setType("image/*|application/pdf");
+                chooseFile.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+                chooseFile.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent = Intent.createChooser(chooseFile, "Choose a file");
+                startActivityForResult(intent, CHOOSE_MULTIPLE_FILE_REQUEST_CODE);
+            }
+        });
+        mBottomSheetDialog.setContentView(sheetView);
+        mBottomSheetDialog.show();
+        mBottomSheetDialog.setCancelable(true);
+    }
+
+    private void addImage(Uri uri) {
+        try {
+            View view = getLayoutInflater().inflate(R.layout.item_image_delete, null);
+            uriList.add(uri);
+            ImageView imageView = view.findViewById(R.id.image);
+            ImageButton imageButton = view.findViewById(R.id.imageButton);
+            if (isImageUri(uri)) {
+                Glide.with(AddBlogJobActivity.this)
+                        .load(uri)
+                        .into(imageView);
+            } else {
+                imageView.setImageDrawable(getDrawable(R.drawable.pdf_icon));
+            }
+            imageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (int i = 0; i < uriList.size(); i++) {
+                        if (uri == uriList.get(i)) {
+                            uriList.remove(i);
+                            file_layout.removeView(view);
+                            break;
+
+                        }
+                    }
+                }
+            });
+            file_layout.addView(view);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Utils.Builder.notifyPermissionsChange(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_PERMISSIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                showGetFileDialog();
+            } else if (Build.VERSION.SDK_INT >= 23 && (!shouldShowRequestPermissionRationale(permissions[0])||!shouldShowRequestPermissionRationale(permissions[1]))) {
+                Snackbar.withRetryStoragePermission(this,findViewById(R.id.parent),"Please give storage and camera permission.");
+            } else {
+                Snackbar.show(this,findViewById(R.id.parent),"Please give storage and camera permission");
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Utils.Builder.notifyActivityChange(requestCode, resultCode, data);
+        if (requestCode == CHOOSE_MULTIPLE_FILE_REQUEST_CODE) {
+            if (null != data) { // checking empty selection
+                try {
+                    if (null != data.getClipData()) {
+                        // checking multiple selection or not
+                        if ((data.getClipData().getItemCount()+uriList.size())<=Constants.MAX_JOB_FILE_SELECT) {
+                            for (int i = 0; i < data.getClipData().getItemCount(); i++) {
+                                Uri uri = data.getClipData().getItemAt(i).getUri();
+                                InputStream in = getContentResolver().openInputStream(uri);
+                                if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
+                                    addImage(uri);
+
+                                }else {
+                                    com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
+                                }
+
+                            }
+                        }else {
+                            com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select only "+Constants.MAX_JOB_FILE_SELECT+" files.");
+                        }
+                    } else {
+                        Uri uri = data.getData();
+                        InputStream in = getContentResolver().openInputStream(uri);
+                        if (in.available()< (Constants.MAX_FILE_SIZE_SELECT*1024*1024)) {
+                            addImage(uri);
+
+                        }else {
+                            com.vucs.helper.Utils.openDialog(AddBlogJobActivity.this,"You can select maximum "+Constants.MAX_FILE_SIZE_SELECT+"MB file.");
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void onSubmitClick(View view) {
+
+        if (title.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter title");
+        } else if (description.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Please enter description");
+        } else if (!com.vucs.helper.Utils.isNetworkAvailable()) {
+            Toast.makeText(this, getString(R.string.no_internet_connection));
+        } else {
+            new UploadJob(this, title.getEditText().getText().toString(), description.getEditText().getText().toString(), uriList).execute();
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.no_anim, R.anim.scale_fade_down);
+    }
+
+    private static class UploadJob extends AsyncTask<Void, Void, String> implements ProgressRequestBody.UploadCallbacks {
+        int totalFile;
+        JobDAO jobDAO;
+
+        private WeakReference<AddBlogJobActivity> homeWeakReference;
+        private String jobTitle, jobDescription;
+        private List<Uri> uriList;
+        Dialog dialog;
+        private TextView dialog_text, percentage;
+        private ProgressBar progressBar;
+        FrameLayout progress_layout;
+
+
+        UploadJob(AddBlogJobActivity home, String jobTitle, String jobDescription, List<Uri> uriList) {
+            homeWeakReference = new WeakReference<>(home);
+            this.jobDescription = jobDescription;
+            this.jobTitle = jobTitle;
+            this.uriList = uriList;
+            totalFile = uriList.size();
+            AppDatabase db = AppDatabase.getDatabase(homeWeakReference.get());
+            jobDAO = db.jobDAO();
+            dialog = new Dialog(homeWeakReference.get(), R.style.Theme_MaterialComponents_BottomSheetDialog);
+            ((ViewGroup)dialog.getWindow().getDecorView())
+                    .getChildAt(0).startAnimation(AnimationUtils.loadAnimation(
+                    homeWeakReference.get(),R.anim.dialog_anim));
+            View view = homeWeakReference.get().getLayoutInflater().inflate(R.layout.dialoge_uploading_file, null);
+            dialog_text = view.findViewById(R.id.text);
+            dialog_text.setText("Uploading your post.");
+            percentage = view.findViewById(R.id.percentage);
+            percentage.setText("0%");
+            progressBar = view.findViewById(R.id.progress_bar);
+            progress_layout = view.findViewById(R.id.progress_layout);
+            progressBar.setProgress(0);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            dialog.addContentView(view, layoutParams);
+            dialog.setCancelable(false);
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (homeWeakReference.get() == null)
+                return;
+
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                if (homeWeakReference.get() == null)
+                    return null;
+                final Service service = DataServiceGenerator.createService(Service.class);
+                AppPreference appPreference = new AppPreference(homeWeakReference.get());
+                ApiCredential apiCredential = new ApiCredential();
+                List<MultipartBody.Part> files= new ArrayList<>();
+                for (int i = 0; i < uriList.size(); i++) {
+                    File directory = homeWeakReference.get().getDir("temp_file", Context.MODE_PRIVATE);
+                    directory.mkdir();
+                    InputStream in = homeWeakReference.get().getContentResolver().openInputStream(uriList.get(i));
+                    byte[] buffer = new byte[in.available()];
+                    in.read(buffer);
+                    File file;
+                    if (homeWeakReference.get().isImageUri(uriList.get(i))) {
+                        file = new File(directory, i + ".jpg");
+                    } else {
+                        file = new File(directory, i + ".pdf");
+                    }
+                    OutputStream outStream = new FileOutputStream(file);
+                    outStream.write(buffer);
+                    outStream.close();
+                    in.close();
+                    ProgressRequestBody fileBody1 = new ProgressRequestBody(file, "*/*", UploadJob.this, "Uploading File " + (i + 1) + " of " + totalFile);
+                    MultipartBody.Part jobFile =
+                            MultipartBody.Part.createFormData("file"+i, file.getName(), fileBody1);
+                    files.add(jobFile);
+
+                }
+                RequestBody apiLoginR = RequestBody.create(MultipartBody.FORM, apiCredential.getApiLogin());
+                RequestBody apiPassR = RequestBody.create(MultipartBody.FORM, apiCredential.getApiPass());
+                RequestBody userIdR = RequestBody.create(MultipartBody.FORM, appPreference.getUserId() + "");
+                RequestBody userTypeR = RequestBody.create(MultipartBody.FORM, appPreference.getUserType() + "");
+                RequestBody jobTitleR = RequestBody.create(MultipartBody.FORM, jobTitle + "");
+                RequestBody jobDescriptionR = RequestBody.create(MultipartBody.FORM, jobDescription + "");
+                RequestBody fileCountR = RequestBody.create(MultipartBody.FORM, uriList.size() + "");
+
+                Call<ApiAddJobFileWithResponseModel> call=service.uploadJobWithFile(apiLoginR,apiPassR,userIdR,userTypeR,jobTitleR,jobDescriptionR,fileCountR,files);
+                call.enqueue(new retrofit2.Callback<ApiAddJobFileWithResponseModel>() {
+
+                    @Override
+                    public void onResponse(Call<ApiAddJobFileWithResponseModel> call, Response<ApiAddJobFileWithResponseModel> response) {
+                        try {
+                            if (response.isSuccessful()) {
+                                Log.e(TAG,"response code:"+response.code());
+                                if (response.body() != null) {
+                                    final ApiAddJobFileWithResponseModel apiAddJobFileWithResponseModel = response.body();
+                                    Log.e(TAG,"response :"+apiAddJobFileWithResponseModel.toString());
+                                    if (apiAddJobFileWithResponseModel.getCode() == 1) {
+                                        jobDAO.insertJob(new JobModel(apiAddJobFileWithResponseModel.getJobId(), jobTitle, appPreference.getUserId(), appPreference.getUserFirstName()+" "+appPreference.getUserLastName(), new Date(),
+                                                jobDescription, 1));
+
+                                        for (String url:apiAddJobFileWithResponseModel.getFileUrl()){
+                                            jobDAO.insertJobFile(new JobFileModel(apiAddJobFileWithResponseModel.getJobId(), url));
+                                        }
+                                        if (homeWeakReference.get() == null)
+                                            return;
+                                        dialog.dismiss();
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobFileWithResponseModel.getMessage());
+                                        homeWeakReference.get().onBackPressed();
+                                    }
+                                    else {
+                                        if (homeWeakReference.get() == null)
+                                            return;
+                                        dialog.dismiss();
+                                        Toast.makeText(homeWeakReference.get(), apiAddJobFileWithResponseModel.getMessage());
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            if (homeWeakReference.get() == null)
+                                return;
+                            dialog.dismiss();
+                            Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiAddJobFileWithResponseModel> call, Throwable t) {
+                        t.printStackTrace();
+                        if (homeWeakReference.get() == null)
+                            return;
+                        dialog.dismiss();
+                        Toast.makeText(homeWeakReference.get(), homeWeakReference.get().getString(R.string.server_error));
+
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+
+        @Override
+        public void onProgressUpdate(int percentage1, String title) {
+            try {
+                if (homeWeakReference.get() == null)
+                    return;
+                progress_layout.setVisibility(View.VISIBLE);
+                percentage.setText(percentage1 + "%");
+                dialog_text.setText(title);
+                progressBar.setProgress(percentage1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void onError() {
+
+        }
+
+        @Override
+        public void onFinish(String title) {
+
+        }
+    }
+}

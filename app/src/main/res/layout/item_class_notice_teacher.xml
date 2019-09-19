@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person_black_24dp"
+                android:transitionName="@string/item_image_url" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/my_text_style_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="this blog is seted by me for testing"
+                    android:transitionName="@string/item_title" />
+
+
+                <TextView
+                    android:id="@+id/last_message"
+                    style="@style/my_text_style_caption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:layout_margin="5dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="rfuigrfhgfghhfffffffffffffffffffffffffffffffffffhhhhhhhhhhhhhf"
+                    android:transitionName="@string/item_by" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaa"/>
+</LinearLayout>
+
+
+

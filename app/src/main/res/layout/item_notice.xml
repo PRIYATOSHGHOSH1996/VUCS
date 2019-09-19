@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/parent"
+android:layout_width="match_parent"
+android:layout_height="100dp"
+android:background="@drawable/cut_corner_white_shape">
+
+<RelativeLayout
+    android:id="@+id/view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="8dp">
+
+    <TextView
+        android:id="@+id/notice_title"
+        style="@style/my_text_style_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingStart="8dp"
+        android:paddingEnd="18dp"
+        android:text="this blog is seted by me for tgfhfffyfheting"
+        android:transitionName="@string/item_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/notice_by"
+                style="@style/my_text_style_caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center|start"
+                android:singleLine="true"
+                android:text="fffffdtttttttttttttgf"
+                android:transitionName="@string/item_date" />
+
+            <TextView
+                android:id="@+id/notice_date"
+                style="@style/my_text_style_caption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center|left"
+                android:minWidth="30dp"
+                android:singleLine="true"
+                android:text="djfhedewfdddddgf"
+                android:transitionName="@string/item_date" />
+
+        </LinearLayout>
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="4">
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_weight="8"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:padding="2dp"
+        android:layout_gravity="start"
+        android:visibility="gone"
+        android:indeterminateDrawable="@drawable/circlular_progress"
+        android:progressDrawable="@drawable/circlular_progress"
+        />
+    <ImageButton
+        android:layout_gravity="end"
+        android:id="@+id/notice_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:background="@drawable/login_button_background"
+        android:gravity="bottom"
+        android:paddingRight="10dp"
+        android:paddingBottom="12dp"
+        android:src="@drawable/ic_open_in_browser_black_24dp"
+        android:tint="@color/white"
+        android:transitionName="@string/item_image_url" />
+</FrameLayout>
+
+
+
+    </LinearLayout>
+</RelativeLayout>
+</RelativeLayout>
+
+

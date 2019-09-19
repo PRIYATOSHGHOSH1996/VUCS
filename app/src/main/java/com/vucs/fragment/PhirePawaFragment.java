@@ -1,0 +1,209 @@
+package com.vucs.fragment;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.vucs.App;
+import com.vucs.R;
+import com.vucs.adapters.RecyclerViewUserAdapter;
+import com.vucs.helper.Utils;
+import com.vucs.viewmodel.PhirePawaProfileViewModel;
+
+import java.util.Date;
+
+public class PhirePawaFragment extends Fragment {
+
+    String TAG = "PhirepawaFragment";
+    private View view;
+    private RecyclerViewUserAdapter adapter;
+    private BroadcastReceiver broadcastReceiver;
+    private PhirePawaProfileViewModel phirePawaProfileViewModel;
+    private int sortCategory = 0;
+    private String searchText = "";
+    private EditText searchEditText;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_phire_pawa, container, false);
+
+        try {
+            initView();
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    updateAdapter();
+                }
+            };
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":oncreate: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+
+        return view;
+    }
+
+    private void initView() {
+        try {
+            RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+            adapter = new RecyclerViewUserAdapter(getContext());
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            phirePawaProfileViewModel = ViewModelProviders.of(this).get(PhirePawaProfileViewModel.class);
+            updateAdapter();
+            recyclerView.setAdapter(adapter);
+            //OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+            Spinner spinner = view.findViewById(R.id.spinner);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(App.getContext(), R.layout.item_spinner, R.id.textView, getResources().getStringArray(R.array.sort_types_phire_pawa));
+
+
+            adapter.setDropDownViewResource(R.layout.item_spinner_full);
+            spinner.setAdapter(adapter);
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                    sortCategory = position;
+                    switch (position){
+                        case 0:searchEditText.setHint("Search by name");
+                        searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
+
+                        break;
+                        case 1:searchEditText.setHint("Search by batch");
+                            searchEditText.setInputType(InputType.TYPE_CLASS_NUMBER );
+                        break;
+                        case 2:searchEditText.setHint("Search by course");
+                            searchEditText.setInputType(InputType.TYPE_CLASS_TEXT );
+                        break;
+                    }
+                    updateAdapter();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+             searchEditText = view.findViewById(R.id.search);
+             searchEditText.addTextChangedListener(new TextWatcher() {
+                 @Override
+                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                 }
+
+                 @Override
+                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                     searchText = s + "";
+                     updateAdapter();
+                 }
+
+                 @Override
+                 public void afterTextChanged(Editable s) {
+
+                 }
+             });
+            searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        searchEditText.clearFocus();
+                        InputMethodManager in = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        in.hideSoftInputFromWindow(searchEditText.getWindowToken(), 0);
+                        return true;
+                    }
+
+                    return false;
+                }
+            });
+
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":iniView: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+    }
+
+    private void updateAdapter() {
+        try {
+            switch (sortCategory) {
+                case 0:
+                    if (searchText.equals("") || searchText.equals("%")) {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByName());
+                    } else {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByName(searchText));
+
+                    }
+                    break;
+                case 1:
+                    if (searchText.equals("") || searchText.equals("%")) {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch());
+                    } else {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByBatch(searchText));
+
+                    }
+                    break;
+                case 2:
+                    if (searchText.equals("") || searchText.equals("%")) {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse());
+                    } else {
+                        adapter.addUser(phirePawaProfileViewModel.getUsersByCourse(searchText));
+
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":update adapter: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            updateAdapter();
+            IntentFilter intentFilter =new IntentFilter(getString(R.string.phire_pawa_broadcast_receiver));
+            intentFilter.addAction(getString(R.string.fetch_all_data_broad_cast));
+            getContext().registerReceiver(broadcastReceiver,intentFilter);
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onresume: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getContext().unregisterReceiver(broadcastReceiver);
+        } catch (Exception e) {
+            Utils.appendLog(TAG + ":onpause: " + e.getMessage() + "Date :" + new Date());
+            e.printStackTrace();
+        }
+    }
+
+}

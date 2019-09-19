@@ -9,4 +9,95 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="database_name">VUCS_DB.db</string>
+    <string name="item_title">item_title</string>
+    <string name="item_by">item_by</string>
+    <string name="item_image_url">item_image_url</string>
+    <string name="item_date">item_date</string>
+    <string name="item_content">item_content</string>
+    <string name="head_title">header_text</string>
+    <string name="item">item</string>
+    <string name="blog">Blog</string>
+    <string name="image_gallery">Image Gallery</string>
+    <string name="job_post">Job Post</string>
+    <string name="teachers">Teachers</string>
+    <string name="chat_room">Chat Room</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="others">Others</string>
+    <string name="phire_pawa">Phire Pawa</string>
+    <string name="notice">Notice</string>
+    <string name="chat_activity_name">Chat Room</string>
+    <string name="about_activity_name">About</string>
+    <string name="events">Events</string>
+    <string name="folder_name">folder_name</string>
+    <string name="object">object</string>
+    <string name="blog_broadcast_receiver">blog broadcast receiver</string>
+    <string name="job_post_broadcast_receiver">job post broadcast receiver</string>
+    <string name="notice_broadcast_receiver">notice broadcast receiver</string>
+    <string name="phire_pawa_broadcast_receiver">phire_pawa_broadcast_receiver</string>
+    <string name="teacher_broadcast_receiver">teacher_broadcast_receiver</string>
+    <string name="event_broadcast_receiver">event_broadcast_receiver</string>
+    <string name="image_gallery_broadcast_receiver">image_gallery_broadcast_receiver</string>
+    <string name="item_id">item_id</string>
+    <string name="class_notice_broadcast_receiver">class_notice_broadcast_receiver</string>
+    <string name="user_id">user_id</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="registration">Registration</string>
+    <string name="my_profile">My Profile</string>
+    <string name="server_error">Server Error</string>
+    <string name="dashboard_receiver_action">dashboard_receiver_action</string>
+    <string name="get_data_on_failure_action">get_data_on_failure_action</string>
+    <string name="get_data_action">get_data_action</string>
+    <string name="fetch_all_data_broad_cast">fetch_all_data_broad_cast</string>
+    <string name="force_logout_message">Another device has logged in using your credentials. Please logout or contact admin for account related issues.</string>
+    <string name="force_logout_broadcast">force_logout_broadcast</string>
+    <string name="no_internet_connection">Please give internet connection</string>
+    <string name="my_job_post">My Job Post</string>
+    <string name="notification_count_broadcast">notification_count_broadcast</string>
+    <string name="career_broadcast_receiver">career_broadcast_receiver</string>
+    <string name="course">course</string>
+    <string name="sem">sem</string>
+    <string name="teacherId">teacherId</string>
+    <string name="routine">Routine</string>
+    <string name="routine_broadcast_receiver">routine_broadcast_receiver</string>
+    <string name="title">title</string>
+    <string name="url">url</string>
+    <string name="registration_url">http://vucs.in/login/register</string>
+    <string name="login_url">http://vucs.in/login</string>
+
+
+    <string-array name="sort_types_phire_pawa">
+        <item>Name</item>
+        <item>Batch</item>
+        <item>Course</item>
+    </string-array>
+
+    <string-array name="category_name">
+        <item>Select Course</item>
+        <item>MCA</item>
+        <item>M.Sc</item>
+        <item>M.Phil</item>
+    </string-array>
+    <string-array name="student_type">
+        <item>Select Student Type</item>
+        <item>Current Student</item>
+        <item>Ex Student</item>
+    </string-array>
+    <string-array name="semesters">
+        <item>Select Semester</item>
+        <item>1st Semester</item>
+        <item>2nd Semester</item>
+        <item>3rd Semester</item>
+        <item>4th Semester</item>
+        <item>5th Semester</item>
+        <item>6th Semester</item>
+    </string-array>
+    <string-array name="semesters4th">
+        <item>Select Semester</item>
+        <item>1st Semester</item>
+        <item>2nd Semester</item>
+        <item>3rd Semester</item>
+        <item>4th Semester</item>
+    </string-array>
 </resources>

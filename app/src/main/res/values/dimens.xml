@@ -5,4 +5,52 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="column_width">100dp</dimen>
+    <dimen name="column_hight">100dp</dimen>
+    <dimen name="shrine_toolbar_offset_start">8dp</dimen>
+    <dimen name="shrine_toolbar_offset_top">8dp</dimen>
+    <dimen name="shrine_toolbar_image_offset_top">8dp</dimen>
+    <dimen name="bottom_shape_hight">40dp</dimen>
+    <dimen name="bottom_shape_hight1">-40dp</dimen>
+    <dimen name="menu_item_icon_size">24</dimen>
+
+    <!--For Margin-->
+    <dimen name="margins_none">0dp</dimen>
+    <dimen name="margins_sm">5dp</dimen>
+    <dimen name="margins_md">10dp</dimen>
+    <dimen name="margins_lg">20dp</dimen>
+    <dimen name="margins_sm_left">10dp</dimen>
+    <dimen name="margins_md_left">15dp</dimen>
+    <dimen name="margins_lg_left">30dp</dimen>
+    <dimen name="margins_sm_top">10dp</dimen>
+    <dimen name="margins_md_top">15dp</dimen>
+    <dimen name="margins_lg_top">30dp</dimen>
+    <dimen name="margins_sm_right">10dp</dimen>
+    <dimen name="margins_md_right">15dp</dimen>
+    <dimen name="margins_lg_right">30dp</dimen>
+    <dimen name="margins_sm_bottom">10dp</dimen>
+    <dimen name="margins_md_bottom">15dp</dimen>
+    <dimen name="margins_lg_bottom">30dp</dimen>
+    <dimen name="margins_ex_lg_bottom">40dp</dimen>
+
+    <!--For Padding-->
+    <dimen name="padding_none">0dp</dimen>
+    <dimen name="padding_sm">5dp</dimen>
+    <dimen name="padding_md">10dp</dimen>
+    <dimen name="padding_lg">20dp</dimen>
+    <dimen name="padding_sm_left">10dp</dimen>
+    <dimen name="padding_md_left">15dp</dimen>
+    <dimen name="padding_lg_left">30dp</dimen>
+    <dimen name="padding_sm_top">10dp</dimen>
+    <dimen name="padding_md_top">15dp</dimen>
+    <dimen name="padding_lg_top">30dp</dimen>
+    <dimen name="padding_sm_right">10dp</dimen>
+    <dimen name="padding_md_right">15dp</dimen>
+    <dimen name="padding_lg_right">30dp</dimen>
+    <dimen name="padding_sm_bottom">10dp</dimen>
+    <dimen name="padding_md_bottom">15dp</dimen>
+    <dimen name="padding_lg_bottom">30dp</dimen>
+    <dimen name="padding_ex_lg_bottom">40dp</dimen>
+    <dimen name="padding_exx_lg_bottom">60dp</dimen>
+
 </resources>
