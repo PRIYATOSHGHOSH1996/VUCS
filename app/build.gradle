@@ -6,11 +6,11 @@ ext.versionMinor = 0 //MINOR version when you add functionality in a backwards-c
 ext.versionPatch = 2 //PATCH version when you make backwards-compatible bug fixes (2 digits)
 ext.versionClassifier = "beta"
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.vucs"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode generateVersionCode()
         versionName generateVersionName()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

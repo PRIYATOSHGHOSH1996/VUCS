@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -42,7 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class BrowserActivity extends AppCompatActivity {
+public class BrowserActivity extends AppCompatActivity  {
     TextView header_text;
     private WebView webView;
     ProgressBar progressBar;
@@ -55,6 +56,7 @@ public class BrowserActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     Intent chooserIntent;
     private final static int FILECHOOSER_RESULTCODE = 1;
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +85,10 @@ public class BrowserActivity extends AppCompatActivity {
                 startWebView(getIntent().getStringExtra(getString(R.string.url))+"");
             }
         });
-        swipeRefreshLayout.setEnabled(false);
         startWebView(getIntent().getStringExtra(getString(R.string.url))+"");
     }
+
+
     @SuppressLint("SetJavaScriptEnabled")
     private void startWebView(String url) {
 
@@ -311,5 +314,28 @@ public class BrowserActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         com.filelibrary.Utils.Builder.notifyActivityChange(requestCode, resultCode, intent);
 
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        swipeRefreshLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        swipeRefreshLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener =
+                new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        if (webView.getScrollY() == 0)
+                            swipeRefreshLayout.setEnabled(true);
+                        else
+                            swipeRefreshLayout.setEnabled(false);
+
+                    }
+                });
     }
 }
